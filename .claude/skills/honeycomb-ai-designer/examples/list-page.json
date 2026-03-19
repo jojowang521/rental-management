@@ -1,0 +1,194 @@
+{
+  "_comment": "列表页完整示例 - 房源管理，Token-Strict 规范",
+  "name": "房源管理",
+  "platform": "pc",
+  "width": 1920,
+  "height": 1080,
+  "pattern": "ListPage",
+  "figmaRef": "https://www.figma.com/design/YnekqUcG4ElWENxUoffqcv/中后台设计模板?node-id=411-77456",
+  "generatedAt": "2026-03-18",
+  "nodes": [
+    {
+      "id": "page-root",
+      "type": "Page",
+      "props": {},
+      "style": {
+        "display": "flex",
+        "height": "100vh",
+        "backgroundColor": "var(--color-bg-grey-0)"
+      },
+      "children": [
+        {
+          "id": "side-nav",
+          "type": "SideNav",
+          "props": {
+            "activeKey": "property-list",
+            "collapsed": false,
+            "items": [
+              { "key": "dashboard", "label": "工作台", "icon": "HomeOutlined" },
+              {
+                "key": "property",
+                "label": "房源管理",
+                "icon": "BuildingOutlined",
+                "children": [
+                  { "key": "property-list", "label": "房源列表" },
+                  { "key": "property-map", "label": "地图视图" }
+                ]
+              },
+              {
+                "key": "contract",
+                "label": "合同管理",
+                "icon": "FileTextOutlined",
+                "children": [
+                  { "key": "contract-list", "label": "合同列表" }
+                ]
+              },
+              { "key": "tenant", "label": "租客管理", "icon": "UserOutlined" },
+              { "key": "finance", "label": "财务管理", "icon": "WalletOutlined" }
+            ]
+          },
+          "style": {},
+          "children": []
+        },
+        {
+          "id": "content",
+          "type": "Content",
+          "props": {},
+          "style": {
+            "flex": "1",
+            "display": "flex",
+            "flexDirection": "column",
+            "overflow": "hidden"
+          },
+          "children": [
+            {
+              "id": "page-header",
+              "type": "PageHeader",
+              "props": {
+                "title": "房源管理",
+                "actions": [
+                  { "type": "Button", "variant": "default", "text": "导出", "actionKey": "export" },
+                  { "type": "Button", "variant": "primary", "text": "新建房源", "actionKey": "create" }
+                ]
+              },
+              "style": {},
+              "children": []
+            },
+            {
+              "id": "main",
+              "type": "Main",
+              "props": {},
+              "style": {
+                "flex": "1",
+                "padding": "24px",
+                "overflow": "auto",
+                "backgroundColor": "var(--color-bg-grey-0)"
+              },
+              "children": [
+                {
+                  "id": "filter-bar",
+                  "type": "FilterBar",
+                  "props": {
+                    "fields": [
+                      { "type": "Input", "key": "name", "label": "房源名称", "placeholder": "请输入房源名称" },
+                      { "type": "Input", "key": "address", "label": "地址", "placeholder": "请输入地址" },
+                      {
+                        "type": "Select",
+                        "key": "status",
+                        "label": "状态",
+                        "placeholder": "请选择状态",
+                        "options": [
+                          { "label": "空置", "value": "vacant" },
+                          { "label": "已租", "value": "rented" },
+                          { "label": "维修中", "value": "maintenance" },
+                          { "label": "已停用", "value": "disabled" }
+                        ]
+                      },
+                      {
+                        "type": "Select",
+                        "key": "type",
+                        "label": "房源类型",
+                        "placeholder": "请选择类型",
+                        "options": [
+                          { "label": "住宅", "value": "residential" },
+                          { "label": "商业", "value": "commercial" },
+                          { "label": "办公", "value": "office" }
+                        ]
+                      }
+                    ],
+                    "actions": [
+                      { "type": "Button", "variant": "primary", "text": "查询", "actionKey": "search" },
+                      { "type": "Button", "variant": "default", "text": "重置", "actionKey": "reset" }
+                    ]
+                  },
+                  "style": {},
+                  "children": []
+                },
+                {
+                  "id": "grid",
+                  "type": "Grid",
+                  "props": {
+                    "rowKey": "houseId",
+                    "loading": false,
+                    "pagination": false,
+                    "dataSource": [],
+                    "columns": [
+                      { "key": "houseCode", "title": "房源编号", "dataIndex": "houseCode", "width": 140 },
+                      { "key": "name", "title": "房源名称", "dataIndex": "name", "width": 200 },
+                      { "key": "address", "title": "地址", "dataIndex": "address" },
+                      { "key": "type", "title": "类型", "dataIndex": "type", "width": 100, "render": "tag" },
+                      { "key": "area", "title": "面积(㎡)", "dataIndex": "area", "width": 120 },
+                      { "key": "rent", "title": "月租金(元)", "dataIndex": "rent", "width": 140 },
+                      {
+                        "key": "status",
+                        "title": "状态",
+                        "dataIndex": "status",
+                        "width": 100,
+                        "render": "tag",
+                        "statusMap": {
+                          "vacant":      { "label": "空置",   "tagType": "info" },
+                          "rented":      { "label": "已租",   "tagType": "success" },
+                          "maintenance": { "label": "维修中", "tagType": "warning" },
+                          "disabled":    { "label": "已停用", "tagType": "default" }
+                        }
+                      },
+                      { "key": "createdAt", "title": "创建时间", "dataIndex": "createdAt", "width": 180 },
+                      {
+                        "key": "action",
+                        "title": "操作",
+                        "fixed": "right",
+                        "width": 160,
+                        "render": "actions",
+                        "actions": [
+                          { "text": "详情", "actionKey": "detail", "type": "Link" },
+                          { "text": "编辑", "actionKey": "edit",   "type": "Link" },
+                          { "text": "停用", "actionKey": "disable","type": "Link", "variant": "danger" }
+                        ]
+                      }
+                    ]
+                  },
+                  "style": {},
+                  "children": []
+                },
+                {
+                  "id": "pagination",
+                  "type": "Pagination",
+                  "props": {
+                    "current": 1,
+                    "pageSize": 20,
+                    "total": 0,
+                    "showSizeChanger": true,
+                    "showQuickJumper": true,
+                    "showTotal": "(total) => `共 ${total} 条`"
+                  },
+                  "style": {},
+                  "children": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

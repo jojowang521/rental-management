@@ -1,0 +1,171 @@
+{
+  "_ref": "https://www.figma.com/design/YnekqUcG4ElWENxUoffqcv/中后台设计模板?node-id=411-76882",
+
+  "ListPage": {
+    "description": "数据列表页，含筛选区+表格+分页，适用于资源管理（房源/合同/用户等）",
+    "structure": ["Page", "SideNav", "PageHeader", "FilterBar", "Grid", "Pagination"],
+    "defaultProps": {
+      "platform": "pc",
+      "width": 1920,
+      "pageSize": 20,
+      "filterLayout": "inline",
+      "hasOperationColumn": true
+    },
+    "figmaRef": [
+      "https://www.figma.com/design/YnekqUcG4ElWENxUoffqcv/中后台设计模板?node-id=411-77456",
+      "https://www.figma.com/design/YnekqUcG4ElWENxUoffqcv/中后台设计模板?node-id=411-85519",
+      "https://www.figma.com/design/YnekqUcG4ElWENxUoffqcv/中后台设计模板?node-id=411-79248"
+    ],
+    "rules": [
+      "筛选区固定在表格上方",
+      "分页固定在右下角，默认每页20条",
+      "表格必须包含操作列，fixed:right，宽度160px",
+      "PageHeader右侧放主操作按钮（新建/导入）",
+      "列表页不内嵌分页，使用独立 Pagination 组件"
+    ]
+  },
+
+  "FormPage": {
+    "description": "表单页，用于新建或编辑单条记录，含面包屑导航和底部操作按钮",
+    "structure": ["Page", "SideNav", "PageHeader", "Card", "Form", "FormFooter"],
+    "defaultProps": {
+      "platform": "pc",
+      "width": 1920,
+      "formLayout": "horizontal",
+      "labelColSpan": 4,
+      "wrapperColSpan": 16,
+      "hasBreadcrumb": true
+    },
+    "figmaRef": [
+      "https://www.figma.com/design/YnekqUcG4ElWENxUoffqcv/中后台设计模板?node-id=5952-110498",
+      "https://www.figma.com/design/YnekqUcG4ElWENxUoffqcv/中后台设计模板?node-id=1324-166993",
+      "https://www.figma.com/design/YnekqUcG4ElWENxUoffqcv/中后台设计模板?node-id=5952-109908"
+    ],
+    "rules": [
+      "PageHeader 必须包含面包屑（列表页 > 当前页名称）",
+      "表单包裹在 Card 内，Card title 为分组名称",
+      "底部按钮区：左侧取消（default），右侧保存（primary）",
+      "必填字段在 label 前显示红色星号",
+      "多分组时使用多个 Card，间距 16px"
+    ]
+  },
+
+  "DetailPage": {
+    "description": "详情页，只读展示单条记录，支持 Tabs 分组展示，右上角有编辑按钮",
+    "structure": ["Page", "SideNav", "PageHeader", "Tabs", "Card"],
+    "defaultProps": {
+      "platform": "pc",
+      "width": 1920,
+      "tabsType": "line",
+      "hasBreadcrumb": true,
+      "hasEditAction": true
+    },
+    "figmaRef": [
+      "https://www.figma.com/design/YnekqUcG4ElWENxUoffqcv/中后台设计模板?node-id=6575-38012",
+      "https://www.figma.com/design/YnekqUcG4ElWENxUoffqcv/中后台设计模板?node-id=5955-167731",
+      "https://www.figma.com/design/YnekqUcG4ElWENxUoffqcv/中后台设计模板?node-id=5955-168141"
+    ],
+    "rules": [
+      "PageHeader 包含面包屑 + 右侧编辑按钮",
+      "信息展示用 key-value 网格，2列布局",
+      "关联列表子 Tab 使用只读 Grid，无操作列",
+      "不允许在详情页内嵌编辑表单，编辑需跳转 FormPage"
+    ]
+  },
+
+  "Dashboard": {
+    "description": "数据看板/首页，含统计卡片和图表，快速展示核心业务指标",
+    "structure": ["Page", "SideNav", "PageHeader", "StatRow", "ChartRow", "Grid"],
+    "defaultProps": {
+      "platform": "pc",
+      "width": 1920,
+      "statCardCount": 4,
+      "hasChart": true,
+      "hasRecentList": true
+    },
+    "figmaRef": [
+      "https://www.figma.com/design/YnekqUcG4ElWENxUoffqcv/中后台设计模板?node-id=411-76882"
+    ],
+    "rules": [
+      "统计卡片行用 CSS Grid 4列布局，间距16px",
+      "图表区用 2:1 比例左右布局",
+      "最新记录表格最多显示10条，无分页",
+      "统计数值使用 tokenRef(\"typography.display-md\")"
+    ]
+  },
+
+  "ApprovalPage": {
+    "description": "审批流程页，含流程步骤条、申请信息展示、审批意见表单",
+    "structure": ["Page", "SideNav", "PageHeader", "Steps", "Card", "Form"],
+    "defaultProps": {
+      "platform": "pc",
+      "width": 1920,
+      "stepsDirection": "horizontal",
+      "hasBreadcrumb": true
+    },
+    "figmaRef": [
+      "https://www.figma.com/design/YnekqUcG4ElWENxUoffqcv/中后台设计模板?node-id=411-76882"
+    ],
+    "rules": [
+      "Steps 置于页面顶部，显示当前进度",
+      "申请信息区只读展示，用 InfoGrid",
+      "审批意见区包含结果下拉 + 备注文本框",
+      "操作按钮：拒绝（danger）+ 通过（primary）"
+    ]
+  },
+
+  "ReportPage": {
+    "description": "报表页，含时间筛选、汇总统计卡片、明细表格，支持导出",
+    "structure": ["Page", "SideNav", "PageHeader", "FilterBar", "StatRow", "Grid"],
+    "defaultProps": {
+      "platform": "pc",
+      "width": 1920,
+      "filterHasRangePicker": true,
+      "statCardCount": 3,
+      "tablePagination": false
+    },
+    "figmaRef": [
+      "https://www.figma.com/design/YnekqUcG4ElWENxUoffqcv/中后台设计模板?node-id=411-76882"
+    ],
+    "rules": [
+      "筛选区必含日期范围选择器",
+      "PageHeader 右侧放导出按钮（default 样式）",
+      "报表表格通常无分页或分页在前端完成",
+      "汇总行用不同背景色区分：var(--color-primary-light)"
+    ]
+  },
+
+  "SettingsPage": {
+    "description": "系统设置页，分 Tab 展示不同设置分组，每组为独立表单",
+    "structure": ["Page", "SideNav", "PageHeader", "Tabs", "Form"],
+    "defaultProps": {
+      "platform": "pc",
+      "width": 1920,
+      "tabsType": "line",
+      "formLayout": "horizontal",
+      "labelColSpan": 5
+    },
+    "figmaRef": [],
+    "rules": [
+      "每个 Tab 内用独立 Card 包裹表单",
+      "保存按钮在每个 Tab 底部独立出现",
+      "危险操作（如删除账户）单独放置在最后一个 Tab"
+    ]
+  },
+
+  "SearchPage": {
+    "description": "搜索结果页，无侧边导航，全宽布局，结果以列表或卡片展示",
+    "structure": ["Page", "FilterBar", "List"],
+    "defaultProps": {
+      "platform": "pc",
+      "width": 1920,
+      "hasSideNav": false,
+      "resultLayout": "list"
+    },
+    "figmaRef": [],
+    "rules": [
+      "搜索框居中置顶，宽度不超过 800px",
+      "结果列表用卡片或行列表展示"
+    ]
+  }
+}

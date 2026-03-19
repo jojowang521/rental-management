@@ -1,0 +1,102 @@
+{
+  "_comment": "Honeycomb 设计令牌 - 颜色来自 Figma 导出，spacing/radius/typography 按 4px 网格手工补全",
+
+  "color": {
+    "text": {
+      "primary":   { "value": "#333333", "var": "--color-text-0" },
+      "secondary": { "value": "#666666", "var": "--color-text-1" },
+      "tertiary":  { "value": "#999999", "var": "--color-text-2" },
+      "disabled":  { "value": "#c5c5c5", "var": "--color-text-disabled" },
+      "inverse":   { "value": "#ffffff", "var": "--color-text-inverse" },
+      "link":      { "value": "#6a3ac7", "var": "--color-text-link" }
+    },
+    "border": {
+      "default":  { "value": "#dddddd", "var": "--color-border" },
+      "divider":  { "value": "#eaeaea", "var": "--color-border-divider" },
+      "focus":    { "value": "#6a3ac7", "var": "--color-border-focus" }
+    },
+    "background": {
+      "page":        { "value": "#ffffff", "var": "--color-bg-white-0" },
+      "subtle":      { "value": "#f8f8f8", "var": "--color-bg-grey-0" },
+      "hover":       { "value": "#f5f5f5", "var": "--color-bg-hover" },
+      "tableHeader": { "value": "#fbfbfb", "var": "--color-bg-table-header" },
+      "overlay":     { "value": "rgba(0,0,0,0.45)", "var": "--color-bg-overlay" }
+    },
+    "icon": {
+      "default":  { "value": "#999999", "var": "--color-icon" },
+      "disabled": { "value": "#c5c5c5", "var": "--color-icon-disabled" }
+    },
+    "primary": {
+      "default": { "value": "#6a3ac7", "var": "--color-primary" },
+      "hover":   { "value": "#572fb3", "var": "--color-primary-hover" },
+      "active":  { "value": "#46259e", "var": "--color-primary-active" },
+      "light":   { "value": "#ede8f9", "var": "--color-primary-light" }
+    },
+    "status": {
+      "success":        { "value": "#52c41a", "var": "--color-success" },
+      "successLight":   { "value": "#f6ffed", "var": "--color-success-light" },
+      "warning":        { "value": "#faad14", "var": "--color-warning" },
+      "warningLight":   { "value": "#fffbe6", "var": "--color-warning-light" },
+      "error":          { "value": "#ff4d4f", "var": "--color-error" },
+      "errorLight":     { "value": "#fff2f0", "var": "--color-error-light" },
+      "info":           { "value": "#1677ff", "var": "--color-info" },
+      "infoLight":      { "value": "#e6f4ff", "var": "--color-info-light" }
+    }
+  },
+
+  "spacing": {
+    "_comment": "基于 4px 网格",
+    "1":  { "value": "4px",  "var": "--spacing-1" },
+    "2":  { "value": "8px",  "var": "--spacing-2" },
+    "3":  { "value": "12px", "var": "--spacing-3" },
+    "4":  { "value": "16px", "var": "--spacing-4" },
+    "5":  { "value": "20px", "var": "--spacing-5" },
+    "6":  { "value": "24px", "var": "--spacing-6" },
+    "8":  { "value": "32px", "var": "--spacing-8" },
+    "10": { "value": "40px", "var": "--spacing-10" },
+    "12": { "value": "48px", "var": "--spacing-12" },
+    "16": { "value": "64px", "var": "--spacing-16" }
+  },
+
+  "radius": {
+    "none": { "value": "0px",  "var": "--radius-none" },
+    "sm":   { "value": "4px",  "var": "--radius-sm" },
+    "md":   { "value": "8px",  "var": "--radius-md" },
+    "lg":   { "value": "12px", "var": "--radius-lg" },
+    "xl":   { "value": "16px", "var": "--radius-xl" },
+    "full": { "value": "9999px", "var": "--radius-full" }
+  },
+
+  "typography": {
+    "_comment": "tokenRef 用法示例：tokenRef(\"typography.body-sm\")",
+    "display-lg": { "fontSize": "32px", "lineHeight": "44px", "fontWeight": "700" },
+    "display-md": { "fontSize": "28px", "lineHeight": "40px", "fontWeight": "600" },
+    "heading-xl": { "fontSize": "24px", "lineHeight": "34px", "fontWeight": "600" },
+    "heading-lg": { "fontSize": "20px", "lineHeight": "28px", "fontWeight": "600" },
+    "heading-md": { "fontSize": "18px", "lineHeight": "26px", "fontWeight": "500" },
+    "heading-sm": { "fontSize": "16px", "lineHeight": "24px", "fontWeight": "500" },
+    "body-lg":    { "fontSize": "16px", "lineHeight": "24px", "fontWeight": "400" },
+    "body-md":    { "fontSize": "14px", "lineHeight": "22px", "fontWeight": "400" },
+    "body-sm":    { "fontSize": "12px", "lineHeight": "18px", "fontWeight": "400" },
+    "label-lg":   { "fontSize": "14px", "lineHeight": "22px", "fontWeight": "500" },
+    "label-md":   { "fontSize": "12px", "lineHeight": "18px", "fontWeight": "500" }
+  },
+
+  "shadow": {
+    "_comment": "tokenRef 用法示例：tokenRef(\"effect.shadow.card\")",
+    "sm":    { "value": "0 1px 2px rgba(0,0,0,0.06)",            "tokenRef": "effect.shadow.sm" },
+    "card":  { "value": "0 2px 8px rgba(0,0,0,0.08)",            "tokenRef": "effect.shadow.card" },
+    "modal": { "value": "0 8px 24px rgba(0,0,0,0.12)",           "tokenRef": "effect.shadow.modal" },
+    "lg":    { "value": "0 16px 48px rgba(0,0,0,0.16)",          "tokenRef": "effect.shadow.lg" }
+  },
+
+  "size": {
+    "_comment": "常用尺寸规范",
+    "sideNav": { "width": "220px", "collapsedWidth": "64px" },
+    "pageHeader": { "height": "56px" },
+    "filterBar": { "height": "auto", "padding": "16px 24px" },
+    "tableRow": { "height": "48px" },
+    "inputHeight": { "sm": "32px", "md": "36px", "lg": "40px" },
+    "buttonHeight": { "sm": "28px", "md": "32px", "lg": "40px" }
+  }
+}

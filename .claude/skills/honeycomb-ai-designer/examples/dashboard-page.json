@@ -1,0 +1,170 @@
+{
+  "_comment": "Dashboard 看板完整示例 - 租赁管理工作台，Token-Strict 规范",
+  "name": "工作台",
+  "platform": "pc",
+  "width": 1920,
+  "height": 1080,
+  "pattern": "Dashboard",
+  "figmaRef": "https://www.figma.com/design/YnekqUcG4ElWENxUoffqcv/中后台设计模板?node-id=411-76882",
+  "generatedAt": "2026-03-18",
+  "nodes": [
+    {
+      "id": "page-root",
+      "type": "Page",
+      "props": {},
+      "style": { "display": "flex", "height": "100vh", "backgroundColor": "var(--color-bg-grey-0)" },
+      "children": [
+        {
+          "id": "side-nav",
+          "type": "SideNav",
+          "props": {
+            "activeKey": "dashboard",
+            "items": [
+              { "key": "dashboard",     "label": "工作台",   "icon": "HomeOutlined" },
+              { "key": "property-list", "label": "房源管理", "icon": "BuildingOutlined" },
+              { "key": "contract-list", "label": "合同管理", "icon": "FileTextOutlined" },
+              { "key": "tenant",        "label": "租客管理", "icon": "UserOutlined" },
+              { "key": "finance",       "label": "财务管理", "icon": "WalletOutlined" }
+            ]
+          },
+          "style": {},
+          "children": []
+        },
+        {
+          "id": "content",
+          "type": "Content",
+          "props": {},
+          "style": { "flex": "1", "display": "flex", "flexDirection": "column", "overflow": "hidden" },
+          "children": [
+            {
+              "id": "page-header",
+              "type": "PageHeader",
+              "props": { "title": "工作台", "subtitle": "欢迎回来，查看今日关键数据" },
+              "style": {},
+              "children": []
+            },
+            {
+              "id": "main",
+              "type": "Main",
+              "props": {},
+              "style": { "flex": "1", "padding": "24px", "overflow": "auto" },
+              "children": [
+                {
+                  "id": "stat-row",
+                  "type": "Row",
+                  "props": {},
+                  "style": { "display": "grid", "gridTemplateColumns": "repeat(4, 1fr)", "gap": "16px", "marginBottom": "16px" },
+                  "children": [
+                    {
+                      "id": "stat-total",
+                      "type": "Statistic",
+                      "props": { "title": "房源总数", "value": 128, "suffix": "套" },
+                      "style": { "backgroundColor": "var(--color-bg-white-0)", "border": "1px solid var(--color-border-divider)", "borderRadius": "8px", "padding": "24px", "boxShadow": "tokenRef(\"effect.shadow.card\")" },
+                      "children": []
+                    },
+                    {
+                      "id": "stat-rented",
+                      "type": "Statistic",
+                      "props": { "title": "已出租", "value": 96, "suffix": "套" },
+                      "style": { "backgroundColor": "var(--color-bg-white-0)", "border": "1px solid var(--color-border-divider)", "borderRadius": "8px", "padding": "24px", "boxShadow": "tokenRef(\"effect.shadow.card\")" },
+                      "children": []
+                    },
+                    {
+                      "id": "stat-vacant",
+                      "type": "Statistic",
+                      "props": { "title": "空置中", "value": 24, "suffix": "套" },
+                      "style": { "backgroundColor": "var(--color-bg-white-0)", "border": "1px solid var(--color-border-divider)", "borderRadius": "8px", "padding": "24px", "boxShadow": "tokenRef(\"effect.shadow.card\")" },
+                      "children": []
+                    },
+                    {
+                      "id": "stat-income",
+                      "type": "Statistic",
+                      "props": { "title": "本月收入", "value": 286400, "prefix": "¥" },
+                      "style": { "backgroundColor": "var(--color-bg-white-0)", "border": "1px solid var(--color-border-divider)", "borderRadius": "8px", "padding": "24px", "boxShadow": "tokenRef(\"effect.shadow.card\")" },
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "id": "chart-row",
+                  "type": "Row",
+                  "props": {},
+                  "style": { "display": "grid", "gridTemplateColumns": "2fr 1fr", "gap": "16px", "marginBottom": "16px" },
+                  "children": [
+                    {
+                      "id": "chart-trend",
+                      "type": "Card",
+                      "props": { "title": "收入趋势（近12个月）", "bordered": true },
+                      "style": { "backgroundColor": "var(--color-bg-white-0)", "border": "1px solid var(--color-border-divider)", "borderRadius": "8px", "boxShadow": "tokenRef(\"effect.shadow.card\")" },
+                      "children": [
+                        {
+                          "id": "chart-trend-placeholder",
+                          "type": "ChartPlaceholder",
+                          "props": { "type": "line", "height": 240, "description": "折线图：月度收入趋势" },
+                          "style": { "backgroundColor": "var(--color-bg-grey-0)", "borderRadius": "4px", "display": "flex", "alignItems": "center", "justifyContent": "center", "color": "var(--color-text-2)" },
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "id": "chart-status",
+                      "type": "Card",
+                      "props": { "title": "房源状态分布", "bordered": true },
+                      "style": { "backgroundColor": "var(--color-bg-white-0)", "border": "1px solid var(--color-border-divider)", "borderRadius": "8px", "boxShadow": "tokenRef(\"effect.shadow.card\")" },
+                      "children": [
+                        {
+                          "id": "chart-pie-placeholder",
+                          "type": "ChartPlaceholder",
+                          "props": { "type": "pie", "height": 240, "description": "饼图：空置/已租/维修中占比" },
+                          "style": { "backgroundColor": "var(--color-bg-grey-0)", "borderRadius": "4px", "display": "flex", "alignItems": "center", "justifyContent": "center", "color": "var(--color-text-2)" },
+                          "children": []
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "id": "recent-contracts",
+                  "type": "Card",
+                  "props": { "title": "最新合同", "extra": { "type": "Link", "text": "查看全部", "href": "/contract" }, "bordered": true },
+                  "style": { "backgroundColor": "var(--color-bg-white-0)", "border": "1px solid var(--color-border-divider)", "borderRadius": "8px", "boxShadow": "tokenRef(\"effect.shadow.card\")" },
+                  "children": [
+                    {
+                      "id": "recent-grid",
+                      "type": "Grid",
+                      "props": {
+                        "rowKey": "contractId",
+                        "loading": false,
+                        "pagination": false,
+                        "dataSource": [],
+                        "columns": [
+                          { "key": "contractNo", "title": "合同编号", "dataIndex": "contractNo", "width": 160 },
+                          { "key": "tenantName", "title": "租客",     "dataIndex": "tenantName", "width": 120 },
+                          { "key": "houseName",  "title": "房源",     "dataIndex": "houseName" },
+                          { "key": "startDate",  "title": "开始日期", "dataIndex": "startDate",  "width": 120 },
+                          { "key": "endDate",    "title": "结束日期", "dataIndex": "endDate",    "width": 120 },
+                          { "key": "rent",       "title": "月租金",   "dataIndex": "rent",       "width": 120 },
+                          {
+                            "key": "status", "title": "状态", "dataIndex": "status", "width": 100, "render": "tag",
+                            "statusMap": {
+                              "active":   { "label": "生效中", "tagType": "success" },
+                              "pending":  { "label": "待生效", "tagType": "info" },
+                              "expiring": { "label": "即将到期", "tagType": "warning" },
+                              "expired":  { "label": "已到期", "tagType": "default" }
+                            }
+                          }
+                        ]
+                      },
+                      "style": {},
+                      "children": []
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

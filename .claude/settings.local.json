@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Skill(design-system-vue)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
