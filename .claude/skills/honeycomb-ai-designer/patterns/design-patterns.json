@@ -1,9 +1,15 @@
 {
   "_ref": "https://www.figma.com/design/YnekqUcG4ElWENxUoffqcv/中后台设计模板?node-id=411-76882",
-
   "ListPage": {
     "description": "数据列表页，含筛选区+表格+分页，适用于资源管理（房源/合同/用户等）",
-    "structure": ["Page", "SideNav", "PageHeader", "FilterBar", "Grid", "Pagination"],
+    "structure": [
+      "Page",
+      "SideNav",
+      "PageHeader",
+      "FilterBar",
+      "Grid",
+      "Pagination"
+    ],
     "defaultProps": {
       "platform": "pc",
       "width": 1920,
@@ -24,10 +30,16 @@
       "列表页不内嵌分页，使用独立 Pagination 组件"
     ]
   },
-
   "FormPage": {
     "description": "表单页，用于新建或编辑单条记录，含面包屑导航和底部操作按钮",
-    "structure": ["Page", "SideNav", "PageHeader", "Card", "Form", "FormFooter"],
+    "structure": [
+      "Page",
+      "SideNav",
+      "PageHeader",
+      "Card",
+      "Form",
+      "FormFooter"
+    ],
     "defaultProps": {
       "platform": "pc",
       "width": 1920,
@@ -49,10 +61,15 @@
       "多分组时使用多个 Card，间距 16px"
     ]
   },
-
   "DetailPage": {
     "description": "详情页，只读展示单条记录，支持 Tabs 分组展示，右上角有编辑按钮",
-    "structure": ["Page", "SideNav", "PageHeader", "Tabs", "Card"],
+    "structure": [
+      "Page",
+      "SideNav",
+      "PageHeader",
+      "Tabs",
+      "Card"
+    ],
     "defaultProps": {
       "platform": "pc",
       "width": 1920,
@@ -72,10 +89,16 @@
       "不允许在详情页内嵌编辑表单，编辑需跳转 FormPage"
     ]
   },
-
   "Dashboard": {
     "description": "数据看板/首页，含统计卡片和图表，快速展示核心业务指标",
-    "structure": ["Page", "SideNav", "PageHeader", "StatRow", "ChartRow", "Grid"],
+    "structure": [
+      "Page",
+      "SideNav",
+      "PageHeader",
+      "StatRow",
+      "ChartRow",
+      "Grid"
+    ],
     "defaultProps": {
       "platform": "pc",
       "width": 1920,
@@ -93,10 +116,16 @@
       "统计数值使用 tokenRef(\"typography.display-md\")"
     ]
   },
-
   "ApprovalPage": {
     "description": "审批流程页，含流程步骤条、申请信息展示、审批意见表单",
-    "structure": ["Page", "SideNav", "PageHeader", "Steps", "Card", "Form"],
+    "structure": [
+      "Page",
+      "SideNav",
+      "PageHeader",
+      "Steps",
+      "Card",
+      "Form"
+    ],
     "defaultProps": {
       "platform": "pc",
       "width": 1920,
@@ -113,10 +142,16 @@
       "操作按钮：拒绝（danger）+ 通过（primary）"
     ]
   },
-
   "ReportPage": {
     "description": "报表页，含时间筛选、汇总统计卡片、明细表格，支持导出",
-    "structure": ["Page", "SideNav", "PageHeader", "FilterBar", "StatRow", "Grid"],
+    "structure": [
+      "Page",
+      "SideNav",
+      "PageHeader",
+      "FilterBar",
+      "StatRow",
+      "Grid"
+    ],
     "defaultProps": {
       "platform": "pc",
       "width": 1920,
@@ -134,10 +169,15 @@
       "汇总行用不同背景色区分：var(--color-primary-light)"
     ]
   },
-
   "SettingsPage": {
     "description": "系统设置页，分 Tab 展示不同设置分组，每组为独立表单",
-    "structure": ["Page", "SideNav", "PageHeader", "Tabs", "Form"],
+    "structure": [
+      "Page",
+      "SideNav",
+      "PageHeader",
+      "Tabs",
+      "Form"
+    ],
     "defaultProps": {
       "platform": "pc",
       "width": 1920,
@@ -152,10 +192,13 @@
       "危险操作（如删除账户）单独放置在最后一个 Tab"
     ]
   },
-
   "SearchPage": {
     "description": "搜索结果页，无侧边导航，全宽布局，结果以列表或卡片展示",
-    "structure": ["Page", "FilterBar", "List"],
+    "structure": [
+      "Page",
+      "FilterBar",
+      "List"
+    ],
     "defaultProps": {
       "platform": "pc",
       "width": 1920,
@@ -167,5 +210,155 @@
       "搜索框居中置顶，宽度不超过 800px",
       "结果列表用卡片或行列表展示"
     ]
+  },
+  "CardListPage": {
+    "description": "卡片列表页，支持横向列表卡片listView和网格卡片gridView两种视图，适用于房源、商品、项目等场景",
+    "structure": [
+      "Page",
+      "SideNav",
+      "PageHeader",
+      "FilterBar",
+      "ViewToggle",
+      "CardGrid",
+      "Pagination"
+    ],
+    "defaultProps": {
+      "platform": "pc",
+      "width": 1920,
+      "pageSize": 20,
+      "filterLayout": "inline",
+      "hasViewToggle": true,
+      "defaultView": "list"
+    },
+    "figmaRef": [
+      "https://www.figma.com/design/YnekqUcG4ElWENxUoffqcv/中后台设计模板?node-id=607-176141",
+      "https://www.figma.com/design/YnekqUcG4ElWENxUoffqcv/中后台设计模板?node-id=607-176109",
+      "https://www.figma.com/design/YnekqUcG4ElWENxUoffqcv/中后台设计模板?node-id=607-176165",
+      "https://www.figma.com/design/YnekqUcG4ElWENxUoffqcv/中后台设计模板?node-id=607-176094"
+    ],
+    "layout": {
+      "listView": {
+        "display": "flex",
+        "flexDirection": "column",
+        "gap": 0
+      },
+      "gridView": {
+        "display": "grid",
+        "columns": {
+          "4col": "repeat(4,1fr)",
+          "3col": "repeat(3,1fr)",
+          "2col": "repeat(2,1fr)"
+        },
+        "gap": "16px"
+      }
+    },
+    "rules": [
+      "默认视图为横向列表卡片listView，gridView适合图片主导场景",
+      "筛选区固定在列表区上方，视图切换保持筛选条件",
+      "PageHeader右侧：新建+导出+视图切换图标组",
+      "列表卡片：Checkbox+封面图200x120px radius6px bg:var(--color-primary-light)+内容区+操作区",
+      "内容区headerRow：编号标签+标题font-weight600 15px+状态Tag 同行 gap8px",
+      "内容区fieldGrid：key-value flex-wrap row-gap6px col-gap24px 最多6字段",
+      "价格字段：var(--color-error) font-weight600 font-size15px",
+      "警告字段（空置天数/预计完工等）：var(--color-warning)",
+      "操作区align-self:flex-start link样式 最多3个 危险操作var(--color-error)",
+      "hover行背景var(--color-bg-hover)",
+      "危险操作需二次确认Modal",
+      "空状态居中：插图+说明+新建按钮",
+      "分页列表区下方右对齐 规则同ListPage"
+    ],
+    "listCardItem": {
+      "_ref": "Figma node-id=607-176141",
+      "container": {
+        "display": "flex",
+        "alignItems": "center",
+        "gap": "16px",
+        "padding": "20px",
+        "minHeight": "160px",
+        "background": "var(--color-bg-white-0)",
+        "borderBottom": "1px solid var(--color-border-divider)",
+        "hoverBackground": "var(--color-bg-hover)"
+      },
+      "cardCover": {
+        "width": "200px",
+        "height": "120px",
+        "borderRadius": "6px",
+        "background": "var(--color-primary-light)",
+        "flexShrink": 0
+      },
+      "cardBody": {
+        "flex": 1,
+        "gap": "12px",
+        "headerRow": {
+          "structure": [
+            "编号标签",
+            "标题",
+            "状态Tags"
+          ],
+          "gap": "8px",
+          "titleFontSize": "15px",
+          "titleFontWeight": 600,
+          "titleColor": "var(--color-text-0)"
+        },
+        "fieldGrid": {
+          "flexWrap": "wrap",
+          "rowGap": "6px",
+          "columnGap": "24px",
+          "fontSize": "13px",
+          "labelColor": "var(--color-text-2)",
+          "valueColor": "var(--color-text-0)",
+          "maxFields": 6,
+          "priceColor": "var(--color-error)",
+          "priceFontSize": "15px",
+          "priceFontWeight": 600,
+          "warningColor": "var(--color-warning)"
+        }
+      },
+      "cardFooter": {
+        "alignSelf": "flex-start",
+        "flexShrink": 0,
+        "style": "link",
+        "maxActions": 3,
+        "dangerColor": "var(--color-error)"
+      }
+    },
+    "gridCardItem": {
+      "container": {
+        "borderRadius": "var(--radius-md)",
+        "hoverBoxShadow": "tokenRef(effect.shadow.modal)"
+      },
+      "cardCover": {
+        "aspectRatio": "16:9",
+        "background": "var(--color-bg-grey-0)",
+        "borderRadius": "var(--radius-md) var(--radius-md) 0 0",
+        "statusBadge": "absolute top-right"
+      },
+      "cardBody": {
+        "padding": "16px",
+        "titleTypography": "tokenRef(typography.heading-sm)",
+        "descTypography": "tokenRef(typography.body-sm)"
+      },
+      "cardFooter": {
+        "padding": "12px 16px",
+        "borderTop": "1px solid var(--color-border-divider)",
+        "style": "link",
+        "maxActions": 3
+      }
+    },
+    "toolbar": {
+      "padding": "12px 20px 8px",
+      "borderBottom": "1px solid var(--color-border-divider)",
+      "left": "标题+数量",
+      "right": "批量操作"
+    },
+    "sortBar": {
+      "padding": "9px 20px",
+      "background": "var(--color-bg-grey-0)",
+      "borderBottom": "1px solid var(--color-border-divider)",
+      "gap": "24px",
+      "fontSize": "13px",
+      "activeColor": "var(--color-primary)",
+      "defaultColor": "var(--color-text-1)"
+    }
   }
 }

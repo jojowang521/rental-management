@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>房源详情</title>
+<style>
+:root{--cp600:#266EFF;--cp700:#1A55D6;--cp50:#EBF2FF;--cg100:#F0F0F0;--cg300:#D9D9D9;--cbg:#F3F4F9;--cb:#EAEAEA;--ctp:#333;--ctt:#999;--ctl:#266EFF;--ff:"PingFang SC",-apple-system,Arial,sans-serif}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--ff);font-size:13px;color:var(--ctp);background:var(--cbg);display:flex;height:100vh;overflow:hidden}
+.sn{width:208px;height:100vh;background:#1C1C1E;display:flex;flex-direction:column;flex-shrink:0;transition:width .2s}
+.sn.collapsed{width:56px}
+.sn-logo{display:flex;align-items:center;padding:11px 16px;gap:8px;border-bottom:1px solid rgba(255,255,255,.12);height:44px;overflow:hidden}
+.sn-logo-img{height:22px;width:auto;flex-shrink:0}
+.sn.collapsed .sn-logo-img{display:none}
+.sn-collapse-btn{margin-left:auto;cursor:pointer;opacity:.6;width:18px;height:18px;object-fit:contain;flex-shrink:0}
+.sn-body{flex:1;overflow-y:auto;padding:8px 0}
+.sn-body::-webkit-scrollbar{display:none}
+.nl{list-style:none}
+.ni{display:flex;align-items:center;padding:13px 20px;gap:16px;cursor:pointer;color:rgba(255,255,255,.65);font-size:14px;transition:all .15s;white-space:nowrap;overflow:hidden}
+.sn.collapsed .ni{padding:14px 18px;justify-content:center;gap:0}
+.ni:hover{background:rgba(255,255,255,.06);color:rgba(255,255,255,.9)}
+.ni.on{background:rgba(255,255,255,.1);color:#fff}
+.ni-ic{width:16px;height:16px;flex-shrink:0;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.ni-lb{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sn.collapsed .ni-lb,.sn.collapsed .ni-arrow{display:none}
+.ni-arrow{width:14px;height:14px;flex-shrink:0;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;opacity:.5;transition:transform .2s}
+.ni.open .ni-arrow{transform:rotate(180deg)}
+.nsl{list-style:none;display:none}
+.nsl.open{display:block}
+.sn.collapsed .nsl{display:none!important}
+.nsi{display:flex;align-items:center;padding:9px 20px 9px 52px;cursor:pointer;color:rgba(255,255,255,.45);font-size:13px;transition:all .15s}
+.nsi:hover{background:rgba(255,255,255,.05);color:rgba(255,255,255,.75)}
+.nsi.active{color:#60A5FA;background:rgba(37,99,235,.15)}
+.sn-foot{box-shadow:inset 0 1px 0 0 rgba(255,255,255,.1);padding:12px 20px;color:rgba(255,255,255,.4);font-size:12px;flex-shrink:0}
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0}
+.topbar{height:48px;background:#fff;border-bottom:1px solid var(--cb);display:flex;align-items:center;padding:0 24px;gap:12px;flex-shrink:0}
+.bc{display:flex;align-items:center;gap:4px;font-size:13px;color:var(--ctt);flex:1}
+.bc a{color:var(--ctt);text-decoration:none;cursor:pointer}
+.bc a:hover{color:var(--ctl)}
+.bc-sep{color:#D9D9D9;margin:0 2px}
+.bc-cur{color:var(--ctp)}
+.tb-r{display:flex;align-items:center;gap:8px}
+.ib{width:32px;height:32px;border-radius:6px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--ctt);transition:background .15s}
+.ib:hover{background:var(--cg100)}
+.ib svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.pb{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:12px}
+.pb::-webkit-scrollbar{width:6px}
+.pb::-webkit-scrollbar-thumb{background:var(--cg300);border-radius:3px}
+.profile-card{background:#fff;border-radius:4px;box-shadow:0 0 3px rgba(0,0,0,.04);padding:16px 20px;display:flex;flex-direction:column;gap:16px}
+.profile-hd{display:flex;align-items:center;gap:20px}
+.p-icon{width:48px;height:48px;border-radius:8px;background:#EBF2FF;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.p-icon svg{width:24px;height:24px;fill:none;stroke:#266EFF;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.p-meta{flex:1;display:flex;flex-direction:column;gap:6px}
+.p-name-row{display:flex;align-items:center;gap:8px}
+.p-name{font-size:16px;font-weight:600;color:#333}
+.p-actions{display:flex;gap:8px;margin-left:auto;align-items:center}
+.p-fields{display:flex;gap:24px;flex-wrap:wrap}
+.pf{display:flex;align-items:center;gap:4px;font-size:13px}
+.pf-l{color:var(--ctt)}
+.pf-v{color:#333}
+.stat-row{display:flex;gap:12px}
+.stat-card{flex:1;background:#fff;border-radius:4px;padding:16px 20px;display:flex;align-items:center;gap:16px;box-shadow:0 0 3px rgba(0,0,0,.04)}
+.s-ic{width:40px;height:40px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.s-ic svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.s-ic.blue{background:#EBF2FF;color:#266EFF}
+.s-ic.green{background:#F6FFED;color:#52C41A}
+.s-ic.orange{background:#FFFBE6;color:#D48806}
+.s-ic.red{background:#FFF1F0;color:#FF4D4F}
+.s-body{display:flex;flex-direction:column;gap:4px}
+.s-label{font-size:12px;color:var(--ctt)}
+.s-value{font-size:22px;font-weight:600;color:#333;line-height:1.2}
+.s-unit{font-size:12px;color:var(--ctt);margin-left:2px}
+.tabs-bar{background:#fff;border-radius:3px;box-shadow:0 0 3px rgba(0,0,0,.04);height:44px;display:flex;align-items:stretch;padding:0 20px;gap:32px;flex-shrink:0}
+.tab{display:flex;align-items:center;padding:11px 0;cursor:pointer;font-size:13px;color:var(--ctt);white-space:nowrap;border-bottom:2px solid transparent;transition:all .15s}
+.tab:hover{color:#266EFF}
+.tab.on{color:#266EFF;border-bottom-color:#266EFF;font-weight:500}
+.detail-card{background:#fff;border-radius:4px;box-shadow:0 0 3px rgba(0,0,0,.04);padding:20px;display:flex;flex-direction:column;gap:24px}
+.d-sec{display:flex;flex-direction:column;gap:0}
+.d-title{font-size:14px;font-weight:600;color:#333;padding:5px 0;display:flex;align-items:center;gap:8px;margin-bottom:16px}
+.d-title::before{content:'';display:block;width:3px;height:16px;border-radius:2px;background:#266EFF;flex-shrink:0}
+.d-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px 24px}
+.d-item{display:flex;flex-direction:row;align-items:baseline;gap:0}
+.d-lbl{font-size:13px;color:var(--ctt);width:100px;flex-shrink:0}
+.d-val{font-size:13px;color:#333;flex:1}
+.tag{display:inline-flex;align-items:center;height:22px;padding:0 6px;border-radius:2px;font-size:12px}
+.t-green{background:#F6FFED;color:#389E0D;border:1px solid #B7EB8F}
+.t-orange{background:#FFFBE6;color:#D48806;border:1px solid #FFD591}
+.t-gray{background:#FAFAFA;color:#8C8C8C;border:1px solid #D9D9D9}
+.t-blue{background:#EBF2FF;color:#266EFF}
+.t-red{background:#FFF1F0;color:#CF1322;border:1px solid #FFA39E}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:32px;padding:0 16px;border-radius:4px;font-size:13px;font-family:var(--ff);font-weight:400;cursor:pointer;border:1px solid transparent;transition:all .15s;white-space:nowrap}
+.btn-p{background:#266EFF;color:#fff;border-color:#266EFF}
+.btn-p:hover{background:#1A55D6}
+.btn-d{background:#fff;color:#333;border-color:#D9D9D9}
+.btn-d:hover{border-color:#266EFF;color:#266EFF}
+.btn-x{background:#fff;color:#FF4D4F;border-color:#FF4D4F}
+.tab-panel{display:none}
+.tab-panel.on{display:block}
+.empty-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:48px;color:var(--ctt);gap:8px;font-size:13px}
+.tbl{width:100%;border-collapse:collapse}
+.tbl th{padding:10px 16px;text-align:left;font-size:13px;font-weight:600;color:#333;border-bottom:1px solid var(--cb);white-space:nowrap;background:#FAFAFA}
+.tbl td{padding:10px 16px;font-size:13px;color:#333;border-bottom:1px solid #F5F5F5}
+.tbl tr:hover td{background:#FAFAFA}
+/* CONFIRM DIALOG */
+.confirm-mask{position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:2000;display:none;align-items:center;justify-content:center}
+.confirm-mask.open{display:flex}
+.confirm-box{background:#fff;border-radius:4px;width:400px;padding:32px 24px 24px;position:relative;box-shadow:0 3px 8px 0 rgba(0,0,0,0.1);display:flex;flex-direction:column;gap:24px}
+.confirm-close{position:absolute;top:16px;right:16px;width:16px;height:16px;cursor:pointer;color:#999;border:none;background:none;padding:0;display:flex;align-items:center;justify-content:center}
+.confirm-close:hover{color:#333}
+.confirm-close svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.confirm-content{display:flex;gap:12px;align-items:flex-start}
+.confirm-icon{width:24px;height:24px;flex-shrink:0;margin-top:1px}
+.confirm-text{display:flex;flex-direction:column;gap:8px;flex:1}
+.confirm-title{font-size:16px;font-weight:600;color:#333;line-height:1.5;font-family:var(--ff)}
+.confirm-desc{font-size:13px;color:#666;line-height:1.692;font-family:var(--ff)}
+.confirm-ft{display:flex;align-items:center;justify-content:flex-end;gap:12px}
+/* MODAL */
+.modal-mask{position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:1000;display:none;align-items:center;justify-content:center}
+.modal-mask.open{display:flex}
+.modal{background:#fff;border-radius:4px;width:640px;max-width:calc(100vw - 48px);height:auto;max-height:calc(100vh - 48px);display:flex;flex-direction:column;box-shadow:0 3px 8px 0 rgba(0,0,0,0.1)}
+.modal-hd{display:flex;align-items:center;gap:12px;padding:12px 20px;border-bottom:1px solid #EAEAEA;flex-shrink:0}
+.modal-title{font-size:16px;font-weight:600;color:#333;flex:1;line-height:1.5}
+.modal-close{width:16px;height:16px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#999;border:none;background:none;flex-shrink:0;padding:0}
+.modal-close:hover{color:#333}
+.modal-close svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.modal-body{flex:1;overflow-y:auto;padding:20px}
+.modal-ft{display:flex;align-items:center;justify-content:flex-end;gap:12px;padding:10px 20px;border-top:1px solid #EAEAEA;flex-shrink:0}
+/* FORM IN MODAL */
+.mfi{display:flex;flex-direction:row;align-items:center;gap:0;min-height:32px}
+.mfi .fl{font-size:13px;color:var(--ctt);font-weight:400;width:110px;flex-shrink:0;padding-right:8px;display:flex;align-items:center;white-space:nowrap}
+.mfi .req{color:#FF4D4F;width:10px;flex-shrink:0;text-align:center}
+.mfi .fl-txt{flex:1}
+.mfi-ctrl{flex:1}
+.mfi .inp,.mfi .sel{height:32px;border:1px solid #D9D9D9;border-radius:4px;padding:0 12px;font-size:13px;font-family:var(--ff);color:#333;background:#fff;outline:none;transition:border-color .15s,box-shadow .15s;width:100%}
+.mfi .inp:focus,.mfi .sel:focus{border-color:#266EFF;box-shadow:0 0 0 2px rgba(38,110,255,.12)}
+.mfi .inp::placeholder{color:#BFBFBF}
+.mfi .sel{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238C8C8C' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;padding-right:28px;cursor:pointer}
+</style>
+</head>
+<body>
+
+<aside class="sn" id="sn">
+  <div class="sn-logo">
+    <img src="/Users/fengxiaochun/Desktop/rental-management/prototypes/images/海外logo@2x.png" alt="logo" class="sn-logo-img">
+    <img src="/Users/fengxiaochun/Desktop/rental-management/prototypes/images/收起.png" class="sn-collapse-btn" onclick="toggleSidebar()" alt="收起">
+  </div>
+  <div class="sn-body">
+    <ul class="nl">
+      <li class="ni">
+        <svg class="ni-ic" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        <span class="ni-lb">首页</span>
+      </li>
+      <li class="ni open" onclick="toggleNav(this)">
+        <svg class="ni-ic" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+        <span class="ni-lb">房源管理</span>
+        <svg class="ni-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </li>
+      <ul class="nsl open">
+        <li class="nsi" style="cursor:pointer" onclick="location.href='prototype-list-page.html'">房源列表</li>
+        <li class="nsi">房源地图</li>
+      </ul>
+      <li class="ni open" onclick="toggleNav(this)">
+        <svg class="ni-ic" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        <span class="ni-lb">合同管理</span>
+        <svg class="ni-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </li>
+      <ul class="nsl open">
+        <li class="nsi" style="cursor:pointer" onclick="location.href='contract-list.html'">合同列表</li>
+        <li class="nsi">续签管理</li>
+        <li class="nsi">到期提醒</li>
+      </ul>
+      <li class="ni" onclick="toggleNav(this)">
+        <svg class="ni-ic" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+        <span class="ni-lb">租户管理</span>
+        <svg class="ni-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </li>
+      <li class="ni" onclick="toggleNav(this)">
+        <svg class="ni-ic" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        <span class="ni-lb">账单管理</span>
+        <svg class="ni-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </li>
+      <li class="ni" onclick="toggleNav(this)">
+        <svg class="ni-ic" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        <span class="ni-lb">工单管理</span>
+        <svg class="ni-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </li>
+    </ul>
+  </div>
+  <div class="sn-foot">Powered by 天际</div>
+</aside>
+
+<div class="main">
+    <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="bc">
+      <a href="prototype-list-page.html">房源管理</a>
+      <span class="bc-sep">/</span>
+      <span class="bc-cur">朝阳国贸中心A座1201</span>
+    </div>
+    <div class="tb-r">
+    </div>
+  </div>
+  <!-- PAGE BODY -->
+  <div class="pb">
+    <!-- PROFILE CARD -->
+    <div class="profile-card">
+      <div class="profile-hd">
+        <div class="p-icon"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></div>
+        <div class="p-meta">
+          <div class="p-name-row">
+            <span class="p-name">朝阳国贸中心A座1201</span>
+            <span class="tag t-green">已出租</span>
+            <span class="tag t-blue">办公</span>
+          </div>
+          <div class="p-fields">
+            <div class="pf"><span class="pf-l">房源编号：</span><span class="pf-v">HS-2024-0001</span></div>
+            <div class="pf"><span class="pf-l">所在区域：</span><span class="pf-v">朝阳区</span></div>
+            <div class="pf"><span class="pf-l">建筑面积：</span><span class="pf-v">120.5 ㎡</span></div>
+            <div class="pf"><span class="pf-l">月租金：</span><span class="pf-v">¥18,500</span></div>
+            <div class="pf"><span class="pf-l">创建时间：</span><span class="pf-v">2024-01-15</span></div>
+          </div>
+        </div>
+        <div class="p-actions">
+          <a href="prototype-edit-page.html" class="btn btn-d" style="text-decoration:none;">编辑</a>
+          <button class="btn btn-d" onclick="openModal('modalPublish')">发布招租</button>
+          <button class="btn btn-x" onclick="openConfirm('confirmUnpublish')">下架</button>
+        </div>
+      </div>
+    </div>
+    <!-- STAT ROW -->
+    <div class="stat-row">
+      <div class="stat-card">
+        <div class="s-ic blue"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+        <div class="s-body"><div class="s-label">累计合同数</div><div class="s-value">12<span class="s-unit">份</span></div></div>
+      </div>
+      <div class="stat-card">
+        <div class="s-ic green"><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+        <div class="s-body"><div class="s-label">累计收款</div><div class="s-value">86.4<span class="s-unit">万元</span></div></div>
+      </div>
+      <div class="stat-card">
+        <div class="s-ic orange"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+        <div class="s-body"><div class="s-label">待处理工单</div><div class="s-value">3<span class="s-unit">条</span></div></div>
+      </div>
+      <div class="stat-card">
+        <div class="s-ic red"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+        <div class="s-body"><div class="s-label">合同到期天数</div><div class="s-value">128<span class="s-unit">天</span></div></div>
+      </div>
+    </div>
+    <!-- TABS -->
+    <div class="tabs-bar">
+      <div class="tab on" onclick="switchTab(this,'panel-info')">房源信息</div>
+      <div class="tab" onclick="switchTab(this,'panel-contract')">合同记录(12)</div>
+      <div class="tab" onclick="switchTab(this,'panel-bill')">账单记录(36)</div>
+      <div class="tab" onclick="switchTab(this,'panel-workorder')">工单记录(8)</div>
+      <div class="tab" onclick="switchTab(this,'panel-log')">操作日志</div>
+    </div>
+    <!-- TAB: 房源信息 -->
+    <div class="tab-panel on" id="panel-info">
+      <div class="detail-card">
+        <div class="d-sec">
+          <div class="d-title">基本信息</div>
+          <div class="d-grid">
+            <div class="d-item"><div class="d-lbl">房源名称</div><div class="d-val">朝阳国贸中心A座1201</div></div>
+            <div class="d-item"><div class="d-lbl">房源编号</div><div class="d-val">HS-2024-0001</div></div>
+            <div class="d-item"><div class="d-lbl">房源类型</div><div class="d-val">商业办公</div></div>
+            <div class="d-item"><div class="d-lbl">所在区域</div><div class="d-val">朝阳区</div></div>
+            <div class="d-item"><div class="d-lbl">详细地址</div><div class="d-val">北京市朝阳区建国路93号国贸中心A座1201室</div></div>
+            <div class="d-item"><div class="d-lbl">出租状态</div><div class="d-val"><span class="tag t-green">已出租</span></div></div>
+            <div class="d-item"><div class="d-lbl">创建时间</div><div class="d-val">2024-01-15 09:30:00</div></div>
+            <div class="d-item"><div class="d-lbl">最后更新</div><div class="d-val">2024-08-10 14:22:00</div></div>
+          </div>
+        </div>
+        <div class="d-sec">
+          <div class="d-title">房屋信息</div>
+          <div class="d-grid">
+            <div class="d-item"><div class="d-lbl">建筑面积</div><div class="d-val">120.5 ㎡</div></div>
+            <div class="d-item"><div class="d-lbl">使用面积</div><div class="d-val">108.0 ㎡</div></div>
+            <div class="d-item"><div class="d-lbl">所在楼栋</div><div class="d-val">A座</div></div>
+            <div class="d-item"><div class="d-lbl">所在楼层</div><div class="d-val">12层</div></div>
+            <div class="d-item"><div class="d-lbl">朝向</div><div class="d-val">南北</div></div>
+            <div class="d-item"><div class="d-lbl">装修状态</div><div class="d-val">精装</div></div>
+            <div class="d-item"><div class="d-lbl">房间格局</div><div class="d-val">开放式办公</div></div>
+            <div class="d-item"><div class="d-lbl">停车位</div><div class="d-val">2个</div></div>
+          </div>
+        </div>
+        <div class="d-sec">
+          <div class="d-title">租金信息</div>
+          <div class="d-grid">
+            <div class="d-item"><div class="d-lbl">月租金</div><div class="d-val">¥18,500</div></div>
+            <div class="d-item"><div class="d-lbl">租金单价</div><div class="d-val">¥153.5/㎡</div></div>
+            <div class="d-item"><div class="d-lbl">付款方式</div><div class="d-val">季付</div></div>
+            <div class="d-item"><div class="d-lbl">押金</div><div class="d-val">2个月</div></div>
+          </div>
+        </div>
+        <div class="d-sec">
+          <div class="d-title">当前租户</div>
+          <div class="d-grid">
+            <div class="d-item"><div class="d-lbl">租户名称</div><div class="d-val">北京科技有限公司</div></div>
+            <div class="d-item"><div class="d-lbl">联系人</div><div class="d-val">张三</div></div>
+            <div class="d-item"><div class="d-lbl">联系电话</div><div class="d-val">138-0000-0001</div></div>
+            <div class="d-item"><div class="d-lbl">租约起始</div><div class="d-val">2024-01-20</div></div>
+            <div class="d-item"><div class="d-lbl">租约到期</div><div class="d-val">2025-01-19</div></div>
+            <div class="d-item"><div class="d-lbl">剩余天数</div><div class="d-val" style="color:#D48806">128天</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- TAB: 合同记录 -->
+    <div class="tab-panel" id="panel-contract">
+      <div class="detail-card" style="padding:0;overflow:hidden">
+        <table class="tbl">
+          <thead><tr><th>合同编号</th><th>租户名称</th><th>起始日期</th><th>到期日期</th><th>月租金</th><th>合同状态</th><th>操作</th></tr></thead>
+          <tbody>
+            <tr><td>HT-2024-0012</td><td>北京科技有限公司</td><td>2024-01-20</td><td>2025-01-19</td><td>¥18,500</td><td><span class="tag t-green">执行中</span></td><td><a href="#" style="color:#266EFF;text-decoration:none;font-size:13px">查看</a></td></tr>
+            <tr><td>HT-2023-0087</td><td>北京贸易有限公司</td><td>2023-01-15</td><td>2024-01-14</td><td>¥17,200</td><td><span class="tag t-gray">已到期</span></td><td><a href="#" style="color:#266EFF;text-decoration:none;font-size:13px">查看</a></td></tr>
+            <tr><td>HT-2022-0043</td><td>北京咨询有限公司</td><td>2022-03-01</td><td>2023-02-28</td><td>¥16,800</td><td><span class="tag t-gray">已到期</span></td><td><a href="#" style="color:#266EFF;text-decoration:none;font-size:13px">查看</a></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <!-- TAB: 账单记录 -->
+    <div class="tab-panel" id="panel-bill">
+      <div class="detail-card" style="padding:0;overflow:hidden">
+        <table class="tbl">
+          <thead><tr><th>账单编号</th><th>账单类型</th><th>账单金额</th><th>应收日期</th><th>实收日期</th><th>状态</th><th>操作</th></tr></thead>
+          <tbody>
+            <tr><td>ZD-2024-0089</td><td>月租金</td><td>¥18,500</td><td>2024-08-01</td><td>2024-07-30</td><td><span class="tag t-green">已收款</span></td><td><a href="#" style="color:#266EFF;text-decoration:none;font-size:13px">查看</a></td></tr>
+            <tr><td>ZD-2024-0062</td><td>月租金</td><td>¥18,500</td><td>2024-07-01</td><td>2024-06-28</td><td><span class="tag t-green">已收款</span></td><td><a href="#" style="color:#266EFF;text-decoration:none;font-size:13px">查看</a></td></tr>
+            <tr><td>ZD-2024-0035</td><td>月租金</td><td>¥18,500</td><td>2024-06-01</td><td>—</td><td><span class="tag t-orange">待收款</span></td><td><a href="#" style="color:#266EFF;text-decoration:none;font-size:13px">查看</a></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <!-- TAB: 工单记录 -->
+    <div class="tab-panel" id="panel-workorder">
+      <div class="detail-card" style="padding:0;overflow:hidden">
+        <table class="tbl">
+          <thead><tr><th>工单编号</th><th>工单类型</th><th>工单描述</th><th>创建时间</th><th>状态</th><th>操作</th></tr></thead>
+          <tbody>
+            <tr><td>GD-2024-0123</td><td>维修</td><td>空调故障维修</td><td>2024-08-05</td><td><span class="tag t-orange">处理中</span></td><td><a href="#" style="color:#266EFF;text-decoration:none;font-size:13px">查看</a></td></tr>
+            <tr><td>GD-2024-0098</td><td>清洁</td><td>定期保洁服务</td><td>2024-07-20</td><td><span class="tag t-green">已完成</span></td><td><a href="#" style="color:#266EFF;text-decoration:none;font-size:13px">查看</a></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <!-- TAB: 操作日志 -->
+    <div class="tab-panel" id="panel-log">
+      <div class="detail-card">
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <div style="display:flex;gap:12px;align-items:flex-start;font-size:13px">
+            <span style="color:var(--ctt);white-space:nowrap">2024-08-10 14:22</span>
+            <span style="color:#333">张三 将出租状态更新为「已出租」</span>
+          </div>
+          <div style="display:flex;gap:12px;align-items:flex-start;font-size:13px">
+            <span style="color:var(--ctt);white-space:nowrap">2024-01-20 09:15</span>
+            <span style="color:#333">李四 创建了合同 HT-2024-0012</span>
+          </div>
+          <div style="display:flex;gap:12px;align-items:flex-start;font-size:13px">
+            <span style="color:var(--ctt);white-space:nowrap">2024-01-15 09:30</span>
+            <span style="color:#333">王五 创建了房源信息</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- UNPUBLISH CONFIRM -->
+<div class="confirm-mask" id="confirmUnpublish">
+  <div class="confirm-box">
+    <button class="confirm-close" onclick="closeConfirm('confirmUnpublish')"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    <div class="confirm-content">
+      <div class="confirm-icon">
+        <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#FFF3CD"/><path d="M12 8v4m0 4h.01" stroke="#FF9902" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="confirm-text">
+        <div class="confirm-title">确定下架该房源吗？</div>
+        <div class="confirm-desc">下架后该房源将不再对外展示，已签订的合同不受影响，如需重新出租请重新发布招租。</div>
+      </div>
+    </div>
+    <div class="confirm-ft">
+      <button class="btn btn-d" onclick="closeConfirm('confirmUnpublish')">取消</button>
+      <button class="btn" style="background:#FF4C4C;color:#fff;border-color:#FF4C4C" onclick="closeConfirm('confirmUnpublish')">确认下架</button>
+    </div>
+  </div>
+</div>
+<!-- PUBLISH MODAL -->
+<div class="modal-mask" id="modalPublish">
+  <div class="modal" style="width:640px;height:auto;max-height:calc(100vh - 48px)">
+    <div class="modal-hd">
+      <span class="modal-title">发布招租</span>
+      <button class="modal-close" onclick="closeModal('modalPublish')"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>
+    <div class="modal-body" style="padding:20px;overflow-y:auto">
+      <div style="display:flex;flex-direction:column;gap:0;margin-bottom:24px">
+        <div style="font-size:14px;font-weight:600;color:#333;padding:5px 0;display:flex;align-items:center;gap:8px;margin-bottom:16px"><span style="display:block;width:3px;height:16px;border-radius:2px;background:#266EFF;flex-shrink:0"></span>房源信息</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px 48px">
+          <div class="mfi"><label class="fl"><span class="req"></span><span class="fl-txt">房源名称</span></label><div class="mfi-ctrl"><input class="inp" value="朝阳国贸中心A座1201" disabled style="background:#FAFAFA;color:#999"></div></div>
+          <div class="mfi"><label class="fl"><span class="req"></span><span class="fl-txt">建筑面积</span></label><div class="mfi-ctrl"><input class="inp" value="120.5 ㎡" disabled style="background:#FAFAFA;color:#999"></div></div>
+          <div class="mfi"><label class="fl"><span class="req"></span><span class="fl-txt">所在区域</span></label><div class="mfi-ctrl"><input class="inp" value="朝阳区" disabled style="background:#FAFAFA;color:#999"></div></div>
+          <div class="mfi"><label class="fl"><span class="req"></span><span class="fl-txt">当前状态</span></label><div class="mfi-ctrl" style="display:flex;align-items:center;height:32px"><span class="tag t-green">已出租</span></div></div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:0">
+        <div style="font-size:14px;font-weight:600;color:#333;padding:5px 0;display:flex;align-items:center;gap:8px;margin-bottom:16px"><span style="display:block;width:3px;height:16px;border-radius:2px;background:#266EFF;flex-shrink:0"></span>招租设置</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px 48px">
+          <div class="mfi"><label class="fl"><span class="req">*</span><span class="fl-txt">期望月租金</span></label><div class="mfi-ctrl"><input class="inp" placeholder="请输入期望月租金"></div></div>
+          <div class="mfi"><label class="fl"><span class="req">*</span><span class="fl-txt">付款方式</span></label><div class="mfi-ctrl"><select class="sel"><option>月付</option><option>季付</option><option>半年付</option><option>年付</option></select></div></div>
+          <div class="mfi"><label class="fl"><span class="req">*</span><span class="fl-txt">押金</span></label><div class="mfi-ctrl"><select class="sel"><option>1个月</option><option>2个月</option><option>3个月</option></select></div></div>
+          <div class="mfi"><label class="fl"><span class="req"></span><span class="fl-txt">最短租期</span></label><div class="mfi-ctrl"><select class="sel"><option>不限</option><option>3个月</option><option>6个月</option><option>1年</option><option>2年</option></select></div></div>
+          <div class="mfi"><label class="fl"><span class="req"></span><span class="fl-txt">最早入住</span></label><div class="mfi-ctrl"><input class="inp" type="date" value="2024-09-01"></div></div>
+          <div class="mfi"><label class="fl"><span class="req"></span><span class="fl-txt">招租截止</span></label><div class="mfi-ctrl"><input class="inp" type="date" value="2024-12-31"></div></div>
+          <div class="mfi" style="grid-column:1/-1"><label class="fl"><span class="req"></span><span class="fl-txt">招租说明</span></label><div class="mfi-ctrl"><textarea class="inp" style="height:72px;padding:6px 12px;resize:none" placeholder="请输入招租说明（可选）"></textarea></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-ft">
+      <button class="btn btn-d" onclick="closeModal('modalPublish')">取消</button>
+      <button class="btn btn-p" onclick="closeModal('modalPublish')">确认发布</button>
+    </div>
+  </div>
+</div>
+
+<script>
+function toggleSidebar(){const sn=document.getElementById('sn');const img=sn.querySelector('.sn-logo-img');sn.classList.toggle('collapsed');if(img)img.style.display=sn.classList.contains('collapsed')?'none':'';}
+function toggleNav(ni){const nsl=ni.nextElementSibling;if(nsl&&nsl.classList.contains('nsl')){const o=nsl.classList.toggle('open');ni.classList.toggle('open',o);}}
+function switchTab(tab,panelId){document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('on'));tab.classList.add('on');document.getElementById(panelId).classList.add('on');}
+function openModal(id){document.getElementById(id).classList.add('open')}
+function closeModal(id){document.getElementById(id).classList.remove('open')}
+function openConfirm(id){document.getElementById(id).classList.add('open')}
+function closeConfirm(id){document.getElementById(id).classList.remove('open')}
+document.addEventListener('DOMContentLoaded',function(){
+  var c=document.getElementById('confirmUnpublish');if(c)c.addEventListener('click',function(e){if(e.target===this)closeConfirm('confirmUnpublish');});
+  var m=document.getElementById('modalPublish');if(m)m.addEventListener('click',function(e){if(e.target===this)closeModal('modalPublish');});
+});
+</script>
+</body>
+</html>

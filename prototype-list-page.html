@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>列表页原型 — 中后台设计模板 node-id=411-77456</title>
+<style>
+:root{--cp50:#EBF2FF;--cp100:#D0E4FF;--cp500:#266EFF;--cp600:#266EFF;--cp700:#1A55D6;--cg0:#fff;--cg25:#FAFAFA;--cg50:#F5F5F5;--cg100:#F0F0F0;--cg200:#E8E8E8;--cg300:#D9D9D9;--cg400:#BFBFBF;--cg500:#8C8C8C;--cg600:#595959;--cg700:#434343;--cg800:#262626;--cg900:#141414;--cs50:#F6FFED;--cs500:#52C41A;--cs600:#389E0D;--cw50:#FFFBE6;--cw500:#FAAD14;--ce50:#FFF1F0;--ce500:#FF4D4F;--ce600:#CF1322;--cbg:#F0F2F5;--cbase:#fff;--cb:#E8E8E8;--cbsub:#F5F5F5;--ctp:#262626;--cts:#595959;--ctt:#8C8C8C;--ctd:#BFBFBF;--ctl:#266EFF;--ff:-apple-system,"PingFang SC","Microsoft YaHei",Arial,sans-serif;--snw:208px;--hh:48px}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--ff);font-size:14px;color:var(--ctp);background:var(--cbg);display:flex;height:100vh;overflow:hidden}
+/* SIDENAV */
+.sn{width:208px;height:100vh;background:#1C1C1E;display:flex;flex-direction:column;flex-shrink:0;overflow:hidden;box-shadow:2px 0 8px 0 rgba(0,0,0,0.05);transition:width .2s ease}.sn.collapsed{width:56px}
+.sn-logo{display:flex;align-items:center;padding:11px 16px;gap:8px;border-bottom:1px solid rgba(255,255,255,.12);flex-shrink:0;height:44px;overflow:hidden}.sn.collapsed .sn-logo{justify-content:center;padding:11px 16px}
+.sn-mark{width:28px;height:28px;background:var(--cp600);border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.sn-mark svg{width:14px;height:14px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.sn-txt{font-size:14px;font-weight:400;color:#fff;flex:1}
+.sn-body{flex:1;overflow-y:auto;overflow-x:hidden}
+.sn-body::-webkit-scrollbar{display:none}
+.ns{font-size:10px;font-weight:500;color:rgba(255,255,255,.3);letter-spacing:.08em;text-transform:uppercase;padding:14px 16px 4px}
+.nl{list-style:none}
+.ni{display:flex;align-items:center;padding:13px 20px;gap:16px;cursor:pointer;color:rgba(255,255,255,.65);font-size:14px;font-family:"PingFang SC",var(--ff);font-weight:400;transition:all .15s}
+.ni:hover{background:rgba(255,255,255,.06);color:rgba(255,255,255,.85)}
+.ni.on{background:rgba(255,255,255,.1);color:#fff}.ni.active{background:var(--cp600);color:#fff}
+.ni-ic{width:16px;height:16px;flex-shrink:0;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.ni-lb{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.sn.collapsed .ni-lb{display:none}.sn.collapsed .ni-arrow{display:none}.sn.collapsed .nbadge{display:none}.sn.collapsed .nsl{display:none!important}.sn.collapsed .ni{padding:14px 18px;justify-content:center;gap:0}.sn.collapsed .sn-logo-img{display:none}
+.sn.collapsed .sn-collapse-btn{margin-left:0}
+.sn-foot-txt{white-space:nowrap}
+.sn.collapsed .sn-foot-txt{display:none}
+.nbadge{background:var(--ce500);color:#fff;font-size:10px;font-weight:500;min-width:16px;height:16px;padding:0 4px;border-radius:8px;display:flex;align-items:center;justify-content:center}
+.nsl{list-style:none;display:none}
+.nsl.open{display:block}
+.ni-arrow{width:14px;height:14px;flex-shrink:0;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;opacity:.5;transition:transform .2s}
+.ni.open .ni-arrow{transform:rotate(180deg)}
+.nsi{display:flex;align-items:center;padding:9px 20px 9px 52px;cursor:pointer;color:rgba(255,255,255,.45);font-size:13px;font-family:"PingFang SC",var(--ff);transition:all .15s;line-height:1.538}
+.nsi:hover{background:rgba(255,255,255,.05);color:rgba(255,255,255,.75)}
+.nsi.on{color:#60A5FA}.nsi.active{color:#60A5FA;background:rgba(37,99,235,.15)}
+
+.ndiv{height:1px;background:rgba(255,255,255,.07);margin:4px 16px}
+.sn-foot{box-shadow:inset 0 1px 0 0 rgba(255,255,255,.1);padding:12px 20px;display:flex;align-items:center;gap:8px;cursor:pointer;color:rgba(255,255,255,.45);font-size:12px;font-family:"PingFang SC",var(--ff);transition:background .15s;flex-shrink:0}
+.sn-foot:hover{background:rgba(255,255,255,.05)}
+.av{width:26px;height:26px;border-radius:50%;background:var(--cp600);display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;font-weight:600;flex-shrink:0}
+.fn{flex:1;color:rgba(255,255,255,.65);font-size:13px}
+/* MAIN */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0}
+.topbar{height:48px;background:#fff;border-bottom:1px solid var(--cb);display:flex;align-items:center;padding:0 24px;gap:12px;flex-shrink:0}
+.bc{display:flex;align-items:center;gap:6px;font-size:14px;color:var(--ctt);flex:1}
+.bc a{color:var(--ctt);text-decoration:none;cursor:pointer}
+.bc a:hover{color:var(--ctl)}
+.bc-sep{color:var(--ctd);font-size:11px}
+.bc-cur{color:var(--ctp);font-weight:500}
+.tb-r{display:flex;align-items:center;gap:8px}
+.ib{width:32px;height:32px;border-radius:6px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--ctt);position:relative;transition:background .15s}
+.ib:hover{background:var(--cg100);color:var(--cts)}
+.ib svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.ib .dot{position:absolute;top:5px;right:5px;width:6px;height:6px;background:var(--ce500);border-radius:50%;border:1.5px solid #fff}
+.tb-div{width:1px;height:20px;background:var(--cb);margin:0 4px}
+.tb-user{display:flex;align-items:center;gap:8px;padding:4px 8px;border-radius:6px;cursor:pointer;transition:background .15s}
+.tb-user:hover{background:var(--cg100)}
+.u-name{font-size:14px;font-weight:500;color:var(--ctp);line-height:1.2}
+.u-role{font-size:12px;color:var(--ctt);line-height:1.2}
+/* PAGE */
+.pb{flex:1;overflow-y:auto;overflow-x:hidden;padding:12px;display:flex;flex-direction:column;gap:12px;background:var(--cbg);min-height:0}
+.pb::-webkit-scrollbar{width:6px}
+.pb::-webkit-scrollbar-thumb{background:var(--cg300);border-radius:3px}
+.ph{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:4px}
+.ph-l{display:flex;flex-direction:column;gap:4px}
+.ph-title{font-size:20px;font-weight:600;color:var(--ctp);line-height:1.3}
+.ph-sub{font-size:14px;color:var(--ctt)}
+.ph-r{display:flex;align-items:center;gap:8px}
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:32px;padding:0 16px;border-radius:4px;font-size:13px;font-family:var(--ff);font-weight:400;cursor:pointer;border:1px solid transparent;transition:all .15s;white-space:nowrap;line-height:1}
+.btn svg{width:13px;height:13px;flex-shrink:0;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.btn-p{background:var(--cp600);color:#fff;border-color:var(--cp600)}
+.btn-p:hover{background:var(--cp700);border-color:var(--cp700)}
+.btn-d{background:#fff;color:var(--cts);border-color:var(--cg300)}
+.btn-d:hover{color:var(--cp600);border-color:var(--cp500);background:var(--cp50)}
+.btn-t{background:none;border-color:transparent;color:var(--ctl);padding:0 8px;font-weight:400}
+.btn-x{background:none;border-color:transparent;color:var(--ce500);padding:0 8px;font-weight:400}
+.btn-x:hover{background:var(--ce50)}
+/* FILTER */
+.fc{background:#fff;border-radius:4px;border:none;padding:0;box-shadow:0 0 3px 0 rgba(0,0,0,0.04)}
+.fr{display:flex;align-items:center;gap:20px;flex-wrap:nowrap;padding:12px 20px;}
+.fr.has-adv{border-bottom:1px dashed #EAEAEA}
+.adv-row{display:none;flex-direction:column;gap:0;margin-top:0;}
+.adv-row.open{display:flex}
+.adv-grid{display:flex;flex-direction:column;gap:0;padding:4px 20px}
+.adv-fi{display:flex;flex-direction:row;align-items:center;gap:8px;padding:6px 0;border-bottom:none}
+.adv-fi .fl{font-size:13px;color:var(--ctt);font-weight:400;width:91px;flex-shrink:0;white-space:nowrap}
+.adv-tags{display:flex;flex-wrap:wrap;align-items:center;gap:16px;padding:2px 0}
+.adv-tag{display:inline-flex;align-items:center;height:24px;padding:0 10px;border-radius:4px;font-size:13px;cursor:pointer;border:1px solid var(--cg300);color:var(--cts);background:#fff;transition:all .15s}
+.adv-tag:hover,.adv-tag.on{background:var(--cp50);border-color:var(--cp500);color:var(--cp600)}
+.adv-sep{width:100%;height:1px;background:#EAEAEA;border:none}
+.adv-actions{display:flex;align-items:center;justify-content:flex-end;gap:16px;padding:11px 20px;border-top:1px dashed #EAEAEA}
+.adv-clear{display:inline-flex;align-items:center;gap:4px;font-size:14px;color:var(--ctt);cursor:pointer;background:none;border:none;padding:0;transition:color .15s}
+.adv-clear:hover{color:var(--cp600)}
+.adv-clear svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.adv-btn{display:inline-flex;align-items:center;gap:5px;height:32px;padding:0 12px;border-radius:4px;font-size:14px;font-family:var(--ff);font-weight:400;cursor:pointer;border:1px solid var(--cg300);background:#fff;color:var(--cts);transition:all .15s;white-space:nowrap;flex-shrink:0}
+.adv-btn:hover{color:var(--cp600);border-color:var(--cp500);background:var(--cp50)}
+.adv-btn.active{color:var(--cp600);border-color:var(--cp500);background:var(--cp50)}
+.adv-btn svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+.adv-range{display:flex;align-items:center;gap:8px}
+.adv-range .inp{width:120px}
+.adv-range-sep{color:var(--ctd);font-size:13px;flex-shrink:0}
+.adv-btn{display:inline-flex;align-items:center;gap:5px;height:32px;padding:0 12px;border-radius:4px;font-size:14px;font-family:var(--ff);font-weight:400;cursor:pointer;border:1px solid var(--cg300);background:#fff;color:var(--cts);transition:all .15s;white-space:nowrap;flex-shrink:0}
+.adv-btn:hover{color:var(--cp600);border-color:var(--cp500);background:var(--cp50)}
+.adv-btn.active{color:var(--cp600);border-color:var(--cp500);background:var(--cp50)}
+.adv-btn svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+.fi{display:flex;flex-direction:column;gap:4px;min-width:140px}
+.fi.lg{min-width:200px}
+.fl{font-size:13px;color:var(--ctt);font-weight:400}
+.inp,.sel{height:32px;border:1px solid var(--cg300);border-radius:4px;padding:0 12px;font-size:13px;font-family:var(--ff);color:var(--ctp);background:#fff;outline:none;transition:border-color .15s,box-shadow .15s;width:100%}
+.inp:focus,.sel:focus{border-color:var(--cp500);box-shadow:0 0 0 2px rgba(37,99,235,.12)}
+.inp::placeholder{color:var(--ctd)}
+.iw{position:relative}
+.iw .inp{padding-left:30px}
+.iw .sico{position:absolute;left:9px;top:50%;transform:translateY(-50%);width:14px;height:14px;color:var(--ctt);fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;pointer-events:none}
+.sel{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238C8C8C' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;padding-right:28px;cursor:pointer}
+.fa{display:flex;align-items:flex-end;gap:8px;margin-left:auto}
+/* TABLE */
+.tc{background:#fff;border-radius:8px;border:1px solid var(--cb);overflow:hidden;display:flex;flex-direction:column;flex:1;min-height:0}
+.tt{display:flex;align-items:center;justify-content:space-between;padding:12px 20px;border-bottom:1px solid var(--cb);gap:16px}
+.batch-bar{flex:1}
+.batch-cancel{width:24px;height:24px;border:none;background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;border-radius:4px;flex-shrink:0;padding:0}
+.batch-cancel:hover{background:#F0F0F0}
+.tt-r{display:flex;align-items:center;gap:8px}
+.tcnt{font-size:13px;color:var(--ctt);font-weight:400}
+.tcnt b{color:var(--ctp);font-weight:400}
+.tw{overflow-x:auto;overflow-y:auto;flex:1;min-height:0}
+table{width:100%;border-collapse:collapse;min-width:860px}
+thead tr{background:#FAFAFA}
+th{padding:10px 16px;text-align:left;font-size:13px;font-weight:600;color:#333;border-bottom:1px solid var(--cb);white-space:nowrap;user-select:none}
+td{padding:13px 16px;font-size:13px;color:#333;vertical-align:middle;border-bottom:1px solid var(--cbsub);font-weight:400}
+tbody tr:last-child td{border-bottom:none}
+tbody tr{transition:background .12s}
+tbody tr:hover{background:#FAFAFA}
+.tdl{color:var(--ctl);cursor:pointer}
+.tdl:hover{text-decoration:underline}
+.tds{color:#333}
+.tdm{color:#333;font-size:13px}
+/* TAGS - Honeycomb 标签(带框) 规范 */
+.tag{display:inline-flex;align-items:center;justify-content:center;gap:4px;height:24px;padding:2px 6px;border-radius:2px;font-size:12px;font-weight:400;white-space:nowrap;font-family:"PingFang SC",var(--ff);line-height:1.667}
+.tag.sm{height:20px;padding:0 4px}
+.tdot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
+/* 绿色 - 已出租 */
+.t-ok{background:#D7F5E5;color:#13A374}
+.t-ok .tdot{background:#13A374}
+/* 黄色 - 空置中 */
+.t-warn{background:#FFFAD9;color:#AF8B04}
+.t-warn .tdot{background:#AF8B04}
+/* 红色 - 维修中/错误 */
+.t-err{background:#FFE7E7;color:#FF4C4C}
+.t-err .tdot{background:#FF4C4C}
+/* 灰色 - 默认/已下架 */
+.t-def{background:#F2F4F6;color:#576275}
+.t-def .tdot{background:#576275}
+/* 蓝色 - 品牌/类型 */
+.t-blue{background:#EBF2FF;color:#266EFF}
+.t-blue .tdot{background:#266EFF}
+/* 橙色 */
+.t-orange{background:#FFEFD2;color:#FF6600}
+.t-orange .tdot{background:#FF6600}
+/* 湖蓝 */
+.t-cyan{background:#DDF1FF;color:#1990FF}
+.t-cyan .tdot{background:#1990FF}
+/* 紫色 */
+.t-purple{background:#F3EDF9;color:#885BD2}
+.t-purple .tdot{background:#885BD2}
+/* CONFIRM DIALOG */
+.confirm-mask{position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:2000;display:none;align-items:center;justify-content:center}
+.confirm-mask.open{display:flex}
+.confirm-box{background:#fff;border-radius:4px;width:400px;padding:32px 24px 24px;position:relative;box-shadow:0 3px 8px 0 rgba(0,0,0,0.1);display:flex;flex-direction:column;gap:24px}
+.confirm-close{position:absolute;top:16px;right:16px;width:16px;height:16px;cursor:pointer;color:#999;border:none;background:none;padding:0;display:flex;align-items:center;justify-content:center}
+.confirm-close:hover{color:#333}
+.confirm-close svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.confirm-content{display:flex;gap:12px;align-items:flex-start}
+.confirm-icon{width:24px;height:24px;flex-shrink:0;margin-top:1px}
+.confirm-text{display:flex;flex-direction:column;gap:8px;flex:1}
+.confirm-title{font-size:16px;font-weight:600;color:#333;line-height:1.5;font-family:var(--ff)}
+.confirm-desc{font-size:13px;color:#666;line-height:1.692;font-family:var(--ff)}
+.confirm-ft{display:flex;align-items:center;justify-content:flex-end;gap:12px}
+/* MODAL */
+.modal-mask{position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:1000;display:none;align-items:center;justify-content:center}
+.modal-mask.open{display:flex}
+.modal{background:#fff;border-radius:4px;width:960px;max-width:calc(100vw - 48px);height:600px;max-height:calc(100vh - 48px);display:flex;flex-direction:column;box-shadow:0 3px 8px 0 rgba(0,0,0,0.1)}
+.modal-hd{display:flex;align-items:center;gap:12px;padding:12px 20px;border-bottom:1px solid #EAEAEA;flex-shrink:0}
+.modal-title{font-size:16px;font-weight:600;color:#333;font-family:"PingFang SC",var(--ff);flex:1;line-height:1.5}
+.modal-close{width:16px;height:16px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#999;border:none;background:none;flex-shrink:0;padding:0}
+.modal-close:hover{color:#333}
+.modal-close svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.modal-body{flex:1;overflow-y:auto;padding:20px 20px 0}
+.modal-ft{display:flex;align-items:center;justify-content:flex-end;gap:12px;padding:10px 20px;border-top:1px solid #EAEAEA;flex-shrink:0}
+.mform{display:flex;flex-direction:column;gap:12px}
+.mform-row{display:flex;gap:80px;align-items:flex-start}
+.mform-col{display:flex;flex-direction:column;gap:12px;flex:1}
+.mfi{display:flex;flex-direction:row;align-items:center;gap:0;min-height:32px}
+.mfi .fl{font-size:13px;color:var(--ctt);font-weight:400;font-family:"PingFang SC",var(--ff);width:110px;flex-shrink:0;padding-right:8px;display:flex;align-items:center;white-space:nowrap}
+.mfi .req{color:#FF4D4F;width:10px;flex-shrink:0;text-align:center}
+.mfi .fl-txt{flex:1}
+.mfi-ctrl{flex:1;display:flex;flex-direction:column;gap:4px}
+.mfi .inp,.mfi .sel{height:32px;border:1px solid #DDDDDD;border-radius:4px;padding:0 12px;font-size:13px;font-family:"PingFang SC",var(--ff);color:#333;background:#fff;outline:none;transition:border-color .15s,box-shadow .15s;width:100%}
+.mfi .inp:focus,.mfi .sel:focus{border-color:#266EFF;box-shadow:0 0 0 2px rgba(38,110,255,.12)}
+.mfi .inp::placeholder{color:#BFBFBF}
+.mfi textarea{border:1px solid #DDDDDD;border-radius:4px;padding:5px 12px;font-size:13px;font-family:"PingFang SC",var(--ff);color:#333;background:#fff;outline:none;transition:border-color .15s;width:100%;resize:none;height:80px;line-height:1.6}
+.mfi textarea:focus{border-color:#266EFF;box-shadow:0 0 0 2px rgba(38,110,255,.12)}
+.mfi textarea::placeholder{color:#BFBFBF}
+.mfi .sel{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238C8C8C' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;padding-right:28px;cursor:pointer}
+.view-tabs{display:flex;align-items:stretch;background:#F5F5F5;border-radius:4px;padding:3px;height:32px;flex-shrink:0}
+.view-tab{display:flex;align-items:center;justify-content:center;gap:0;padding:2px 8px;border-radius:3px;cursor:pointer;color:#666;background:transparent;border:none;font-size:13px;font-family:"PingFang SC",var(--ff);font-weight:400;white-space:nowrap;transition:all .15s;position:relative;line-height:1.692}
+.view-tab:hover{color:#266EFF}
+.view-tab.on{background:#fff;color:#266EFF;box-shadow:0 1px 2px 0 rgba(0,0,0,0.06)}
+.view-tab .vt-div{position:absolute;left:0;top:50%;transform:translateY(-50%);width:1px;height:16px;background:#EAEAEA}
+/* ROW ACTIONS */
+.ra{display:flex;align-items:center;gap:2px;opacity:1;justify-content:flex-start}
+td:last-child{text-align:left}
+.ra .btn-t,.ra .btn-x{height:28px;font-size:13px}
+/* CHECKBOX */
+.chk{width:15px;height:15px;border:1.5px solid var(--cg300);border-radius:3px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .15s;flex-shrink:0;background:#fff}
+.chk.on{background:var(--cp600);border-color:var(--cp600)}
+.chk.on::after{content:"";width:8px;height:5px;border-left:1.5px solid #fff;border-bottom:1.5px solid #fff;transform:rotate(-45deg) translateY(-1px)}
+/* PAGINATION */
+.pgn{display:flex;align-items:center;justify-content:space-between;padding:12px 24px;border-top:1px solid var(--cb)}
+.pgn-info{font-size:14px;color:var(--ctt)}
+.pgn-info b{color:var(--ctp);font-weight:500}
+.pgn-pages{display:flex;align-items:center;gap:4px}
+.pgn-btn{min-width:32px;height:32px;border-radius:4px;border:1px solid var(--cg300);background:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;color:var(--cts);transition:all .15s;padding:0 10px}
+.pgn-btn:hover{border-color:var(--cp500);color:var(--cp600);background:var(--cp50)}
+.pgn-btn.on{background:var(--cp600);border-color:var(--cp600);color:#fff}
+.pgn-btn svg{width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.pgn-size{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--ctt)}
+.pgn-size .sel{width:90px;height:32px}
+</style>
+</head>
+<body>
+<!-- SIDENAV -->
+<aside class="sn">
+  <div class="sn-logo">
+    <img src="/Users/fengxiaochun/Desktop/rental-management/prototypes/images/海外logo@2x.png" style="height:22px;width:auto;flex-shrink:0;transition:opacity .2s;" alt="logo" class="sn-logo-img">
+    <img src="/Users/fengxiaochun/Desktop/rental-management/prototypes/images/收起.png" class="sn-collapse-btn" style="width:18px;height:18px;object-fit:contain;margin-left:auto;flex-shrink:0;cursor:pointer;opacity:.55;" onclick="toggleSidebar()" alt="收起">
+  </div>
+  <div class="sn-body">
+    <ul class="nl">
+      <li class="ni">
+        <svg class="ni-ic" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        <span class="ni-lb">首页</span>
+      </li>
+      <li class="ni open" onclick="toggleNav(this)">
+        <svg class="ni-ic" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+        <span class="ni-lb">房源管理</span>
+        <svg class="ni-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </li>
+      <ul class="nsl open">
+        <li class="nsi" style="cursor:pointer" onclick="location.href='prototype-list-page.html'">房源列表</li>
+        <li class="nsi">房源地图</li>
+      </ul>
+      <li class="ni open" onclick="toggleNav(this)">
+        <svg class="ni-ic" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        <span class="ni-lb">合同管理</span>
+        <svg class="ni-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </li>
+      <ul class="nsl open">
+        <li class="nsi" style="cursor:pointer" onclick="location.href='contract-list.html'">合同列表</li>
+        <li class="nsi">续签管理</li>
+        <li class="nsi">到期提醒</li>
+      </ul>
+      <li class="ni" onclick="toggleNav(this)">
+        <svg class="ni-ic" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+        <span class="ni-lb">租户管理</span>
+        <svg class="ni-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </li>
+      <li class="ni" onclick="toggleNav(this)">
+        <svg class="ni-ic" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        <span class="ni-lb">账单管理</span>
+        <svg class="ni-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </li>
+      <li class="ni" onclick="toggleNav(this)">
+        <svg class="ni-ic" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        <span class="ni-lb">工单管理</span>
+        <svg class="ni-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </li>
+    </ul>
+  </div>
+  <div class="sn-foot">
+    <span style="flex:1;color:rgba(255,255,255,.4);font-size:12px;">Powered by 天际</span>
+  </div>
+</aside>
+<!-- MAIN -->
+<div class="main">
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="bc">
+      <span class="bc-cur" style="font-size:16px;font-weight:600;color:var(--ctp);">房源管理</span>
+    </div>
+    <div class="tb-r">
+      <div class="ib"><svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg><span class="dot"></span></div>
+      <div class="tb-div"></div>
+      <div class="tb-user">
+        <div class="av">明</div>
+        <div><div class="u-name">明小源</div></div>
+        <svg style="width:12px;height:12px;fill:none;stroke:var(--ctt);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+    </div>
+  </div>
+  <!-- PAGE BODY -->
+  <div class="pb">
+
+    <!-- FILTER -->
+    <div class="fc">
+      <div class="fr">
+        <div class="fi" style="flex-direction:row;align-items:center;gap:8px;min-width:unset;"><div class="iw"><svg class="sico" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input class="inp" placeholder="搜索房源名称或编号" style="width:180px;"></div></div>
+        <div class="fi" style="flex-direction:row;align-items:center;gap:8px;min-width:unset;"><label class="fl" style="white-space:nowrap;">所在区域</label><select class="sel" style="width:120px;"><option value="">全部区域</option><option>朝阳区</option><option>海淀区</option><option>丰台区</option><option>西城区</option></select></div>
+        <div class="fi" style="flex-direction:row;align-items:center;gap:8px;min-width:unset;"><label class="fl" style="white-space:nowrap;">房源类型</label><select class="sel" style="width:120px;"><option value="">全部类型</option><option>住宅</option><option>商业</option><option>办公</option><option>工业</option></select></div>
+        <div class="fi" style="flex-direction:row;align-items:center;gap:8px;min-width:unset;"><label class="fl" style="white-space:nowrap;">出租状态</label><select class="sel" style="width:120px;"><option value="">全部状态</option><option>已出租</option><option>空置中</option><option>维修中</option><option>已下架</option></select></div>
+        <div style="margin-left:auto;flex-shrink:0;">
+          <button class="adv-btn" id="advBtn" onclick="toggleAdv()">
+            <svg viewBox="0 0 24 24"><path d="M22 3H2l8 9.46V19l4 2v-8.54L22 3z"/></svg>
+            高级筛选
+            <svg id="advArrow" viewBox="0 0 24 24" style="width:11px;height:11px;transition:transform .2s;"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+        </div>
+      </div>
+      <!-- ADVANCED FILTER ROW -->
+      <div class="adv-row" id="advRow">
+        <div class="adv-grid">
+          <div class="adv-fi">
+            <span class="fl">出租状态：</span>
+            <div class="adv-tags">
+              <span class="adv-tag on">全部</span>
+              <span class="adv-tag">已出租</span>
+              <span class="adv-tag">空置中</span>
+              <span class="adv-tag">维修中</span>
+              <span class="adv-tag">已下架</span>
+            </div>
+          </div>
+          <div class="adv-fi">
+            <span class="fl">房源类型：</span>
+            <div class="adv-tags">
+              <span class="adv-tag on">全部</span>
+              <span class="adv-tag">住宅</span>
+              <span class="adv-tag">商业</span>
+              <span class="adv-tag">办公</span>
+              <span class="adv-tag">工业</span>
+              <span class="adv-tag">住宅</span>
+              <span class="adv-tag">公寓</span>
+              <span class="adv-tag">别墅</span>
+              <span class="adv-tag">仓储</span>
+              <span class="adv-tag">其他</span>
+            </div>
+          </div>
+          <div class="adv-fi">
+            <span class="fl">面积范围：</span>
+            <div class="adv-range"><input class="inp" placeholder="最小(㎡)"><span class="adv-range-sep">—</span><input class="inp" placeholder="最大(㎡)"></div>
+          </div>
+          <div class="adv-fi">
+            <span class="fl">朝向：</span>
+            <select class="sel" style="width:160px;"><option value="">全部朝向</option><option>东</option><option>南</option><option>西</option><option>北</option><option>南北</option></select>
+          </div>
+          <div class="adv-fi">
+            <span class="fl">装修状态：</span>
+            <select class="sel" style="width:160px;"><option value="">全部状态</option><option>精装</option><option>简装</option><option>毛坯</option></select>
+          </div>
+        </div>
+        <div class="adv-actions">
+          <button class="adv-clear" onclick="
+            document.querySelectorAll('.adv-tag').forEach(t=>{t.classList.remove('on');if(t.textContent==='全部')t.classList.add('on');});
+            document.querySelectorAll('.adv-fi .inp,.adv-fi .sel').forEach(el=>el.value='');
+          ">
+            <svg viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.51"/></svg>
+            清空筛选
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- TABLE CARD -->
+    <div class="tc">
+      <!-- TOOLBAR -->
+      <div class="tt">
+        <div class="tt-l" id="tt-normal">
+          <div class="view-tabs">
+            <button class="view-tab on" onclick="switchView(this)">全部<span>·128</span></button>
+            <button class="view-tab" onclick="switchView(this)"><span class="vt-div"></span>已出租<span>·76</span></button>
+            <button class="view-tab" onclick="switchView(this)"><span class="vt-div"></span>空置中<span>·32</span></button>
+            <button class="view-tab" onclick="switchView(this)"><span class="vt-div"></span>维修中<span>·12</span></button>
+            <button class="view-tab" onclick="switchView(this)"><span class="vt-div"></span>已下架<span>·8</span></button>
+          </div>
+        </div>
+        <div class="tt-l batch-bar" id="tt-batch" style="display:none;align-items:center;gap:8px;flex:1">
+          <button class="batch-cancel" onclick="cancelBatch()" title="取消选择">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#576275" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+          <span style="font-size:13px;color:#666;display:flex;gap:4px;align-items:center">已选择<span id="batch-count" style="color:#266EFF;font-weight:500">0</span>项</span>
+          <button class="btn btn-d" style="height:30px;font-size:13px;" onclick="cancelBatch()">批量下架</button>
+          <button class="btn btn-d" style="height:30px;font-size:13px;" onclick="cancelBatch()">批量发布招租</button>
+          <button class="btn btn-d" style="height:30px;font-size:13px;color:#FF4D4F;border-color:#FF4D4F" onclick="cancelBatch()">批量删除</button>
+        </div>
+        <div class="tt-r" id="tt-actions">
+          <button class="btn btn-d" style="height:30px;font-size:13px;">列设置</button>
+          <button class="btn btn-d" style="height:30px;font-size:13px;">导出</button>
+          <button class="btn btn-p" onclick="openModal('modalNew')">新增房源</button>
+        </div>
+      </div>
+      <!-- TABLE -->
+      <div class="tw">
+        <table>
+          <thead>
+            <tr>
+              <th style="width:40px;"><div class="chk"></div></th>
+              <th>房源编号</th>
+              <th>房源名称</th>
+              <th>所在区域</th>
+              <th>类型</th>
+              <th>面积(㎡)</th>
+              <th>月租金(元)</th>
+              <th>出租状态</th>
+              <th>当前租户</th>
+              <th>到期日期</th>
+              <th>创建时间</th>
+              <th style="width:160px;text-align:left;">操作</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><div class="chk"></div></td>
+              <td class="tdm">HS-2024-0001</td>
+              <td><a href="prototype-detail-page.html" class="tdl" style="color:#266EFF;text-decoration:none;cursor:pointer;">朝阳国贸中心A座1201</a></td>
+              <td class="tds">朝阳区</td>
+              <td><span class="tag t-blue">办公</span></td>
+              <td class="tds">286.5</td>
+              <td class="tds">52,800</td>
+              <td><span class="tag t-ok">已出租</span></td>
+              <td class="tds">北京科技有限公司</td>
+              <td class="tdm">2025-06-30</td>
+              <td class="tdm">2024-01-15</td>
+              <td><div class="ra"><a href="prototype-detail-page.html" class="btn btn-t" style="text-decoration:none;">查看</a><a href="prototype-edit-page.html" class="btn btn-t" style="text-decoration:none;">编辑</a><button class="btn btn-x" onclick="openConfirm('confirmUnpublish')">下架</button></div></td>
+            </tr>
+            <tr>
+              <td><div class="chk"></div></td>
+              <td class="tdm">HS-2024-0002</td>
+              <td><a href="prototype-detail-page.html" class="tdl" style="color:#266EFF;text-decoration:none;cursor:pointer;">海淀中关村软件园B区305</span></a></td>
+              <td class="tds">海淀区</td>
+              <td><span class="tag t-blue">办公</span></td>
+              <td class="tds">198.0</td>
+              <td class="tds">38,600</td>
+              <td><span class="tag t-warn">空置中</span></td>
+              <td class="tdm" style="color:var(--ctd);">—</td>
+              <td class="tdm" style="color:var(--ctd);">—</td>
+              <td class="tdm">2024-02-20</td>
+              <td><div class="ra"><a href="prototype-detail-page.html" class="btn btn-t" style="text-decoration:none;">查看</a><a href="prototype-edit-page.html" class="btn btn-t" style="text-decoration:none;">编辑</a><button class="btn btn-t" onclick="openModal('modalPublish')">发布招租</button></div></td>
+            </tr>
+            <tr>
+              <td><div class="chk"></div></td>
+              <td class="tdm">HS-2024-0003</td>
+              <td><a href="prototype-detail-page.html" class="tdl" style="color:#266EFF;text-decoration:none;cursor:pointer;">西城金融街丽泽SOHO 2102</a></td>
+              <td class="tds">西城区</td>
+              <td><span class="tag t-orange">商业</span></td>
+              <td class="tds">420.0</td>
+              <td class="tds">96,000</td>
+              <td><span class="tag t-ok">已出租</span></td>
+              <td class="tds">上海贸易集团北京分公司</td>
+              <td class="tdm">2026-03-31</td>
+              <td class="tdm">2024-03-05</td>
+              <td><div class="ra"><a href="prototype-detail-page.html" class="btn btn-t" style="text-decoration:none;">查看</a><a href="prototype-edit-page.html" class="btn btn-t" style="text-decoration:none;">编辑</a><button class="btn btn-x" onclick="openConfirm('confirmUnpublish')">下架</button></div></td>
+            </tr>
+            <tr>
+              <td><div class="chk"></div></td>
+              <td class="tdm">HS-2024-0004</td>
+              <td><a href="prototype-detail-page.html" class="tdl" style="color:#266EFF;text-decoration:none;cursor:pointer;">丰台总部基地园区C座401</a></td>
+              <td class="tds">丰台区</td>
+              <td><span class="tag t-blue">办公</span></td>
+              <td class="tds">156.0</td>
+              <td class="tds">24,960</td>
+              <td><span class="tag t-err">维修中</span></td>
+              <td class="tdm" style="color:var(--ctd);">—</td>
+              <td class="tdm" style="color:var(--ctd);">—</td>
+              <td class="tdm">2024-04-11</td>
+              <td><div class="ra"><a href="prototype-detail-page.html" class="btn btn-t" style="text-decoration:none;">查看</a><a href="prototype-edit-page.html" class="btn btn-t" style="text-decoration:none;">编辑</a><button class="btn btn-x">停用</button></div></td>
+            </tr>
+            <tr>
+              <td><div class="chk"></div></td>
+              <td class="tdm">HS-2024-0005</td>
+              <td><a href="prototype-detail-page.html" class="tdl" style="color:#266EFF;text-decoration:none;cursor:pointer;">朝阳望京SOHO T1-2508</a></td>
+              <td class="tds">朝阳区</td>
+              <td><span class="tag t-blue">办公</span></td>
+              <td class="tds">312.0</td>
+              <td class="tds">68,640</td>
+              <td><span class="tag t-ok">已出租</span></td>
+              <td class="tds">字节跳动科技有限公司</td>
+              <td class="tdm">2025-12-31</td>
+              <td class="tdm">2024-05-08</td>
+              <td><div class="ra"><a href="prototype-detail-page.html" class="btn btn-t" style="text-decoration:none;">查看</a><a href="prototype-edit-page.html" class="btn btn-t" style="text-decoration:none;">编辑</a><button class="btn btn-x" onclick="openConfirm('confirmUnpublish')">下架</button></div></td>
+            </tr>
+            <tr>
+              <td><div class="chk"></div></td>
+              <td class="tdm">HS-2024-0006</td>
+              <td><a href="prototype-detail-page.html" class="tdl" style="color:#266EFF;text-decoration:none;cursor:pointer;">海淀上地信息产业基地D栋602</a></td>
+              <td class="tds">海淀区</td>
+              <td><span class="tag t-blue">办公</span></td>
+              <td class="tds">245.5</td>
+              <td class="tds">44,190</td>
+              <td><span class="tag t-warn">空置中</span></td>
+              <td class="tdm" style="color:var(--ctd);">—</td>
+              <td class="tdm" style="color:var(--ctd);">—</td>
+              <td class="tdm">2024-06-01</td>
+              <td><div class="ra"><a href="prototype-detail-page.html" class="btn btn-t" style="text-decoration:none;">查看</a><a href="prototype-edit-page.html" class="btn btn-t" style="text-decoration:none;">编辑</a><button class="btn btn-t" onclick="openModal('modalPublish')">发布招租</button></div></td>
+            </tr>
+            <tr>
+              <td><div class="chk"></div></td>
+              <td class="tdm">HS-2024-0007</td>
+              <td><a href="prototype-detail-page.html" class="tdl" style="color:#266EFF;text-decoration:none;cursor:pointer;">通州万达广场商业中心F1-012</a></td>
+              <td class="tds">通州区</td>
+              <td><span class="tag t-orange">商业</span></td>
+              <td class="tds">88.0</td>
+              <td class="tds">35,200</td>
+              <td><span class="tag t-ok">已出租</span></td>
+              <td class="tds">星巴克咖啡（中国）有限公司</td>
+              <td class="tdm">2027-01-15</td>
+              <td class="tdm">2024-07-20</td>
+              <td><div class="ra"><a href="prototype-detail-page.html" class="btn btn-t" style="text-decoration:none;">查看</a><a href="prototype-edit-page.html" class="btn btn-t" style="text-decoration:none;">编辑</a><button class="btn btn-x" onclick="openConfirm('confirmUnpublish')">下架</button></div></td>
+            </tr>
+            <tr>
+              <td><div class="chk"></div></td>
+              <td class="tdm">HS-2024-0008</td>
+              <td><a href="prototype-detail-page.html" class="tdl" style="color:#266EFF;text-decoration:none;cursor:pointer;">顺义空港物流园E区8号仓</a></td>
+              <td class="tds">顺义区</td>
+              <td><span class="tag t-def">工业</span></td>
+              <td class="tds">1,200.0</td>
+              <td class="tds">72,000</td>
+              <td><span class="tag t-ok">已出租</span></td>
+              <td class="tds">京东物流股份有限公司</td>
+              <td class="tdm">2026-08-31</td>
+              <td class="tdm">2024-08-03</td>
+              <td><div class="ra"><a href="prototype-detail-page.html" class="btn btn-t" style="text-decoration:none;">查看</a><a href="prototype-edit-page.html" class="btn btn-t" style="text-decoration:none;">编辑</a><button class="btn btn-x" onclick="openConfirm('confirmUnpublish')">下架</button></div></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <!-- PAGINATION -->
+      <div class="pgn">
+        <div class="pgn-info">共 128 条</div>
+        <div style="display:flex;align-items:center;gap:16px;">
+          <div class="pgn-pages">
+            <div class="pgn-btn"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></div>
+            <div class="pgn-btn on">1</div>
+            <div class="pgn-btn">2</div>
+            <div class="pgn-btn">3</div>
+            <div class="pgn-btn" style="border:none;cursor:default;color:var(--ctt);">...</div>
+            <div class="pgn-btn">13</div>
+            <div class="pgn-btn"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+          </div>
+          <div class="pgn-size">
+            <select class="sel" style="width:90px;height:32px;"><option>10 条/页</option><option>20 条/页</option><option>50 条/页</option></select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end .pb -->
+<!-- UNPUBLISH CONFIRM -->
+<div class="confirm-mask" id="confirmUnpublish">
+  <div class="confirm-box">
+    <button class="confirm-close" onclick="closeConfirm('confirmUnpublish')"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    <div class="confirm-content">
+      <div class="confirm-icon">
+        <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#FFF3CD"/><path d="M12 8v4m0 4h.01" stroke="#FF9902" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="confirm-text">
+        <div class="confirm-title">确定下架该房源吗？</div>
+        <div class="confirm-desc">下架后该房源将不再对外展示，已签订的合同不受影响，如需重新出租请重新发布招租。</div>
+      </div>
+    </div>
+    <div class="confirm-ft">
+      <button class="btn btn-d" onclick="closeConfirm('confirmUnpublish')">取消</button>
+      <button class="btn" style="background:#FF4C4C;color:#fff;border-color:#FF4C4C" onclick="closeConfirm('confirmUnpublish')">确认下架</button>
+    </div>
+  </div>
+</div>
+<!-- PUBLISH MODAL -->
+<div class="modal-mask" id="modalPublish">
+  <div class="modal" style="width:640px;height:auto;max-height:calc(100vh - 48px)">
+    <div class="modal-hd">
+      <span class="modal-title">发布招租</span>
+      <button class="modal-close" onclick="closeModal('modalPublish')"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>
+    <div class="modal-body" style="padding:20px;overflow-y:auto">
+      <!-- 分组：房源信息 -->
+      <div style="display:flex;flex-direction:column;gap:0;margin-bottom:24px">
+        <div style="font-size:14px;font-weight:600;color:#333;padding:5px 0;display:flex;align-items:center;gap:8px;margin-bottom:16px">
+          <span style="display:block;width:3px;height:16px;border-radius:2px;background:#266EFF;flex-shrink:0"></span>房源信息
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px 48px">
+          <div class="mfi"><label class="fl"><span class="req"></span><span class="fl-txt">房源名称</span></label><div class="mfi-ctrl"><input class="inp" value="海淀中关村软件园B区305" disabled style="background:#FAFAFA;color:#999"></div></div>
+          <div class="mfi"><label class="fl"><span class="req"></span><span class="fl-txt">建筑面积</span></label><div class="mfi-ctrl"><input class="inp" value="198.0 ㎡" disabled style="background:#FAFAFA;color:#999"></div></div>
+          <div class="mfi"><label class="fl"><span class="req"></span><span class="fl-txt">所在区域</span></label><div class="mfi-ctrl"><input class="inp" value="海淀区" disabled style="background:#FAFAFA;color:#999"></div></div>
+          <div class="mfi"><label class="fl"><span class="req"></span><span class="fl-txt">当前状态</span></label><div class="mfi-ctrl" style="display:flex;align-items:center;height:32px"><span class="tag" style="background:#FFFBE6;color:#D48806;border:1px solid #FFD591">空置中</span></div></div>
+        </div>
+      </div>
+      <!-- 分组：招租设置 -->
+      <div style="display:flex;flex-direction:column;gap:0">
+        <div style="font-size:14px;font-weight:600;color:#333;padding:5px 0;display:flex;align-items:center;gap:8px;margin-bottom:16px">
+          <span style="display:block;width:3px;height:16px;border-radius:2px;background:#266EFF;flex-shrink:0"></span>招租设置
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px 48px">
+          <div class="mfi"><label class="fl"><span class="req">*</span><span class="fl-txt">期望月租金</span></label><div class="mfi-ctrl"><input class="inp" placeholder="请输入期望月租金" value="38,600"></div></div>
+          <div class="mfi"><label class="fl"><span class="req">*</span><span class="fl-txt">付款方式</span></label><div class="mfi-ctrl"><select class="sel"><option>月付</option><option>季付</option><option>半年付</option><option>年付</option></select></div></div>
+          <div class="mfi"><label class="fl"><span class="req">*</span><span class="fl-txt">押金</span></label><div class="mfi-ctrl"><select class="sel"><option>1个月</option><option>2个月</option><option>3个月</option></select></div></div>
+          <div class="mfi"><label class="fl"><span class="req"></span><span class="fl-txt">最短租期</span></label><div class="mfi-ctrl"><select class="sel"><option>不限</option><option>3个月</option><option>6个月</option><option>1年</option><option>2年</option></select></div></div>
+          <div class="mfi"><label class="fl"><span class="req"></span><span class="fl-txt">最早入住</span></label><div class="mfi-ctrl"><input class="inp" type="date" value="2024-09-01"></div></div>
+          <div class="mfi"><label class="fl"><span class="req"></span><span class="fl-txt">招租截止</span></label><div class="mfi-ctrl"><input class="inp" type="date" value="2024-12-31"></div></div>
+          <div class="mfi" style="grid-column:1/-1"><label class="fl"><span class="req"></span><span class="fl-txt">招租说明</span></label><div class="mfi-ctrl"><textarea class="inp" style="height:72px;padding:6px 12px;resize:none" placeholder="请输入招租说明（可选）"></textarea></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-ft">
+      <button class="btn btn-d" onclick="closeModal('modalPublish')">取消</button>
+      <button class="btn btn-p" onclick="closeModal('modalPublish')">确认发布</button>
+    </div>
+  </div>
+</div>
+
+<!-- NEW PROPERTY MODAL -->
+<div class="modal-mask" id="modalNew">
+  <div class="modal">
+    <div class="modal-hd">
+      <span class="modal-title">新建房源</span>
+      <button class="modal-close" onclick="closeModal('modalNew')"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>
+    <div class="modal-body">
+      <div class="mform">
+        <div class="mform-row">
+          <div class="mform-col">
+            <div class="mfi"><label class="fl">房源名称<span class="req">*</span></label><div class="mfi-ctrl"><input class="inp" placeholder="请输入房源名称"></div></div>
+            <div class="mfi"><label class="fl">房源类型<span class="req">*</span></label><div class="mfi-ctrl"><select class="sel"><option value="">请选择</option><option>住宅</option><option>商业</option><option>办公</option><option>工业</option></select></div></div>
+            <div class="mfi"><label class="fl">详细地址<span class="req">*</span></label><div class="mfi-ctrl"><input class="inp" placeholder="请输入详细地址"></div></div>
+            <div class="mfi"><label class="fl">建筑面积(㎡)<span class="req">*</span></label><div class="mfi-ctrl"><input class="inp" placeholder="请输入建筑面积" type="number"></div></div>
+            <div class="mfi"><label class="fl"><span class="req"></span><span class="fl-txt">所在楼栋</span></label><div class="mfi-ctrl"><input class="inp" placeholder="请输入楼栋名称"></div></div>
+            <div class="mfi"><label class="fl"><span class="req"></span><span class="fl-txt">朝向</span></label><div class="mfi-ctrl"><select class="sel"><option value="">请选择</option><option>东</option><option>南</option><option>西</option><option>北</option><option>南北</option></select></div></div>
+          </div>
+          <div class="mform-col">
+            <div class="mfi"><label class="fl"><span class="req"></span><span class="fl-txt">房源编号</span></label><div class="mfi-ctrl"><input class="inp" placeholder="系统自动生成"></div></div>
+            <div class="mfi"><label class="fl">所在区域<span class="req">*</span></label><div class="mfi-ctrl"><select class="sel"><option value="">请选择</option><option>朝阳区</option><option>海淀区</option><option>丰台区</option><option>西城区</option></select></div></div>
+            <div class="mfi"><label class="fl">月租金(元)<span class="req">*</span></label><div class="mfi-ctrl"><input class="inp" placeholder="请输入月租金" type="number"></div></div>
+            <div class="mfi"><label class="fl"><span class="req"></span><span class="fl-txt">使用面积(㎡)</span></label><div class="mfi-ctrl"><input class="inp" placeholder="请输入使用面积" type="number"></div></div>
+            <div class="mfi"><label class="fl"><span class="req"></span><span class="fl-txt">所在楼层</span></label><div class="mfi-ctrl"><input class="inp" placeholder="请输入楼层" type="number"></div></div>
+            <div class="mfi"><label class="fl"><span class="req"></span><span class="fl-txt">装修状态</span></label><div class="mfi-ctrl"><select class="sel"><option value="">请选择</option><option>精装</option><option>简装</option><option>毛坯</option></select></div></div>
+          </div>
+        </div>
+        <div class="mfi" style="margin-top:4px"><label class="fl"><span class="req"></span><span class="fl-txt">备注</span></label><div class="mfi-ctrl"><textarea placeholder="请输入备注信息"></textarea></div></div>
+      </div>
+    </div>
+    <div class="modal-ft">
+      <button class="btn btn-d" onclick="closeModal('modalNew')">取消</button>
+      <button class="btn btn-p">确认新建</button>
+    </div>
+  </div>
+</div>
+
+</div><!-- end .main -->
+
+<script>
+// Tag filter toggle
+document.querySelectorAll('.adv-tags').forEach(group => {
+  group.querySelectorAll('.adv-tag').forEach(tag => {
+    tag.addEventListener('click', () => {
+      group.querySelectorAll('.adv-tag').forEach(t => t.classList.remove('on'));
+      tag.classList.add('on');
+    });
+  });
+});
+// Modal
+function openModal(id){document.getElementById(id).classList.add('open')}
+function closeModal(id){document.getElementById(id).classList.remove('open')}
+// Confirm
+function openConfirm(id){document.getElementById(id).classList.add('open')}
+function closeConfirm(id){document.getElementById(id).classList.remove('open')}
+document.addEventListener('DOMContentLoaded',function(){
+  document.getElementById('confirmUnpublish').addEventListener('click',function(e){if(e.target===this)closeConfirm('confirmUnpublish');});
+});
+document.getElementById('modalNew').addEventListener('click',function(e){if(e.target===this)closeModal('modalNew')});
+document.getElementById('modalPublish').addEventListener('click',function(e){if(e.target===this)closeModal('modalPublish')});
+// Sidebar collapse toggle
+function toggleSidebar() {
+  const sn = document.querySelector('.sn');
+  const logoImg = document.querySelector('.sn-logo-img');
+  const collapsed = sn.classList.toggle('collapsed');
+  if (logoImg) logoImg.style.display = collapsed ? 'none' : '';
+}
+// Nav toggle
+function toggleNav(ni) {
+  const nsl = ni.nextElementSibling;
+  if (nsl && nsl.classList.contains('nsl')) {
+    const isOpen = nsl.classList.toggle('open');
+    ni.classList.toggle('open', isOpen);
+  }
+}
+// View tab switch
+function switchView(tab) {
+  document.querySelectorAll('.view-tab').forEach(t => t.classList.remove('on'));
+  tab.classList.add('on');
+}
+// Advanced filter toggle
+function toggleAdv() {
+  const row = document.getElementById('advRow');
+  const btn = document.getElementById('advBtn');
+  const arrow = document.getElementById('advArrow');
+  const fr = document.querySelector('.fr');
+  const open = row.classList.toggle('open');
+  btn.classList.toggle('active', open);
+  arrow.style.transform = open ? 'rotate(180deg)' : 'rotate(0deg)';
+  fr.classList.toggle('has-adv', open);
+}
+// Checkbox toggle
+function updateBatchBar(){
+  var checked=document.querySelectorAll('tbody .chk.on');
+  var count=checked.length;
+  var normal=document.getElementById('tt-normal');
+  var batch=document.getElementById('tt-batch');
+  var actions=document.getElementById('tt-actions');
+  var batchCount=document.getElementById('batch-count');
+  if(count>0){
+    normal.style.display='none';
+    batch.style.display='flex';
+    if(actions)actions.style.display='none';
+    if(batchCount)batchCount.textContent=count;
+  } else {
+    normal.style.display='';
+    batch.style.display='none';
+    if(actions)actions.style.display='';
+  }
+}
+function cancelBatch(){
+  document.querySelectorAll('.chk.on').forEach(function(c){c.classList.remove('on');});
+  var normal=document.getElementById('tt-normal');
+  var batch=document.getElementById('tt-batch');
+  var actions=document.getElementById('tt-actions');
+  if(normal)normal.style.display='';
+  if(batch)batch.style.display='none';
+  if(actions)actions.style.display='';
+}
+document.querySelectorAll('tbody .chk').forEach(function(chk){
+  chk.addEventListener('click',function(){
+    this.classList.toggle('on');
+    updateBatchBar();
+  });
+});
+var hdrChk=document.querySelector('thead .chk');
+if(hdrChk){
+  hdrChk.addEventListener('click',function(){
+    this.classList.toggle('on');
+    var on=this.classList.contains('on');
+    document.querySelectorAll('tbody .chk').forEach(function(c){if(on)c.classList.add('on');else c.classList.remove('on');});
+    updateBatchBar();
+  });
+}
+// Nav item click
+document.querySelectorAll('.ni').forEach(ni => {
+  ni.addEventListener('click', function(){
+    if(!this.nextElementSibling || this.nextElementSibling.tagName!=='UL') {
+      document.querySelectorAll('.ni').forEach(x=>x.classList.remove('on'));
+      this.classList.add('on');
+    }
+  });
+});
+</script>
+</body>
+</html>

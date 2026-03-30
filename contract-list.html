@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>合同管理</title>
+<style>
+:root{
+  --cp50:#EBF2FF;--cp100:#D0E4FF;--cp500:#266EFF;--cp600:#266EFF;--cp700:#1A55D6;
+  --cg0:#fff;--cg25:#FAFAFA;--cg50:#F5F5F5;--cg100:#F0F0F0;--cg200:#E8E8E8;
+  --cg300:#D9D9D9;--cg400:#BFBFBF;--cg500:#8C8C8C;--cg600:#595959;--cg800:#262626;
+  --cs600:#389E0D;--cw500:#FAAD14;--ce500:#FF4D4F;--ce600:#CF1322;
+  --cbg:#F0F2F5;--cbase:#fff;--cb:#E8E8E8;
+  --ctp:#262626;--cts:#595959;--ctt:#8C8C8C;--ctd:#BFBFBF;--ctl:#266EFF;
+  --ff:"PingFang SC",-apple-system,"Microsoft YaHei",Arial,sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--ff);font-size:13px;color:var(--ctp);background:var(--cbg);display:flex;height:100vh;overflow:hidden}
+/* 侧边导航 */
+.sn{width:208px;height:100vh;background:#1C1C1E;display:flex;flex-direction:column;flex-shrink:0;transition:width .2s ease}
+.sn.collapsed{width:56px}
+.sn-logo{display:flex;align-items:center;padding:11px 16px;gap:8px;border-bottom:1px solid rgba(255,255,255,.12);height:44px;overflow:hidden}
+.sn-logo-img{height:22px;width:auto;flex-shrink:0}
+.sn.collapsed .sn-logo-img{display:none}
+.sn-collapse-btn{margin-left:auto;cursor:pointer;opacity:.6;width:18px;height:18px;object-fit:contain;flex-shrink:0}
+.sn-body{flex:1;overflow-y:auto;padding:8px 0}
+.sn-body::-webkit-scrollbar{display:none}
+.nl{list-style:none}
+.ni{display:flex;align-items:center;padding:13px 20px;gap:16px;cursor:pointer;color:rgba(255,255,255,.65);font-size:14px;transition:all .15s;white-space:nowrap;overflow:hidden}
+.sn.collapsed .ni{padding:14px 18px;justify-content:center;gap:0}
+.ni:hover{background:rgba(255,255,255,.06);color:rgba(255,255,255,.9)}
+.ni.on{background:rgba(255,255,255,.1);color:#fff}
+.ni-ic{width:16px;height:16px;flex-shrink:0;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.ni-lb{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sn.collapsed .ni-lb,.sn.collapsed .ni-arrow{display:none}
+.ni-arrow{width:14px;height:14px;flex-shrink:0;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;opacity:.5;transition:transform .2s}
+.ni.open .ni-arrow{transform:rotate(180deg)}
+.nsl{list-style:none;display:none}
+.nsl.open{display:block}
+.sn.collapsed .nsl{display:none!important}
+.nsi{display:flex;align-items:center;padding:9px 20px 9px 52px;cursor:pointer;color:rgba(255,255,255,.45);font-size:13px;transition:all .15s}
+.nsi:hover{background:rgba(255,255,255,.05);color:rgba(255,255,255,.75)}
+.nsi.active{color:#60A5FA;background:rgba(37,99,235,.15)}
+.sn-foot{box-shadow:inset 0 1px 0 0 rgba(255,255,255,.1);padding:12px 20px;color:rgba(255,255,255,.4);font-size:12px;flex-shrink:0}
+/* 顶部栏 */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0}
+.topbar{height:48px;background:#fff;border-bottom:1px solid var(--cb);display:flex;align-items:center;padding:0 24px;gap:12px;flex-shrink:0}
+.bc{display:flex;align-items:center;gap:4px;font-size:13px;color:var(--ctt);flex:1}
+.bc a{color:var(--ctt);text-decoration:none;cursor:pointer}
+.bc a:hover{color:var(--ctl)}
+.bc-sep{color:#D9D9D9;margin:0 2px}
+.bc-cur{color:var(--ctp)}
+.tb-r{display:flex;align-items:center;gap:8px}
+/* 内容区 */
+.pb{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:12px}
+.pb::-webkit-scrollbar{width:6px}
+.pb::-webkit-scrollbar-thumb{background:var(--cg300);border-radius:3px}
+/* 按钮 */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:32px;padding:0 16px;border-radius:4px;font-size:13px;font-family:var(--ff);cursor:pointer;border:1px solid transparent;transition:all .15s;white-space:nowrap;text-decoration:none}
+.btn-p{background:var(--cp600);color:#fff;border-color:var(--cp600)}
+.btn-p:hover{background:var(--cp700)}
+.btn-d{background:#fff;color:#333;border-color:var(--cg300)}
+.btn-d:hover{border-color:var(--cp500);color:var(--cp600)}
+.btn-t{background:none;border-color:transparent;color:var(--ctl);padding:0 8px}
+.btn-x{background:none;border-color:transparent;color:var(--ce500);padding:0 8px}
+/* 标签 */
+.tag{display:inline-flex;align-items:center;height:22px;padding:0 6px;border-radius:2px;font-size:12px}
+.t-green{background:#F6FFED;color:#389E0D;border:1px solid #B7EB8F}
+.t-orange{background:#FFFBE6;color:#D48806;border:1px solid #FFD591}
+.t-red{background:#FFF1F0;color:#CF1322;border:1px solid #FFA39E}
+.t-gray{background:#FAFAFA;color:#8C8C8C;border:1px solid #D9D9D9}
+.t-blue{background:#EBF2FF;color:#266EFF}
+/* 筛选区 */
+.fc{background:#fff;border-radius:4px;box-shadow:0 0 3px rgba(0,0,0,.04)}
+.fr{display:flex;align-items:center;gap:16px;padding:12px 20px;flex-wrap:nowrap}
+.fr.has-adv{border-bottom:1px dashed #EAEAEA}
+/* 筛选项：label+控件左右结构 */
+.fi{display:flex;flex-direction:row;align-items:center;gap:8px;flex-shrink:0}
+.fl{font-size:13px;color:var(--ctt);white-space:nowrap}
+/* 高级筛选展开区 */
+.adv-row{display:none;flex-direction:column;gap:0;margin-top:0}
+.adv-row.open{display:flex}
+.adv-grid{display:flex;flex-direction:column;gap:0;padding:4px 20px}
+.adv-fi{display:flex;flex-direction:row;align-items:center;gap:8px;padding:6px 0}
+.adv-fi .fl{font-size:13px;color:var(--ctt);width:91px;flex-shrink:0;white-space:nowrap}
+.adv-tags{display:flex;flex-wrap:wrap;align-items:center;gap:16px;padding:2px 0}
+.adv-tag{display:inline-flex;align-items:center;height:24px;padding:0 10px;border-radius:4px;font-size:13px;cursor:pointer;border:1px solid var(--cg300);color:var(--ctt);background:#fff;transition:all .15s}
+.adv-tag:hover,.adv-tag.on{background:var(--cp50);border-color:var(--cp600);color:var(--cp600)}
+.adv-range{display:flex;align-items:center;gap:8px}
+.adv-range .inp{width:120px}
+.adv-range-sep{color:#BFBFBF;font-size:13px;flex-shrink:0}
+.adv-actions{display:flex;align-items:center;justify-content:flex-end;padding:11px 20px;border-top:1px dashed #EAEAEA}
+.adv-clear{display:inline-flex;align-items:center;gap:4px;font-size:13px;color:var(--ctt);cursor:pointer;background:none;border:none;padding:0;transition:color .15s}
+.adv-clear:hover{color:var(--cp600)}
+.adv-clear svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+/* 高级查询按钮 */
+.adv-btn{display:inline-flex;align-items:center;gap:5px;height:32px;padding:0 12px;border-radius:4px;font-size:13px;font-family:var(--ff);cursor:pointer;border:1px solid var(--cg300);background:#fff;color:var(--ctt);transition:all .15s;white-space:nowrap;flex-shrink:0}
+.adv-btn:hover,.adv-btn.active{color:var(--cp600);border-color:var(--cp600);background:var(--cp50)}
+.adv-btn svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.inp,.sel{height:32px;border:1px solid var(--cg300);border-radius:4px;padding:0 12px;font-size:13px;font-family:var(--ff);color:#333;background:#fff;outline:none;transition:border-color .15s;width:100%}
+.inp:focus,.sel:focus{border-color:var(--cp600);box-shadow:0 0 0 2px rgba(38,110,255,.12)}
+.inp::placeholder{color:#BFBFBF}
+.sel{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238C8C8C' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;padding-right:28px;cursor:pointer}
+/* 表格 */
+.tc{background:#fff;border-radius:4px;box-shadow:0 0 3px rgba(0,0,0,.04);overflow:hidden;display:flex;flex-direction:column;flex:1;min-height:0}
+.tt{display:flex;align-items:center;justify-content:space-between;padding:12px 20px;border-bottom:1px solid var(--cb);gap:16px;flex-shrink:0}
+.tt-l{display:flex;align-items:center;gap:8px}
+.tt-r{display:flex;align-items:center;gap:8px}
+.view-tabs{display:flex;align-items:stretch;background:var(--cg50);border-radius:4px;padding:3px;height:32px}
+.view-tab{display:flex;align-items:center;padding:2px 10px;border-radius:3px;cursor:pointer;color:#666;background:transparent;border:none;font-size:13px;font-family:var(--ff);white-space:nowrap;transition:all .15s;position:relative}
+.view-tab.on{background:#fff;color:var(--cp600);box-shadow:0 1px 2px rgba(0,0,0,.06)}
+.view-tab .vt-div{position:absolute;left:0;top:50%;transform:translateY(-50%);width:1px;height:16px;background:#EAEAEA}
+.tw{overflow:auto;flex:1;min-height:0}
+table{width:100%;border-collapse:collapse;min-width:900px}
+thead tr{background:var(--cg25)}
+th{padding:10px 16px;text-align:left;font-size:13px;font-weight:600;color:#333;border-bottom:1px solid var(--cb);white-space:nowrap}
+td{padding:12px 16px;font-size:13px;color:#333;border-bottom:1px solid var(--cg50)}
+tbody tr:last-child td{border-bottom:none}
+tbody tr:hover td{background:var(--cg25)}
+.tdl{color:var(--ctl);cursor:pointer}
+.tdl:hover{text-decoration:underline}
+/* 复选框 */
+.chk{width:15px;height:15px;border:1.5px solid var(--cg300);border-radius:3px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .15s;flex-shrink:0;background:#fff}
+.chk.on{background:var(--cp600);border-color:var(--cp600)}
+.chk.on::after{content:"";width:8px;height:5px;border-left:1.5px solid #fff;border-bottom:1.5px solid #fff;transform:rotate(-45deg) translateY(-1px)}
+/* 批量操作栏 */
+.batch-bar{display:flex;align-items:center;gap:8px;flex:1}
+.batch-cancel{width:24px;height:24px;border:none;background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;border-radius:4px;padding:0}
+.batch-cancel:hover{background:var(--cg100)}
+/* 分页 */
+.pg{display:flex;align-items:center;justify-content:flex-end;padding:12px 20px;border-top:1px solid var(--cb);gap:8px;flex-shrink:0}
+.pg-info{font-size:13px;color:var(--ctt);margin-right:8px}
+.pg-btn{width:28px;height:28px;border:1px solid var(--cg300);border-radius:4px;display:flex;align-items:center;justify-content:center;cursor:pointer;background:#fff;color:#333;font-size:13px;transition:all .15s}
+.pg-btn:hover{border-color:var(--cp500);color:var(--cp600)}
+.pg-btn.on{background:var(--cp600);border-color:var(--cp600);color:#fff}
+.pg-btn svg{width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+/* 弹窗 */
+.modal-mask{position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:1000;display:none;align-items:center;justify-content:center}
+.modal-mask.open{display:flex}
+.modal{background:#fff;border-radius:4px;width:680px;max-width:calc(100vw - 48px);max-height:calc(100vh - 48px);display:flex;flex-direction:column;box-shadow:0 3px 8px rgba(0,0,0,0.1)}
+.modal-hd{display:flex;align-items:center;padding:16px 20px;border-bottom:1px solid #EAEAEA;flex-shrink:0}
+.modal-title{font-size:16px;font-weight:600;color:#333;flex:1}
+.modal-close{width:16px;height:16px;cursor:pointer;color:#999;border:none;background:none;padding:0;display:flex;align-items:center;justify-content:center}
+.modal-close:hover{color:#333}
+.modal-close svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.modal-body{flex:1;overflow-y:auto;padding:20px}
+.modal-ft{display:flex;align-items:center;justify-content:flex-end;gap:12px;padding:12px 20px;border-top:1px solid #EAEAEA;flex-shrink:0}
+/* 表单 */
+.d-title{font-size:14px;font-weight:600;color:#333;display:flex;align-items:center;gap:8px;margin-bottom:16px}
+.d-title::before{content:'';display:block;width:3px;height:16px;border-radius:2px;background:var(--cp600);flex-shrink:0}
+.d-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px 48px;margin-bottom:24px}
+.mfi{display:flex;flex-direction:row;align-items:center;min-height:32px}
+.mfi .fl{font-size:13px;color:var(--ctt);width:110px;flex-shrink:0;display:flex;align-items:center;padding-right:8px}
+.mfi .req{color:#FF4D4F;width:10px;flex-shrink:0;text-align:center}
+.mfi .fl-txt{flex:1}
+.mfi-ctrl{flex:1}
+.mfi .inp,.mfi .sel{height:32px;border:1px solid var(--cg300);border-radius:4px;padding:0 12px;font-size:13px;font-family:var(--ff);color:#333;background:#fff;outline:none;transition:border-color .15s;width:100%}
+.mfi .inp:focus,.mfi .sel:focus{border-color:var(--cp600);box-shadow:0 0 0 2px rgba(38,110,255,.12)}
+.mfi .inp::placeholder{color:#BFBFBF}
+.mfi .sel{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238C8C8C' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;padding-right:28px;cursor:pointer}
+.mfi.full{grid-column:1/-1}
+.mfi .inp-area{border:1px solid var(--cg300);border-radius:4px;padding:6px 12px;font-size:13px;font-family:var(--ff);color:#333;background:#fff;outline:none;transition:border-color .15s;width:100%;resize:none;height:72px;line-height:1.6}
+.mfi .inp-area:focus{border-color:var(--cp600);box-shadow:0 0 0 2px rgba(38,110,255,.12)}
+/* 确认框 */
+.confirm-mask{position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:2000;display:none;align-items:center;justify-content:center}
+.confirm-mask.open{display:flex}
+.confirm-box{background:#fff;border-radius:4px;width:400px;padding:32px 24px 24px;position:relative;box-shadow:0 3px 8px rgba(0,0,0,0.1);display:flex;flex-direction:column;gap:24px}
+.confirm-close{position:absolute;top:16px;right:16px;width:16px;height:16px;cursor:pointer;color:#999;border:none;background:none;padding:0;display:flex;align-items:center;justify-content:center}
+.confirm-close:hover{color:#333}
+.confirm-close svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.confirm-content{display:flex;gap:12px;align-items:flex-start}
+.confirm-icon{width:24px;height:24px;flex-shrink:0;margin-top:1px}
+.confirm-text{display:flex;flex-direction:column;gap:8px;flex:1}
+.confirm-title{font-size:16px;font-weight:600;color:#333;line-height:1.5}
+.confirm-desc{font-size:13px;color:#666;line-height:1.692}
+.confirm-ft{display:flex;align-items:center;justify-content:flex-end;gap:12px}
+</style>
+</head>
+<body>
+
+<!-- 侧边导航 -->
+<aside class="sn" id="sn">
+  <div class="sn-logo">
+    <img src="prototypes/images/海外logo@2x.png" alt="logo" class="sn-logo-img">
+    <img src="prototypes/images/收起.png" class="sn-collapse-btn" onclick="toggleSidebar()" alt="收起">
+  </div>
+  <div class="sn-body">
+    <ul class="nl">
+      <li class="ni">
+        <svg class="ni-ic" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        <span class="ni-lb">首页</span>
+      </li>
+      <li class="ni open" onclick="toggleNav(this)">
+        <svg class="ni-ic" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+        <span class="ni-lb">房源管理</span>
+        <svg class="ni-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </li>
+      <ul class="nsl open">
+        <li class="nsi" style="cursor:pointer" onclick="location.href='prototype-list-page.html'">房源列表</li>
+        <li class="nsi">房源地图</li>
+      </ul>
+      <li class="ni open" onclick="toggleNav(this)">
+        <svg class="ni-ic" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        <span class="ni-lb">合同管理</span>
+        <svg class="ni-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </li>
+      <ul class="nsl open">
+        <li class="nsi" style="cursor:pointer" onclick="location.href='contract-list.html'">合同列表</li>
+        <li class="nsi">续签管理</li>
+        <li class="nsi">到期提醒</li>
+      </ul>
+      <li class="ni" onclick="toggleNav(this)">
+        <svg class="ni-ic" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+        <span class="ni-lb">租户管理</span>
+        <svg class="ni-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </li>
+      <li class="ni" onclick="toggleNav(this)">
+        <svg class="ni-ic" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        <span class="ni-lb">账单管理</span>
+        <svg class="ni-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </li>
+      <li class="ni" onclick="toggleNav(this)">
+        <svg class="ni-ic" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        <span class="ni-lb">工单管理</span>
+        <svg class="ni-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </li>
+    </ul>
+  </div>
+  <div class="sn-foot">Powered by 天际</div>
+</aside>
+
+<div class="main">
+  <!-- 顶部栏 -->
+  <div class="topbar">
+    <div class="bc">
+      <span class="bc-cur">合同管理</span>
+    </div>
+    <div class="tb-r"></div>
+  </div>
+
+  <div class="pb">
+    <!-- 筛选区 -->
+    <div class="fc">
+      <div class="fr">
+        <!-- 搜索框：无 label -->
+        <div style="position:relative;flex-shrink:0">
+          <svg style="position:absolute;left:9px;top:50%;transform:translateY(-50%);width:14px;height:14px;fill:none;stroke:var(--ctt);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;pointer-events:none" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input class="inp" style="padding-left:30px;width:200px" placeholder="合同编号/租户姓名">
+        </div>
+        <!-- label+控件左右结构 -->
+        <div class="fi"><span class="fl">合同状态</span><select class="sel" style="width:120px"><option value="">全部状态</option><option>履行中</option><option>即将到期</option><option>已到期</option><option>已终止</option></select></div>
+        <div class="fi"><span class="fl">合同类型</span><select class="sel" style="width:120px"><option value="">全部类型</option><option>住宅租赁</option><option>商业租赁</option><option>办公租赁</option></select></div>
+        <div class="fi"><span class="fl">签约日期</span><input class="inp" type="date" style="width:140px" value="2024-01-01"><span style="color:#D9D9D9;margin:0 4px">—</span><input class="inp" type="date" style="width:140px" value="2024-12-31"></div>
+        <div style="margin-left:auto;display:flex;align-items:center;gap:8px;flex-shrink:0">
+          <button class="adv-btn" id="advBtn" onclick="toggleAdv()">
+            <svg viewBox="0 0 24 24"><path d="M22 3H2l8 9.46V19l4 2v-8.54L22 3z"/></svg>
+            高级查询
+            <svg id="advArrow" viewBox="0 0 24 24" style="width:11px;height:11px;transition:transform .2s"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+        </div>
+      </div>
+      <!-- 高级查询展开区 -->
+      <div class="adv-row" id="advRow">
+        <div class="adv-grid">
+          <div class="adv-fi">
+            <span class="fl">合同状态：</span>
+            <div class="adv-tags">
+              <span class="adv-tag on">全部</span>
+              <span class="adv-tag">履行中</span>
+              <span class="adv-tag">即将到期</span>
+              <span class="adv-tag">已到期</span>
+              <span class="adv-tag">已终止</span>
+            </div>
+          </div>
+          <div class="adv-fi">
+            <span class="fl">合同类型：</span>
+            <div class="adv-tags">
+              <span class="adv-tag on">全部</span>
+              <span class="adv-tag">住宅租赁</span>
+              <span class="adv-tag">商业租赁</span>
+              <span class="adv-tag">办公租赁</span>
+            </div>
+          </div>
+          <div class="adv-fi">
+            <span class="fl">租金范围：</span>
+            <div class="adv-range"><input class="inp" placeholder="最小(元)"><span class="adv-range-sep">—</span><input class="inp" placeholder="最大(元)"></div>
+          </div>
+          <div class="adv-fi">
+            <span class="fl">付款方式：</span>
+            <select class="sel" style="width:160px"><option value="">全部方式</option><option>月付</option><option>季付</option><option>半年付</option><option>年付</option></select>
+          </div>
+          <div class="adv-fi">
+            <span class="fl">经办人：</span>
+            <select class="sel" style="width:160px"><option value="">全部经办人</option><option>李晓明</option><option>王芳</option><option>陈磊</option></select>
+          </div>
+        </div>
+        <div class="adv-actions">
+          <button class="adv-clear" onclick="document.querySelectorAll('.adv-tag').forEach(t=>{t.classList.remove('on');if(t.textContent==='全部')t.classList.add('on');});document.querySelectorAll('.adv-fi .inp,.adv-fi .sel').forEach(el=>el.value='');">
+            <svg viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.51"/></svg>
+            清空筛选
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 表格区 -->
+    <div class="tc">
+      <div class="tt">
+        <div class="tt-l" id="tt-normal">
+          <div class="view-tabs">
+            <button class="view-tab on" onclick="switchView(this)">全部<span style="margin-left:2px;color:var(--ctt)">·86</span></button>
+            <button class="view-tab" onclick="switchView(this)"><span class="vt-div"></span>履行中<span style="margin-left:2px;color:var(--ctt)">·52</span></button>
+            <button class="view-tab" onclick="switchView(this)"><span class="vt-div"></span>即将到期<span style="margin-left:2px;color:var(--ctt)">·14</span></button>
+            <button class="view-tab" onclick="switchView(this)"><span class="vt-div"></span>已到期<span style="margin-left:2px;color:var(--ctt)">·11</span></button>
+            <button class="view-tab" onclick="switchView(this)"><span class="vt-div"></span>已终止<span style="margin-left:2px;color:var(--ctt)">·9</span></button>
+          </div>
+        </div>
+        <div class="tt-l batch-bar" id="tt-batch" style="display:none;align-items:center;gap:8px;flex:1">
+          <button class="batch-cancel" onclick="cancelBatch()">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#576275" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+          <span style="font-size:13px;color:#666;display:flex;gap:4px;align-items:center">已选择<span id="batch-count" style="color:var(--cp600);font-weight:500">0</span>项</span>
+          <button class="btn btn-d" style="height:30px;font-size:13px;">批量终止</button>
+          <button class="btn btn-d" style="height:30px;font-size:13px;">批量导出</button>
+        </div>
+        <div class="tt-r" id="tt-actions">
+          <button class="btn btn-d" style="height:30px;font-size:13px;">导出</button>
+          <button class="btn btn-p" onclick="openModal(\'modalNew\')">新建合同</button>
+        </div>
+      </div>
+      <div class="tw">
+        <table>
+          <thead><tr>
+            <th style="width:40px"><div class="chk"></div></th>
+            <th>合同编号</th>
+            <th>租户姓名</th>
+            <th>房源名称</th>
+            <th>合同类型</th>
+            <th>签约日期</th>
+            <th>到期日期</th>
+            <th>月租金(元)</th>
+            <th>合同状态</th>
+            <th>经办人</th>
+            <th style="width:150px;text-align:left">操作</th>
+          </tr></thead>
+          <tbody>
+            <tr><td><div class="chk"></div></td><td>HT-2024-0001</td><td class="tdl" onclick="location.href=\'contract-detail.html\'">张伟</td><td>朝阳国贸中心A座1201</td><td><span class="tag t-blue">办公租赁</span></td><td>2024-01-15</td><td>2025-01-14</td><td>18,500</td><td><span class="tag t-green">履行中</span></td><td>李晓明</td><td><div style="display:flex;gap:2px"><a href="contract-detail.html" class="btn btn-t" style="text-decoration:none">查看</a><a href="contract-edit.html" class="btn btn-t" style="text-decoration:none">编辑</a><button class="btn btn-x" onclick="openConfirm(\'confirmTerminate\')">终止</button></div></td></tr>
+            <tr><td><div class="chk"></div></td><td>HT-2024-0002</td><td class="tdl" onclick="location.href=\'contract-detail.html\'">李娜</td><td>海淀中关村软件园B区305</td><td><span class="tag t-blue">办公租赁</span></td><td>2024-02-01</td><td>2025-01-31</td><td>38,600</td><td><span class="tag t-orange">即将到期</span></td><td>王芳</td><td><div style="display:flex;gap:2px"><a href="contract-detail.html" class="btn btn-t" style="text-decoration:none">查看</a><a href="contract-edit.html" class="btn btn-t" style="text-decoration:none">编辑</a><button class="btn btn-t" onclick="openModal('modalRenew')">续签</button></div></td></tr>
+            <tr><td><div class="chk"></div></td><td>HT-2024-0003</td><td class="tdl" onclick="location.href='contract-detail.html'">王强</td><td>丰台科技园C座801</td><td><span class="tag t-blue">住宅租赁</span></td><td>2023-06-01</td><td>2024-05-31</td><td>8,200</td><td><span class="tag t-red">已到期</span></td><td>陈磊</td><td><div style="display:flex;gap:2px"><a href="contract-detail.html" class="btn btn-t" style="text-decoration:none">查看</a><button class="btn btn-t" onclick="openModal('modalRenew')">续签</button></div></td></tr>
+            <tr><td><div class="chk"></div></td><td>HT-2024-0004</td><td class="tdl" onclick="location.href='contract-detail.html'">赵敏</td><td>西城金融街D座2201</td><td><span class="tag t-blue">商业租赁</span></td><td>2024-03-15</td><td>2026-03-14</td><td>52,000</td><td><span class="tag t-green">履行中</span></td><td>李晓明</td><td><div style="display:flex;gap:2px"><a href="contract-detail.html" class="btn btn-t" style="text-decoration:none">查看</a><a href="contract-edit.html" class="btn btn-t" style="text-decoration:none">编辑</a><button class="btn btn-x" onclick="openConfirm('confirmTerminate')">终止</button></div></td></tr>
+            <tr><td><div class="chk"></div></td><td>HT-2024-0005</td><td class="tdl" onclick="location.href='contract-detail.html'">刘洋</td><td>通州万达广场E区101</td><td><span class="tag t-blue">商业租赁</span></td><td>2023-09-01</td><td>2024-08-31</td><td>21,000</td><td><span class="tag t-gray">已终止</span></td><td>王芳</td><td><div style="display:flex;gap:2px"><a href="contract-detail.html" class="btn btn-t" style="text-decoration:none">查看</a></div></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="pg">
+        <span class="pg-info">共 86 条</span>
+        <button class="pg-btn"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
+        <button class="pg-btn on">1</button>
+        <button class="pg-btn">2</button>
+        <button class="pg-btn">3</button>
+        <button class="pg-btn">…</button>
+        <button class="pg-btn">9</button>
+        <button class="pg-btn"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 新建合同弹窗 -->
+<div class="modal-mask" id="modalNew">
+  <div class="modal">
+    <div class="modal-hd">
+      <span class="modal-title">新建合同</span>
+      <button class="modal-close" onclick="closeModal('modalNew')"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>
+    <div class="modal-body">
+      <div class="d-title">基本信息</div>
+      <div class="d-grid">
+        <div class="mfi"><div class="fl"><span class="req">*</span><span class="fl-txt">租户姓名</span></div><div class="mfi-ctrl"><input class="inp" placeholder="请输入租户姓名"></div></div>
+        <div class="mfi"><div class="fl"><span class="req">*</span><span class="fl-txt">联系电话</span></div><div class="mfi-ctrl"><input class="inp" placeholder="请输入联系电话"></div></div>
+        <div class="mfi"><div class="fl"><span class="req">*</span><span class="fl-txt">房源名称</span></div><div class="mfi-ctrl"><select class="sel"><option>请选择房源</option><option>朝阳国贸中心A座1201</option><option>海淀中关村软件园B区305</option></select></div></div>
+        <div class="mfi"><div class="fl"><span class="req">*</span><span class="fl-txt">合同类型</span></div><div class="mfi-ctrl"><select class="sel"><option>请选择类型</option><option>住宅租赁</option><option>商业租赁</option><option>办公租赁</option></select></div></div>
+        <div class="mfi"><div class="fl"><span class="req">*</span><span class="fl-txt">签约日期</span></div><div class="mfi-ctrl"><input class="inp" type="date" value="2024-09-01"></div></div>
+        <div class="mfi"><div class="fl"><span class="req">*</span><span class="fl-txt">到期日期</span></div><div class="mfi-ctrl"><input class="inp" type="date" value="2025-08-31"></div></div>
+      </div>
+      <div class="d-title">租金信息</div>
+      <div class="d-grid">
+        <div class="mfi"><div class="fl"><span class="req">*</span><span class="fl-txt">月租金(元)</span></div><div class="mfi-ctrl"><input class="inp" type="number" placeholder="请输入月租金"></div></div>
+        <div class="mfi"><div class="fl"><span class="req">*</span><span class="fl-txt">付款方式</span></div><div class="mfi-ctrl"><select class="sel"><option>季付</option><option>月付</option><option>半年付</option><option>年付</option></select></div></div>
+        <div class="mfi"><div class="fl"><span class="req">*</span><span class="fl-txt">押金(月)</span></div><div class="mfi-ctrl"><select class="sel"><option>2个月</option><option>1个月</option><option>3个月</option></select></div></div>
+        <div class="mfi"><div class="fl"><span class="req"></span><span class="fl-txt">经办人</span></div><div class="mfi-ctrl"><input class="inp" placeholder="请输入经办人姓名" value="李晓明"></div></div>
+        <div class="mfi full" style="grid-column:1/-1"><div class="fl"><span class="req"></span><span class="fl-txt">备注</span></div><div class="mfi-ctrl"><textarea class="inp-area" placeholder="请输入备注信息"></textarea></div></div>
+      </div>
+    </div>
+    <div class="modal-ft">
+      <button class="btn btn-d" onclick="closeModal('modalNew')">取消</button>
+      <button class="btn btn-p" onclick="closeModal('modalNew')">确认新建</button>
+    </div>
+  </div>
+</div>
+
+<!-- 续签弹窗 -->
+<div class="modal-mask" id="modalRenew">
+  <div class="modal" style="width:560px">
+    <div class="modal-hd">
+      <span class="modal-title">合同续签</span>
+      <button class="modal-close" onclick="closeModal('modalRenew')"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>
+    <div class="modal-body">
+      <div class="d-title">原合同信息</div>
+      <div class="d-grid" style="margin-bottom:24px">
+        <div class="mfi"><div class="fl"><span class="req"></span><span class="fl-txt">合同编号</span></div><div class="mfi-ctrl"><input class="inp" value="HT-2024-0002" disabled style="background:#FAFAFA;color:#999"></div></div>
+        <div class="mfi"><div class="fl"><span class="req"></span><span class="fl-txt">到期日期</span></div><div class="mfi-ctrl"><input class="inp" value="2025-01-31" disabled style="background:#FAFAFA;color:#999"></div></div>
+        <div class="mfi"><div class="fl"><span class="req"></span><span class="fl-txt">月租金</span></div><div class="mfi-ctrl"><input class="inp" value="38,600 元" disabled style="background:#FAFAFA;color:#999"></div></div>
+        <div class="mfi"><div class="fl"><span class="req"></span><span class="fl-txt">租户</span></div><div class="mfi-ctrl"><input class="inp" value="李娜" disabled style="background:#FAFAFA;color:#999"></div></div>
+      </div>
+      <div class="d-title">续签设置</div>
+      <div class="d-grid">
+        <div class="mfi"><div class="fl"><span class="req">*</span><span class="fl-txt">续签开始</span></div><div class="mfi-ctrl"><input class="inp" type="date" value="2025-02-01"></div></div>
+        <div class="mfi"><div class="fl"><span class="req">*</span><span class="fl-txt">续签结束</span></div><div class="mfi-ctrl"><input class="inp" type="date" value="2026-01-31"></div></div>
+        <div class="mfi"><div class="fl"><span class="req">*</span><span class="fl-txt">新月租金</span></div><div class="mfi-ctrl"><input class="inp" type="number" value="40000"></div></div>
+        <div class="mfi"><div class="fl"><span class="req"></span><span class="fl-txt">付款方式</span></div><div class="mfi-ctrl"><select class="sel"><option>季付</option><option>月付</option><option>半年付</option></select></div></div>
+      </div>
+    </div>
+    <div class="modal-ft">
+      <button class="btn btn-d" onclick="closeModal('modalRenew')">取消</button>
+      <button class="btn btn-p" onclick="closeModal('modalRenew')">确认续签</button>
+    </div>
+  </div>
+</div>
+
+<!-- 终止确认框 -->
+<div class="confirm-mask" id="confirmTerminate">
+  <div class="confirm-box">
+    <button class="confirm-close" onclick="closeConfirm('confirmTerminate')"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    <div class="confirm-content">
+      <div class="confirm-icon"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#FFF3CD"/><path d="M12 8v4m0 4h.01" stroke="#FF9902" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="confirm-text">
+        <div class="confirm-title">确定终止该合同吗？</div>
+        <div class="confirm-desc">合同终止后将无法恢复，相关账单将停止生成，请确认已与租户协商一致后再操作。</div>
+      </div>
+    </div>
+    <div class="confirm-ft">
+      <button class="btn btn-d" onclick="closeConfirm('confirmTerminate')">取消</button>
+      <button class="btn" style="background:#FF4C4C;color:#fff;border-color:#FF4C4C" onclick="closeConfirm('confirmTerminate')">确认终止</button>
+    </div>
+  </div>
+</div>
+
+<script>
+function toggleAdv(){
+  var row=document.getElementById('advRow');
+  var btn=document.getElementById('advBtn');
+  var arrow=document.getElementById('advArrow');
+  var fr=document.querySelector('.fr');
+  var open=row.classList.toggle('open');
+  btn.classList.toggle('active',open);
+  if(arrow)arrow.style.transform=open?'rotate(180deg)':'rotate(0deg)';
+  if(fr)fr.classList.toggle('has-adv',open);
+}
+function toggleSidebar(){const sn=document.getElementById('sn');sn.classList.toggle('collapsed');const img=sn.querySelector('.sn-logo-img');if(img)img.style.display=sn.classList.contains('collapsed')?'none':'';}
+function toggleNav(ni){const nsl=ni.nextElementSibling;if(nsl&&nsl.classList.contains('nsl')){const o=nsl.classList.toggle('open');ni.classList.toggle('open',o);}}
+function openModal(id){document.getElementById(id).classList.add('open')}
+function closeModal(id){document.getElementById(id).classList.remove('open')}
+function openConfirm(id){document.getElementById(id).classList.add('open')}
+function closeConfirm(id){document.getElementById(id).classList.remove('open')}
+function switchView(btn){document.querySelectorAll('.view-tab').forEach(t=>t.classList.remove('on'));btn.classList.add('on');}
+function updateBatchBar(){var n=document.querySelectorAll('tbody .chk.on').length;var norm=document.getElementById('tt-normal');var batch=document.getElementById('tt-batch');var act=document.getElementById('tt-actions');var bc=document.getElementById('batch-count');if(n>0){norm.style.display='none';batch.style.display='flex';if(act)act.style.display='none';if(bc)bc.textContent=n;}else{norm.style.display='';batch.style.display='none';if(act)act.style.display='';}}
+function cancelBatch(){document.querySelectorAll('.chk.on').forEach(c=>c.classList.remove('on'));updateBatchBar();}
+document.addEventListener('DOMContentLoaded',function(){
+  document.querySelectorAll('tbody .chk').forEach(c=>c.addEventListener('click',function(){this.classList.toggle('on');updateBatchBar();}));
+  var h=document.querySelector('thead .chk');if(h)h.addEventListener('click',function(){this.classList.toggle('on');var on=this.classList.contains('on');document.querySelectorAll('tbody .chk').forEach(c=>{if(on)c.classList.add('on');else c.classList.remove('on');});updateBatchBar();});
+  document.querySelectorAll('.modal-mask,.confirm-mask').forEach(m=>m.addEventListener('click',function(e){if(e.target===this)this.classList.remove('open');}));
+});
+</script>
+</body>
+</html>

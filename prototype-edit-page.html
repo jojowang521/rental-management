@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>编辑房源</title>
+<style>
+:root{--cp600:#266EFF;--cp700:#1A55D6;--cp50:#EBF2FF;--cg100:#F0F0F0;--cg300:#D9D9D9;--cbg:#F3F4F9;--cb:#EAEAEA;--ctp:#333;--ctt:#999;--ctl:#266EFF;--ff:"PingFang SC",-apple-system,Arial,sans-serif}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--ff);font-size:13px;color:var(--ctp);background:var(--cbg);display:flex;height:100vh;overflow:hidden}
+.sn{width:208px;height:100vh;background:#1C1C1E;display:flex;flex-direction:column;flex-shrink:0;transition:width .2s}
+.sn.collapsed{width:56px}
+.sn-logo{display:flex;align-items:center;padding:11px 16px;gap:8px;border-bottom:1px solid rgba(255,255,255,.12);height:44px;overflow:hidden}
+.sn-logo-img{height:22px;width:auto;flex-shrink:0}
+.sn.collapsed .sn-logo-img{display:none}
+.sn-collapse-btn{margin-left:auto;cursor:pointer;opacity:.6;width:18px;height:18px;object-fit:contain;flex-shrink:0}
+.sn-body{flex:1;overflow-y:auto;padding:8px 0}
+.sn-body::-webkit-scrollbar{display:none}
+.nl{list-style:none}
+.ni{display:flex;align-items:center;padding:13px 20px;gap:16px;cursor:pointer;color:rgba(255,255,255,.65);font-size:14px;transition:all .15s;white-space:nowrap;overflow:hidden}
+.sn.collapsed .ni{padding:14px 18px;justify-content:center;gap:0}
+.ni:hover{background:rgba(255,255,255,.06);color:rgba(255,255,255,.9)}
+.ni.on{background:rgba(255,255,255,.1);color:#fff}
+.ni-ic{width:16px;height:16px;flex-shrink:0;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.ni-lb{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sn.collapsed .ni-lb,.sn.collapsed .ni-arrow{display:none}
+.ni-arrow{width:14px;height:14px;flex-shrink:0;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;opacity:.5;transition:transform .2s}
+.ni.open .ni-arrow{transform:rotate(180deg)}
+.nsl{list-style:none;display:none}
+.nsl.open{display:block}
+.sn.collapsed .nsl{display:none!important}
+.nsi{display:flex;align-items:center;padding:9px 20px 9px 52px;cursor:pointer;color:rgba(255,255,255,.45);font-size:13px;transition:all .15s}
+.nsi:hover{background:rgba(255,255,255,.05);color:rgba(255,255,255,.75)}
+.nsi.active{color:#60A5FA;background:rgba(37,99,235,.15)}
+.sn-foot{box-shadow:inset 0 1px 0 0 rgba(255,255,255,.1);padding:12px 20px;color:rgba(255,255,255,.4);font-size:12px;flex-shrink:0}
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0}
+.topbar{height:48px;background:#fff;border-bottom:1px solid var(--cb);display:flex;align-items:center;padding:0 24px;gap:12px;flex-shrink:0}
+.bc{display:flex;align-items:center;gap:4px;font-size:13px;color:var(--ctt);flex:1}
+.bc a{color:var(--ctt);text-decoration:none;cursor:pointer}
+.bc a:hover{color:var(--ctl)}
+.bc-sep{color:#D9D9D9;margin:0 2px}
+.bc-cur{color:var(--ctp)}
+.tb-r{display:flex;align-items:center;gap:8px}
+.pb{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:12px}
+.pb::-webkit-scrollbar{width:6px}
+.pb::-webkit-scrollbar-thumb{background:var(--cg300);border-radius:3px}
+/* EDIT CARD */
+.edit-card{background:#fff;border-radius:4px;box-shadow:0 0 3px rgba(0,0,0,.04);padding:20px;display:flex;flex-direction:column;gap:24px}
+.edit-foot{background:#fff;border-top:1px solid var(--cb);padding:12px 24px;display:flex;align-items:center;justify-content:flex-end;gap:8px;flex-shrink:0}
+/* SECTION */
+.d-sec{display:flex;flex-direction:column;gap:0}
+.d-title{font-size:14px;font-weight:600;color:#333;padding:5px 0;display:flex;align-items:center;gap:8px;margin-bottom:16px}
+.d-title::before{content:'';display:block;width:3px;height:16px;border-radius:2px;background:#266EFF;flex-shrink:0}
+.d-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px 48px}
+/* FORM ITEM */
+.fi{display:flex;flex-direction:row;align-items:center;gap:0;min-height:32px}
+.fi-lbl{font-size:13px;color:var(--ctt);width:110px;flex-shrink:0;display:flex;align-items:center;padding-right:8px;white-space:nowrap}
+.fi-lbl .req{color:#FF4D4F;width:10px;flex-shrink:0;text-align:center}
+.fi-lbl .fi-txt{flex:1}
+.fi-ctrl{flex:1}
+.inp,.sel{height:32px;border:1px solid #D9D9D9;border-radius:4px;padding:0 12px;font-size:13px;font-family:var(--ff);color:#333;background:#fff;outline:none;transition:border-color .15s,box-shadow .15s;width:100%}
+.inp:focus,.sel:focus{border-color:#266EFF;box-shadow:0 0 0 2px rgba(38,110,255,.12)}
+.inp::placeholder{color:#BFBFBF}
+.sel{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238C8C8C' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;padding-right:28px;cursor:pointer}
+.fi-ctrl textarea{border:1px solid #D9D9D9;border-radius:4px;padding:6px 12px;font-size:13px;font-family:var(--ff);color:#333;background:#fff;outline:none;transition:border-color .15s;width:100%;resize:none;height:72px;line-height:1.6}
+.fi-ctrl textarea:focus{border-color:#266EFF;box-shadow:0 0 0 2px rgba(38,110,255,.12)}
+.fi-ctrl textarea::placeholder{color:#BFBFBF}
+.fi.full{grid-column:1/-1}
+/* TAG */
+.tag{display:inline-flex;align-items:center;height:22px;padding:0 6px;border-radius:2px;font-size:12px}
+.t-green{background:#F6FFED;color:#389E0D;border:1px solid #B7EB8F}
+/* BTN */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:32px;padding:0 16px;border-radius:4px;font-size:13px;font-family:var(--ff);font-weight:400;cursor:pointer;border:1px solid transparent;transition:all .15s;white-space:nowrap}
+.btn-p{background:#266EFF;color:#fff;border-color:#266EFF}
+.btn-p:hover{background:#1A55D6}
+.btn-d{background:#fff;color:#333;border-color:#D9D9D9}
+.btn-d:hover{border-color:#266EFF;color:#266EFF}
+</style>
+</head>
+<body>
+
+<aside class="sn" id="sn">
+  <div class="sn-logo">
+    <img src="/Users/fengxiaochun/Desktop/rental-management/prototypes/images/海外logo@2x.png" alt="logo" class="sn-logo-img">
+    <img src="/Users/fengxiaochun/Desktop/rental-management/prototypes/images/收起.png" class="sn-collapse-btn" onclick="toggleSidebar()" alt="收起">
+  </div>
+  <div class="sn-body">
+    <ul class="nl">
+      <li class="ni">
+        <svg class="ni-ic" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        <span class="ni-lb">首页</span>
+      </li>
+      <li class="ni open" onclick="toggleNav(this)">
+        <svg class="ni-ic" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+        <span class="ni-lb">房源管理</span>
+        <svg class="ni-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </li>
+      <ul class="nsl open">
+        <li class="nsi" style="cursor:pointer" onclick="location.href='prototype-list-page.html'">房源列表</li>
+        <li class="nsi">房源地图</li>
+      </ul>
+      <li class="ni open" onclick="toggleNav(this)">
+        <svg class="ni-ic" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        <span class="ni-lb">合同管理</span>
+        <svg class="ni-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </li>
+      <ul class="nsl open">
+        <li class="nsi" style="cursor:pointer" onclick="location.href='contract-list.html'">合同列表</li>
+        <li class="nsi">续签管理</li>
+        <li class="nsi">到期提醒</li>
+      </ul>
+      <li class="ni" onclick="toggleNav(this)">
+        <svg class="ni-ic" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+        <span class="ni-lb">租户管理</span>
+        <svg class="ni-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </li>
+      <li class="ni" onclick="toggleNav(this)">
+        <svg class="ni-ic" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        <span class="ni-lb">账单管理</span>
+        <svg class="ni-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </li>
+      <li class="ni" onclick="toggleNav(this)">
+        <svg class="ni-ic" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        <span class="ni-lb">工单管理</span>
+        <svg class="ni-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </li>
+    </ul>
+  </div>
+  <div class="sn-foot">Powered by 天际</div>
+</aside>
+
+<div class="main">
+  <div class="topbar">
+    <div class="bc">
+      <a href="prototype-list-page.html">房源管理</a>
+      <span class="bc-sep">/</span>
+      <a href="prototype-detail-page.html">朝阳国贸中心A座1201</a>
+      <span class="bc-sep">/</span>
+      <span class="bc-cur">编辑</span>
+    </div>
+  </div>
+
+  <div class="pb">
+    <div class="edit-card">
+      <!-- 基本信息 -->
+      <div class="d-sec">
+        <div class="d-title">基本信息</div>
+        <div class="d-grid">
+          <div class="fi">
+            <div class="fi-lbl"><span class="req">*</span><span class="fi-txt">房源名称</span></div>
+            <div class="fi-ctrl"><input class="inp" value="朝阳国贸中心A座1201" placeholder="请输入房源名称"></div>
+          </div>
+          <div class="fi">
+            <div class="fi-lbl"><span class="req"></span><span class="fi-txt">房源编号</span></div>
+            <div class="fi-ctrl"><input class="inp" value="HS-2024-0001" disabled style="background:#FAFAFA;color:#999;cursor:not-allowed"></div>
+          </div>
+          <div class="fi">
+            <div class="fi-lbl"><span class="req">*</span><span class="fi-txt">房源类型</span></div>
+            <div class="fi-ctrl">
+              <select class="sel">
+                <option>商业办公</option>
+                <option>住宅</option>
+                <option>商业</option>
+                <option>工业</option>
+              </select>
+            </div>
+          </div>
+          <div class="fi">
+            <div class="fi-lbl"><span class="req">*</span><span class="fi-txt">所在区域</span></div>
+            <div class="fi-ctrl">
+              <select class="sel">
+                <option>朝阳区</option>
+                <option>海淀区</option>
+                <option>丰台区</option>
+                <option>西城区</option>
+              </select>
+            </div>
+          </div>
+          <div class="fi full">
+            <div class="fi-lbl"><span class="req">*</span><span class="fi-txt">详细地址</span></div>
+            <div class="fi-ctrl"><input class="inp" value="北京市朝阳区建国路93号国贸中心A座1201室" placeholder="请输入详细地址"></div>
+          </div>
+        </div>
+      </div>
+      <!-- 房屋信息 -->
+      <div class="d-sec">
+        <div class="d-title">房屋信息</div>
+        <div class="d-grid">
+          <div class="fi">
+            <div class="fi-lbl"><span class="req">*</span><span class="fi-txt">建筑面积(㎡)</span></div>
+            <div class="fi-ctrl"><input class="inp" type="number" value="120.5" placeholder="请输入建筑面积"></div>
+          </div>
+          <div class="fi">
+            <div class="fi-lbl"><span class="req"></span><span class="fi-txt">使用面积(㎡)</span></div>
+            <div class="fi-ctrl"><input class="inp" type="number" value="108.0" placeholder="请输入使用面积"></div>
+          </div>
+          <div class="fi">
+            <div class="fi-lbl"><span class="req"></span><span class="fi-txt">所在楼栋</span></div>
+            <div class="fi-ctrl"><input class="inp" value="A座" placeholder="请输入楼栋名称"></div>
+          </div>
+          <div class="fi">
+            <div class="fi-lbl"><span class="req"></span><span class="fi-txt">所在楼层</span></div>
+            <div class="fi-ctrl"><input class="inp" type="number" value="12" placeholder="请输入楼层"></div>
+          </div>
+          <div class="fi">
+            <div class="fi-lbl"><span class="req"></span><span class="fi-txt">朝向</span></div>
+            <div class="fi-ctrl">
+              <select class="sel">
+                <option>南北</option>
+                <option>东</option>
+                <option>南</option>
+                <option>西</option>
+                <option>北</option>
+              </select>
+            </div>
+          </div>
+          <div class="fi">
+            <div class="fi-lbl"><span class="req"></span><span class="fi-txt">装修状态</span></div>
+            <div class="fi-ctrl">
+              <select class="sel">
+                <option>精装</option>
+                <option>简装</option>
+                <option>毛坯</option>
+              </select>
+            </div>
+          </div>
+          <div class="fi">
+            <div class="fi-lbl"><span class="req"></span><span class="fi-txt">房间格局</span></div>
+            <div class="fi-ctrl"><input class="inp" value="开放式办公" placeholder="请输入格局描述"></div>
+          </div>
+          <div class="fi">
+            <div class="fi-lbl"><span class="req"></span><span class="fi-txt">停车位</span></div>
+            <div class="fi-ctrl"><input class="inp" value="2个" placeholder="请输入停车位数量"></div>
+          </div>
+        </div>
+      </div>
+      <!-- 租金信息 -->
+      <div class="d-sec">
+        <div class="d-title">租金信息</div>
+        <div class="d-grid">
+          <div class="fi">
+            <div class="fi-lbl"><span class="req">*</span><span class="fi-txt">月租金(元)</span></div>
+            <div class="fi-ctrl"><input class="inp" type="number" value="18500" placeholder="请输入月租金"></div>
+          </div>
+          <div class="fi">
+            <div class="fi-lbl"><span class="req"></span><span class="fi-txt">租金单价</span></div>
+            <div class="fi-ctrl"><input class="inp" value="153.5" disabled style="background:#FAFAFA;color:#999;cursor:not-allowed" placeholder="系统自动计算"></div>
+          </div>
+          <div class="fi">
+            <div class="fi-lbl"><span class="req"></span><span class="fi-txt">付款方式</span></div>
+            <div class="fi-ctrl">
+              <select class="sel">
+                <option>季付</option>
+                <option>月付</option>
+                <option>半年付</option>
+                <option>年付</option>
+              </select>
+            </div>
+          </div>
+          <div class="fi">
+            <div class="fi-lbl"><span class="req"></span><span class="fi-txt">押金(月)</span></div>
+            <div class="fi-ctrl">
+              <select class="sel">
+                <option>2个月</option>
+                <option>1个月</option>
+                <option>3个月</option>
+              </select>
+            </div>
+          </div>
+          <div class="fi full">
+            <div class="fi-lbl"><span class="req"></span><span class="fi-txt">备注</span></div>
+            <div class="fi-ctrl"><textarea placeholder="请输入备注信息">位于国贸核心区，交通便利，配套完善。</textarea></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- FOOTER -->
+  <div class="edit-foot" style="justify-content:center">
+    <button class="btn btn-d" onclick="history.back()">取消</button>
+    <button class="btn btn-p" onclick="history.back()">保存</button>
+  </div>
+</div>
+
+<script>
+function toggleSidebar(){const sn=document.getElementById('sn');const img=sn.querySelector('.sn-logo-img');sn.classList.toggle('collapsed');if(img)img.style.display=sn.classList.contains('collapsed')?'none':'';}
+function toggleNav(ni){const nsl=ni.nextElementSibling;if(nsl&&nsl.classList.contains('nsl')){const o=nsl.classList.toggle('open');ni.classList.toggle('open',o);}}
+</script>
+</body>
+</html>

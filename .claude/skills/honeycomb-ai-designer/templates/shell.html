@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>页面标题</title>
+<style>
+/* =============================================
+   Honeycomb 中后台通用 CSS Token
+   来源：rental-management 房源管理模块实战提炼
+   规则：颜色只用 var(--*)，禁止硬编码 #xxxxxx
+   ============================================= */
+:root{
+  /* 品牌色 */
+  --cp50:#EBF2FF; --cp100:#D0E4FF;
+  --cp500:#266EFF; --cp600:#266EFF; --cp700:#1A55D6;
+  /* 灰阶 */
+  --cg0:#fff; --cg25:#FAFAFA; --cg50:#F5F5F5;
+  --cg100:#F0F0F0; --cg200:#E8E8E8; --cg300:#D9D9D9;
+  --cg400:#BFBFBF; --cg500:#8C8C8C; --cg600:#595959;
+  --cg700:#434343; --cg800:#262626;
+  /* 语义色 */
+  --cs500:#52C41A; --cs600:#389E0D;  /* 成功 */
+  --cw500:#FAAD14;                    /* 警告 */
+  --ce500:#FF4D4F; --ce600:#CF1322;  /* 错误/危险 */
+  /* 背景 */
+  --cbg:#F0F2F5; --cbase:#fff;
+  --cb:#E8E8E8;  /* 分隔线 */
+  /* 文字 */
+  --ctp:#262626; --cts:#595959; --ctt:#8C8C8C;
+  --ctd:#BFBFBF; --ctl:#266EFF;
+  /* 字体 */
+  --ff:"PingFang SC",-apple-system,"Microsoft YaHei",Arial,sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--ff);font-size:13px;color:var(--ctp);background:var(--cbg);display:flex;height:100vh;overflow:hidden}
+
+/* =============================================
+   侧边导航 SideNav
+   宽度：展开 208px / 收起 56px
+   背景：#1C1C1E（深色）
+   ============================================= */
+.sn{width:208px;height:100vh;background:#1C1C1E;display:flex;flex-direction:column;flex-shrink:0;transition:width .2s ease}
+.sn.collapsed{width:56px}
+/* Logo 区域 */
+.sn-logo{display:flex;align-items:center;padding:11px 16px;gap:8px;border-bottom:1px solid rgba(255,255,255,.12);height:44px;overflow:hidden}
+.sn-logo-img{height:22px;width:auto;flex-shrink:0}
+.sn.collapsed .sn-logo-img{display:none}
+.sn-collapse-btn{margin-left:auto;cursor:pointer;opacity:.6;width:18px;height:18px;object-fit:contain;flex-shrink:0}
+/* 导航滚动区 */
+.sn-body{flex:1;overflow-y:auto;padding:8px 0}
+.sn-body::-webkit-scrollbar{display:none}
+.nl{list-style:none}
+/* 一级导航项 */
+.ni{display:flex;align-items:center;padding:13px 20px;gap:16px;cursor:pointer;color:rgba(255,255,255,.65);font-size:14px;transition:all .15s;white-space:nowrap;overflow:hidden}
+.sn.collapsed .ni{padding:14px 18px;justify-content:center;gap:0}
+.ni:hover{background:rgba(255,255,255,.06);color:rgba(255,255,255,.9)}
+.ni.on{background:rgba(255,255,255,.1);color:#fff}
+.ni-ic{width:16px;height:16px;flex-shrink:0;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.ni-lb{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sn.collapsed .ni-lb,.sn.collapsed .ni-arrow{display:none}
+.ni-arrow{width:14px;height:14px;flex-shrink:0;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;opacity:.5;transition:transform .2s}
+.ni.open .ni-arrow{transform:rotate(180deg)}
+/* 二级导航 */
+.nsl{list-style:none;display:none}
+.nsl.open{display:block}
+.sn.collapsed .nsl{display:none!important}
+.nsi{display:flex;align-items:center;padding:9px 20px 9px 52px;cursor:pointer;color:rgba(255,255,255,.45);font-size:13px;transition:all .15s}
+.nsi:hover{background:rgba(255,255,255,.05);color:rgba(255,255,255,.75)}
+.nsi.active{color:#60A5FA;background:rgba(37,99,235,.15)}
+/* 底部 */
+.sn-foot{box-shadow:inset 0 1px 0 0 rgba(255,255,255,.1);padding:12px 20px;color:rgba(255,255,255,.4);font-size:12px;flex-shrink:0}
+
+/* =============================================
+   顶部栏 Topbar
+   高度：48px，白色背景
+   ============================================= */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0}
+.topbar{height:48px;background:#fff;border-bottom:1px solid var(--cb);display:flex;align-items:center;padding:0 24px;gap:12px;flex-shrink:0}
+/* 面包屑 */
+.bc{display:flex;align-items:center;gap:4px;font-size:13px;color:var(--ctt);flex:1}
+.bc a{color:var(--ctt);text-decoration:none;cursor:pointer}
+.bc a:hover{color:var(--ctl)}
+.bc-sep{color:#D9D9D9;margin:0 2px}
+.bc-cur{color:var(--ctp)}
+/* 右侧操作区 */
+.tb-r{display:flex;align-items:center;gap:8px}
+.ib{width:32px;height:32px;border-radius:6px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--ctt);transition:background .15s}
+.ib:hover{background:var(--cg100)}
+.ib svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
+/* =============================================
+   页面内容区 PageBody
+   padding: 12px，gap: 12px
+   ============================================= */
+.pb{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:12px}
+.pb::-webkit-scrollbar{width:6px}
+.pb::-webkit-scrollbar-thumb{background:var(--cg300);border-radius:3px}
+
+/* =============================================
+   通用按钮 Button
+   高度：32px，圆角：4px
+   ============================================= */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:32px;padding:0 16px;border-radius:4px;font-size:13px;font-family:var(--ff);font-weight:400;cursor:pointer;border:1px solid transparent;transition:all .15s;white-space:nowrap;text-decoration:none}
+.btn-p{background:var(--cp600);color:#fff;border-color:var(--cp600)}
+.btn-p:hover{background:var(--cp700)}
+.btn-d{background:#fff;color:#333;border-color:var(--cg300)}
+.btn-d:hover{border-color:var(--cp500);color:var(--cp600)}
+.btn-t{background:none;border-color:transparent;color:var(--ctl);padding:0 8px}
+.btn-x{background:none;border-color:transparent;color:var(--ce500);padding:0 8px}
+
+/* =============================================
+   标签 Tag
+   高度：22px，圆角：2px
+   ============================================= */
+.tag{display:inline-flex;align-items:center;height:22px;padding:0 6px;border-radius:2px;font-size:12px}
+.t-green{background:#F6FFED;color:#389E0D;border:1px solid #B7EB8F}   /* 成功/已出租 */
+.t-orange{background:#FFFBE6;color:#D48806;border:1px solid #FFD591}  /* 警告/空置中 */
+.t-red{background:#FFF1F0;color:#CF1322;border:1px solid #FFA39E}     /* 错误/维修中 */
+.t-gray{background:#FAFAFA;color:#8C8C8C;border:1px solid #D9D9D9}   /* 默认/已下架 */
+.t-blue{background:#EBF2FF;color:#266EFF}                               /* 品牌/类型 */
+
+/* =============================================
+   表单分组标题 Section Title
+   左侧 3x16px 蓝色竖条 + 14px semibold 文字
+   ============================================= */
+.d-title{font-size:14px;font-weight:600;color:#333;padding:5px 0;display:flex;align-items:center;gap:8px;margin-bottom:16px}
+.d-title::before{content:'';display:block;width:3px;height:16px;border-radius:2px;background:var(--cp600);flex-shrink:0}
+
+/* =============================================
+   表单项 Form Item
+   label 右对齐固定 110px，必填 * 独立占位 10px
+   ============================================= */
+.fi{display:flex;flex-direction:row;align-items:center;gap:0;min-height:32px}
+.fi-lbl{font-size:13px;color:var(--ctt);width:110px;flex-shrink:0;display:flex;align-items:center;padding-right:8px;white-space:nowrap}
+.fi-lbl .req{color:#FF4D4F;width:10px;flex-shrink:0;text-align:center}  /* 必填 * 独立占位 */
+.fi-lbl .fi-txt{flex:1}  /* label 文字左对齐 */
+.fi-ctrl{flex:1}
+.inp,.sel{height:32px;border:1px solid var(--cg300);border-radius:4px;padding:0 12px;font-size:13px;font-family:var(--ff);color:#333;background:#fff;outline:none;transition:border-color .15s,box-shadow .15s;width:100%}
+.inp:focus,.sel:focus{border-color:var(--cp600);box-shadow:0 0 0 2px rgba(38,110,255,.12)}
+.inp::placeholder{color:#BFBFBF}
+.sel{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238C8C8C' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;padding-right:28px;cursor:pointer}
+
+/* =============================================
+   弹窗 Modal
+   宽度：根据内容，默认 640px
+   遮罩：rgba(0,0,0,0.45)
+   ============================================= */
+.modal-mask{position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:1000;display:none;align-items:center;justify-content:center}
+.modal-mask.open{display:flex}
+.modal{background:#fff;border-radius:4px;width:640px;max-width:calc(100vw - 48px);height:auto;max-height:calc(100vh - 48px);display:flex;flex-direction:column;box-shadow:0 3px 8px rgba(0,0,0,0.1)}
+.modal-hd{display:flex;align-items:center;gap:12px;padding:12px 20px;border-bottom:1px solid #EAEAEA;flex-shrink:0}
+.modal-title{font-size:16px;font-weight:600;color:#333;flex:1}
+.modal-close{width:16px;height:16px;cursor:pointer;color:#999;border:none;background:none;padding:0;display:flex;align-items:center;justify-content:center}
+.modal-close:hover{color:#333}
+.modal-close svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.modal-body{flex:1;overflow-y:auto;padding:20px}
+.modal-ft{display:flex;align-items:center;justify-content:flex-end;gap:12px;padding:10px 20px;border-top:1px solid #EAEAEA;flex-shrink:0}
+
+/* =============================================
+   确认对话框 Confirm Dialog
+   宽度：400px，padding: 32px 24px 24px
+   参考：Honeycomb 组件库 node-id=1807:78552
+   =============================================    ============================================= */
+.confirm-mask{position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:2000;display:none;align-items:center;justify-content:center}
+.confirm-mask.open{display:flex}
+.confirm-box{background:#fff;border-radius:4px;width:400px;padding:32px 24px 24px;position:relative;box-shadow:0 3px 8px rgba(0,0,0,0.1);display:flex;flex-direction:column;gap:24px}
+.confirm-close{position:absolute;top:16px;right:16px;width:16px;height:16px;cursor:pointer;color:#999;border:none;background:none;padding:0;display:flex;align-items:center;justify-content:center}
+.confirm-close:hover{color:#333}
+.confirm-close svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.confirm-content{display:flex;gap:12px;align-items:flex-start}
+.confirm-icon{width:24px;height:24px;flex-shrink:0;margin-top:1px}
+.confirm-text{display:flex;flex-direction:column;gap:8px;flex:1}
+.confirm-title{font-size:16px;font-weight:600;color:#333;line-height:1.5}
+.confirm-desc{font-size:13px;color:#666;line-height:1.692}
+.confirm-ft{display:flex;align-items:center;justify-content:flex-end;gap:12px}
+
+/* =============================================
+   复选框 Checkbox
+   尺寸：15x15px，选中：品牌色填充 + 白色勾
+   ============================================= */
+.chk{width:15px;height:15px;border:1.5px solid var(--cg300);border-radius:3px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .15s;flex-shrink:0;background:#fff}
+.chk.on{background:var(--cp600);border-color:var(--cp600)}
+.chk.on::after{content:"";width:8px;height:5px;border-left:1.5px solid #fff;border-bottom:1.5px solid #fff;transform:rotate(-45deg) translateY(-1px)}
+
+/* =============================================
+   批量操作栏 Batch Bar
+   勾选复选框后替换视图切换标签显示
+   ============================================= */
+.batch-bar{display:flex;align-items:center;gap:8px;flex:1}
+.batch-cancel{width:24px;height:24px;border:none;background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;border-radius:4px;padding:0}
+.batch-cancel:hover{background:var(--cg100)}
+</style>
+</head>
+<body>
+
+<!-- 侧边导航 SideNav -->
+<aside class="sn" id="sn">
+  <div class="sn-logo">
+    <!-- 替换为项目 logo 图片 -->
+    <img src="logo.png" alt="logo" class="sn-logo-img">
+    <img src="collapse.png" class="sn-collapse-btn" onclick="toggleSidebar()" alt="收起">
+  </div>
+  <div class="sn-body">
+    <ul class="nl">
+      <!-- 一级导航项示例 -->
+      <li class="ni" onclick="toggleNav(this)">
+        <svg class="ni-ic" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        <span class="ni-lb">首页</span>
+      </li>
+      <!-- 含二级菜单的导航项 -->
+      <li class="ni on" onclick="toggleNav(this)">
+        <svg class="ni-ic" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+        <span class="ni-lb">模块名称</span>
+        <svg class="ni-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </li>
+      <ul class="nsl open">
+        <li class="nsi active" style="cursor:pointer" onclick="location.href='list.html'">子菜单1</li>
+        <li class="nsi">子菜单2</li>
+      </ul>
+    </ul>
+  </div>
+  <div class="sn-foot">Powered by 天际</div>
+</aside>
+
+<!-- 主内容区 -->
+<div class="main">
+  <!-- 顶部栏 Topbar -->
+  <div class="topbar">
+    <div class="bc">
+      <a href="list.html">上级页面</a>
+      <span class="bc-sep">/</span>
+      <span class="bc-cur">当前页面</span>
+    </div>
+    <div class="tb-r">
+      <!-- 右侧操作按钮放这里 -->
+    </div>
+  </div>
+
+  <!-- 页面内容区 -->
+  <div class="pb">
+    <!-- 页面内容放这里 -->
+  </div>
+</div>
+
+<script>
+// 侧边栏展开/收起
+function toggleSidebar(){
+  const sn=document.getElementById('sn');
+  sn.classList.toggle('collapsed');
+  const img=sn.querySelector('.sn-logo-img');
+  if(img)img.style.display=sn.classList.contains('collapsed')?'none':'';
+}
+// 一级导航展开/收起二级菜单
+function toggleNav(ni){
+  const nsl=ni.nextElementSibling;
+  if(nsl&&nsl.classList.contains('nsl')){
+    const o=nsl.classList.toggle('open');
+    ni.classList.toggle('open',o);
+  }
+}
+// 弹窗开关
+function openModal(id){document.getElementById(id).classList.add('open')}
+function closeModal(id){document.getElementById(id).classList.remove('open')}
+// 确认框开关
+function openConfirm(id){document.getElementById(id).classList.add('open')}
+function closeConfirm(id){document.getElementById(id).classList.remove('open')}
+// 点击遮罩关闭弹窗
+document.addEventListener('DOMContentLoaded',function(){
+  document.querySelectorAll('.modal-mask,.confirm-mask').forEach(function(mask){
+    mask.addEventListener('click',function(e){
+      if(e.target===this)this.classList.remove('open');
+    });
+  });
+});
+</script>
+</body>
+</html>

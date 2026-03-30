@@ -8,12 +8,12 @@
       "tertiary":  { "value": "#999999", "var": "--color-text-2" },
       "disabled":  { "value": "#c5c5c5", "var": "--color-text-disabled" },
       "inverse":   { "value": "#ffffff", "var": "--color-text-inverse" },
-      "link":      { "value": "#6a3ac7", "var": "--color-text-link" }
+      "link":      { "value": "#266EFF", "var": "--color-text-link" }
     },
     "border": {
       "default":  { "value": "#dddddd", "var": "--color-border" },
       "divider":  { "value": "#eaeaea", "var": "--color-border-divider" },
-      "focus":    { "value": "#6a3ac7", "var": "--color-border-focus" }
+      "focus":    { "value": "#266EFF", "var": "--color-border-focus" }
     },
     "background": {
       "page":        { "value": "#ffffff", "var": "--color-bg-white-0" },
@@ -27,10 +27,10 @@
       "disabled": { "value": "#c5c5c5", "var": "--color-icon-disabled" }
     },
     "primary": {
-      "default": { "value": "#6a3ac7", "var": "--color-primary" },
-      "hover":   { "value": "#572fb3", "var": "--color-primary-hover" },
-      "active":  { "value": "#46259e", "var": "--color-primary-active" },
-      "light":   { "value": "#ede8f9", "var": "--color-primary-light" }
+      "default": { "value": "#266EFF", "var": "--color-primary" },
+      "hover":   { "value": "#4F90FF", "var": "--color-primary-hover" },
+      "active":  { "value": "#175BE5", "var": "--color-primary-active" },
+      "light":   { "value": "#E5EBFE", "var": "--color-primary-light" }
     },
     "status": {
       "success":        { "value": "#52c41a", "var": "--color-success" },
