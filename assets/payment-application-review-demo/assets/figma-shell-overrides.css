@@ -1,0 +1,264 @@
+/* Figma high-fidelity visual overrides for the sidebar shell.
+   Interaction logic and demo data remain in the bundled JavaScript. */
+:root {
+  --figma-shell-bg: #f7f8fa;
+  --figma-shell-border: #eaeaea;
+  --figma-shell-muted: #f2f4f6;
+  --figma-shell-icon: #999999;
+  --figma-shell-text: #333333;
+  --figma-shell-gradient: linear-gradient(180deg, rgba(247, 248, 250, 0) 0%, #f7f8fa 100%),
+    linear-gradient(84.92deg, #dce9ff 0%, #e7edfd 33.2%, #eadfff 66.41%, #ffe6e9 100.62%);
+}
+
+body {
+  font-family: "PingFang SC", "Microsoft YaHei", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: transparent;
+}
+
+.sidebar-shell {
+  background: transparent;
+}
+
+.sidebar-shell__panel-group {
+  background: transparent;
+}
+
+.sidebar-shell__drawer {
+  background: var(--figma-shell-bg);
+  border-top: 1px solid rgba(255, 255, 255, 0.96);
+  border-left: 1px solid rgba(255, 255, 255, 0.96);
+  border-radius: 16px 0 0 16px;
+  box-shadow: -10px 0 16px rgba(0, 0, 0, 0.06);
+}
+
+.sidebar-shell__home-bg {
+  background: var(--figma-shell-bg);
+}
+
+.sidebar-shell__header,
+.sidebar-shell--maximized .sidebar-shell__header {
+  height: 60px;
+  padding: 8px 12px;
+  background: var(--figma-shell-gradient);
+}
+
+.sidebar-shell__capsule {
+  width: 68px;
+  height: 36px;
+  padding: 3px 5px;
+  border: 1px solid var(--figma-shell-border);
+  border-radius: 38px;
+  background: #ffffff;
+  box-shadow: 0 3px 4px rgba(0, 0, 0, 0.06);
+}
+
+.sidebar-shell__capsule-btn,
+.sidebar-shell__icon-btn {
+  color: var(--figma-shell-icon);
+}
+
+.sidebar-shell__capsule-btn {
+  width: 28px;
+  min-width: 28px;
+  height: 28px;
+  border-radius: 16px;
+}
+
+.sidebar-shell__capsule-btn:hover {
+  color: #41464c;
+  background: #f7f8fa;
+}
+
+.sidebar-shell__icon-btn {
+  width: 24px;
+  height: 24px;
+  border-radius: 8px;
+}
+
+.sidebar-shell__icon-btn:hover {
+  color: #41464c;
+  background: rgba(255, 255, 255, 0.86);
+}
+
+.sidebar-shell__icon-btn svg,
+.sidebar-shell__capsule-btn svg {
+  stroke-width: 2;
+}
+
+.sidebar-home {
+  padding: 0 12px 12px;
+}
+
+.sidebar-home__inner {
+  min-height: 100%;
+}
+
+.sidebar-home__intro {
+  gap: 18px;
+}
+
+.sidebar-home__identity {
+  gap: 12px;
+}
+
+.sidebar-home__avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: #ccddff;
+}
+
+.sidebar-home__agent-name {
+  font-family: "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 32px;
+  letter-spacing: 0;
+  background: linear-gradient(90deg, #646efc 5.95%, #dd2d85 100%);
+  -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.sidebar-home__description {
+  max-width: 430px;
+  color: var(--figma-shell-text);
+  font-size: 14px;
+  line-height: 24px;
+  letter-spacing: 0;
+}
+
+.sidebar-home__chips {
+  gap: 12px 10px;
+  margin-top: 48px;
+  margin-bottom: 94px;
+}
+
+.sidebar-home__chip {
+  min-width: 0;
+  height: 36px;
+  padding: 4px 12px;
+  border: 1px solid #e6e8ea;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.66);
+  color: #222222;
+  font-size: 13px;
+  line-height: 22px;
+  letter-spacing: 0;
+  box-shadow: none;
+}
+
+.sidebar-home__chip:hover {
+  color: #645bff;
+  border-color: #cfd3d8;
+  background: #ffffff;
+}
+
+.sidebar-home__chip svg {
+  width: 16px;
+  height: 16px;
+  color: var(--figma-shell-icon);
+  stroke-width: 1.8;
+}
+
+.sidebar-home__composer {
+  min-height: 124px;
+  padding: 16px 18px 18px;
+  border: 1px solid var(--figma-shell-border);
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 0 4px 12px rgba(148, 168, 255, 0.2);
+}
+
+.workbench-textarea {
+  color: #333333;
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.workbench-textarea::placeholder {
+  color: #999999;
+}
+
+.sidebar-home__tools button {
+  width: 30px;
+  height: 30px;
+  border: 1px solid var(--figma-shell-muted);
+  border-radius: 8px;
+  color: var(--figma-shell-icon);
+  background: #ffffff;
+}
+
+.chat-input-divider {
+  height: 13px;
+  background: #dddddd;
+}
+
+.agent-switch-chip {
+  height: 30px;
+  padding: 0 8px 0 12px;
+  border: 1px solid var(--figma-shell-muted);
+  border-radius: 8px;
+  background: #ffffff;
+  color: #222222;
+}
+
+.agent-switch-chip:hover {
+  border-color: #e6e8ea;
+  background: #f7f8fa;
+}
+
+.agent-switch-chip__avatar {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+}
+
+.agent-switch-chip__name {
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 22px;
+}
+
+.send-btn {
+  width: 30px;
+  height: 30px;
+  color: #ffffff;
+  background: #dddddd;
+  border-radius: 50%;
+}
+
+.send-btn.active {
+  background: linear-gradient(135deg, #645bff 0%, #7c6dff 100%);
+}
+
+.sidebar-shell--maximized.sidebar-shell--home .sidebar-shell__panel-group:before {
+  background-image: none;
+}
+
+@media (width > 959px) {
+  .sidebar-shell__panel-group {
+    width: min(100vw, 1196px);
+  }
+
+  .sidebar-shell__drawer {
+    width: clamp(360px, 32vw, 480px);
+  }
+}
+
+@media (width <= 959px) {
+  .sidebar-shell__panel-group,
+  .sidebar-shell__drawer {
+    width: 100vw;
+  }
+}
+
+@media (height >= 900px) {
+  .sidebar-home__intro {
+    gap: 24px;
+  }
+
+  .sidebar-home__chips {
+    margin-top: 64px;
+  }
+}
