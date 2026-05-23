@@ -77,7 +77,7 @@ body {
 
 .sidebar-shell__icon-btn:hover {
   color: #41464c;
-  background: rgba(255, 255, 255, 0.86);
+  background: #ffffff;
 }
 
 .sidebar-shell__icon-btn svg,
@@ -131,7 +131,7 @@ body {
   width: 40px;
   height: 40px;
   border-radius: 10px;
-  background: #fff5f0;
+  background: transparent;
   overflow: hidden;
 }
 
@@ -158,10 +158,6 @@ body {
   font-size: 14px;
   line-height: 22px;
   letter-spacing: 0;
-}
-
-.sidebar-home__description::before {
-  content: "👋 ";
 }
 
 .sidebar-home__chips {
@@ -260,6 +256,26 @@ body {
   height: 16px;
   border-radius: 4px;
   object-fit: contain;
+  background: transparent;
+}
+
+.sidebar-home__avatar,
+.agent-switch-chip__avatar,
+.chat-bubble-avatar.avatar-agent,
+.chat-bubble-avatar.avatar-agent > div,
+.agent-profile-card-header > div:first-child {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.chat-bubble-avatar.avatar-agent,
+.chat-bubble-avatar.avatar-agent > div {
+  border: 0 !important;
+}
+
+.chat-bubble-avatar.avatar-agent img,
+.agent-profile-card-header img {
+  object-fit: contain !important;
 }
 
 .agent-switch-chip__name {
@@ -282,6 +298,217 @@ body {
 
 .sidebar-shell--maximized.sidebar-shell--home .sidebar-shell__panel-group:before {
   background-image: none;
+}
+
+.sidebar-shell:not(.sidebar-shell--home) .sidebar-shell__drawer,
+.sidebar-shell:not(.sidebar-shell--home) .sidebar-shell__chat-body {
+  background: #f7f8fa;
+}
+
+.sidebar-shell--with-source-floater .sidebar-shell__drawer {
+  border-left: 0;
+}
+
+.source-floater {
+  top: 12px;
+  right: calc(clamp(428px, 32vw, 480px) + 8px);
+  bottom: 12px;
+  width: min(560px, calc(100vw - clamp(428px, 32vw, 480px) - 20px));
+  max-width: calc(100vw - clamp(428px, 32vw, 480px) - 20px);
+  border: 1px solid #e4eaf3;
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.14), 0 2px 6px rgba(15, 23, 42, 0.06);
+  transform: translateX(8px);
+}
+
+.source-floater--riskcheck {
+  width: min(580px, calc(100vw - clamp(428px, 32vw, 480px) - 20px));
+}
+
+.source-floater--visible {
+  transform: translateX(0);
+}
+
+.source-floater__tabs {
+  min-height: 48px;
+  padding: 8px 10px 0;
+  border-bottom: 1px solid #e4eaf3;
+  background: #ffffff;
+}
+
+.source-floater__tab {
+  height: 36px;
+  max-width: 260px;
+  padding: 0 12px;
+  border-radius: 8px 8px 0 0;
+  background: #f7f8fa;
+  color: #667085;
+  font-size: 13px;
+  line-height: 22px;
+}
+
+.source-floater__tab:hover {
+  color: #333333;
+  background: #eef1f5;
+}
+
+.source-floater__tab--active {
+  color: #1f2937;
+  background: #ffffff;
+  border-color: #e4eaf3 #e4eaf3 #ffffff;
+}
+
+.source-floater__sub {
+  min-height: 38px;
+  padding: 8px 14px;
+  color: #667085;
+  background: #ffffff;
+  font-size: 13px;
+  line-height: 22px;
+}
+
+.source-floater__body-wrap {
+  background: #f7f8fa;
+}
+
+.source-floater__pane {
+  padding: 12px;
+  background: #f7f8fa;
+  scrollbar-width: none;
+}
+
+.source-floater__pane::-webkit-scrollbar {
+  display: none;
+}
+
+.source-floater__pane:hover {
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 transparent;
+}
+
+.source-floater__pane:hover::-webkit-scrollbar {
+  display: block;
+  width: 5px;
+}
+
+.source-floater__pane:hover::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+
+.source-floater__pane--riskcheck {
+  background: #ffffff;
+  padding: 0;
+}
+
+.src-contract,
+.src-invoice {
+  border-color: #dbe4f0;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06);
+}
+
+.risk-trigger-card__open {
+  color: #333333;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 22px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.risk-trigger-card__open::after {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-top: 1px solid currentColor;
+  border-right: 1px solid currentColor;
+  transform: rotate(45deg);
+  flex: 0 0 auto;
+}
+
+.risk-trigger-card__stats {
+  gap: 6px;
+}
+
+.risk-trigger-card__chip {
+  height: 24px;
+  padding: 2px 6px;
+  border: 0;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 20px;
+}
+
+.risk-trigger-card__chip--high {
+  color: #ff4c4c;
+  background: #fff1f1;
+}
+
+.risk-trigger-card__chip--mid {
+  color: #ff6600;
+  background: #fffaea;
+}
+
+.risk-trigger-card__chip--pass {
+  color: #13a374;
+  background: #edfdf7;
+}
+
+.risk-trigger-card__chip--bad {
+  color: #ff4c4c;
+  background: #fff1f1;
+}
+
+.risk-trigger-card__icon {
+  width: 18px;
+  height: 18px;
+  background-image: url("../icon-wrapper.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 14px 14px;
+  align-self: flex-start;
+  margin-top: 0;
+}
+
+.risk-trigger-card__icon > svg {
+  display: none;
+}
+
+.risk-trigger-card:hover .risk-trigger-card__open,
+.risk-trigger-card:focus-visible .risk-trigger-card__open {
+  color: #333333;
+  text-decoration: none;
+}
+
+.risk-check-card__source-link,
+.risk-check-card__source-link:hover {
+  text-decoration: none !important;
+}
+
+.markdown-content a,
+.markdown-content a:hover,
+.message-content a,
+.message-content a:hover,
+.chat-message a,
+.chat-message a:hover,
+.assistant-message a,
+.assistant-message a:hover,
+.audit-message a,
+.audit-message a:hover,
+.chat-host-link,
+.chat-host-link:hover,
+.chat-host-link:focus,
+.risk-check-card a,
+.risk-check-card a:hover {
+  color: #1677ff;
+  text-decoration: none !important;
+  border-bottom: 0 !important;
+  box-shadow: none !important;
 }
 
 @media (width > 560px) {
@@ -319,4 +546,311 @@ body {
   .sidebar-home__intro {
     gap: 12px;
   }
+}
+
+/* Figma node 1143:25607: 680px workbench + 440px drawer layout. */
+@media (width > 760px) {
+  .sidebar-shell__panel-group,
+  .sidebar-shell--open .sidebar-shell__panel-group {
+    width: min(100vw, 440px);
+  }
+
+  .sidebar-shell__drawer,
+  .sidebar-shell--open .sidebar-shell__drawer {
+    width: 440px;
+    max-width: 440px;
+  }
+
+  .sidebar-shell--with-source-floater .sidebar-shell__panel-group {
+    width: min(100vw, 1120px);
+  }
+
+  .sidebar-shell--with-source-floater .sidebar-shell__drawer,
+  .sidebar-shell--with-source-floater.sidebar-shell--open .sidebar-shell__drawer {
+    width: 440px;
+    max-width: 440px;
+  }
+
+  .source-floater {
+    top: 0;
+    right: 440px;
+    bottom: 0;
+    width: 680px;
+    max-width: calc(100vw - 440px);
+    border: 0;
+    border-right: 1px solid #eaeaea;
+    border-radius: 16px 0 0 16px;
+    box-shadow: -10px 0 16px rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+  }
+
+  .source-floater--riskcheck {
+    width: 680px;
+    max-width: calc(100vw - 440px);
+  }
+}
+
+.sidebar-shell .sidebar-shell__overlay,
+.sidebar-shell .sidebar-shell__panel-group {
+  overflow: visible;
+}
+
+.sidebar-shell .sidebar-shell__drawer,
+.sidebar-shell.sidebar-shell--open .sidebar-shell__drawer {
+  border-radius: 16px 0 0 16px !important;
+  box-shadow: -10px 0 16px rgba(0, 0, 0, 0.06) !important;
+  overflow: hidden;
+}
+
+.sidebar-shell.sidebar-shell--with-source-floater .sidebar-shell__drawer {
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+.sidebar-shell.sidebar-shell--with-source-floater ~ .source-floater,
+.source-floater.source-floater--visible {
+  border-radius: 16px 0 0 16px !important;
+  box-shadow: -10px 0 16px rgba(0, 0, 0, 0.06) !important;
+  overflow: hidden;
+}
+
+.sidebar-shell:not(.sidebar-shell--home) .sidebar-shell__header {
+  height: 60px;
+  padding: 8px 12px;
+}
+
+.sidebar-shell:not(.sidebar-shell--home) .sidebar-shell__chat-body .chat-input-area {
+  padding: 10px 12px 12px;
+  background: #f7f8fa;
+}
+
+.sidebar-shell:not(.sidebar-shell--home) .chat-panel-input-wrapper {
+  width: 100%;
+  max-width: 416px;
+}
+
+.sidebar-shell:not(.sidebar-shell--home) .chat-input-wrapper {
+  min-height: 110px;
+  padding: 12px 16px;
+  border: 1px solid #eaeaea;
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+  align-items: flex-end;
+}
+
+.sidebar-shell:not(.sidebar-shell--home) .chat-input-wrapper:focus-within {
+  border-color: #eaeaea;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+}
+
+.sidebar-shell:not(.sidebar-shell--home) .chat-input-textarea {
+  min-height: 44px;
+  font-size: 14px;
+  line-height: 22px;
+  color: #333333;
+}
+
+.source-floater__tabs {
+  min-height: 50px;
+  height: 50px;
+  padding: 11px 12px;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 1px solid #eaeaea;
+  background: #ffffff;
+}
+
+.source-floater__tab {
+  top: 0;
+  height: 28px;
+  max-width: 180px;
+  padding: 0 8px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: #999999;
+  font-size: 13px;
+  line-height: 22px;
+  font-weight: 400;
+}
+
+.source-floater__tab::before {
+  content: "";
+  width: 16px;
+  height: 16px;
+  flex: 0 0 auto;
+  background-image: url("../icon-wrapper.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 14px 14px;
+  opacity: 0.72;
+}
+
+.source-floater__tab:hover,
+.source-floater__tab--active {
+  color: #333333;
+  background: #f7f8fa;
+  border: 0;
+  font-weight: 400;
+}
+
+.source-floater__tab-dot {
+  display: none;
+}
+
+.source-floater__close,
+.source-floater__tab-close {
+  color: #999999;
+  background: transparent;
+}
+
+.source-floater__close {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+}
+
+.source-floater__close:hover,
+.source-floater__tab-close:hover {
+  color: #333333;
+  background: #f7f8fa;
+}
+
+.source-floater__sub {
+  display: none;
+}
+
+.source-floater__body-wrap {
+  background: #f7f8fa;
+}
+
+.source-floater__pane {
+  padding: 12px;
+  background: #f7f8fa;
+}
+
+.src-contract,
+.src-invoice {
+  max-width: none;
+  min-height: 100%;
+  padding: 24px 32px;
+  border: 0;
+  border-radius: 10px;
+  background: #ffffff;
+  box-shadow: none;
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.src-contract__title {
+  font-size: 26px;
+  line-height: 39px;
+}
+
+.src-contract__no,
+.src-contract__party-label,
+.src-contract__footer {
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.src-contract__section-title {
+  margin: 22px 0 12px;
+  font-size: 20px;
+  line-height: 30px;
+}
+
+.src-contract__clause {
+  padding: 10px 12px;
+  border-radius: 8px;
+}
+
+.src-contract__clause-no,
+.src-contract__clause-body {
+  font-size: 14px;
+  line-height: 22px;
+}
+
+/* Figma 2162:94831 - audit conclusion risk filters */
+.risk-check-card__filters {
+  align-items: center;
+  gap: 6px;
+  margin: 8px 0 18px;
+}
+
+.risk-check-card__chip {
+  --risk-chip-color: #ff4c4c;
+  --risk-chip-bg: #fff1f1;
+  height: 24px;
+  min-width: auto;
+  gap: 4px;
+  padding: 2px 6px;
+  border: 0 !important;
+  border-radius: 4px;
+  background: var(--risk-chip-bg) !important;
+  color: var(--risk-chip-color) !important;
+  font-family: "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 20px;
+  box-shadow: none;
+}
+
+.risk-check-card__chip:nth-child(1) {
+  --risk-chip-color: #ff4c4c;
+  --risk-chip-bg: #fff1f1;
+}
+
+.risk-check-card__chip:nth-child(2) {
+  --risk-chip-color: #ff6600;
+  --risk-chip-bg: #fffaea;
+}
+
+.risk-check-card__chip:nth-child(3) {
+  --risk-chip-color: #af8b04;
+  --risk-chip-bg: #fffad9;
+}
+
+.risk-check-card__chip:nth-child(4) {
+  --risk-chip-color: #13a374;
+  --risk-chip-bg: #edfdf7;
+}
+
+.risk-check-card__chip:hover {
+  filter: brightness(0.98);
+}
+
+.risk-check-card__chip-box {
+  width: 12px;
+  height: 12px;
+  border: 0.75px solid var(--risk-chip-color) !important;
+  border-radius: 2px;
+  background: #ffffff !important;
+}
+
+.risk-check-card__chip.is-active .risk-check-card__chip-box {
+  background: var(--risk-chip-color) !important;
+  border-color: var(--risk-chip-color) !important;
+}
+
+.risk-check-card__chip.is-active:not(:first-child) .risk-check-card__chip-box {
+  background: #ffffff !important;
+}
+
+.risk-check-card__chip.is-active:not(:first-child) .risk-check-card__chip-box svg {
+  display: none;
+}
+
+.risk-check-card__chip-box svg {
+  width: 8px;
+  height: 8px;
+}
+
+.risk-check-card__chip-box path {
+  stroke: #ffffff;
+}
+
+.risk-check-card__sort {
+  margin-left: auto;
 }

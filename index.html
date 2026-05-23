@@ -59,11 +59,14 @@
       top: 0;
       height: 100vh;
       overflow: auto;
+      z-index: 20;
       transition: padding 0.2s ease;
     }
 
     .app.nav-collapsed .sidebar {
       padding: 18px 8px;
+      overflow: visible;
+      z-index: 60;
     }
 
     .brand {
@@ -234,6 +237,66 @@
       grid-template-columns: 1fr;
       place-items: center;
       padding: 10px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .app.nav-collapsed .nav-item:hover,
+    .app.nav-collapsed .nav-item:focus-visible {
+      z-index: 80;
+    }
+
+    .app.nav-collapsed .nav-group,
+    .app.nav-collapsed .nav-group-inner {
+      overflow: visible;
+    }
+
+    .app.nav-collapsed .nav-item::after {
+      content: attr(data-tip);
+      position: absolute;
+      left: calc(100% + 10px);
+      top: 50%;
+      transform: translateY(-50%) translateX(-4px);
+      z-index: 50;
+      min-width: max-content;
+      max-width: 180px;
+      padding: 6px 10px;
+      border-radius: 6px;
+      background: rgba(24, 24, 27, 0.94);
+      color: #ffffff;
+      font-size: 12px;
+      line-height: 18px;
+      font-weight: 500;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.16s ease, transform 0.16s ease;
+    }
+
+    .app.nav-collapsed .nav-item::before {
+      content: "";
+      position: absolute;
+      left: calc(100% + 5px);
+      top: 50%;
+      z-index: 51;
+      width: 8px;
+      height: 8px;
+      background: rgba(24, 24, 27, 0.94);
+      transform: translateY(-50%) rotate(45deg);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.16s ease;
+    }
+
+    .app.nav-collapsed .nav-item:hover::after,
+    .app.nav-collapsed .nav-item:focus-visible::after {
+      opacity: 1;
+      transform: translateY(-50%) translateX(0);
+    }
+
+    .app.nav-collapsed .nav-item:hover::before,
+    .app.nav-collapsed .nav-item:focus-visible::before {
+      opacity: 1;
     }
 
     .nav-item:hover { background: var(--sidebar-soft); color: white; }
@@ -613,6 +676,7 @@
       overflow: auto;
       max-height: none;
       text-align: center;
+      position: relative;
     }
 
     body.preview-only .preview-stage {
@@ -640,6 +704,14 @@
       border-radius: 12px;
       background: #fff;
       display: block;
+    }
+
+    .project-preview-frame.is-preloading {
+      position: absolute;
+      left: -10000px;
+      top: 0;
+      opacity: 0;
+      pointer-events: none;
     }
 
     .principles-panel {
@@ -1935,6 +2007,7 @@
       tab: "preview",
       mode: "标准",
       previewIndex: 0,
+      previewRenderKey: "",
       navCollapsed: false,
       expandedGroups: {}
     };
@@ -2013,7 +2086,7 @@
           <div class="nav-group ${collapsed ? "collapsed" : ""}">
             <div class="nav-group-inner">
               ${group.items.map(({ section, index }) => `
-                <button class="nav-item ${index === state.sectionIndex ? "active" : ""}" type="button" data-section="${index}">
+                <button class="nav-item ${index === state.sectionIndex ? "active" : ""}" type="button" data-section="${index}" data-tip="${section.label}" title="${section.label}">
                   ${navIcon(section.iconKey)}
                   <span class="nav-text">
                     <span class="nav-label">${section.label}</span>
@@ -2035,11 +2108,16 @@
 
       nav.querySelectorAll(".nav-item").forEach(button => {
         button.addEventListener("click", () => {
-          state.sectionIndex = Number(button.dataset.section);
+          const nextSectionIndex = Number(button.dataset.section);
+          if (nextSectionIndex === state.sectionIndex) return;
+          state.sectionIndex = nextSectionIndex;
           state.expandedGroups[currentSection().group] = true;
           state.pageIndex = 0;
           state.tab = "preview";
           state.previewIndex = 0;
+          if (["frame-sidebar", "frame-workbench"].includes(currentSection().id)) {
+            state.navCollapsed = true;
+          }
           render();
         });
       });
@@ -2059,7 +2137,7 @@
           { label: "设计原则", frame: sitePage("p-frame-0") }
         ],
         "frame-workbench": [
-          { label: "AI 原生模式", frame: "assets/ai-native-mode-demo/index.html?v=clean-20260522" },
+          { label: "AI 原生模式", frame: "assets/ai-native-mode-demo/index.html?v=20260524-cost-control-v2" },
           { label: "设计理念", frame: sitePage("p-frame-1", "frame-native-overview") }
         ],
         "frame-sidebar": [
@@ -2086,22 +2164,48 @@
       const previews = previewSets[section.id] || previewSets["frame-selector"];
       if (state.previewIndex >= previews.length) state.previewIndex = 0;
       const active = previews[state.previewIndex];
-      const previewTitle = section.group;
+      const previewTitle = section.label;
       const switcher = previews.length > 1 ? `
           <div class="preview-switcher">
             ${previews.map((item, index) => `<button class="${index === state.previewIndex ? "active" : ""}" type="button" data-preview="${index}">${previewName(item)}</button>`).join("")}
           </div>
         ` : "";
-      pagePreview.innerHTML = `
+      const headHtml = `
         <div class="page-preview-head">
           <div class="page-preview-title">${previewTitle}</div>
           ${switcher}
-        </div>
+        </div>`;
+      const nextPreviewKey = `${section.id}:${state.previewIndex}:${active.frame || active.src || active.type || active.label}`;
+      const existingStage = pagePreview.querySelector(".preview-stage");
+      const existingHead = pagePreview.querySelector(".page-preview-head");
+
+      if (active.frame && existingStage && state.previewRenderKey !== nextPreviewKey) {
+        if (existingHead) {
+          existingHead.outerHTML = headHtml;
+        }
+        preloadFrameIntoStage(existingStage, active, nextPreviewKey);
+        bindPreviewSwitcher();
+        return;
+      }
+
+      if (state.previewRenderKey === nextPreviewKey && existingHead) {
+        existingHead.outerHTML = headHtml;
+        bindPreviewSwitcher();
+        return;
+      }
+
+      pagePreview.innerHTML = `
+        ${headHtml}
         <div class="preview-stage">
           ${renderMiniPreview(active)}
         </div>
       `;
+      state.previewRenderKey = nextPreviewKey;
       scalePreviewImage();
+      bindPreviewSwitcher();
+    }
+
+    function bindPreviewSwitcher() {
       pagePreview.querySelectorAll("[data-preview]").forEach(button => {
         button.addEventListener("click", () => {
           state.previewIndex = Number(button.dataset.preview);
@@ -2110,6 +2214,21 @@
           if (stage) stage.scrollTo({ top: 0, left: 0 });
         });
       });
+    }
+
+    function preloadFrameIntoStage(stage, preview, previewKey) {
+      const frame = document.createElement("iframe");
+      frame.className = "project-preview-frame is-preloading";
+      frame.src = preview.frame;
+      frame.title = previewName(preview);
+      frame.addEventListener("load", () => {
+        if (state.previewRenderKey === previewKey) return;
+        frame.classList.remove("is-preloading");
+        stage.replaceChildren(frame);
+        stage.scrollTo({ top: 0, left: 0 });
+        state.previewRenderKey = previewKey;
+      }, { once: true });
+      stage.appendChild(frame);
     }
 
     function renderMiniPreview(preview) {

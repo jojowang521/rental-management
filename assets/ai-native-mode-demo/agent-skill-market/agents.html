@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>智能体</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f7f8fa;
+      --card: #fff;
+      --text: #1f2329;
+      --muted: #646a73;
+      --line: #e9edf2;
+      --active: #3478f6;
+      --shadow: 0 1px 2px rgba(15, 23, 42, .04);
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Segoe UI", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; margin: 0; }
+    body { overflow: hidden; background: var(--bg); color: var(--text); }
+
+    .market-page {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      height: 100%;
+      padding: 16px 56px 8px;
+      overflow: hidden;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      background: #f7f8fa;
+    }
+
+    .market-page::-webkit-scrollbar {
+      width: 0;
+      height: 0;
+      display: none;
+    }
+
+    .market-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      width: 100%;
+      margin: 0 0 12px;
+      flex: 0 0 auto;
+    }
+
+    h1 {
+      margin: 0;
+      color: #25272c;
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: 0;
+    }
+
+    .market-search {
+      display: flex;
+      align-items: center;
+      width: 300px;
+      height: 38px;
+      padding: 0 14px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: #fff;
+      color: #9aa1ad;
+      font-size: 14px;
+      box-shadow: var(--shadow);
+    }
+
+    .market-tabs {
+      display: flex;
+      gap: 12px;
+      width: 100%;
+      margin: 0 0 12px;
+      padding: 0;
+      overflow-x: auto;
+      flex: 0 0 auto;
+    }
+
+    .market-tab {
+      flex: 0 0 auto;
+      height: 28px;
+      padding: 3px 12px;
+      border: 0;
+      border-radius: 8px;
+      background: transparent;
+      color: #555d6b;
+      font-size: 13px;
+      font-weight: 500;
+      line-height: 22px;
+      cursor: pointer;
+    }
+
+    .market-tab:hover {
+      background: #f2f4f6;
+    }
+
+    .market-tab.active {
+      background: #e9ecff;
+      color: #222;
+    }
+
+    .agent-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(230px, 1fr));
+      gap: 12px;
+      width: 100%;
+      margin: 0;
+    }
+
+    .market-scroll {
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow: auto;
+      padding: 12px 0 8px;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    .market-scroll::-webkit-scrollbar {
+      width: 0;
+      height: 0;
+      display: none;
+    }
+
+    .agent-card {
+      min-height: 150px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--card);
+      box-shadow: var(--shadow);
+      transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+    }
+
+    .agent-card:hover {
+      transform: translateY(-2px);
+      border-color: #cfe0ff;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, .08);
+    }
+
+    .agent-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .agent-id {
+      display: flex;
+      align-items: center;
+      min-width: 0;
+      gap: 10px;
+    }
+
+    .agent-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      overflow: hidden;
+      background: #eef5ff;
+      flex: 0 0 auto;
+    }
+
+    .agent-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .agent-card h2 {
+      margin: 0;
+      overflow: hidden;
+      color: #22252b;
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 1.35;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .agent-action {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 28px;
+      min-width: 52px;
+      padding: 0 12px;
+      border: 1px solid #d8dde6;
+      border-radius: 8px;
+      background: #fff;
+      color: #4e5969;
+      font-size: 12px;
+      font-weight: 500;
+      line-height: 26px;
+      white-space: nowrap;
+      cursor: pointer;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .16s ease, border-color .16s ease, color .16s ease, background .16s ease;
+    }
+
+    .agent-card:hover .agent-action,
+    .agent-card:focus-within .agent-action {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .agent-action:hover {
+      border-color: #C7D1FF;
+      color: #3456F0;
+      background: #fff;
+    }
+
+    .agent-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.65;
+    }
+
+    @media (max-width: 1180px) {
+      .market-page { padding: 16px 32px 8px; }
+      .agent-grid { grid-template-columns: repeat(3, minmax(220px, 1fr)); }
+    }
+
+    @media (max-width: 820px) {
+      .market-head { align-items: flex-start; flex-direction: column; }
+      .market-search { width: 100%; }
+      .agent-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main class="market-page">
+    <header class="market-head">
+      <h1>智能体</h1>
+      <div class="market-search">搜索智能体</div>
+    </header>
+    <nav class="market-tabs" aria-label="智能体分类">
+      <button class="market-tab active">全部</button>
+      <button class="market-tab">销售域</button>
+      <button class="market-tab">成本域</button>
+      <button class="market-tab">资管域</button>
+      <button class="market-tab">租赁域</button>
+      <button class="market-tab">公共域</button>
+    </nav>
+    <div class="market-scroll">
+      <section class="agent-grid" id="agentGrid" aria-label="智能体列表"></section>
+    </div>
+  </main>
+  <script>
+    const agents = [
+      ['调价助手', '销售域', '通过对话式交互自动筛选房源、计算价格，生成一房一价的调价方案与合理性评估结果。'],
+      ['库存分析助手', '销售域', '快速统计库存的产品结构、户型结构与库龄分布，辅助识别高压库存，支撑营销策略制定。'],
+      ['销售日报助手', '销售域', '自动按模版汇总销售数据并完成简单特征分析，形成销售日报，减少人工统计与编写成本。'],
+      ['回款分析助手', '销售域', '统计应收账龄、按揭银行、回款节点及实收情况，辅助识别回款风险与资金压力。'],
+      ['项目成本分析助手', '成本域', '基于自然语言理解，覆盖项目、科目、业态、趋势 4 大分析视角与 30+ 标准指标。'],
+      ['合同录入助手', '成本域', '上传合同附件与合同草拟件，智能审查准确性，无误后提取文本内容自动填充合同表单。'],
+      ['合同审核助手', '成本域', '在流程审批过程中，结合业务资料、系统数据与内置规则检查点，辅助审批人进行业务审核。'],
+      ['付款预审助手', '成本域', '对付款申请的概算、合同、账户、发票、工程量、现场进度等维度进行穿透式核验。'],
+      ['资管查询助手', '资管域', '通过自然语言智能识别用户意图，提供多条件、跨业务查询数据服务与业务穿透。'],
+      ['资产经营监管助手', '资管域', '将人工写材料升级为自动经营复盘，系统每天主动给出经营结论，内含业务 knowhow。'],
+      ['合同录入助手（租赁）', '租赁域', '将人工填单升级为资料自动结构化，大幅提升租赁合同的录入吞吐量与准确率。'],
+      ['租赁合同预审助手', '租赁域', '依据租赁商务政策与合同商务条款进行预审，提升商务审核效率，保障租赁合同收益。'],
+      ['数据主题分析助手', '公共域', '针对成本、销售、资管租赁等主题宽表进行分析与洞察，支持自然语言自由问数。'],
+      ['审批助手', '公共域', '作为流程审批人的副驾，基于审批规则对业务资料与系统数据进行检查对比。'],
+      ['消息待办助手', '公共域', 'ERP 用户可随时通过对话查询自身待办与待阅任务，节省查找待办时间。'],
+      ['文档辅助阅读助手', '公共域', '用户直接提问即可快速获取文档内容总结，无需逐页翻找关键信息，节省理解时间。']
+    ];
+
+    const grid = document.getElementById('agentGrid');
+    grid.innerHTML = agents.map((item, index) => `
+      <article class="agent-card">
+        <div class="agent-top">
+          <div class="agent-id">
+            <span class="agent-avatar"><img src="../figma-assets/agents/agent-${String(index + 1).padStart(2, '0')}.png" alt=""></span>
+            <h2>${item[0]}</h2>
+          </div>
+          <button class="agent-action" type="button">对话</button>
+        </div>
+        <p>${item[2]}</p>
+      </article>
+    `).join('');
+
+    document.querySelectorAll('.market-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.market-tab').forEach(item => item.classList.remove('active'));
+        tab.classList.add('active');
+        const value = tab.textContent.trim();
+        const visible = value === '全部' ? agents : agents.filter(item => item[1] === value);
+        grid.innerHTML = visible.map((item, index) => {
+          const assetIndex = agents.findIndex(source => source[0] === item[0]) + 1;
+          return `
+            <article class="agent-card">
+              <div class="agent-top">
+                <div class="agent-id">
+                  <span class="agent-avatar"><img src="../figma-assets/agents/agent-${String(assetIndex).padStart(2, '0')}.png" alt=""></span>
+                  <h2>${item[0]}</h2>
+                </div>
+                <button class="agent-action" type="button">对话</button>
+              </div>
+              <p>${item[2]}</p>
+            </article>
+          `;
+        }).join('');
+      });
+    });
+  </script>
+</body>
+</html>

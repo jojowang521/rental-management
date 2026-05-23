@@ -19,9 +19,9 @@ button,input,select{font:inherit}
 .top{grid-column:1/-1;background:var(--blue);display:grid;grid-template-columns:208px 1fr;color:#fff;box-shadow:0 2px 8px rgba(22,119,255,.24);transition:grid-template-columns .18s ease}
 .app.nav-collapsed .top{grid-template-columns:56px 1fr}
 .top-brand{height:48px;display:flex;align-items:center;padding:0 16px;border-right:1px solid rgba(255,255,255,.18);gap:16px;overflow:hidden}
-.logo{font-size:22px;font-weight:800;font-style:italic;letter-spacing:.5px}.hamb{width:24px;height:24px;border:0;background:transparent;color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px;line-height:1}
+.logo{font-size:22px;font-weight:800;font-style:italic;letter-spacing:.5px}.hamb{width:24px;height:24px;margin-left:auto;border:0;background:transparent;color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px;line-height:1}
 .refresh svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.app.nav-collapsed .top-brand{justify-content:center;padding:0}.app.nav-collapsed .logo{display:none}
+.app.nav-collapsed .top-brand{justify-content:center;padding:0}.app.nav-collapsed .logo{display:none}.app.nav-collapsed .hamb{margin-left:0}
 .top-main{display:flex;align-items:center;padding:0 24px}.page-title{font-size:16px;font-weight:500;letter-spacing:.2px}
 .top-actions{margin-left:auto;display:flex;align-items:center;gap:18px}.top-ic{position:relative;width:28px;height:28px;padding:0;border:0;background:transparent;color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:13px}
 .top-agent-icon{width:28px;height:28px;display:block;object-fit:contain}
@@ -172,7 +172,7 @@ td{height:48px;padding:0 16px;border-bottom:1px solid #F5F5F5;font-size:13px;col
     <div class="top-main">
       <div class="page-title">付款申请</div>
       <div class="top-actions">
-        <button class="top-ic" onclick="openAiDrawer()" aria-label="消息"><img class="top-agent-icon" src="agent-avatar.png" alt=""></button>
+        <button class="top-ic" onclick="openAiDrawer()" aria-label="消息"><img class="top-agent-icon" src="chat-avatar.svg" alt=""></button>
         <button class="top-ic" aria-label="通知">
           <svg class="top-notice-ic" viewBox="0 0 24 24" aria-hidden="true">
             <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path>
