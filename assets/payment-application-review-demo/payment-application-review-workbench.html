@@ -172,7 +172,7 @@ td{height:48px;padding:0 16px;border-bottom:1px solid #F5F5F5;font-size:13px;col
     <div class="top-main">
       <div class="page-title">付款申请</div>
       <div class="top-actions">
-        <button class="top-ic" aria-label="消息"><img class="top-agent-icon" src="agent-avatar.png" alt=""></button>
+        <button class="top-ic" onclick="openAiDrawer()" aria-label="消息"><img class="top-agent-icon" src="agent-avatar.png" alt=""></button>
         <button class="top-ic" aria-label="通知">
           <svg class="top-notice-ic" viewBox="0 0 24 24" aria-hidden="true">
             <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path>
@@ -448,6 +448,17 @@ function toast(message){
   el.classList.add('show');
   clearTimeout(window.__toastTimer);
   window.__toastTimer=setTimeout(function(){el.classList.remove('show')},1500);
+}
+function openAiDrawer(){
+  if(window.parent && window.parent!==window){
+    window.parent.postMessage({type:'workbench:open-ai-drawer'}, '*');
+    return;
+  }
+  if(window.location.protocol==='file:'){
+    window.location.href='http://localhost:8901/assets/payment-application-review-demo/index.html?shell=sidebar&open=ai';
+    return;
+  }
+  window.location.href='index.html?shell=sidebar&open=ai';
 }
 function switchView(btn){
   btn.closest('.view-tabs').querySelectorAll('.view-tab').forEach(function(item){item.classList.remove('on')});
