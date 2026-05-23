@@ -131,7 +131,12 @@ body {
   width: 40px;
   height: 40px;
   border-radius: 10px;
-  background: #ccddff;
+  background: #fff5f0;
+  overflow: hidden;
+}
+
+.sidebar-home__avatar img {
+  object-fit: contain;
 }
 
 .sidebar-home__agent-name {
@@ -254,6 +259,7 @@ body {
   width: 16px;
   height: 16px;
   border-radius: 4px;
+  object-fit: contain;
 }
 
 .agent-switch-chip__name {
