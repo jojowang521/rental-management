@@ -5,9 +5,9 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ai-demo-shell</title>
-    <script type="module" crossorigin src="./assets/index-CEoZRuVF.js?v=20260524-source-close-restore"></script>
+    <script type="module" crossorigin src="./assets/index-CEoZRuVF.js?v=20260524-local-sync2"></script>
     <link rel="stylesheet" crossorigin href="./assets/index-CSRTDniH.css">
-    <link rel="stylesheet" href="./assets/figma-shell-overrides.css?v=20260524-input-area-bg">
+    <link rel="stylesheet" href="./assets/figma-shell-overrides.css?v=20260524-local-sync2">
     <script>
       function openAiEntryWhenReady(attempt) {
         var entry = document.querySelector('.ai-entry-button');
@@ -25,6 +25,13 @@
       window.addEventListener('message', function(event) {
         if (!event.data || event.data.type !== 'workbench:open-ai-drawer') return;
         openAiEntryWhenReady(0);
+      });
+
+      window.addEventListener('DOMContentLoaded', function() {
+        var params = new URLSearchParams(window.location.search);
+        if (params.get('open') === '1') {
+          openAiEntryWhenReady(0);
+        }
       });
     </script>
   </head>

@@ -455,10 +455,10 @@ function openAiDrawer(){
     return;
   }
   if(window.location.protocol==='file:'){
-    window.location.href='http://localhost:8901/assets/payment-application-review-demo/index.html?shell=sidebar';
+    window.location.href='http://localhost:8901/assets/payment-application-review-demo/index.html?shell=sidebar&open=1';
     return;
   }
-  window.location.href='index.html?shell=sidebar';
+  window.location.href='index.html?shell=sidebar&open=1';
 }
 function switchView(btn){
   btn.closest('.view-tabs').querySelectorAll('.view-tab').forEach(function(item){item.classList.remove('on')});
