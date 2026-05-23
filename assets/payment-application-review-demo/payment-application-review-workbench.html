@@ -23,8 +23,10 @@ button,input,select{font:inherit}
 .refresh svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .app.nav-collapsed .top-brand{justify-content:center;padding:0}.app.nav-collapsed .logo{display:none}
 .top-main{display:flex;align-items:center;padding:0 24px}.page-title{font-size:16px;font-weight:500;letter-spacing:.2px}
-.top-actions{margin-left:auto;display:flex;align-items:center;gap:14px}.top-ic{position:relative;height:28px;padding:0 6px;border:0;background:transparent;color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:13px}
-.badge{position:absolute;right:-4px;top:-5px;min-width:18px;height:18px;padding:0 5px;border-radius:10px;background:#FF4D4F;color:#fff;border:2px solid var(--blue);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700}
+.top-actions{margin-left:auto;display:flex;align-items:center;gap:18px}.top-ic{position:relative;width:28px;height:28px;padding:0;border:0;background:transparent;color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:13px}
+.top-agent-icon{width:28px;height:28px;display:block;object-fit:contain}
+.top-notice-ic{width:22px;height:22px;display:block;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.badge{position:absolute;right:-8px;top:-7px;min-width:18px;height:18px;padding:0 5px;border-radius:10px;background:#FF4D4F;color:#fff;border:2px solid var(--blue);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700}
 .avatar{width:26px;height:26px;border-radius:50%;background:#F2F7FF;color:var(--blue);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700}.user{font-size:14px}
 .sn{grid-row:2;background:#fff;border-right:1px solid var(--line);display:flex;flex-direction:column;overflow:hidden}
 .sn-head{height:48px;padding:0 20px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
@@ -170,8 +172,14 @@ td{height:48px;padding:0 16px;border-bottom:1px solid #F5F5F5;font-size:13px;col
     <div class="top-main">
       <div class="page-title">付款申请</div>
       <div class="top-actions">
-        <button class="top-ic">消息</button>
-        <button class="top-ic">通知<span class="badge">3</span></button>
+        <button class="top-ic" aria-label="消息"><img class="top-agent-icon" src="agent-avatar.png" alt=""></button>
+        <button class="top-ic" aria-label="通知">
+          <svg class="top-notice-ic" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path>
+            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+          </svg>
+          <span class="badge">3</span>
+        </button>
         <div class="avatar">管</div><div class="user">管理员</div>
       </div>
     </div>
