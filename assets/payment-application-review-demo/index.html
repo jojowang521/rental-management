@@ -26,12 +26,6 @@
         if (!event.data || event.data.type !== 'workbench:open-ai-drawer') return;
         openAiEntryWhenReady(0);
       });
-
-      if (new URLSearchParams(window.location.search).get('open') === 'ai') {
-        window.addEventListener('load', function() {
-          openAiEntryWhenReady(0);
-        });
-      }
     </script>
   </head>
   <body>
