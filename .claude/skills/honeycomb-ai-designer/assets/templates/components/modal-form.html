@@ -1,0 +1,19 @@
+<!-- Honeycomb Modal Form Component Template
+Use with form-horizontal.html inside .panel-body. Footer actions are right aligned: default cancel, primary save.
+-->
+<div class="modal" id="{{MODAL_ID}}">
+  <div class="mask" onclick="closePanel('{{MODAL_ID}}')"></div>
+  <div class="modal-panel">
+    <div class="panel-head">
+      <h3>{{MODAL_TITLE}}</h3>
+      <button class="close" onclick="closePanel('{{MODAL_ID}}')">×</button>
+    </div>
+    <div class="panel-body">
+      {{HORIZONTAL_FORM}}
+    </div>
+    <div class="panel-foot">
+      <button class="btn btn-d" onclick="closePanel('{{MODAL_ID}}')">取消</button>
+      <button class="btn btn-p">{{PRIMARY_ACTION}}</button>
+    </div>
+  </div>
+</div>

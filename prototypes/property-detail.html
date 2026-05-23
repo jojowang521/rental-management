@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>房源详情 - Honeycomb ERP</title>
+<style>
+:root {
+  --color-primary: #266EFF;
+  --color-primary-hover: #4F90FF;
+  --color-primary-light: #E5EBFE;
+  --color-text-0: #333333;
+  --color-text-1: #666666;
+  --color-text-2: #999999;
+  --color-border: #dddddd;
+  --color-border-divider: #eaeaea;
+  --color-bg-white-0: #ffffff;
+  --color-bg-grey-0: #f8f8f8;
+  --color-bg-hover: #f5f5f5;
+  --color-bg-table-header: #fbfbfb;
+  --color-success: #52c41a;
+  --color-success-light: #f6ffed;
+  --color-warning: #faad14;
+  --color-warning-light: #fffbe6;
+  --color-error: #ff4d4f;
+  --color-error-light: #fff2f0;
+  --color-info: #1677ff;
+  --color-info-light: #e6f4ff;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,.06);
+  --shadow-card: 0 2px 8px rgba(0,0,0,.08);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"PingFang SC","Microsoft YaHei",sans-serif;font-size:14px;color:var(--color-text-0);background:var(--color-bg-grey-0);height:100vh;display:flex;overflow:hidden}
+.side-nav{width:220px;min-width:220px;background:var(--color-bg-white-0);border-right:1px solid var(--color-border-divider);display:flex;flex-direction:column;height:100vh;overflow-y:auto}
+.side-logo{height:56px;display:flex;align-items:center;padding:0 20px;border-bottom:1px solid var(--color-border-divider)}
+.nav-item{display:flex;align-items:center;gap:8px;padding:0 16px;height:40px;cursor:pointer;color:var(--color-text-1);font-size:14px;transition:background .15s}
+.nav-item:hover{background:var(--color-bg-hover);color:var(--color-text-0)}
+.nav-item.active{background:var(--color-primary-light);color:var(--color-primary);font-weight:500}
+.nav-item.sub{padding-left:40px;height:36px;font-size:13px}
+.nav-item.parent{font-weight:500;color:var(--color-text-0);margin-top:4px}
+.nav-divider{height:1px;background:var(--color-border-divider);margin:8px 0}
+.content{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.page-header{height:56px;min-height:56px;background:var(--color-bg-white-0);border-bottom:1px solid var(--color-border-divider);display:flex;align-items:center;justify-content:space-between;padding:0 24px}
+.ph-left{display:flex;flex-direction:column;gap:2px}
+.breadcrumb{display:flex;align-items:center;gap:4px;font-size:12px;color:var(--color-text-2)}
+.breadcrumb a{color:var(--color-text-2);text-decoration:none}.breadcrumb a:hover{color:var(--color-primary)}
+.page-title{font-size:16px;font-weight:500}
+.ph-actions{display:flex;gap:8px}
+.btn{display:inline-flex;align-items:center;justify-content:center;border:none;cursor:pointer;font-size:14px;border-radius:var(--radius-sm);transition:all .15s;white-space:nowrap;padding:0 16px;height:32px;font-family:inherit}
+.btn-primary{background:var(--color-primary);color:#fff}.btn-primary:hover{background:var(--color-primary-hover)}
+.btn-default{background:#fff;color:var(--color-text-0);border:1px solid var(--color-border)}.btn-default:hover{border-color:var(--color-primary);color:var(--color-primary)}
+.btn-danger{background:var(--color-error);color:#fff}
+.main{flex:1;padding:24px;overflow-y:auto}
+.hero-card{background:var(--color-bg-white-0);border-radius:var(--radius-md);box-shadow:var(--shadow-card);padding:24px;margin-bottom:16px;display:flex;gap:24px}
+.hero-cover{width:280px;min-width:280px;height:180px;border-radius:var(--radius-md);background:var(--color-primary-light);display:flex;align-items:center;justify-content:center;font-size:56px;flex-shrink:0}
+.hero-info{flex:1;display:flex;flex-direction:column;gap:12px}
+.hero-header{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.room-no{font-size:12px;color:var(--color-primary);font-weight:500;background:var(--color-primary-light);padding:2px 10px;border-radius:var(--radius-sm)}
+.hero-title{font-size:20px;font-weight:600}
+.hero-meta{display:grid;grid-template-columns:repeat(4,1fr);gap:14px 0}
+.meta-item{display:flex;flex-direction:column;gap:3px}
+.meta-label{font-size:12px;color:var(--color-text-2)}
+.meta-value{font-size:14px;font-weight:500}
+.meta-value.price{color:var(--color-error);font-size:18px;font-weight:700}
+.hero-footer{display:flex;gap:8px;padding-top:12px;border-top:1px solid var(--color-border-divider)}
+.tabs-wrap{background:var(--color-bg-white-0);border-radius:var(--radius-md);box-shadow:var(--shadow-card);overflow:hidden}
+.tabs-nav{display:flex;border-bottom:1px solid var(--color-border-divider);padding:0 24px}
+.tab-item{padding:16px 20px 14px;font-size:14px;color:var(--color-text-1);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .15s;user-select:none}
+.tab-item:hover{color:var(--color-text-0)}
+.tab-item.active{color:var(--color-primary);border-bottom-color:var(--color-primary);font-weight:500}
+.tab-pane{display:none;padding:24px}
+.tab-pane.active{display:block}
+.section{margin-bottom:24px}
+.section-title{font-size:14px;font-weight:600;padding-bottom:12px;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.section-title::before{content:"";display:block;width:3px;height:15px;background:var(--color-primary);border-radius:2px}
+.info-grid{display:grid;grid-template-columns:1fr 1fr}
+.info-cell{display:flex;padding:11px 0;}
+.info-cell.span-2{grid-column:span 2}
+.info-label{width:120px;min-width:120px;color:var(--color-text-1);font-size:13px}
+.info-value{flex:1;font-size:14px}
+.tag{display:inline-flex;align-items:center;padding:1px 8px;border-radius:var(--radius-sm);font-size:12px;font-weight:500;line-height:20px}
+.tag-success{background:var(--color-success-light);color:var(--color-success)}
+.tag-warning{background:var(--color-warning-light);color:var(--color-warning)}
+.tag-error{background:var(--color-error-light);color:var(--color-error)}
+.tag-info{background:var(--color-info-light);color:var(--color-info)}
+.tag-default{background:var(--color-bg-grey-0);color:var(--color-text-1);border:1px solid var(--color-border)}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{padding:12px 16px;text-align:left;font-weight:500;color:var(--color-text-1);background:var(--color-bg-table-header);border-bottom:1px solid var(--color-border-divider);white-space:nowrap}
+td{padding:13px 16px;border-bottom:1px solid var(--color-border-divider);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(--color-bg-hover)}
+.link-btn{background:none;border:none;color:var(--color-primary);cursor:pointer;font-size:13px;padding:0;font-family:inherit;text-decoration:none}
+.link-btn:hover{opacity:.75}
+.link-btn.danger{color:var(--color-error)}
+.link-sep{color:var(--color-border);margin:0 6px}
+.photo-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.photo-item{aspect-ratio:4/3;border-radius:var(--radius-sm);background:var(--color-primary-light);display:flex;align-items:center;justify-content:center;font-size:28px;cursor:pointer;border:1px solid var(--color-border-divider)}
+.photo-item.add{background:var(--color-bg-grey-0);border:1px dashed var(--color-border);color:var(--color-text-2);flex-direction:column;gap:4px;font-size:22px}
+.photo-item.add small{font-size:12px}
+.tl{display:flex;flex-direction:column}
+.tl-item{display:flex;gap:16px;padding-bottom:20px;position:relative}
+.tl-item:last-child{padding-bottom:0}
+.tl-dot{width:10px;height:10px;border-radius:50%;background:var(--color-primary);flex-shrink:0;margin-top:5px;position:relative;z-index:1}
+.tl-item:not(:last-child) .tl-dot::after{content:"";position:absolute;left:4px;top:10px;width:2px;height:calc(100% + 10px);background:var(--color-border-divider)}
+.tl-body{flex:1}
+.tl-title{font-size:13px;font-weight:500;margin-bottom:3px}
+.tl-meta{font-size:12px;color:var(--color-text-2)}
+</style>
+</head>
+<body>
+<nav class="side-nav">
+  <div class="side-logo"><img src="images/logo@4x.png" alt="logo" style="height:44px;max-width:200px;object-fit:contain;"></div>
+  <div class="nav-item parent">🏠 工作台</div>
+  <div class="nav-item parent active" onclick="location.href='property-list.html'">🏢 房源管理</div>
+  <div class="nav-item sub active" onclick="location.href='property-list.html'">房源列表</div>
+  <div class="nav-item sub" onclick="location.href='property-list.html'">房源地图</div>
+  <div class="nav-item parent" onclick="location.href='contract-list.html'">📄 合同管理</div>
+  <div class="nav-item sub" onclick="location.href='contract-list.html'">合同列表</div>
+  <div class="nav-item sub" onclick="location.href='contract-list.html#expiring'">即将到期</div>
+  <div class="nav-item parent" onclick="location.href='tenant-list.html'">👤 租客管理</div>
+  <div class="nav-item sub" onclick="location.href='tenant-list.html'">租客列表</div>
+  <div class="nav-item">💰 财务管理</div>
+  <div class="nav-divider"></div>
+  <div class="nav-item">⚙️ 系统设置</div>
+</nav>
+<div class="content">
+  <header class="page-header">
+    <div class="ph-left">
+      <div class="breadcrumb"><a href="property-list.html">房源管理</a><span>/</span><a href="property-list.html">房源列表</a><span>/</span><span>房源详情</span></div>
+      <div class="page-title">房源详情</div>
+    </div>
+    <div class="ph-actions">
+      <button class="btn btn-default" onclick="location.href='property-list.html'">返回列表</button>
+      <button class="btn btn-default">发布招租</button>
+      <button class="btn btn-primary">编辑</button>
+    </div>
+  </header>
+  <main class="main">
+    <div class="hero-card">
+      <div class="hero-cover">🏠</div>
+      <div class="hero-info">
+        <div class="hero-header">
+          <span class="room-no">3-2-802</span>
+          <span class="tag tag-success">已出租</span>
+          <span class="tag tag-default">住宅</span>
+        </div>
+        <div class="hero-title">阳光花园 3栋2单元802室</div>
+        <div class="hero-meta">
+          <div class="meta-item"><span class="meta-label">建筑面积</span><span class="meta-value">89 ㎡</span></div>
+          <div class="meta-item"><span class="meta-label">户型</span><span class="meta-value">3室2厅1卫</span></div>
+          <div class="meta-item"><span class="meta-label">楼层</span><span class="meta-value">8/18层</span></div>
+          <div class="meta-item"><span class="meta-label">朝向</span><span class="meta-value">南北通透</span></div>
+          <div class="meta-item"><span class="meta-label">月租金</span><span class="meta-value price">¥4,500</span></div>
+          <div class="meta-item"><span class="meta-label">当前租客</span><span class="meta-value"><a class="link-btn" onclick="location.href='tenant-detail.html'">张三</a></span></div>
+          <div class="meta-item"><span class="meta-label">合同到期</span><span class="meta-value">2027-01-31</span></div>
+          <div class="meta-item"><span class="meta-label">房源编号</span><span class="meta-value" style="font-size:13px;color:var(--color-text-1)">HS-2025-0088</span></div>
+        </div>
+        <div class="hero-footer">
+          <button class="btn btn-default" onclick="location.href='contract-list.html'">查看合同</button>
+          <button class="btn btn-default" onclick="location.href='tenant-detail.html'">查看租客</button>
+          <button class="btn btn-danger">停用房源</button>
+        </div>
+      </div>
+    </div>
+    <div class="tabs-wrap">
+      <div class="tabs-nav">
+        <div class="tab-item active" onclick="switchTab(this,'info')">基本信息</div>
+        <div class="tab-item" onclick="switchTab(this,'contract')">合同记录</div>
+        <div class="tab-item" onclick="switchTab(this,'photos')">房源照片</div>
+        <div class="tab-item" onclick="switchTab(this,'repair')">维修记录</div>
+        <div class="tab-item" onclick="switchTab(this,'log')">操作日志</div>
+      </div>
+      <div class="tab-pane active" id="pane-info">
+        <div class="section">
+          <div class="section-title">基础信息</div>
+          <div class="info-grid">
+            <div class="info-cell"><span class="info-label">房源编号</span><span class="info-value">HS-2025-0088</span></div>
+            <div class="info-cell"><span class="info-label">房源状态</span><span class="info-value"><span class="tag tag-success">已出租</span></span></div>
+            <div class="info-cell"><span class="info-label">房源名称</span><span class="info-value">阳光花园 3栋2单元802室</span></div>
+            <div class="info-cell"><span class="info-label">房源类型</span><span class="info-value">住宅</span></div>
+            <div class="info-cell span-2"><span class="info-label">详细地址</span><span class="info-value">北京市朝阳区阳光花园3号楼2单元802室</span></div>
+          </div>
+        </div>
+        <div class="section">
+          <div class="section-title">房屋参数</div>
+          <div class="info-grid">
+            <div class="info-cell"><span class="info-label">建筑面积</span><span class="info-value">89 ㎡</span></div>
+            <div class="info-cell"><span class="info-label">套内面积</span><span class="info-value">78 ㎡</span></div>
+            <div class="info-cell"><span class="info-label">户型</span><span class="info-value">3室2厅1卫</span></div>
+            <div class="info-cell"><span class="info-label">楼层</span><span class="info-value">8层 / 共18层</span></div>
+            <div class="info-cell"><span class="info-label">朝向</span><span class="info-value">南北通透</span></div>
+            <div class="info-cell"><span class="info-label">装修情况</span><span class="info-value">精装修</span></div>
+            <div class="info-cell"><span class="info-label">建筑年代</span><span class="info-value">2015年</span></div>
+            <div class="info-cell"><span class="info-label">梯户比</span><span class="info-value">两梯四户</span></div>
+          </div>
+        </div>
+        <div class="section">
+          <div class="section-title">租金信息</div>
+          <div class="info-grid">
+            <div class="info-cell"><span class="info-label">月租金</span><span class="info-value" style="color:var(--color-error);font-weight:600;font-size:16px">¥ 4,500</span></div>
+            <div class="info-cell"><span class="info-label">押金</span><span class="info-value">¥ 9,000（两个月）</span></div>
+            <div class="info-cell"><span class="info-label">付款方式</span><span class="info-value">季付</span></div>
+            <div class="info-cell"><span class="info-label">最短租期</span><span class="info-value">12个月</span></div>
+          </div>
+        </div>
+        <div class="section">
+          <div class="section-title">配套设施</div>
+          <div style="display:flex;flex-wrap:wrap;gap:8px">
+            <span class="tag tag-info">电梯</span><span class="tag tag-info">停车位</span><span class="tag tag-info">天然气</span><span class="tag tag-info">集中供暖</span><span class="tag tag-info">宽带</span><span class="tag tag-info">冰箱</span><span class="tag tag-info">洗衣机</span><span class="tag tag-info">空调</span>
+          </div>
+        </div>
+      </div>
+      <div class="tab-pane" id="pane-contract">
+        <table>
+          <thead><tr><th>合同编号</th><th>租客姓名</th><th>开始日期</th><th>结束日期</th><th>月租金</th><th>状态</th><th style="width:100px">操作</th></tr></thead>
+          <tbody>
+            <tr><td><a class="link-btn" onclick="location.href='contract-detail.html'">HT-2026-001234</a></td><td><a class="link-btn" onclick="location.href='tenant-detail.html'">张三</a></td><td>2026-02-01</td><td>2027-01-31</td><td>¥4,500</td><td><span class="tag tag-success">生效中</span></td><td><button class="link-btn" onclick="location.href='contract-detail.html'">查看</button></td></tr>
+            <tr><td><a class="link-btn" onclick="location.href='contract-detail.html'">HT-2025-000456</a></td><td>王五</td><td>2025-01-01</td><td>2026-01-31</td><td>¥4,200</td><td><span class="tag tag-default">已到期</span></td><td><button class="link-btn" onclick="location.href='contract-detail.html'">查看</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="tab-pane" id="pane-photos">
+        <div style="display:flex;justify-content:flex-end;margin-bottom:12px"><button class="btn btn-default">+ 上传照片</button></div>
+        <div class="photo-grid">
+          <div class="photo-item">🛋️</div>
+          <div class="photo-item">🍳</div>
+          <div class="photo-item">🛁</div>
+          <div class="photo-item">🪟</div>
+          <div class="photo-item add">＋<small>上传照片</small></div>
+        </div>
+      </div>
+      <div class="tab-pane" id="pane-repair">
+        <div style="display:flex;justify-content:flex-end;margin-bottom:16px"><button class="btn btn-primary">+ 新建工单</button></div>
+        <div class="tl">
+          <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-body"><div class="tl-title">水管漏水维修 <span class="tag tag-success">已完成</span></div><div class="tl-meta">2026-03-10 · 维修人：李师傅 · 费用：¥320</div></div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot" style="background:var(--color-warning)"></div>
+            <div class="tl-body"><div class="tl-title">空调故障检修 <span class="tag tag-warning">处理中</span></div><div class="tl-meta">2026-03-18 · 维修人：待安排 · 费用：待定</div></div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-body"><div class="tl-title">入住前全屋清洁 <span class="tag tag-success">已完成</span></div><div class="tl-meta">2026-01-28 · 保洁公司：洁净家 · 费用：¥580</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="tab-pane" id="pane-log">
+        <table>
+          <thead><tr><th style="width:120px">操作类型</th><th>操作详情</th><th style="width:100px">操作人</th><th style="width:160px">操作时间</th></tr></thead>
+          <tbody>
+            <tr><td>创建房源</td><td>新建房源档案：阳光花园 3-2-802</td><td>李经理</td><td>2025-06-01 10:00</td></tr>
+            <tr><td>签订合同</td><td>关联合同 HT-2026-001234，租客：张三</td><td>李经理</td><td>2026-01-15 14:30</td></tr>
+            <tr><td>维修工单</td><td>新建维修工单：水管漏水维修</td><td>张三（租客）</td><td>2026-03-10 09:15</td></tr>
+            <tr><td>信息变更</td><td>更新月租金：¥4,200 → ¥4,500</td><td>李经理</td><td>2026-01-10 11:00</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+</div>
+<script>
+function switchTab(el, paneId) {
+  document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('pane-' + paneId).classList.add('active');
+}
+</script>
+</body>
+</html>

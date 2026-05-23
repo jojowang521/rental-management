@@ -1,0 +1,125 @@
+<!-- Honeycomb FilterBar Component Template
+Filter controls only. Never place 查询、重置、新增、导入、导出、下载模板、同步、批量操作, or refresh buttons here.
+Main row uses Honeycomb PC filter layout: filter items are inline left-right fields, with label on the left and control on the right inside each .fi. Advanced filters must expand/collapse rather than be a static button.
+-->
+<div class="fc">
+  <div class="fr {{HAS_ADV_CLASS}}">
+    {{FILTER_ITEMS}}
+    {{ADVANCED_FILTER_BUTTON}}
+  </div>
+  {{ADVANCED_FILTER_PANEL}}
+</div>
+
+<!-- Input filter item -->
+<div class="fi {{SIZE_CLASS}}">
+  <label class="fl">{{LABEL}}</label>
+  <input class="inp" placeholder="{{PLACEHOLDER}}">
+</div>
+
+<!-- Select filter item -->
+<div class="fi {{SIZE_CLASS}}">
+  <label class="fl">{{LABEL}}</label>
+  <select class="sel">{{OPTIONS}}</select>
+</div>
+
+<!-- Search item with icon -->
+<div class="fi lg">
+  <div class="iw">
+    <svg class="sico" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+    <input class="inp" placeholder="{{SEARCH_PLACEHOLDER}}">
+  </div>
+</div>
+
+<!-- Required CSS contract for main filter row -->
+<style>
+.fc{background:var(--cg0,#fff);border-radius:4px;border:none;padding:0;box-shadow:0 0 3px 0 rgba(0,0,0,.04);flex-shrink:0}
+.fr{min-height:56px;padding:12px 20px;display:flex;align-items:center;gap:20px;flex-wrap:nowrap}
+.fr.has-adv{border-bottom:1px dashed #EAEAEA}
+.fc .fi{display:flex;flex-direction:row;align-items:center;gap:8px;min-width:0;flex-shrink:0}
+.fc .fi.lg{width:220px}
+.fc .fi.date{width:280px}
+.fc .fi .fl{font-size:13px;color:var(--ctt,#8C8C8C);font-weight:400;white-space:nowrap}
+.fc .fi .sel{width:140px}
+.fc .fi.date .inp{width:200px}
+.iw{position:relative;width:100%}
+.iw .inp{padding-left:32px}
+.sico{position:absolute;left:10px;top:50%;transform:translateY(-50%);width:14px;height:14px;fill:none;stroke:var(--ctt,#8C8C8C);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+</style>
+
+<!-- Advanced filter button -->
+<button class="adv-btn" onclick="toggleAdv(this)">高级筛选 <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></button>
+
+<!-- Advanced filter panel -->
+<div class="adv-row">
+  <div class="adv-grid">
+    {{ADVANCED_FILTER_ITEMS}}
+  </div>
+  <div class="adv-actions">
+    <button class="adv-clear" onclick="clearAdvFilters()">
+      <svg viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.51"/></svg>
+      清空筛选
+    </button>
+  </div>
+</div>
+
+<!-- Advanced tag row pattern -->
+<!-- 类别 / Category: use tag group -->
+<div class="adv-fi">
+  <span class="fl">{{ADV_LABEL}}：</span>
+  <div class="adv-tags">
+    <span class="adv-tag on">全部</span>
+    {{ADV_TAGS}}
+  </div>
+</div>
+
+<!-- 日期 / Date range row pattern -->
+<div class="adv-fi">
+  <span class="fl">{{ADV_LABEL}}：</span>
+  <div class="adv-date">
+    <input class="inp" placeholder="{{START_DATE_PLACEHOLDER}}">
+    <span class="adv-range-sep">—</span>
+    <input class="inp" placeholder="{{END_DATE_PLACEHOLDER}}">
+  </div>
+</div>
+
+<!-- Advanced range row pattern -->
+<!-- 范围 / Numeric range -->
+<div class="adv-fi">
+  <span class="fl">{{ADV_LABEL}}：</span>
+  <div class="adv-range">
+    <input class="inp" placeholder="{{START_PLACEHOLDER}}">
+    <span class="adv-range-sep">—</span>
+    <input class="inp" placeholder="{{END_PLACEHOLDER}}">
+  </div>
+</div>
+
+<!-- 录入 / Text input row pattern -->
+<div class="adv-fi">
+  <span class="fl">{{ADV_LABEL}}：</span>
+  <div class="adv-input">
+    <input class="inp" placeholder="{{INPUT_PLACEHOLDER}}">
+  </div>
+</div>
+
+<!-- 选择 / Select row pattern -->
+<div class="adv-fi">
+  <span class="fl">{{ADV_LABEL}}：</span>
+  <div class="adv-select">
+    <select class="sel">{{OPTIONS}}</select>
+  </div>
+</div>
+
+<!-- Advanced filter type CSS contract -->
+<style>
+.adv-fi{display:flex;flex-direction:row;align-items:center;gap:8px;padding:6px 0;border-bottom:none}
+.adv-fi .fl{width:91px;flex-shrink:0}
+.adv-tags{display:flex;flex-wrap:wrap;align-items:center;gap:16px;padding:2px 0}
+.adv-tag{display:inline-flex;align-items:center;height:24px;padding:0 10px;border-radius:4px;font-size:13px;cursor:pointer;border:1px solid var(--cg300,#D9D9D9);color:var(--cts,#595959);background:var(--cg0,#fff);transition:all .15s}
+.adv-tag:hover,.adv-tag.on{background:var(--cp50,#EBF2FF);border-color:var(--cp500,#266EFF);color:var(--cp600,#266EFF)}
+.adv-date,.adv-range,.adv-input,.adv-select{display:flex;align-items:center;gap:8px}
+.adv-date .inp{width:180px}
+.adv-range .inp{width:160px}
+.adv-input .inp{width:240px}
+.adv-select .sel{width:180px}
+.adv-range-sep{color:var(--ctt,#8C8C8C)}
+</style>

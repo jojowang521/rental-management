@@ -1,0 +1,4 @@
+interface:
+  display_name: "Honeycomb AI Designer"
+  short_description: "生成 Honeycomb 中后台高保真 HTML 原型"
+  default_prompt: "Use $honeycomb-ai-designer to create a Honeycomb PC admin prototype with list, form, and detail views."

@@ -1,0 +1,130 @@
+<!-- Honeycomb TableCard Component Template
+Based on rental-management/prototype-list-page.html.
+Global actions must be on the right side of .tt. Status tabs or table count stay on the left. Pagination stays inside this same .tc footer.
+-->
+<div class="tc">
+  <div class="tt">
+    <div class="tt-l">
+      {{STATUS_TABS_OR_COUNT}}
+      {{BATCH_BAR}}
+    </div>
+    <div class="tt-r">
+      {{TOOLBAR_ACTIONS}}
+    </div>
+  </div>
+  <div class="tw">
+    <table style="min-width:{{TABLE_MIN_WIDTH}}">
+      <thead>
+        <tr>
+          <th style="width:40px"><div class="chk" data-check="all" aria-label="全选"></div></th>
+          {{TABLE_HEADERS}}
+        </tr>
+      </thead>
+      <tbody>
+        {{TABLE_ROWS}}
+      </tbody>
+    </table>
+  </div>
+  <div class="pgn">
+    <div class="pgn-info">共 <b>{{TOTAL}}</b> 条</div>
+    <div class="pgn-size">
+      <div class="pgn-pages">
+        <button class="pgn-btn">‹</button>
+        <button class="pgn-btn on">1</button>
+        <button class="pgn-btn">2</button>
+        <button class="pgn-btn">3</button>
+        <button class="pgn-btn">...</button>
+        <button class="pgn-btn">{{LAST_PAGE}}</button>
+        <button class="pgn-btn">›</button>
+      </div>
+      <select class="sel">
+        <option>20 条/页</option>
+        <option>50 条/页</option>
+        <option>100 条/页</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<!-- Status view tabs pattern. Use for list status views in TableToolbar left side.
+Do not use the detail-page .tab class here; detail tabs and list view tabs must stay separate.
+-->
+<div class="view-tabs">
+  <button class="view-tab on" onclick="switchView(this)">{{TAB_LABEL_1}}<span>{{COUNT_1}}</span></button>
+  <button class="view-tab" onclick="switchView(this)"><span class="vt-div"></span>{{TAB_LABEL_2}}<span>{{COUNT_2}}</span></button>
+  <button class="view-tab" onclick="switchView(this)"><span class="vt-div"></span>{{TAB_LABEL_3}}<span>{{COUNT_3}}</span></button>
+</div>
+
+<!-- Count pattern -->
+<div class="tcnt">共 <b>{{TOTAL}}</b> 条</div>
+
+<!-- Batch operation bar pattern. Hidden by default; appears when row checkboxes are selected. -->
+<div class="batch-bar">
+  <span class="batch-count">已选 <b id="{{BATCH_COUNT_ID}}">0</b> 条</span>
+  {{BATCH_ACTIONS}}
+  <button class="batch-cancel" type="button" onclick="clearSelection()">取消选择</button>
+</div>
+
+<!-- Row checkbox pattern -->
+<div class="chk" data-check="row" aria-label="选择"></div>
+
+<!-- Toolbar action pattern. Use at most one .btn-p primary action per toolbar. -->
+<button class="btn {{BUTTON_CLASS}}">{{ACTION_LABEL}}</button>
+
+<!-- Required CSS contract for status view tabs -->
+<style>
+.view-tabs{display:flex;align-items:stretch;background:#F5F5F5;border-radius:4px;padding:3px;height:32px;flex-shrink:0}
+.view-tab{display:flex;align-items:center;justify-content:center;gap:0;padding:2px 10px;border-radius:3px;cursor:pointer;color:#666;background:transparent;border:0;font-size:13px;font-family:var(--ff,-apple-system,"PingFang SC",Arial,sans-serif);font-weight:400;white-space:nowrap;transition:all .15s;position:relative;line-height:22px}
+.view-tab:hover{color:#266EFF}
+.view-tab.on{background:#fff;color:#266EFF;box-shadow:0 1px 2px rgba(0,0,0,.06)}
+.view-tab .vt-div{position:absolute;left:0;top:50%;transform:translateY(-50%);width:1px;height:16px;background:#EAEAEA}
+.view-tab.on+.view-tab .vt-div,.view-tab:hover .vt-div{display:none}
+.batch-bar{display:none;align-items:center;gap:8px;height:32px}
+.tt.batch-mode .view-tabs{display:none}
+.tt.batch-mode .batch-bar{display:flex}
+.batch-count{font-size:13px;color:var(--cts,#595959);margin-right:4px}
+.batch-count b{color:#266EFF;font-weight:600}
+.batch-cancel{height:28px;padding:0 8px;background:transparent;border:0;color:#266EFF;cursor:pointer}
+.batch-cancel:hover{text-decoration:underline}
+.chk{width:14px;height:14px;border:1px solid var(--cg300,#D9D9D9);border-radius:2px;background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;position:relative}
+.chk:hover{border-color:#266EFF}
+.chk.on{background:#266EFF;border-color:#266EFF}
+.chk.on::after{content:"";width:7px;height:4px;border-left:1.5px solid #fff;border-bottom:1.5px solid #fff;transform:rotate(-45deg);margin-top:-1px}
+.chk.part{background:#266EFF;border-color:#266EFF}
+.chk.part::after{content:"";width:8px;height:1.5px;background:#fff;border-radius:1px}
+tbody tr.selected td{background:#EBF2FF}
+</style>
+
+<!-- Required JS contract for status view tabs -->
+<script>
+function switchView(btn){
+  btn.closest('.view-tabs').querySelectorAll('.view-tab').forEach(function(item){item.classList.remove('on')});
+  btn.classList.add('on');
+}
+function updateBatchState(){
+  var table=document.querySelector('.tc table');
+  if(!table) return;
+  var rows=[].slice.call(table.querySelectorAll('tbody tr'));
+  var selected=rows.filter(function(row){
+    var chk=row.querySelector('[data-check="row"]');
+    return chk&&chk.classList.contains('on');
+  });
+  var all=table.querySelector('[data-check="all"]');
+  if(all){
+    all.classList.toggle('on',selected.length===rows.length&&rows.length>0);
+    all.classList.toggle('part',selected.length>0&&selected.length<rows.length);
+  }
+  rows.forEach(function(row){
+    var chk=row.querySelector('[data-check="row"]');
+    row.classList.toggle('selected',!!(chk&&chk.classList.contains('on')));
+  });
+  var toolbar=document.querySelector('.tc .tt');
+  if(toolbar) toolbar.classList.toggle('batch-mode',selected.length>0);
+  var count=document.querySelector('.batch-count b');
+  if(count) count.textContent=selected.length;
+}
+function clearSelection(){
+  document.querySelectorAll('.tc .chk').forEach(function(item){item.classList.remove('on','part')});
+  updateBatchState();
+}
+</script>

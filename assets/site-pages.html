@@ -1,0 +1,4011 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 产品设计系统</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&family=Noto+Serif+SC:wght@700;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+:root {
+  --bg: #FAFAFA;
+  --s1: #ffffff;
+  --s2: #ffffff;
+  --s3: #f4f4f5;
+  --border: rgba(0,0,0,0.06);
+  --border2: rgba(0,0,0,0.08);
+  --border3: rgba(0,0,0,0.12);
+  --text: #18181B;
+  --muted: #71717A;
+  --muted2: #A1A1AA;
+  --muted3: #D4D4D8;
+  --blue: #2563EB;
+  --blue2: #1D4ED8;
+  --blue-bg: rgba(37,99,235,0.06);
+  --blue-bd: rgba(37,99,235,0.14);
+  --green: #15803D;
+  --green-bg: rgba(21,128,61,0.06);
+  --green-bd: rgba(21,128,61,0.14);
+  --amber: #B45309;
+  --amber-bg: rgba(180,83,9,0.07);
+  --amber-bd: rgba(180,83,9,0.15);
+  --red: #B91C1C;
+  --red-bg: rgba(185,28,28,0.06);
+  --red-bd: rgba(185,28,28,0.14);
+  --purple: #6D28D9;
+  --purple-bg: rgba(109,40,217,0.06);
+  --purple-bd: rgba(109,40,217,0.14);
+  --radius: 12px;
+  --shadow-soft: 0 1px 2px rgba(0,0,0,0.03);
+}
+
+html { scroll-behavior: auto; }
+
+body {
+  background: var(--bg);
+  font-family: Inter, Geist, -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+}
+
+body.embed {
+  display: block;
+  overflow: auto;
+}
+
+body.embed .nav {
+  display: none;
+}
+
+body.embed .main {
+  margin-left: 0;
+  width: 100%;
+}
+
+body.embed .page {
+  max-width: none;
+  width: 100%;
+  padding: 42px 48px 56px;
+}
+
+body.embed .page-desc {
+  max-width: 860px;
+}
+
+body.embed .page-title {
+  max-width: 980px;
+}
+
+/* ── SIDEBAR NAV ── */
+.nav {
+  width: 228px;
+  min-height: 100vh;
+  background: #001529;
+  border-right: 1px solid rgba(255,255,255,0.08);
+  padding: 20px 0;
+  position: fixed;
+  top: 0; left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  z-index: 100;
+  overflow-y: auto;
+}
+.nav-logo {
+  padding: 0 18px 18px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  margin-bottom: 12px;
+}
+.nav-logo-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.92);
+  margin-bottom: 3px;
+}
+.nav-logo-sub {
+  font-size: 10px;
+  color: rgba(255,255,255,0.48);
+  font-family: 'JetBrains Mono', monospace;
+}
+.nav-section {
+  padding: 12px 18px 6px;
+  font-size: 12px;
+  letter-spacing: 0;
+  text-transform: none;
+  color: rgba(255,255,255,0.42);
+  font-family: inherit;
+  font-weight: 600;
+  margin-top: 6px;
+}
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  border-top: 0;
+  border-right: 0;
+  border-bottom: 0;
+  margin: 2px 10px;
+  padding: 9px 10px;
+  font-size: 13px;
+  color: rgba(255,255,255,0.72);
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.15s;
+  border-left: 0;
+  border-radius: 10px;
+  position: relative;
+  background: transparent;
+  text-align: left;
+  white-space: nowrap;
+}
+.nav-item:hover { background: #0d2038; color: #ffffff; }
+.nav-item.active {
+  color: #ffffff;
+  background: #2563eb;
+  box-shadow: none;
+}
+.nav-item-sub {
+  font-size: 11px;
+  color: currentColor;
+  opacity: .58;
+  margin-top: 1px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: none;
+}
+.nav-item > div {
+  min-width: 0;
+  overflow: hidden;
+}
+.nav-item > div > div:first-child {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.nav-icon,
+.ni-ic {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.ni-img {
+  width: 16px;
+  height: 16px;
+  display: block;
+  opacity: 0.68;
+  filter: invert(92%) sepia(5%) saturate(260%) hue-rotate(178deg) brightness(92%) contrast(91%);
+}
+.nav-item:hover .ni-img,
+.nav-item.active .ni-img {
+  opacity: 1;
+  filter: invert(100%);
+}
+.nav-section-toggle {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding-right: 20px;
+  user-select: none;
+  transition: color 0.15s;
+  white-space: nowrap;
+  flex-wrap: nowrap;
+  min-width: 0;
+  width: 100%;
+}
+.nav-section-label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.nav-section-toggle:hover { color: rgba(255,255,255,0.82); opacity: 1; }
+.nav-toggle-icon {
+  width: 16px;
+  height: 16px;
+  color: rgba(255,255,255,0.48);
+  transition: transform 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  margin-left: auto;
+  white-space: nowrap;
+}
+.line-icon {
+  width: 16px;
+  height: 16px;
+  display: block;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+}
+.nav-group { overflow: hidden; transition: max-height 0.25s ease; }
+.nav-group.collapsed { max-height: 0 !important; }
+
+/* ── MAIN CONTENT ── */
+.main {
+  margin-left: 228px;
+  flex: 1;
+  padding: 0;
+}
+
+.topbar {
+  min-height: 56px;
+  background: #ffffff;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 12px;
+  padding: 0 24px 0 32px;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  box-shadow: 0 1px 0 rgba(15,23,42,0.02);
+}
+
+.topbar-main {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.topbar-title {
+  font-size: 17px;
+  font-weight: 650;
+  color: var(--text);
+  white-space: nowrap;
+}
+
+.topbar-desc {
+  display: inline-flex;
+  align-items: center;
+  min-width: 0;
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--muted);
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.topbar-chip {
+  min-height: 32px;
+  display: none;
+  align-items: center;
+  padding: 0 13px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: #fff;
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 600;
+  box-shadow: var(--shadow-soft);
+}
+
+.topbar-actions {
+  margin-left: auto;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex: 0 0 auto;
+}
+.topbar-actions .topbar-tabset {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0;
+  height: 34px;
+}
+.topbar.has-actions .topbar-chip {
+  display: none;
+}
+.topbar.has-actions .topbar-actions {
+  display: flex;
+}
+
+body.embed .topbar {
+  display: none;
+}
+
+/* ── PAGE ── */
+.page {
+  display: none;
+  padding: 48px 56px;
+  max-width: 1120px;
+}
+.page.active { display: block; }
+
+body.case-preview .topbar {
+  min-height: 56px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: row;
+  gap: 0;
+  padding: 0 24px 0 32px;
+}
+
+body.case-preview .page.active[id^="p-case-"]:not(#p-case-0) {
+  width: 100%;
+  max-width: none;
+  padding: 12px 12px 16px;
+}
+
+body.case-preview .page.active[id^="p-case-"]:not(#p-case-0) .page-eyebrow,
+body.case-preview .page.active[id^="p-case-"]:not(#p-case-0) .page-title,
+body.case-preview .page.active[id^="p-case-"]:not(#p-case-0) .page-desc {
+  display: none;
+}
+
+body.case-preview .page.active[id^="p-case-"]:not(#p-case-0) .section {
+  margin-top: 0;
+}
+
+body.case-preview .topbar-title {
+  font-size: 17px;
+  line-height: 1.2;
+  font-weight: 650;
+}
+
+body.case-preview .topbar-chip {
+  display: none;
+}
+
+body.case-preview .topbar-desc {
+  display: none;
+}
+
+/* ── PAGE HEADER ── */
+.page-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  opacity: 1;
+  margin-bottom: 12px;
+}
+.page-title {
+  font-family: inherit;
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1.32;
+  margin-bottom: 14px;
+  color: var(--text);
+}
+#p-frame-1 > .page-eyebrow {
+  display: none;
+}
+#p-frame-2 > .page-eyebrow {
+  display: none;
+}
+#p-frame-1.is-demo-wide {
+  width: 100%;
+  max-width: none;
+  padding: 12px 12px 16px;
+}
+#p-frame-1.is-demo-wide .case-demo-shell {
+  height: calc(100vh - 82px);
+  min-height: 680px;
+}
+#p-frame-2.is-demo-wide {
+  width: 100%;
+  max-width: none;
+  padding: 12px 12px 16px;
+}
+#p-frame-2.is-demo-wide .case-demo-shell {
+  height: calc(100vh - 82px);
+  min-height: 680px;
+}
+.page-title em { font-style: normal; color: var(--blue2); }
+.page-title .g  { font-style: normal; color: var(--green); }
+.page-desc {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.75;
+  max-width: 760px;
+  margin-bottom: 40px;
+  padding-bottom: 28px;
+  border-bottom: 1px solid var(--border);
+}
+
+/* ── SECTION ── */
+.section { margin-bottom: 44px; }
+.section-title {
+  font-size: 16px;
+  font-weight: 650;
+  color: var(--text);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.section-title::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+.section-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--blue-bg);
+  color: var(--blue2);
+  border: 1px solid var(--blue-bd);
+}
+
+/* ── COMPARE TABLE ── */
+.compare-table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--border2);
+}
+.compare-table th {
+  background: var(--s2);
+  padding: 13px 18px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--muted);
+  text-align: left;
+  border-bottom: 1px solid var(--border2);
+}
+.compare-table th:first-child { color: var(--muted2); }
+.compare-table td {
+  padding: 13px 18px;
+  font-size: 13px;
+  color: var(--muted);
+  border-bottom: 1px solid var(--border);
+  background: var(--s1);
+  line-height: 1.6;
+  vertical-align: top;
+}
+.compare-table tr:last-child td { border-bottom: none; }
+.compare-table td:first-child { color: var(--text); font-weight: 500; }
+.compare-table td b { color: var(--text); }
+.compare-table td .hi { color: var(--blue2); font-weight: 600; }
+.compare-table td .g  { color: var(--green); font-weight: 600; }
+
+/* ── FLOW COMPARE ── */
+.flow-compare {
+  display: grid;
+  grid-template-columns: 1fr 1px 1fr;
+  gap: 0 40px;
+  background: var(--s1);
+  border: 1px solid var(--border2);
+  border-radius: 14px;
+  padding: 32px 36px;
+}
+.flow-divider { background: var(--border2); }
+.flow-head {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: 4px;
+  margin-bottom: 16px;
+}
+.flow-head.old { color: var(--muted); background: rgba(255,255,255,0.04); border: 1px solid var(--border2); }
+.flow-head.new { color: var(--blue2); background: var(--blue-bg); border: 1px solid var(--blue-bd); }
+.flow-sub { font-size: 12px; color: var(--muted); margin-bottom: 20px; line-height: 1.6; }
+.flow-sub b { color: var(--text); }
+.steps { display: flex; flex-direction: column; }
+.step  { display: flex; gap: 13px; align-items: flex-start; }
+.step-rail { display: flex; flex-direction: column; align-items: center; flex-shrink: 0; }
+.dot { width: 8px; height: 8px; border-radius: 50%; margin-top: 5px; flex-shrink: 0; }
+.dot-old { background: rgba(255,255,255,0.18); }
+.dot-new { background: var(--blue); }
+.dot-hi  { background: var(--green); box-shadow: 0 0 8px rgba(56,217,152,0.5); }
+.rail-line { width: 1px; flex: 1; min-height: 16px; margin: 3px 0; }
+.rail-old { background: rgba(255,255,255,0.08); }
+.rail-new { background: rgba(91,140,255,0.25); }
+.step-text { font-size: 13px; line-height: 1.65; padding-bottom: 16px; }
+.step-text.old { color: var(--muted); }
+.step-text.new { color: var(--text); }
+.step-sub { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--muted2); margin-top: 2px; }
+.step-tag {
+  display: inline-block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  padding: 1px 7px;
+  border-radius: 3px;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+.tag-ai   { background: var(--blue-bg);  color: var(--blue2);  border: 1px solid var(--blue-bd); }
+.tag-user { background: var(--green-bg); color: var(--green);  border: 1px solid var(--green-bd); }
+.flow-callout {
+  margin-top: 24px;
+  padding: 14px 18px;
+  background: var(--s2);
+  border: 1px solid var(--border2);
+  border-radius: 8px;
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.75;
+}
+.flow-callout b { color: var(--text); }
+
+/* ── PRINCIPLE CARDS ── */
+.principle-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 14px;
+}
+.p-card {
+  background: var(--s2);
+  border: 1px solid var(--border2);
+  border-radius: 12px;
+  padding: 22px 18px;
+  position: relative;
+  overflow: hidden;
+}
+.p-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+}
+.p-card:nth-child(1)::before { background: var(--blue); }
+.p-card:nth-child(2)::before { background: var(--green); }
+.p-card:nth-child(3)::before { background: var(--amber); }
+.p-card:nth-child(4)::before { background: var(--purple); }
+.p-card:nth-child(5)::before { background: var(--red); }
+.p-num { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; opacity: 0.5; margin-bottom: 9px; }
+.p-card:nth-child(1) .p-num { color: var(--blue2); }
+.p-card:nth-child(2) .p-num { color: var(--green); }
+.p-card:nth-child(3) .p-num { color: var(--amber); }
+.p-card:nth-child(4) .p-num { color: var(--purple); }
+.p-card:nth-child(5) .p-num { color: var(--red); }
+.p-name { font-size: 14px; font-weight: 700; margin-bottom: 9px; }
+.p-card:nth-child(1) .p-name { color: var(--blue2); }
+.p-card:nth-child(2) .p-name { color: var(--green); }
+.p-card:nth-child(3) .p-name { color: var(--amber); }
+.p-card:nth-child(4) .p-name { color: var(--purple); }
+.p-card:nth-child(5) .p-name { color: var(--red); }
+.p-def { font-size: 12px; color: var(--text); font-weight: 500; margin-bottom: 10px; line-height: 1.5; }
+.p-q { font-size: 11px; color: var(--muted); line-height: 1.6; margin-bottom: 10px; }
+.p-examples { display: flex; flex-direction: column; gap: 5px; }
+.p-ex {
+  font-size: 11px;
+  padding: 5px 9px;
+  border-radius: 5px;
+  line-height: 1.5;
+}
+.p-ex.bad  { background: var(--red-bg);   color: rgba(240,96,96,0.75);  border: 1px solid var(--red-bd); }
+.p-ex.good { background: var(--green-bg); color: rgba(56,217,152,0.85); border: 1px solid var(--green-bd); }
+
+/* ── USER INPUT PATTERN CARDS ── */
+.input-pattern-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 28px 30px;
+}
+.input-pattern-card {
+  min-width: 0;
+}
+.input-pattern-card button {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: 12px;
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+}
+.input-pattern-card button:hover img {
+  border-color: rgba(81, 71, 255, 0.28);
+  box-shadow: 0 8px 24px rgba(24, 24, 27, 0.08);
+}
+.input-pattern-card button:focus-visible {
+  outline: 2px solid rgba(81, 71, 255, 0.55);
+  outline-offset: 3px;
+}
+.input-pattern-card img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 397 / 220;
+  object-fit: contain;
+  border-radius: 12px;
+  border: 1px solid transparent;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+.input-pattern-card h3 {
+  margin: 14px 0 0;
+  font-size: 15px;
+  line-height: 22px;
+  font-weight: 650;
+  color: var(--text);
+}
+.input-pattern-card p {
+  margin: 6px 0 0;
+  font-size: 14px;
+  line-height: 22px;
+  color: var(--muted);
+}
+
+/* ── RESULT PRESENTATION PATTERN CARDS ── */
+.result-pattern-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+.result-pattern-card {
+  min-width: 0;
+  background: var(--s2);
+  border: 1px solid var(--border2);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: var(--shadow-soft);
+}
+.result-pattern-media {
+  padding: 18px;
+  background: #f7f7f8;
+  border-bottom: 1px solid var(--border);
+}
+.result-pattern-media img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 397 / 220;
+  object-fit: contain;
+  border-radius: 12px;
+}
+.result-pattern-body {
+  padding: 18px 20px 20px;
+}
+.result-pattern-kicker {
+  margin-bottom: 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: .12em;
+  color: var(--muted2);
+}
+.result-pattern-title {
+  margin-bottom: 6px;
+  font-size: 15px;
+  line-height: 22px;
+  font-weight: 700;
+  color: var(--text);
+}
+.result-pattern-sub {
+  margin-bottom: 14px;
+  font-size: 13px;
+  line-height: 22px;
+  color: var(--muted);
+}
+.result-pattern-spec {
+  display: grid;
+  gap: 8px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
+.result-pattern-spec-title {
+  font-size: 11px;
+  color: var(--muted2);
+  font-family: 'JetBrains Mono', monospace;
+}
+.result-pattern-rule {
+  position: relative;
+  padding-left: 14px;
+  font-size: 12px;
+  line-height: 20px;
+  color: var(--muted);
+}
+.result-pattern-rule::before {
+  content: '·';
+  position: absolute;
+  left: 3px;
+  color: var(--muted2);
+}
+.result-pattern-rule b {
+  color: var(--text);
+  font-weight: 650;
+}
+
+/* ── CONFIRM HANDOFF EXAMPLE ── */
+.confirm-handoff-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(420px, 0.86fr);
+  gap: 28px;
+  align-items: start;
+}
+.confirm-handoff-demo {
+  padding: 12px;
+  background: #fff;
+  border: 1px solid var(--border2);
+  border-radius: 16px;
+  box-shadow: var(--shadow-soft);
+}
+.confirm-ai-bubble {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.confirm-profile-card {
+  padding: 16px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 0 3px rgba(0,0,0,.04);
+  border: 1px solid rgba(0,0,0,.04);
+}
+.confirm-profile-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.confirm-doc-icon {
+  width: 48px;
+  height: 48px;
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  background: #e9ecff;
+  color: #645bff;
+}
+.confirm-profile-main {
+  min-width: 0;
+  flex: 1;
+}
+.confirm-profile-title-row {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+.confirm-profile-title {
+  margin: 0 0 4px;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 650;
+  color: #333;
+}
+.confirm-edit-btn {
+  flex: 0 0 auto;
+  margin-left: auto;
+  padding: 5px 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #fff;
+  color: #333;
+  font-size: 13px;
+  line-height: 22px;
+}
+.confirm-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.confirm-tag {
+  min-width: 20px;
+  height: 20px;
+  padding: 0 4px;
+  border-radius: 2px;
+  background: #f2f4f6;
+  color: #576275;
+  font-size: 12px;
+  line-height: 20px;
+  white-space: nowrap;
+}
+.confirm-field-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+.confirm-field {
+  min-width: 0;
+  font-size: 13px;
+  line-height: 22px;
+}
+.confirm-field-wide {
+  grid-column: 1 / -1;
+}
+.confirm-field-label {
+  color: #999;
+  margin-bottom: 4px;
+}
+.confirm-field-value {
+  color: #333;
+}
+.confirm-field-value.nowrap {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.confirm-submit-btn {
+  width: 100%;
+  border: 0;
+  border-radius: 8px;
+  background: #5147ff;
+  color: #fff;
+  font-size: 13px;
+  line-height: 22px;
+  padding: 5px 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: background .18s ease, box-shadow .18s ease, transform .18s ease;
+}
+.confirm-submit-btn:hover {
+  background: #645bff;
+  box-shadow: 0 6px 16px rgba(81,71,255,.16);
+}
+.confirm-submit-btn:active {
+  transform: translateY(1px);
+  box-shadow: 0 3px 8px rgba(81,71,255,.12);
+}
+.confirm-submit-btn.is-confirmed {
+  background: #16a34a;
+  box-shadow: none;
+  cursor: default;
+}
+.confirm-next-copy {
+  margin: 0;
+  font-size: 14px;
+  line-height: 22px;
+  color: #333;
+  transition: color .18s ease;
+}
+.confirm-next-copy.is-confirmed {
+  color: #15803d;
+}
+.pattern-drawer-mask {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: flex-end;
+  background: rgba(15, 23, 42, 0.24);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.22s ease;
+}
+.pattern-drawer-mask.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+.pattern-drawer {
+  width: min(520px, calc(100vw - 48px));
+  height: 100%;
+  background: #f7f8fa;
+  border-left: 1px solid var(--border);
+  box-shadow: -12px 0 32px rgba(24, 24, 27, 0.12);
+  transform: translateX(100%);
+  transition: transform 0.24s ease;
+  display: flex;
+  flex-direction: column;
+}
+.pattern-drawer-mask.is-open .pattern-drawer {
+  transform: translateX(0);
+}
+.pattern-drawer-header {
+  display: none;
+  height: 52px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0 14px 0 18px;
+  border-bottom: 1px solid var(--border);
+  background: #fff;
+  flex-shrink: 0;
+}
+.pattern-drawer-title {
+  font-size: 15px;
+  font-weight: 650;
+  color: var(--text);
+}
+.pattern-drawer-close {
+  width: 30px;
+  height: 30px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 1;
+}
+.pattern-drawer-close:hover {
+  color: var(--text);
+  background: var(--s2);
+}
+.pattern-drawer--with-header .pattern-drawer-header {
+  display: flex;
+}
+.pattern-drawer--wide {
+  width: min(860px, calc(100vw - 48px));
+}
+.pattern-drawer-frame {
+  width: 100%;
+  flex: 1;
+  height: 100%;
+  border: 0;
+  background: #f7f8fa;
+}
+.section-title-action {
+  margin-left: auto;
+  height: 30px;
+  padding: 0 12px;
+  border: 1px solid var(--border2);
+  border-radius: 8px;
+  background: var(--s1);
+  color: var(--text);
+  font-size: 12px;
+  line-height: 28px;
+  cursor: pointer;
+}
+.section-title-action:hover {
+  border-color: var(--blue-bd);
+  color: var(--blue2);
+  background: var(--blue-bg);
+}
+.embedded-page-shell {
+  width: 100%;
+  height: calc(100vh - 156px);
+  min-height: 720px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  background: #fff;
+}
+.embedded-page-frame {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+  background: #fff;
+}
+.trust-dim-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+.trust-dim-card,
+.trust-component-card,
+.trust-summary {
+  background: var(--s2);
+  border: 1px solid var(--border2);
+  border-radius: 12px;
+}
+.trust-dim-card {
+  padding: 18px 20px;
+}
+.trust-dim-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  color: var(--blue2);
+  margin-bottom: 8px;
+}
+.trust-dim-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+.trust-dim-desc {
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--muted);
+}
+.trust-component-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.trust-component-card {
+  overflow: hidden;
+}
+.trust-component-head {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  gap: 18px;
+  padding: 18px 20px;
+  border-bottom: 1px solid var(--border);
+}
+.trust-component-index {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  color: var(--muted2);
+  margin-bottom: 8px;
+}
+.trust-component-title {
+  font-size: 16px;
+  font-weight: 750;
+  color: var(--text);
+}
+.trust-component-desc {
+  font-size: 13px;
+  line-height: 1.75;
+  color: var(--muted);
+}
+.trust-chip-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  padding: 16px 20px 18px;
+}
+.trust-chip {
+  padding: 9px 11px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--s1);
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+.trust-summary {
+  padding: 20px 22px;
+  border-color: var(--blue-bd);
+  background: var(--blue-bg);
+}
+.trust-summary-title {
+  font-size: 15px;
+  font-weight: 750;
+  color: var(--text);
+  margin-bottom: 10px;
+}
+.trust-summary p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--muted);
+}
+.trust-summary b {
+  color: var(--text);
+}
+
+/* ── DECISION LAYERS ── */
+.layer-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  background: var(--s1);
+  border: 1px solid var(--border2);
+  border-radius: 14px;
+  overflow: hidden;
+}
+.layer-row {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  border-bottom: 1px solid var(--border);
+}
+.layer-row:last-child { border-bottom: none; }
+.layer-left {
+  padding: 24px 24px;
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+}
+.layer-num-big {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 3px;
+  display: inline-block;
+  margin-bottom: 4px;
+  width: fit-content;
+}
+.layer-row:nth-child(1) .layer-num-big { background: var(--blue-bg);   color: var(--blue2);  border: 1px solid var(--blue-bd); }
+.layer-row:nth-child(2) .layer-num-big { background: var(--green-bg);  color: var(--green);  border: 1px solid var(--green-bd); }
+.layer-row:nth-child(3) .layer-num-big { background: var(--amber-bg);  color: var(--amber);  border: 1px solid var(--amber-bd); }
+.layer-name { font-size: 15px; font-weight: 700; color: var(--text); }
+.layer-q    { font-size: 12px; color: var(--muted); line-height: 1.5; }
+.layer-right {
+  padding: 22px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.layer-items { display: flex; flex-wrap: wrap; gap: 8px; }
+.layer-chip {
+  font-size: 12px;
+  padding: 5px 13px;
+  border-radius: 20px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.layer-row:nth-child(1) .layer-chip { background: var(--blue-bg);  color: var(--blue2);  border: 1px solid var(--blue-bd); }
+.layer-row:nth-child(2) .layer-chip { background: var(--green-bg); color: var(--green);  border: 1px solid var(--green-bd); }
+.layer-row:nth-child(3) .layer-chip { background: var(--amber-bg); color: var(--amber);  border: 1px solid var(--amber-bd); }
+.layer-desc { font-size: 12px; color: var(--muted); line-height: 1.6; }
+.layer-arrow {
+  display: flex;
+  justify-content: center;
+  padding: 8px;
+  color: var(--muted2);
+  font-size: 16px;
+  background: var(--s1);
+  border: none;
+}
+
+/* ═══════════════════════════════════════
+   框架选型页面专用样式
+═══════════════════════════════════════ */
+
+/* ── 判断矩阵 ── */
+.matrix-table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--border2);
+}
+.matrix-table th {
+  padding: 14px 16px;
+  font-size: 12px;
+  font-weight: 700;
+  text-align: center;
+  border-bottom: 1px solid var(--border2);
+}
+.matrix-table th:first-child { background: var(--s2); color: var(--muted2); text-align: left; }
+.matrix-table th.wt { background: rgba(91,140,255,0.12); color: var(--blue2); }
+.matrix-table th.sb { background: rgba(56,217,152,0.10); color: var(--green); }
+.matrix-table th.bt { background: rgba(248,164,58,0.10); color: var(--amber); }
+.matrix-table td {
+  padding: 12px 16px;
+  font-size: 13px;
+  border-bottom: 1px solid var(--border);
+  background: var(--s1);
+  text-align: center;
+  color: var(--muted);
+  line-height: 1.6;
+  vertical-align: middle;
+}
+.matrix-table td:first-child { text-align: left; color: var(--text); font-weight: 500; background: var(--s2); }
+.matrix-table tr:last-child td { border-bottom: none; }
+.matrix-table .yes { color: var(--green); font-weight: 600; }
+.matrix-table .no  { color: var(--muted2); }
+.matrix-table .dot-yes::before {
+  content: '✓';
+  display: inline-block;
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: var(--green-bg);
+  border: 1px solid var(--green-bd);
+  line-height: 22px;
+  font-size: 11px;
+  color: var(--green);
+}
+.matrix-table .dot-no::before {
+  content: '–';
+  display: inline-block;
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  line-height: 22px;
+  font-size: 12px;
+  color: var(--muted2);
+}
+
+/* ── 选型流程图 ── */
+.selector-flow {
+  background: var(--s1);
+  border: 1px solid var(--border2);
+  border-radius: 14px;
+  padding: 32px 36px;
+}
+.sf-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 0;
+  position: relative;
+}
+.sf-start {
+  width: 120px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding-top: 4px;
+}
+.sf-start-box {
+  width: 100px;
+  padding: 10px 12px;
+  background: var(--s3);
+  border: 1px solid var(--border2);
+  border-radius: 8px;
+  font-size: 12px;
+  color: var(--text);
+  text-align: center;
+  font-weight: 600;
+}
+.sf-arrow-right {
+  display: flex;
+  align-items: center;
+  padding-top: 20px;
+  color: var(--muted2);
+  font-size: 18px;
+  flex-shrink: 0;
+  width: 32px;
+  justify-content: center;
+}
+.sf-branch {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.sf-question {
+  padding: 12px 16px;
+  background: rgba(91,140,255,0.07);
+  border: 1px solid var(--blue-bd);
+  border-radius: 8px;
+  font-size: 13px;
+  color: var(--blue2);
+  font-weight: 600;
+}
+.sf-answers {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-left: 16px;
+}
+.sf-answer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 13px;
+}
+.sf-cond {
+  font-size: 11px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.sf-cond.yes { background: var(--green-bg); color: var(--green); border: 1px solid var(--green-bd); }
+.sf-cond.no  { background: var(--red-bg);   color: var(--red);   border: 1px solid var(--red-bd); }
+.sf-arrow-small { color: var(--muted2); font-size: 14px; flex-shrink: 0; }
+.sf-result {
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.sf-result.wt { background: var(--blue-bg);  color: var(--blue2);  border: 1px solid var(--blue-bd); }
+.sf-result.sb { background: var(--green-bg); color: var(--green);  border: 1px solid var(--green-bd); }
+.sf-result.bt { background: var(--amber-bg); color: var(--amber);  border: 1px solid var(--amber-bd); }
+.sf-sub-q { font-size: 12px; color: var(--muted); padding-left: 8px; }
+
+/* ── 误区卡片 ── */
+.mistake-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; }
+.mistake-card {
+  background: var(--s2);
+  border: 1px solid var(--red-bd);
+  border-radius: 12px;
+  padding: 20px 18px;
+  position: relative;
+  overflow: hidden;
+}
+.mistake-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--red);
+}
+.mistake-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  color: var(--red);
+  margin-bottom: 8px;
+  opacity: 0.7;
+}
+.mistake-title { font-size: 13px; font-weight: 700; color: var(--red); margin-bottom: 10px; line-height: 1.4; }
+.mistake-fix { font-size: 12px; color: var(--green); line-height: 1.6; padding: 8px 10px; background: var(--green-bg); border-radius: 6px; border: 1px solid var(--green-bd); }
+
+/* ═══════════════════════════════════════
+   框架详情页专用样式
+═══════════════════════════════════════ */
+.frame-hero {
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  gap: 32px;
+  margin-bottom: 40px;
+  align-items: start;
+}
+.frame-info {}
+.frame-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: 4px;
+  margin-bottom: 14px;
+}
+.frame-badge.wt { background: var(--blue-bg); color: var(--blue2); border: 1px solid var(--blue-bd); }
+.frame-badge.sb { background: var(--green-bg); color: var(--green); border: 1px solid var(--green-bd); }
+.frame-badge.bt { background: var(--amber-bg); color: var(--amber); border: 1px solid var(--amber-bd); }
+.frame-title { font-family: 'Noto Serif SC', serif; font-size: 24px; font-weight: 900; margin-bottom: 10px; line-height: 1.4; }
+.frame-subtitle { font-size: 14px; color: var(--muted); line-height: 1.7; margin-bottom: 20px; max-width: 500px; }
+.tag-list { display: flex; flex-wrap: wrap; gap: 8px; }
+.tag-green { font-size: 12px; padding: 4px 12px; border-radius: 20px; background: var(--green-bg); color: var(--green); border: 1px solid var(--green-bd); }
+.tag-red   { font-size: 12px; padding: 4px 12px; border-radius: 20px; background: var(--red-bg);   color: var(--red);   border: 1px solid var(--red-bd); }
+
+/* layout mockup */
+.layout-mock {
+  background: var(--bg);
+  border: 1px solid var(--border2);
+  border-radius: 12px;
+  overflow: hidden;
+  height: 220px;
+  display: flex;
+  flex-direction: column;
+}
+.lm-titlebar {
+  height: 32px;
+  background: var(--s2);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  gap: 6px;
+}
+.lm-dot { width: 8px; height: 8px; border-radius: 50%; }
+.lm-dot:nth-child(1) { background: #ff5f57; }
+.lm-dot:nth-child(2) { background: #febc2e; }
+.lm-dot:nth-child(3) { background: #28c840; }
+.lm-body { flex: 1; display: flex; overflow: hidden; }
+.lm-nav {
+  width: 13%;
+  background: rgba(255,255,255,0.02);
+  border-right: 1px solid var(--border);
+  padding: 8px 6px;
+  display: flex; flex-direction: column; gap: 5px;
+}
+.lm-ni { height: 6px; border-radius: 2px; background: rgba(255,255,255,0.07); }
+.lm-chat {
+  background: rgba(91,140,255,0.03);
+  border-right: 1px solid var(--border);
+  padding: 8px;
+  display: flex; flex-direction: column; justify-content: flex-end; gap: 4px;
+}
+.lm-bubble { height: 8px; border-radius: 3px; }
+.lm-bubble.u { background: rgba(91,140,255,0.3); align-self: flex-end; width: 55%; }
+.lm-bubble.a { background: rgba(255,255,255,0.09); width: 80%; }
+.lm-bubble.t { background: rgba(248,164,58,0.25); width: 65%; }
+.lm-main {
+  flex: 1;
+  background: rgba(255,255,255,0.015);
+  padding: 8px;
+  display: flex; flex-direction: column; gap: 5px;
+}
+.lm-field { height: 7px; border-radius: 2px; }
+.lm-field.filled { background: rgba(91,140,255,0.22); }
+.lm-field.empty  { background: rgba(255,255,255,0.06); }
+.lm-field.warn   { background: rgba(248,164,58,0.3); }
+.lm-side {
+  background: rgba(91,140,255,0.03);
+  border-left: 1px solid var(--border);
+  padding: 8px;
+  display: flex; flex-direction: column; gap: 4px;
+}
+.lm-si { height: 6px; border-radius: 2px; }
+.lm-si.ok   { background: rgba(56,217,152,0.25); }
+.lm-si.warn { background: rgba(248,164,58,0.3); }
+
+/* layout label */
+.layout-labels {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+.ll {
+  font-size: 11px;
+  padding: 3px 10px;
+  border-radius: 4px;
+  background: var(--s3);
+  border: 1px solid var(--border2);
+  color: var(--muted);
+  font-family: 'JetBrains Mono', monospace;
+}
+.ll.hi { background: var(--blue-bg); color: var(--blue2); border-color: var(--blue-bd); }
+.ll.green { background: var(--green-bg); color: var(--green); border-color: var(--green-bd); }
+
+/* ── 布局规范详情 ── */
+.layout-spec {
+  background: var(--s1);
+  border: 1px solid var(--border2);
+  border-radius: 14px;
+  overflow: hidden;
+}
+.layout-spec-header {
+  padding: 16px 24px;
+  background: var(--s2);
+  border-bottom: 1px solid var(--border2);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.layout-spec-body {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+.layout-spec-col {
+  padding: 20px 22px;
+  border-right: 1px solid var(--border);
+}
+.layout-spec-col:last-child { border-right: none; }
+.lsc-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted2);
+  margin-bottom: 6px;
+}
+.lsc-title { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+.lsc-width { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--blue2); margin-bottom: 12px; }
+.lsc-items { display: flex; flex-direction: column; gap: 6px; }
+.lsc-item {
+  font-size: 12px;
+  color: var(--muted);
+  padding-left: 14px;
+  position: relative;
+  line-height: 1.55;
+}
+.lsc-item::before { content: '·'; position: absolute; left: 3px; color: var(--muted2); }
+.lsc-item b { color: var(--text); }
+
+/* ── 交互流程步骤 ── */
+.flow-steps-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  background: var(--s1);
+  border: 1px solid var(--border2);
+  border-radius: 14px;
+  overflow: hidden;
+}
+.flow-step-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 18px 24px;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+}
+.flow-step-row:last-child { border-bottom: none; }
+.flow-step-row:hover { background: rgba(255,255,255,0.015); }
+.fsr-num {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.fsr-body { flex: 1; }
+.fsr-title { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+.fsr-desc  { font-size: 12px; color: var(--muted); line-height: 1.6; }
+.fsr-tag {
+  font-size: 11px;
+  padding: 2px 9px;
+  border-radius: 20px;
+  margin-left: 8px;
+  vertical-align: middle;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* ── HITL 强度指示 ── */
+.hitl-bar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 24px;
+  background: var(--s2);
+  border: 1px solid var(--border2);
+  border-radius: 12px;
+}
+.hitl-label { font-size: 13px; font-weight: 700; color: var(--text); white-space: nowrap; }
+.hitl-track { flex: 1; height: 6px; background: rgba(255,255,255,0.08); border-radius: 3px; position: relative; }
+.hitl-fill { height: 100%; border-radius: 3px; }
+.hitl-dots {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 6px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--muted2);
+}
+.hitl-rules { display: flex; flex-direction: column; gap: 6px; flex: 2; }
+.hitl-rule { font-size: 12px; color: var(--muted); line-height: 1.55; padding-left: 14px; position: relative; }
+.hitl-rule::before { content: '·'; position: absolute; left: 3px; color: var(--muted2); }
+.hitl-rule b { color: var(--text); }
+
+/* ── 信息卡片 ── */
+.info-card {
+  background: var(--s2);
+  border: 1px solid var(--border2);
+  border-radius: 12px;
+  padding: 20px 22px;
+}
+.info-card-title { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+.info-card-items { display: flex; flex-direction: column; gap: 7px; }
+.ic-item { font-size: 13px; color: var(--muted); padding-left: 16px; position: relative; line-height: 1.6; }
+.ic-item::before { content: '·'; position: absolute; left: 4px; color: var(--muted2); }
+.ic-item b { color: var(--text); }
+.ic-item.green b { color: var(--green); }
+.ic-item.red   b { color: var(--red); }
+
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+
+/* ── 分隔线 ── */
+.divider { height: 1px; background: var(--border); margin: 36px 0; }
+
+/* ── 引用框 ── */
+.callout {
+  padding: 16px 20px;
+  border-radius: 10px;
+  border-left: 3px solid;
+  font-size: 13px;
+  line-height: 1.75;
+  margin: 20px 0;
+}
+.callout.blue  { background: var(--blue-bg);  border-color: var(--blue);  color: var(--blue2); }
+.callout.green { background: var(--green-bg); border-color: var(--green); color: var(--green); }
+.callout.amber { background: var(--amber-bg); border-color: var(--amber); color: var(--amber); }
+
+.case-demo-shell {
+  width: 100%;
+  height: calc(100vh - 170px);
+  min-height: 620px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  background: #FFFFFF;
+  box-shadow: var(--shadow-soft);
+}
+.case-demo-frame {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+  background: #FFFFFF;
+}
+.case-demo-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  background: #FFFFFF;
+}
+.case-tabs {
+  display: flex;
+  gap: 8px;
+}
+.case-tab {
+  height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 16px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: #FFFFFF;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 650;
+  line-height: 1;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.case-tab:hover {
+  color: var(--text);
+  border-color: rgba(0,0,0,0.12);
+}
+.case-tab.active {
+  color: var(--blue2);
+  border-color: var(--blue-bd);
+  background: var(--blue-bg);
+}
+.case-tab-panel {
+  display: none;
+}
+.case-tab-panel.active {
+  display: block;
+}
+.content-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+.content-tab {
+  height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 16px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: #FFFFFF;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 650;
+  line-height: 1;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.content-tab:hover {
+  color: var(--text);
+  border-color: rgba(0,0,0,0.12);
+}
+.content-tab.active {
+  color: var(--blue2);
+  border-color: var(--blue-bd);
+  background: var(--blue-bg);
+}
+.content-tab-panel {
+  display: none;
+}
+.content-tab-panel.active {
+  display: block;
+}
+.case-card {
+  background: var(--s2);
+  border: 1px solid var(--border2);
+  border-radius: 12px;
+  padding: 22px 18px;
+  color: inherit;
+  display: block;
+  cursor: pointer;
+  text-align: left;
+}
+.case-card:hover {
+  border-color: var(--border3);
+  background: #F4F4F5;
+}
+
+body.embed {
+  --bg: #f5f7fb;
+  --s1: #ffffff;
+  --s2: #f8fafc;
+  --s3: #eef3f8;
+  --border: rgba(15,23,42,0.08);
+  --border2: rgba(15,23,42,0.12);
+  --border3: rgba(15,23,42,0.18);
+  --text: #1f2329;
+  --muted: rgba(31,35,41,0.62);
+  --muted2: rgba(31,35,41,0.38);
+  --muted3: rgba(31,35,41,0.18);
+  --blue: #1677ff;
+  --blue2: #0958d9;
+  --blue-bg: rgba(22,119,255,0.08);
+  --blue-bd: rgba(22,119,255,0.24);
+  --green: #389e0d;
+  --green-bg: rgba(82,196,26,0.10);
+  --green-bd: rgba(82,196,26,0.26);
+  --amber: #d48806;
+  --amber-bg: rgba(250,173,20,0.12);
+  --amber-bd: rgba(250,173,20,0.30);
+  --red: #cf1322;
+  --red-bg: rgba(255,77,79,0.09);
+  --red-bd: rgba(255,77,79,0.24);
+  --purple: #722ed1;
+  --purple-bg: rgba(114,46,209,0.08);
+  --purple-bd: rgba(114,46,209,0.22);
+  background: #f5f7fb;
+  color: #1f2329;
+}
+
+body.embed .compare-table,
+body.embed .matrix-table,
+body.embed .framework-card,
+body.embed .principle-card,
+body.embed .decision-layer,
+body.embed .info-card,
+body.embed .mistake-box,
+body.embed .flow-compare,
+body.embed .process-line,
+body.embed .result-card,
+body.embed .handoff-card,
+body.embed .loop-card,
+body.embed .scenario-card,
+body.embed .layout-spec,
+body.embed .flow-steps-list,
+body.embed .layout-mock {
+  box-shadow: var(--shadow-soft);
+}
+
+body.embed .compare-table td,
+body.embed .matrix-table td,
+body.embed .flow-compare,
+body.embed .process-line,
+body.embed .hitl-bar,
+body.embed .info-card,
+body.embed .flow-steps-list,
+body.embed .layout-spec,
+body.embed .layout-mock {
+  background: #ffffff;
+}
+
+body.embed .compare-table th,
+body.embed .matrix-table th,
+body.embed .framework-card,
+body.embed .principle-card,
+body.embed .decision-layer,
+body.embed .result-card,
+body.embed .handoff-card,
+body.embed .loop-card,
+body.embed .scenario-card,
+body.embed .mistake-box,
+body.embed .layout-spec-header,
+body.embed .lm-titlebar {
+  background: #f8fafc;
+}
+
+body.embed .flow-step-row:hover {
+  background: rgba(22,119,255,0.035);
+}
+
+@media (max-width: 1280px) {
+  body.embed .quality-grid {
+    grid-template-columns: repeat(2,minmax(0,1fr)) !important;
+  }
+}
+
+/* ── Soft Minimal System refinement, sourced from DESIGN.md ── */
+body.embed {
+  --bg: #FAFAFA;
+  --s1: #FFFFFF;
+  --s2: #FFFFFF;
+  --s3: #F4F4F5;
+  --border: rgba(0,0,0,0.06);
+  --border2: rgba(0,0,0,0.08);
+  --border3: rgba(0,0,0,0.12);
+  --text: #18181B;
+  --muted: #71717A;
+  --muted2: #A1A1AA;
+  --muted3: #D4D4D8;
+  --blue: #2563EB;
+  --blue2: #1D4ED8;
+  --blue-bg: rgba(37,99,235,0.06);
+  --blue-bd: rgba(37,99,235,0.14);
+  background: #FAFAFA;
+  color: #18181B;
+}
+
+.compare-table,
+.matrix-table,
+.flow-compare,
+.p-card,
+.layer-stack,
+.selector-flow,
+.mistake-card,
+.layout-mock,
+.layout-spec,
+.flow-steps-list,
+.hitl-bar,
+.info-card,
+.callout,
+[style*="background:var(--s2);border:1px solid var(--border2);border-radius:12px"],
+[style*="background:var(--s2);border:1px solid var(--border2);border-radius:10px"],
+[style*="background:var(--bg);border:1px solid var(--border2);border-radius:12px"] {
+  background: #FFFFFF !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius) !important;
+  box-shadow: var(--shadow-soft) !important;
+}
+
+.compare-table th,
+.matrix-table th,
+.layout-spec-header,
+.lm-titlebar {
+  background: #F7F7F8 !important;
+  color: var(--muted) !important;
+  border-color: var(--border) !important;
+}
+
+.compare-table td,
+.matrix-table td,
+.layout-spec-col,
+.flow-step-row {
+  background: #FFFFFF !important;
+  border-color: var(--border) !important;
+}
+
+.matrix-table td:first-child {
+  background: #FAFAFA !important;
+}
+
+.flow-head.old,
+.matrix-table .dot-no::before,
+.lm-nav,
+.lm-main,
+.lm-field.empty,
+.lm-bubble.a,
+.hitl-track,
+.rail-old,
+.dot-old,
+[style*="rgba(255,255,255,0.0"],
+[style*="rgba(255,255,255,0.1"],
+[style*="rgba(0,0,0,0.3"],
+[style*="rgba(0,0,0,.28"] {
+  background: #F4F4F5 !important;
+  border-color: var(--border) !important;
+  color: var(--muted) !important;
+}
+
+.dot-hi,
+.lm-dot {
+  box-shadow: none !important;
+}
+
+.rail-new {
+  background: rgba(37,99,235,0.18) !important;
+}
+
+.hitl-fill {
+  background: #D4D4D8 !important;
+}
+
+.p-ex.bad {
+  color: var(--red) !important;
+}
+
+.p-ex.good {
+  color: var(--green) !important;
+}
+
+.frame-title,
+.page-title {
+  font-family: inherit !important;
+}
+
+[style*="font-family:'Noto Serif SC'"] {
+  font-family: inherit !important;
+}
+
+.frame-title {
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+.frame-badge,
+.flow-head,
+.section-num,
+.layer-num-big,
+.p-num,
+.ll,
+.lsc-label,
+.fsr-num,
+.hitl-dots,
+.hitl-label {
+  letter-spacing: 0.02em;
+}
+
+.nav-item,
+.layer-chip,
+.sf-result,
+.tag-green,
+.tag-red,
+.ll,
+.p-ex,
+.flow-head,
+.frame-badge,
+.section-num {
+  border-radius: 999px;
+}
+
+.nav-item {
+  border-radius: 10px;
+}
+
+.nav-item:focus-visible,
+.nav-section-toggle:focus-visible,
+.layer-chip:focus-visible {
+  outline: 2px solid rgba(37,99,235,0.28);
+  outline-offset: 2px;
+}
+
+.nav-item,
+.layer-chip,
+.p-card,
+.mistake-card,
+[style*="background:var(--s2);border:1px solid var(--border2);border-radius:12px"] {
+  transition: background-color 0.16s ease, border-color 0.16s ease, color 0.16s ease;
+}
+
+.p-card:hover,
+.mistake-card:hover,
+.layer-chip:hover {
+  border-color: var(--border3) !important;
+}
+
+.flow-step-row:hover {
+  background: #FAFAFA !important;
+}
+
+@media (max-width: 1180px) {
+  .principle-grid,
+  .quality-grid,
+  .mistake-grid {
+    grid-template-columns: repeat(2,minmax(0,1fr)) !important;
+  }
+
+  .page {
+    padding: 36px 32px 52px;
+  }
+}
+
+</style>
+</head>
+<body>
+
+<!-- ══════════ SIDEBAR NAV ══════════ -->
+<nav class="nav">
+  <div class="nav-logo">
+    <div class="nav-logo-title">AI 产品设计系统</div>
+    <div class="nav-logo-sub">Honeycomb Design System</div>
+  </div>
+
+  <div class="nav-section nav-section-toggle" onclick="toggleGroup('g-principle')">
+    <span class="nav-section-label">设计原则</span><span class="nav-toggle-icon" id="icon-g-principle"><svg class="line-icon" viewBox="0 0 16 16" aria-hidden="true"><path d="m4 6 4 4 4-4"></path></svg></span>
+  </div>
+  <div class="nav-group" id="g-principle" style="max-height:120px">
+    <a class="nav-item active" data-page="p-lang-1" onclick="show('p-lang-1')">
+      <span class="nav-icon ni-ic" data-icon-key="settings" data-icon-source="icons/navigation/svg/settings.svg"><img class="ni-img" src="icons/navigation/svg/settings.svg" alt=""></span>
+      <div>
+        <div>设计原则</div>
+        <div class="nav-item-sub">从设计操作界面到设计协作过程</div>
+      </div>
+    </a>
+    <a class="nav-item" data-page="p-lang-3" onclick="show('p-lang-3')">
+      <span class="nav-icon ni-ic" data-icon-key="permission" data-icon-source="icons/navigation/svg/permission.svg"><img class="ni-img" src="icons/navigation/svg/permission.svg" alt=""></span>
+      <div>
+        <div>设计决策层级</div>
+        <div class="nav-item-sub">框架·过程·组件</div>
+      </div>
+    </a>
+  </div>
+
+  <div class="nav-section nav-section-toggle" onclick="toggleGroup('g-frame')">
+    <span class="nav-section-label">框架选型</span><span class="nav-toggle-icon" id="icon-g-frame"><svg class="line-icon" viewBox="0 0 16 16" aria-hidden="true"><path d="m4 6 4 4 4-4"></path></svg></span>
+  </div>
+  <div class="nav-group" id="g-frame" style="max-height:500px">
+    <a class="nav-item" data-page="p-frame-0" onclick="show('p-frame-0')">
+      <span class="nav-icon ni-ic" data-icon-key="dashboard" data-icon-source="icons/navigation/svg/dashboard.svg"><img class="ni-img" src="icons/navigation/svg/dashboard.svg" alt=""></span>
+      <div>
+        <div>设计原则</div>
+        <div class="nav-item-sub">判断矩阵与流程</div>
+      </div>
+    </a>
+    <a class="nav-item" data-page="p-frame-2" onclick="show('p-frame-2')">
+      <span class="nav-icon ni-ic" data-icon-key="work-order" data-icon-source="icons/navigation/svg/work-order.svg"><img class="ni-img" src="icons/navigation/svg/work-order.svg" alt=""></span>
+      <div>
+        <div>侧边栏模式</div>
+        <div class="nav-item-sub">用户主导·轻重两种形态</div>
+      </div>
+    </a>
+    <a class="nav-item" data-page="p-frame-1" onclick="show('p-frame-1')">
+      <span class="nav-icon ni-ic" data-icon-key="home" data-icon-source="icons/navigation/svg/home.svg"><img class="ni-img" src="icons/navigation/svg/home.svg" alt=""></span>
+      <div>
+        <div>AI Native模式</div>
+        <div class="nav-item-sub">AI 主导·集中处理</div>
+      </div>
+    </a>
+  </div>
+
+  <div class="nav-section nav-section-toggle" onclick="toggleGroup('g-ux')">
+    <span class="nav-section-label">交互规范</span><span class="nav-toggle-icon" id="icon-g-ux"><svg class="line-icon" viewBox="0 0 16 16" aria-hidden="true"><path d="m4 6 4 4 4-4"></path></svg></span>
+  </div>
+  <div class="nav-group" id="g-ux" style="max-height:600px">
+    <a class="nav-item" data-page="p-ux-1" onclick="show('p-ux-1')">
+      <span class="nav-icon ni-ic" data-icon-key="lead" data-icon-source="icons/navigation/svg/lead.svg"><img class="ni-img" src="icons/navigation/svg/lead.svg" alt=""></span>
+      <div>
+        <div>用户输入设计</div>
+        <div class="nav-item-sub">上传·选择·触发·确认</div>
+      </div>
+    </a>
+    <a class="nav-item" data-page="p-ux-2" onclick="show('p-ux-2')">
+      <span class="nav-icon ni-ic" data-icon-key="business-data" data-icon-source="icons/navigation/svg/business-data.svg"><img class="ni-img" src="icons/navigation/svg/business-data.svg" alt=""></span>
+      <div>
+        <div>AI 执行可见性</div>
+        <div class="nav-item-sub">四层信息·进度状态</div>
+      </div>
+    </a>
+    <a class="nav-item" data-page="p-ux-3" onclick="show('p-ux-3')">
+      <span class="nav-icon ni-ic" data-icon-key="log" data-icon-source="icons/navigation/svg/log.svg"><img class="ni-img" src="icons/navigation/svg/log.svg" alt=""></span>
+      <div>
+        <div>结果呈现规范</div>
+        <div class="nav-item-sub">低·强·极强介入</div>
+      </div>
+    </a>
+    <a class="nav-item" data-page="p-ux-4" onclick="show('p-ux-4')">
+      <span class="nav-icon ni-ic" data-icon-key="contract" data-icon-source="icons/navigation/svg/contract.svg"><img class="ni-img" src="icons/navigation/svg/contract.svg" alt=""></span>
+      <div>
+        <div>确认交接规范</div>
+        <div class="nav-item-sub">推荐值·来源·卡片</div>
+      </div>
+    </a>
+    <a class="nav-item" data-page="p-ux-5" onclick="show('p-ux-5')">
+      <span class="nav-icon ni-ic" data-icon-key="permission" data-icon-source="icons/navigation/svg/permission.svg"><img class="ni-img" src="icons/navigation/svg/permission.svg" alt=""></span>
+      <div>
+        <div>可控可信规范</div>
+        <div class="nav-item-sub">质疑·依据·修正</div>
+      </div>
+    </a>
+  </div>
+
+  <div class="nav-section nav-section-toggle" onclick="toggleGroup('g-case')">
+    <span class="nav-section-label">场景案例</span><span class="nav-toggle-icon" id="icon-g-case"><svg class="line-icon" viewBox="0 0 16 16" aria-hidden="true"><path d="m4 6 4 4 4-4"></path></svg></span>
+  </div>
+  <div class="nav-group" id="g-case" style="max-height:700px">
+    <a class="nav-item" data-page="p-case-0" onclick="show('p-case-0')">
+      <span class="nav-icon ni-ic" data-icon-key="dashboard" data-icon-source="icons/navigation/svg/dashboard.svg"><img class="ni-img" src="icons/navigation/svg/dashboard.svg" alt=""></span>
+      <div>
+        <div>场景总览</div>
+        <div class="nav-item-sub">五类场景对应关系</div>
+      </div>
+    </a>
+    <button class="nav-item case-nav-item" type="button" data-page="p-case-entry" onclick="showCase('录入', 'p-case-entry', this)">
+      <span class="nav-icon ni-ic" data-icon-key="contract" data-icon-source="icons/navigation/svg/contract.svg"><img class="ni-img" src="icons/navigation/svg/contract.svg" alt=""></span>
+      <div><div>录入</div><div class="nav-item-sub">录入场景</div></div>
+    </button>
+    <button class="nav-item case-nav-item" type="button" data-page="p-case-query" onclick="showCase('查询', 'p-case-query', this)">
+      <span class="nav-icon ni-ic" data-icon-key="lead" data-icon-source="icons/navigation/svg/lead.svg"><img class="ni-img" src="icons/navigation/svg/lead.svg" alt=""></span>
+      <div><div>查询</div><div class="nav-item-sub">查询场景</div></div>
+    </button>
+    <button class="nav-item case-nav-item" type="button" data-page="p-case-audit" onclick="showCase('审核', 'p-case-audit', this)">
+      <span class="nav-icon ni-ic" data-icon-key="permission" data-icon-source="icons/navigation/svg/permission.svg"><img class="ni-img" src="icons/navigation/svg/permission.svg" alt=""></span>
+      <div><div>审核</div><div class="nav-item-sub">审核场景</div></div>
+    </button>
+    <button class="nav-item case-nav-item" type="button" data-page="p-case-analysis" onclick="showCase('分析', 'p-case-analysis', this)">
+      <span class="nav-icon ni-ic" data-icon-key="business-data" data-icon-source="icons/navigation/svg/business-data.svg"><img class="ni-img" src="icons/navigation/svg/business-data.svg" alt=""></span>
+      <div><div>分析</div><div class="nav-item-sub">分析场景</div></div>
+    </button>
+    <button class="nav-item case-nav-item" type="button" data-page="p-case-report" onclick="showCase('报告', 'p-case-report', this)">
+      <span class="nav-icon ni-ic" data-icon-key="bill" data-icon-source="icons/navigation/svg/bill.svg"><img class="ni-img" src="icons/navigation/svg/bill.svg" alt=""></span>
+      <div><div>报告</div><div class="nav-item-sub">报告场景</div></div>
+    </button>
+    <button class="nav-item case-nav-item" type="button" data-page="p-case-combo" onclick="showCase('组合场景', 'p-case-combo', this)">
+      <span class="nav-icon ni-ic" data-icon-key="building" data-icon-source="icons/navigation/svg/building.svg"><img class="ni-img" src="icons/navigation/svg/building.svg" alt=""></span>
+      <div><div>组合场景</div><div class="nav-item-sub">多能力联动</div></div>
+    </button>
+  </div>
+</nav>
+
+<!-- ══════════ MAIN ══════════ -->
+<main class="main">
+  <header class="topbar">
+    <div class="topbar-main">
+      <div class="topbar-title" id="topbarTitle">设计原则</div>
+      <div class="topbar-desc" id="topbarDesc"></div>
+    </div>
+    <div class="topbar-chip" id="topbarChip">设计原则</div>
+    <div class="topbar-actions" id="topbarActions">
+      <div class="case-tabs topbar-tabset" data-topbar-tabset="audit" role="tablist" aria-label="审核场景页签">
+        <button class="case-tab active" type="button" role="tab" aria-selected="true" onclick="switchCaseTab('audit-contract', this)">合同审核</button>
+        <button class="case-tab" type="button" role="tab" aria-selected="false" onclick="switchCaseTab('audit-compliance', this)">合规审查</button>
+      </div>
+      <div class="content-tabs topbar-tabset" data-topbar-tabset="frame-native" role="tablist" aria-label="AI Native模式页签">
+        <button class="content-tab active" type="button" role="tab" aria-selected="true" onclick="switchContentTab('frame-native-demo', this)">AI 原生模式</button>
+        <button class="content-tab" type="button" role="tab" aria-selected="false" onclick="switchContentTab('frame-native-overview', this)">设计理念</button>
+      </div>
+      <div class="content-tabs topbar-tabset" data-topbar-tabset="frame-side" role="tablist" aria-label="侧边栏模式页签">
+        <button class="content-tab active" type="button" role="tab" aria-selected="true" onclick="switchContentTab('frame-side-demo', this)">侧边栏</button>
+        <button class="content-tab" type="button" role="tab" aria-selected="false" onclick="switchContentTab('frame-side-overview', this)">设计理念</button>
+      </div>
+    </div>
+  </header>
+
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  设计语言 1.1  核心认知转变
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<div class="page active" id="p-lang-1">
+  <div class="page-eyebrow">设计原则</div>
+  <h1 class="page-title">从设计操作界面到<em>设计协作过程</em></h1>
+  <p class="page-desc">AI 时代，UED 设计的对象变了。以前设计的是用户怎么操作界面，现在设计的是人和 AI 怎么协同完成一件事。五个原则是所有设计决策的判断基准。</p>
+
+  <!-- 01 五个设计原则 -->
+  <div class="section">
+    <div class="section-title"><span class="section-num">01</span>五个设计原则</div>
+    <p style="font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:20px">遇到设计决策拿不准的时候，对照这五条来检查。</p>
+    <div class="principle-grid">
+      <div class="p-card">
+        <div class="p-num">原则 01</div>
+        <div class="p-name">输入原则</div>
+        <div class="p-def">用户交付的是上下文，不是字段</div>
+        <div class="p-q">💬 这个场景里，用户把什么信息交给 AI？</div>
+        <div class="p-examples">
+          <div class="p-ex bad">✗ 让用户逐字段填表</div>
+          <div class="p-ex good">✓ 用户上传文件，AI 读取提取</div>
+        </div>
+      </div>
+      <div class="p-card">
+        <div class="p-num">原则 02</div>
+        <div class="p-name">可见性原则</div>
+        <div class="p-def">AI 工作过程必须可感知</div>
+        <div class="p-q">💬 用户等待时，能看到 AI 在做什么吗？</div>
+        <div class="p-examples">
+          <div class="p-ex bad">✗ 转圈等待，结果突然出现</div>
+          <div class="p-ex good">✓ 四层信息实时呈现，进度透明</div>
+        </div>
+      </div>
+      <div class="p-card">
+        <div class="p-num">原则 03</div>
+        <div class="p-name">交接原则</div>
+        <div class="p-def">AI 自动完成确定性，人类负责最终责任</div>
+        <div class="p-q">💬 哪些 AI 自动完成？哪些必须人确认？</div>
+        <div class="p-examples">
+          <div class="p-ex bad">✗ AI 完成后让用户核对全部字段</div>
+          <div class="p-ex good">✓ AI 填 24 个，只推 1 个不确定的</div>
+        </div>
+      </div>
+      <div class="p-card">
+        <div class="p-num">原则 04</div>
+        <div class="p-name">位置原则</div>
+        <div class="p-def">AI 放在哪，取决于用户需要同时看什么</div>
+        <div class="p-q">💬 用户完成任务时，需要同时关注哪些信息？</div>
+        <div class="p-examples">
+          <div class="p-ex bad">✗ 所有场景都用侧边栏或全屏</div>
+          <div class="p-ex good">✓ 只看结果用全屏，要看原文用侧边栏</div>
+        </div>
+      </div>
+      <div class="p-card">
+        <div class="p-num">原则 05</div>
+        <div class="p-name">闭环原则</div>
+        <div class="p-def">用户可以质疑 AI，AI 必须给出依据并允许修正</div>
+        <div class="p-q">💬 用户发现 AI 结果有问题，能追问吗？</div>
+        <div class="p-examples">
+          <div class="p-ex bad">✗ AI 输出后用户只能接受或全部重来</div>
+          <div class="p-ex good">✓ 点击字段追问，AI 给依据，用户确认更新</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 02 判断标准 -->
+  <div class="section">
+    <div class="section-title"><span class="section-num">02</span>判断一个 AI 产品设计得好不好</div>
+    <div class="quality-grid" style="display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px;margin-bottom:20px">
+      <div style="background:var(--s2);border:1px solid var(--border2);border-radius:12px;padding:20px 18px;position:relative;overflow:hidden">
+        <div style="position:absolute;top:0;left:0;right:0;height:2px;background:var(--blue)"></div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--blue2);margin-bottom:10px">01</div>
+        <div style="font-size:15px;font-weight:800;color:var(--text);margin-bottom:10px">确认少且有价值</div>
+        <div style="font-size:13px;color:var(--muted);line-height:1.7">用户确认的是判断，不是录入。做的是「这个对不对」，而不是「从头填一遍」。</div>
+      </div>
+      <div style="background:var(--s2);border:1px solid var(--border2);border-radius:12px;padding:20px 18px;position:relative;overflow:hidden">
+        <div style="position:absolute;top:0;left:0;right:0;height:2px;background:var(--green)"></div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--green);margin-bottom:10px">02</div>
+        <div style="font-size:15px;font-weight:800;color:var(--text);margin-bottom:10px">过程可感知</div>
+        <div style="font-size:13px;color:var(--muted);line-height:1.7">AI 干活不是黑盒。用户知道在做什么、做到哪、结果从哪来。</div>
+      </div>
+      <div style="background:var(--s2);border:1px solid var(--border2);border-radius:12px;padding:20px 18px;position:relative;overflow:hidden">
+        <div style="position:absolute;top:0;left:0;right:0;height:2px;background:var(--amber)"></div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--amber);margin-bottom:10px">03</div>
+        <div style="font-size:15px;font-weight:800;color:var(--text);margin-bottom:10px">风险有关卡</div>
+        <div style="font-size:13px;color:var(--muted);line-height:1.7">高风险动作前有人工介入点。用户能看到影响范围，再决定要不要继续。</div>
+      </div>
+      <div style="background:var(--s2);border:1px solid var(--border2);border-radius:12px;padding:20px 18px;position:relative;overflow:hidden">
+        <div style="position:absolute;top:0;left:0;right:0;height:2px;background:var(--red)"></div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--red);margin-bottom:10px">04</div>
+        <div style="font-size:15px;font-weight:800;color:var(--text);margin-bottom:10px">出错能追问</div>
+        <div style="font-size:13px;color:var(--muted);line-height:1.7">协作不是单程票。用户发现问题可以追问，AI 给依据，结果可以修正。</div>
+      </div>
+      <div style="background:var(--s2);border:1px solid var(--border2);border-radius:12px;padding:20px 18px;position:relative;overflow:hidden">
+        <div style="position:absolute;top:0;left:0;right:0;height:2px;background:var(--purple)"></div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--purple);margin-bottom:10px">05</div>
+        <div style="font-size:15px;font-weight:800;color:var(--text);margin-bottom:10px">位置符合工作状态</div>
+        <div style="font-size:13px;color:var(--muted);line-height:1.7">AI 放的位置不打断用户。需要同时看原文时在侧边，只看结果时 AI 是主角。</div>
+      </div>
+    </div>
+    <div style="padding:20px 28px;background:var(--s2);border:1px solid var(--border2);border-radius:11px;text-align:center;font-family:'Noto Serif SC',serif;font-size:15px;font-weight:700;color:var(--text);line-height:1.85">
+      判断一个 AI 产品设计得好不好，不是看界面复不复杂，<br>
+      而是看这条<em style="font-style:normal;color:var(--blue2)">协作链</em>有没有被设计清楚。
+    </div>
+  </div>
+
+  <!-- 02 以前 vs 现在 -->
+  <div class="section">
+    <div class="section-title"><span class="section-num">03</span>以前 vs 现在</div>
+    <table class="compare-table">
+      <thead><tr><th style="width:160px">维度</th><th>以前</th><th>现在</th></tr></thead>
+      <tbody>
+        <tr><td>设计对象</td><td>用户怎么操作界面</td><td><b class="hi">人和 AI 怎么协同完成任务</b></td></tr>
+        <tr><td>系统角色</td><td>工具，响应操作</td><td><b class="hi">参与者，参与任务本身</b></td></tr>
+        <tr><td>核心设计问题</td><td>页面放什么、用户怎么操作</td><td><b class="hi">用户干什么、AI 干什么、在哪交接</b></td></tr>
+        <tr><td>衡量标准</td><td>界面是否清晰易用</td><td><b class="hi">协作流是否被设计清楚</b></td></tr>
+        <tr><td>典型输出</td><td>页面原型、交互说明</td><td><b class="hi">协作流设计 + 框架选型 + 组件规范</b></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 03 页面流 vs 协作流 -->
+  <div class="section">
+    <div class="section-title"><span class="section-num">04</span>页面流 vs 协作流</div>
+    <div class="flow-compare">
+      <div>
+        <div class="flow-head old">以前 · 页面流</div>
+        <div class="flow-sub">核心问题：<b>这个页面放什么、用户怎么操作</b><br>系统只是工具，用户负责全部理解和录入</div>
+        <div class="steps">
+          <div class="step"><div class="step-rail"><div class="dot dot-old"></div><div class="rail-line rail-old"></div></div><div class="step-text old">打开合同登记表单</div></div>
+          <div class="step"><div class="step-rail"><div class="dot dot-old"></div><div class="rail-line rail-old"></div></div><div class="step-text old">对照文件逐字段填写<div class="step-sub">25 个字段 · 15 ~ 30 分钟</div></div></div>
+          <div class="step"><div class="step-rail"><div class="dot dot-old"></div></div><div class="step-text old">保存提交</div></div>
+        </div>
+      </div>
+      <div class="flow-divider"></div>
+      <div>
+        <div class="flow-head new">现在 · 协作流</div>
+        <div class="flow-sub">核心问题：<b>用户干什么、AI 干什么、在哪交接</b><br>AI 是参与者，设计的是协作过程</div>
+        <div class="steps">
+          <div class="step"><div class="step-rail"><div class="dot dot-new"></div><div class="rail-line rail-new"></div></div><div class="step-text new">用户上传合同文件 <span class="step-tag tag-user">用户</span></div></div>
+          <div class="step"><div class="step-rail"><div class="dot dot-new"></div><div class="rail-line rail-new"></div></div><div class="step-text new">AI 读取并解析 25 个关键字段 <span class="step-tag tag-ai">AI</span><div class="step-sub">自动完成 3 类内容检查</div></div></div>
+          <div class="step"><div class="step-rail"><div class="dot dot-new"></div><div class="rail-line rail-new"></div></div><div class="step-text new">8 项检查 7 项通过，1 项待确认 <span class="step-tag tag-ai">AI</span></div></div>
+          <div class="step"><div class="step-rail"><div class="dot dot-hi"></div><div class="rail-line rail-new"></div></div><div class="step-text new">用户只确认「履约担保」1 个字段 <span class="step-tag tag-user">用户</span></div></div>
+          <div class="step"><div class="step-rail"><div class="dot dot-new"></div></div><div class="step-text new">选择审批流程，发起审批 <span class="step-tag tag-user">用户</span></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="flow-callout" style="margin-top:16px">
+      同样是登记一份合同：以前用户填 <b>25 个字段</b>，需要 <b>15~30 分钟</b>；现在 AI 填 <b>24 个</b>、用户确认 <b>1 个</b>，<b>1 分钟</b>完成。表单还在，但设计逻辑完全不一样了。
+    </div>
+  </div>
+
+</div>
+
+
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  设计语言 1.3  设计决策层级
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<div class="page" id="p-lang-3">
+  <div class="page-eyebrow">设计语言 · 1.3</div>
+  <h1 class="page-title"><em>三层决策</em>，从框架到组件</h1>
+  <p class="page-desc">产品经理拿到一个 AI 需求，先查第一层确定框架，再看第二层了解交互规范，第三层是设计师执行时用的组件标准。三层是递进关系，不能跳过。</p>
+
+  <div class="section">
+    <div class="section-title"><span class="section-num">01</span>三层决策结构</div>
+    <div class="layer-stack">
+      <div class="layer-row">
+        <div class="layer-left">
+          <div class="layer-num-big">第一层</div>
+          <div class="layer-name">框架选型</div>
+          <div class="layer-q">选什么框架承载这个 AI 功能？</div>
+        </div>
+        <div class="layer-right">
+          <div style="font-size:12px;color:var(--muted);margin-bottom:8px">两类框架，按判断矩阵选择</div>
+          <div class="layer-items">
+            <span class="layer-chip" onclick="show('p-frame-2')">侧边栏模式 →</span>
+            <span class="layer-chip" onclick="show('p-frame-1')">AI Native模式 →</span>
+          </div>
+          <div class="layer-desc">判断依据：AI 是主角还是辅助 · 用户需要同时看什么 · 任务是否需要对话历史</div>
+        </div>
+      </div>
+      <div class="layer-arrow">↓</div>
+      <div class="layer-row">
+        <div class="layer-left">
+          <div class="layer-num-big">第二层</div>
+          <div class="layer-name">过程设计</div>
+          <div class="layer-q">这个框架下，协作流怎么设计？</div>
+        </div>
+        <div class="layer-right">
+          <div style="font-size:12px;color:var(--muted);margin-bottom:8px">四个过程设计方向</div>
+          <div class="layer-items">
+            <span class="layer-chip">用户输入设计</span>
+            <span class="layer-chip">AI 执行可见性</span>
+            <span class="layer-chip">确认交接设计</span>
+            <span class="layer-chip">闭环追问设计</span>
+          </div>
+          <div class="layer-desc">判断依据：用户输入什么 · AI 做了什么要告知 · 哪里需要人工介入 · HITL 强度（人工介入的深浅程度）</div>
+        </div>
+      </div>
+      <div class="layer-arrow">↓</div>
+      <div class="layer-row">
+        <div class="layer-left">
+          <div class="layer-num-big">第三层</div>
+          <div class="layer-name">组件规范</div>
+          <div class="layer-q">具体用什么组件实现？</div>
+        </div>
+        <div class="layer-right">
+          <div style="font-size:12px;color:var(--muted);margin-bottom:8px">五类基础组件</div>
+          <div class="layer-items">
+            <span class="layer-chip">对话消息组件</span>
+            <span class="layer-chip">结果卡片组件</span>
+            <span class="layer-chip">确认面板组件</span>
+            <span class="layer-chip">过程状态组件</span>
+            <span class="layer-chip">闭环追问组件</span>
+          </div>
+          <div class="layer-desc">每个组件有独立规范：尺寸 · 状态 · 文案规则 · 交互行为</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title"><span class="section-num">02</span>场景与层级的关系</div>
+    <div class="callout blue">
+      💡 五类业务场景（查询/录入/审核/分析/报告）不是分类维度，是应用案例。<br>
+      产品经理拿到一个录入场景的需求，先查框架选型选出框架，再按过程设计规范，最后用组件实现。<br>
+      场景是入口，不是标准本身。
+    </div>
+    <table class="compare-table" style="margin-top:16px">
+      <thead>
+        <tr>
+          <th>业务场景</th>
+          <th>推荐框架</th>
+          <th>HITL 强度（人工介入的深浅程度）</th>
+          <th>关键过程设计</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>查询类</td>
+          <td><span class="step-tag tag-user" style="margin:0">按钮触发</span></td>
+          <td>低</td>
+          <td>结果卡片 + 来源依据 + 追问入口</td>
+        </tr>
+        <tr>
+          <td>录入类</td>
+          <td><span class="step-tag tag-ai" style="margin:0">全屏 Agent</span></td>
+          <td>强</td>
+          <td>文件上传 + 字段置信度 + 人工修订</td>
+        </tr>
+        <tr>
+          <td>审核类</td>
+          <td><span class="step-tag tag-ai" style="margin:0;background:var(--green-bg);color:var(--green);border-color:var(--green-bd)">侧边栏</span></td>
+          <td>极强</td>
+          <td>风险分层 + 原始依据 + 建议摘要</td>
+        </tr>
+        <tr>
+          <td>分析类</td>
+          <td><span class="step-tag tag-ai" style="margin:0">全屏 Agent</span></td>
+          <td>中</td>
+          <td>主题数据查询 + 指标解释 + 可追问分析</td>
+        </tr>
+        <tr>
+          <td>报告类</td>
+          <td><span class="step-tag tag-ai" style="margin:0">全屏 Agent</span></td>
+          <td>中</td>
+          <td>可编辑草稿 + 数据溯源 + 管理语言生成</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  设计原则 2.0
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<div class="page" id="p-frame-0">
+  <h1 class="page-title">设计原则</h1>
+  <p class="page-desc">产品经理拿到一个 AI 功能需求，先回答这三个问题，再对照判断矩阵，快速确定设计原则。</p>
+
+  <div class="section">
+    <div class="section-title"><span class="section-num">01</span>三个判断问题</div>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div style="background:var(--s2);border:1px solid var(--border2);border-radius:12px;padding:20px 24px;display:flex;align-items:flex-start;gap:16px">
+        <div style="width:32px;height:32px;border-radius:50%;background:var(--blue-bg);border:1px solid var(--blue-bd);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--blue2);flex-shrink:0;font-weight:700">Q1</div>
+        <div>
+          <div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:6px">这个任务里，AI 是主角还是辅助？</div>
+          <div style="display:flex;gap:12px;flex-wrap:wrap">
+            <div style="font-size:12px;padding:5px 14px;border-radius:6px;background:var(--blue-bg);color:var(--blue2);border:1px solid var(--blue-bd)">AI 主导整个任务流程 → 倾向全屏 Agent</div>
+            <div style="font-size:12px;padding:5px 14px;border-radius:6px;background:var(--green-bg);color:var(--green);border:1px solid var(--green-bd)">AI 辅助用户完成任务 → 倾向侧边栏</div>
+          </div>
+        </div>
+      </div>
+      <div style="background:var(--s2);border:1px solid var(--border2);border-radius:12px;padding:20px 24px;display:flex;align-items:flex-start;gap:16px">
+        <div style="width:32px;height:32px;border-radius:50%;background:var(--blue-bg);border:1px solid var(--blue-bd);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--blue2);flex-shrink:0;font-weight:700">Q2</div>
+        <div>
+          <div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:6px">用户需要同时看原始数据吗？</div>
+          <div style="display:flex;gap:12px;flex-wrap:wrap">
+            <div style="font-size:12px;padding:5px 14px;border-radius:6px;background:var(--blue-bg);color:var(--blue2);border:1px solid var(--blue-bd)">不需要，AI 已经读了 → 倾向全屏 Agent</div>
+            <div style="font-size:12px;padding:5px 14px;border-radius:6px;background:var(--green-bg);color:var(--green);border:1px solid var(--green-bd)">需要，用户自己要看 → 倾向侧边栏</div>
+          </div>
+        </div>
+      </div>
+      <div style="background:var(--s2);border:1px solid var(--border2);border-radius:12px;padding:20px 24px;display:flex;align-items:flex-start;gap:16px">
+        <div style="width:32px;height:32px;border-radius:50%;background:var(--blue-bg);border:1px solid var(--blue-bd);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--blue2);flex-shrink:0;font-weight:700">Q3</div>
+        <div>
+          <div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:6px">任务是集中处理还是随手触发？</div>
+          <div style="display:flex;gap:12px;flex-wrap:wrap">
+            <div style="font-size:12px;padding:5px 14px;border-radius:6px;background:var(--blue-bg);color:var(--blue2);border:1px solid var(--blue-bd)">集中、批量、需要对话历史 → 全屏 Agent</div>
+            <div style="font-size:12px;padding:5px 14px;border-radius:6px;background:var(--green-bg);color:var(--green);border:1px solid var(--green-bd)">随时触发、轻量、无需历史 → 侧边栏</div>
+            <div style="font-size:12px;padding:5px 14px;border-radius:6px;background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-bd)">单点辅助、不需要对话 → 按钮触发</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title"><span class="section-num">02</span>判断矩阵</div>
+    <table class="matrix-table">
+      <thead>
+        <tr>
+          <th style="width:180px">判断维度</th>
+          <th class="wt">AI Native模式</th>
+          <th class="sb">侧边栏模式</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>AI 角色</td>
+          <td class="yes">主角</td>
+          <td>辅助</td>
+        </tr>
+        <tr>
+          <td>用户需要看原始数据</td>
+          <td><span class="dot-no"></span></td>
+          <td><span class="dot-yes"></span></td>
+        </tr>
+        <tr>
+          <td>需要对话历史</td>
+          <td><span class="dot-yes"></span></td>
+          <td><span class="dot-no"></span></td>
+        </tr>
+        <tr>
+          <td>处理方式</td>
+          <td class="yes">集中批量</td>
+          <td>随时触发 / 单点辅助</td>
+        </tr>
+        <tr>
+          <td>HITL 强度（人工介入的深浅程度）</td>
+          <td class="yes">强 / 极强</td>
+          <td>低 / 中 / 强</td>
+        </tr>
+        <tr>
+          <td>典型场景</td>
+          <td style="color:var(--blue2)">合同录入、成本分析报告</td>
+          <td style="color:var(--green)">合同预审、调价辅助、单字段填写</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <div class="section-title"><span class="section-num">03</span>选型流程图</div>
+    <div class="selector-flow">
+      <div style="display:flex;flex-direction:column;gap:20px">
+        <div style="display:flex;align-items:center;gap:16px">
+          <div class="sf-start-box">拿到需求</div>
+          <div style="color:var(--muted2);font-size:18px">→</div>
+          <div style="flex:1">
+            <div class="sf-question">Q1：AI 是主角还是辅助？</div>
+            <div class="sf-answers" style="margin-top:10px">
+              <div class="sf-answer">
+                <span class="sf-cond yes">AI 主角</span>
+                <span class="sf-arrow-small">→</span>
+                <div style="flex:1">
+                  <div class="sf-question" style="font-size:12px;padding:8px 12px">Q2：用户需要同时看原始数据？</div>
+                  <div class="sf-answers" style="margin-top:8px">
+                    <div class="sf-answer">
+                      <span class="sf-cond no">不需要</span>
+                      <span class="sf-arrow-small">→</span>
+                      <span class="sf-result wt">AI Native模式 ✓</span>
+                    </div>
+                    <div class="sf-answer">
+                      <span class="sf-cond yes">需要</span>
+                      <span class="sf-arrow-small">→</span>
+                      <span class="sf-result sb">侧边栏模式 ✓</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="sf-answer">
+                <span class="sf-cond no">AI 辅助</span>
+                <span class="sf-arrow-small">→</span>
+                <div style="flex:1">
+                  <div class="sf-question" style="font-size:12px;padding:8px 12px">Q3：需要对话上下文？</div>
+                  <div class="sf-answers" style="margin-top:8px">
+                    <div class="sf-answer">
+                      <span class="sf-cond yes">需要</span>
+                      <span class="sf-arrow-small">→</span>
+                      <span class="sf-result sb">侧边栏模式 ✓</span>
+                    </div>
+                    <div class="sf-answer">
+                      <span class="sf-cond no">不需要</span>
+                      <span class="sf-arrow-small">→</span>
+                      <span class="sf-result sb">侧边栏模式（按钮触发形态）✓</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title"><span class="section-num">04</span>常见误区</div>
+    <div class="mistake-grid">
+      <div class="mistake-card">
+        <div class="mistake-label">误区 01</div>
+        <div class="mistake-title">所有 AI 功能都做成对话框</div>
+        <div class="mistake-fix">✓ 查询类可以，录入类不合适。录入场景 AI 已经读完文件，用户不需要对话，需要的是确认结果</div>
+      </div>
+      <div class="mistake-card">
+        <div class="mistake-label">误区 02</div>
+        <div class="mistake-title">侧边栏就是聊天框</div>
+        <div class="mistake-fix">✓ 侧边栏是辅助工作台，不只是对话。核心是"用户主操作区不被打断"，AI 在侧边提供建议</div>
+      </div>
+      <div class="mistake-card">
+        <div class="mistake-label">误区 03</div>
+        <div class="mistake-title">卡片越多功能越强</div>
+        <div class="mistake-fix">✓ 用户确认越少说明 AI 越强。卡片是 AI 没有把握时才推出的，卡片越少说明 AI 消化得越彻底</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  框架选型 2.1  AI Native模式
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<div class="page" id="p-frame-1">
+  <div class="page-eyebrow">框架选型 · 2.1</div>
+  <div class="content-tab-panel" data-content-tab-panel="frame-native-overview">
+  <div class="frame-hero">
+    <div class="frame-info">
+      <div class="frame-badge wt">AI Native模式 · PRD-01</div>
+      <h1 class="frame-title">AI 主导任务，<br>用户做最终确认</h1>
+      <p class="frame-subtitle">AI 读完原始文件，用户不需要盯着原文。界面的主体是 AI 处理后的结果，用户在结果里做判断、确认、发起下一步操作。</p>
+      <div style="margin-bottom:16px">
+        <div style="font-size:11px;color:var(--green);font-family:'JetBrains Mono',monospace;letter-spacing:.1em;margin-bottom:8px">✓ 适用条件</div>
+        <div class="tag-list">
+          <span class="tag-green">AI 是任务主角</span>
+          <span class="tag-green">用户不需要同时看原始文件</span>
+          <span class="tag-green">需要对话历史和异常修订</span>
+          <span class="tag-green">主动、集中、批量的工作流</span>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:11px;color:var(--red);font-family:'JetBrains Mono',monospace;letter-spacing:.1em;margin-bottom:8px">✗ 不适用条件</div>
+        <div class="tag-list">
+          <span class="tag-red">用户需要边看原文边操作</span>
+          <span class="tag-red">轻量随手触发的场景</span>
+          <span class="tag-red">单点辅助无需上下文</span>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="layout-mock">
+        <div class="lm-titlebar">
+          <div class="lm-dot"></div><div class="lm-dot"></div><div class="lm-dot"></div>
+          <div style="font-size:10px;color:var(--muted2);margin-left:8px;font-family:'JetBrains Mono',monospace">合同录入 Agent</div>
+        </div>
+        <div class="lm-body">
+          <div class="lm-nav">
+            <div class="lm-ni"></div>
+            <div class="lm-ni" style="width:55%"></div>
+            <div class="lm-ni" style="width:75%"></div>
+            <div class="lm-ni" style="width:45%"></div>
+            <div class="lm-ni" style="width:65%;margin-top:6px"></div>
+          </div>
+          <div class="lm-chat" style="width:32%">
+            <div class="lm-bubble a"></div>
+            <div class="lm-bubble t"></div>
+            <div class="lm-bubble a" style="width:45%"></div>
+            <div class="lm-bubble u"></div>
+          </div>
+          <div class="lm-main">
+            <div class="lm-field filled" style="width:95%"></div>
+            <div class="lm-field filled" style="width:70%"></div>
+            <div class="lm-field filled" style="width:85%"></div>
+            <div class="lm-field filled" style="width:60%"></div>
+            <div class="lm-field warn"   style="width:75%"></div>
+            <div class="lm-field empty"  style="width:80%"></div>
+          </div>
+        </div>
+      </div>
+      <div class="layout-labels">
+        <span class="ll">左 14% · 历史任务</span>
+        <span class="ll hi">中 36% · AI 对话面板</span>
+        <span class="ll">右 50% · 工作台</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title"><span class="section-num">01</span>布局规范</div>
+    <div class="layout-spec">
+      <div class="layout-spec-header">三栏布局 · 固定比例</div>
+      <div class="layout-spec-body">
+        <div class="layout-spec-col">
+          <div class="lsc-label">左侧</div>
+          <div class="lsc-title">历史任务导航</div>
+          <div class="lsc-width">宽度 220px · 可收起</div>
+          <div class="lsc-items">
+            <div class="lsc-item">历史任务按日期分组显示</div>
+            <div class="lsc-item"><b>新建任务按钮</b>置顶</div>
+            <div class="lsc-item">每条任务：名称 + 状态标签 + 时间</div>
+            <div class="lsc-item">收起后宽度 48px，只显示图标</div>
+          </div>
+        </div>
+        <div class="layout-spec-col" style="background:rgba(91,140,255,0.03)">
+          <div class="lsc-label">中间（核心）</div>
+          <div class="lsc-title">AI 对话面板</div>
+          <div class="lsc-width">宽度 36% · 不可调整</div>
+          <div class="lsc-items">
+            <div class="lsc-item">用户和 AI 协作的<b>控制中心</b></div>
+            <div class="lsc-item">四层信息严格按顺序呈现</div>
+            <div class="lsc-item">底部输入框始终可见，支持追问</div>
+            <div class="lsc-item">操作卡片：每次只推一张</div>
+          </div>
+        </div>
+        <div class="layout-spec-col">
+          <div class="lsc-label">右侧</div>
+          <div class="lsc-title">工作台（结果区）</div>
+          <div class="lsc-width">宽度 50% · 主展示区</div>
+          <div class="lsc-items">
+            <div class="lsc-item">AI 处理结果的主展示区</div>
+            <div class="lsc-item">字段被 AI <b>实时写入</b>，用户可见</div>
+            <div class="lsc-item">不确定字段：<b>橙色标注</b> + 推荐值</div>
+            <div class="lsc-item">所有字段用户<b>可直接编辑</b></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title"><span class="section-num">02</span>对话面板四层信息</div>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div style="display:flex;gap:14px;align-items:flex-start;padding:16px 20px;background:var(--s2);border:1px solid var(--green-bd);border-radius:10px">
+        <div style="width:24px;height:24px;border-radius:50%;background:var(--green-bg);border:1px solid var(--green-bd);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--green);font-family:'JetBrains Mono',monospace;font-weight:700;flex-shrink:0">1</div>
+        <div><div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:3px">用户消息</div><div style="font-size:12px;color:var(--muted);line-height:1.6">用户说了什么、上传了什么——让 AI 的上下文对用户透明</div></div>
+      </div>
+      <div style="display:flex;gap:14px;align-items:flex-start;padding:16px 20px;background:var(--s2);border:1px solid var(--blue-bd);border-radius:10px">
+        <div style="width:24px;height:24px;border-radius:50%;background:var(--blue-bg);border:1px solid var(--blue-bd);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--blue2);font-family:'JetBrains Mono',monospace;font-weight:700;flex-shrink:0">2</div>
+        <div><div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:3px">AI 回应</div><div style="font-size:12px;color:var(--muted);line-height:1.6">AI 理解了什么、准备做什么、现在进行到哪一步——持续汇报，不沉默等待</div></div>
+      </div>
+      <div style="display:flex;gap:14px;align-items:flex-start;padding:16px 20px;background:var(--s2);border:1px solid var(--amber-bd);border-radius:10px">
+        <div style="width:24px;height:24px;border-radius:50%;background:var(--amber-bg);border:1px solid var(--amber-bd);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--amber);font-family:'JetBrains Mono',monospace;font-weight:700;flex-shrink:0">3</div>
+        <div><div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:3px">工具运行状态</div><div style="font-size:12px;color:var(--muted);line-height:1.6">实时透传：读了哪个字段、从哪个文件里识别的——有据可查，让用户知道 AI 在认真干活</div></div>
+      </div>
+      <div style="display:flex;gap:14px;align-items:flex-start;padding:16px 20px;background:var(--s2);border:1px solid var(--purple-bd);border-radius:10px">
+        <div style="width:24px;height:24px;border-radius:50%;background:var(--purple-bg);border:1px solid var(--purple-bd);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--purple);font-family:'JetBrains Mono',monospace;font-weight:700;flex-shrink:0">4</div>
+        <div><div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:3px">操作卡片</div><div style="font-size:12px;color:var(--muted);line-height:1.6">需要人工判断时单独推出——<b style="color:var(--text)">每次只推一张</b>，聚焦一个决策点，不是整张表单</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title"><span class="section-num">03</span>交互流程规范</div>
+    <div class="flow-steps-list">
+      <div class="flow-step-row">
+        <div class="fsr-num" style="background:var(--blue-bg);color:var(--blue2);border:1px solid var(--blue-bd)">1</div>
+        <div class="fsr-body">
+          <div class="fsr-title">用户选择任务类型或直接描述需求 <span class="fsr-tag" style="background:var(--green-bg);color:var(--green);border:1px solid var(--green-bd)">用户</span></div>
+          <div class="fsr-desc">快捷选项降低输入成本，用户选"合同录入"而不是打字描述</div>
+        </div>
+      </div>
+      <div class="flow-step-row">
+        <div class="fsr-num" style="background:var(--blue-bg);color:var(--blue2);border:1px solid var(--blue-bd)">2</div>
+        <div class="fsr-body">
+          <div class="fsr-title">用户上传相关文件 <span class="fsr-tag" style="background:var(--green-bg);color:var(--green);border:1px solid var(--green-bd)">用户</span></div>
+          <div class="fsr-desc">文件就是输入，用户把信息源交给 AI，不是让用户填表</div>
+        </div>
+      </div>
+      <div class="flow-step-row">
+        <div class="fsr-num" style="background:var(--blue-bg);color:var(--blue2);border:1px solid var(--blue-bd)">3</div>
+        <div class="fsr-body">
+          <div class="fsr-title">用户主动触发 AI 处理 <span class="fsr-tag" style="background:var(--green-bg);color:var(--green);border:1px solid var(--green-bd)">用户</span></div>
+          <div class="fsr-desc">「自动识别匹配」按钮，保留控制感，不是 AI 自动偷跑</div>
+        </div>
+      </div>
+      <div class="flow-step-row">
+        <div class="fsr-num" style="background:var(--blue-bg);color:var(--blue2);border:1px solid var(--blue-bd)">4</div>
+        <div class="fsr-body">
+          <div class="fsr-title">对话面板实时呈现 AI 工作进度 <span class="fsr-tag" style="background:var(--blue-bg);color:var(--blue2);border:1px solid var(--blue-bd)">AI</span></div>
+          <div class="fsr-desc">四层信息同步展示，右侧工作台字段实时被填入，用户看得见</div>
+        </div>
+      </div>
+      <div class="flow-step-row">
+        <div class="fsr-num" style="background:var(--blue-bg);color:var(--blue2);border:1px solid var(--blue-bd)">5</div>
+        <div class="fsr-body">
+          <div class="fsr-title">AI 推出确认卡片 <span class="fsr-tag" style="background:var(--blue-bg);color:var(--blue2);border:1px solid var(--blue-bd)">AI</span></div>
+          <div class="fsr-desc">只推不确定的字段，给推荐值 + 来源说明，每次只推一张</div>
+        </div>
+      </div>
+      <div class="flow-step-row">
+        <div class="fsr-num" style="background:var(--blue-bg);color:var(--blue2);border:1px solid var(--blue-bd)">6</div>
+        <div class="fsr-body">
+          <div class="fsr-title">用户确认或修改 <span class="fsr-tag" style="background:var(--green-bg);color:var(--green);border:1px solid var(--green-bd)">用户</span></div>
+          <div class="fsr-desc">确认的是判断，不是录入。用户说"对"或直接修改</div>
+        </div>
+      </div>
+      <div class="flow-step-row" style="border-bottom:none">
+        <div class="fsr-num" style="background:var(--green-bg);color:var(--green);border:1px solid var(--green-bd)">7</div>
+        <div class="fsr-body">
+          <div class="fsr-title">用户选择下一步操作 <span class="fsr-tag" style="background:var(--green-bg);color:var(--green);border:1px solid var(--green-bd)">用户</span></div>
+          <div class="fsr-desc">审批 / 保存 / 导出，高风险操作必须有明确确认步骤</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title"><span class="section-num">04</span>HITL 强度（人工介入的深浅程度）</div>
+    <div class="hitl-bar">
+      <div style="flex:1">
+        <div class="hitl-label">HITL 强度（人工介入的深浅程度）：强 / 极强</div>
+        <div class="hitl-track" style="margin-top:8px">
+          <div class="hitl-fill" style="width:80%;background:linear-gradient(90deg,var(--amber),var(--red))"></div>
+        </div>
+        <div class="hitl-dots">
+          <span>低</span><span>中</span><span>强</span><span style="color:var(--red)">极强</span>
+        </div>
+      </div>
+      <div class="hitl-rules">
+        <div class="hitl-rule"><b>字段、金额、合规性</b>必须人工确认，不能自动写入</div>
+        <div class="hitl-rule"><b>提交审批</b>等高风险操作必须有明确确认步骤</div>
+        <div class="hitl-rule">所有写操作完成后要有<b>回写验证</b></div>
+      </div>
+    </div>
+  </div>
+  </div>
+  <div class="content-tab-panel active" data-content-tab-panel="frame-native-demo">
+    <div class="case-demo-shell"><iframe class="case-demo-frame" data-case-src="ai-native-mode-demo/index.html" title="AI 原生模式"></iframe></div>
+  </div>
+</div>
+
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  框架选型 2.2  侧边栏模式
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<div class="page" id="p-frame-2">
+  <div class="page-eyebrow">框架选型 · 2.2</div>
+  <div class="content-tab-panel" data-content-tab-panel="frame-side-overview">
+    <div class="frame-hero">
+      <div class="frame-info">
+        <div class="frame-badge sb">侧边栏模式</div>
+        <h1 class="frame-title">用户主导任务，<br>AI 在旁边辅助</h1>
+        <p class="frame-subtitle">用户是任务主角，AI 不抢占主界面。根据辅助力度分为两种形态：需要上下文时用侧边栏形态，单点辅助时用按钮触发形态。</p>
+        <div style="margin-bottom:16px">
+          <div style="font-size:11px;color:var(--green);font-family:'JetBrains Mono',monospace;letter-spacing:.1em;margin-bottom:8px">✓ 适用条件</div>
+          <div class="tag-list">
+            <span class="tag-green">用户需要同时看原始文件和 AI 结果</span>
+            <span class="tag-green">在现有业务流中随时触发</span>
+            <span class="tag-green">AI 给建议，用户自己决策</span>
+            <span class="tag-green">单点辅助无需对话上下文</span>
+          </div>
+        </div>
+        <div>
+          <div style="font-size:11px;color:var(--red);font-family:'JetBrains Mono',monospace;letter-spacing:.1em;margin-bottom:8px">✗ 不适用条件</div>
+          <div class="tag-list">
+            <span class="tag-red">任务复杂需要多轮对话</span>
+            <span class="tag-red">AI 需要主导整个任务流程</span>
+            <span class="tag-red">批量集中处理的工作流</span>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="layout-mock">
+          <div class="lm-titlebar">
+            <div class="lm-dot"></div><div class="lm-dot"></div><div class="lm-dot"></div>
+            <div style="font-size:10px;color:var(--muted2);margin-left:8px;font-family:'JetBrains Mono',monospace">侧边栏模式</div>
+          </div>
+          <div class="lm-body">
+            <div class="lm-nav">
+              <div class="lm-ni"></div>
+              <div class="lm-ni" style="width:55%"></div>
+              <div class="lm-ni" style="width:75%"></div>
+            </div>
+            <div class="lm-main">
+              <div class="lm-field empty" style="width:90%"></div>
+              <div class="lm-field empty" style="width:65%"></div>
+              <div class="lm-field empty" style="width:80%"></div>
+              <div class="lm-field empty" style="width:55%"></div>
+              <div class="lm-field empty" style="width:72%"></div>
+            </div>
+            <div class="lm-side" style="width:28%">
+              <div style="font-size:9px;color:var(--muted2);margin-bottom:4px;font-family:'JetBrains Mono',monospace">AI 辅助</div>
+              <div class="lm-si warn"></div>
+              <div class="lm-si ok"></div>
+              <div class="lm-si warn" style="width:55%"></div>
+              <div class="lm-si ok" style="width:85%"></div>
+            </div>
+          </div>
+        </div>
+        <div class="layout-labels">
+          <span class="ll">左 14% · 业务导航</span>
+          <span class="ll green">主 56% · 用户操作区</span>
+          <span class="ll">右 30% · AI 辅助区</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="section-num">01</span>两种形态</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+
+      <div style="background:var(--s2);border:1px solid var(--green-bd);border-radius:12px;overflow:hidden">
+        <div style="padding:16px 20px;background:var(--green-bg);border-bottom:1px solid var(--green-bd)">
+          <div style="font-size:11px;color:var(--green);font-family:'JetBrains Mono',monospace;letter-spacing:.1em;margin-bottom:6px">形态 A · 侧边栏</div>
+          <div style="font-size:15px;font-weight:700;color:var(--text)">有上下文，辅助力度重</div>
+        </div>
+        <div style="padding:18px 20px;display:flex;flex-direction:column;gap:8px">
+          <div style="font-size:12px;color:var(--muted);line-height:1.6;padding-left:14px;position:relative"><span style="position:absolute;left:3px;color:var(--muted2)">·</span>用户在主界面操作，AI 在侧边展示检查结果和建议</div>
+          <div style="font-size:12px;color:var(--muted);line-height:1.6;padding-left:14px;position:relative"><span style="position:absolute;left:3px;color:var(--muted2)">·</span>支持多轮交互，有一定上下文</div>
+          <div style="font-size:12px;color:var(--muted);line-height:1.6;padding-left:14px;position:relative"><span style="position:absolute;left:3px;color:var(--muted2)">·</span>侧边栏宽度 320px，触发后展开</div>
+          <div style="font-size:12px;color:var(--muted);line-height:1.6;padding-left:14px;position:relative"><span style="position:absolute;left:3px;color:var(--muted2)">·</span>关闭后不保留状态</div>
+          <div style="margin-top:6px;font-size:11px;padding:5px 10px;border-radius:4px;background:var(--green-bg);color:var(--green);border:1px solid var(--green-bd);display:inline-block;font-family:'JetBrains Mono',monospace">合同预审 · 调价辅助 · 审批辅助</div>
+        </div>
+      </div>
+
+      <div style="background:var(--s2);border:1px solid var(--amber-bd);border-radius:12px;overflow:hidden">
+        <div style="padding:16px 20px;background:var(--amber-bg);border-bottom:1px solid var(--amber-bd)">
+          <div style="font-size:11px;color:var(--amber);font-family:'JetBrains Mono',monospace;letter-spacing:.1em;margin-bottom:6px">形态 B · 按钮触发</div>
+          <div style="font-size:15px;font-weight:700;color:var(--text)">无上下文，单点轻量辅助</div>
+        </div>
+        <div style="padding:18px 20px;display:flex;flex-direction:column;gap:8px">
+          <div style="font-size:12px;color:var(--muted);line-height:1.6;padding-left:14px;position:relative"><span style="position:absolute;left:3px;color:var(--muted2)">·</span>字段右侧 AI 图标触发，弹出推荐值浮层</div>
+          <div style="font-size:12px;color:var(--muted);line-height:1.6;padding-left:14px;position:relative"><span style="position:absolute;left:3px;color:var(--muted2)">·</span>无对话历史，单次单点，用户接受或忽略</div>
+          <div style="font-size:12px;color:var(--muted);line-height:1.6;padding-left:14px;position:relative"><span style="position:absolute;left:3px;color:var(--muted2)">·</span>浮层宽度不超过 280px，点击外部关闭</div>
+          <div style="font-size:12px;color:var(--muted);line-height:1.6;padding-left:14px;position:relative"><span style="position:absolute;left:3px;color:var(--muted2)">·</span>必须给推荐值和来源说明，不给空框</div>
+          <div style="margin-top:6px;font-size:11px;padding:5px 10px;border-radius:4px;background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-bd);display:inline-block;font-family:'JetBrains Mono',monospace">单字段填写 · 快捷查询 · 自动识别</div>
+        </div>
+      </div>
+
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="section-num">02</span>两种形态的选择判断</div>
+      <div style="background:var(--s1);border:1px solid var(--border2);border-radius:12px;padding:22px 24px">
+      <div style="display:grid;grid-template-columns:1fr 40px 1fr;gap:16px;align-items:center">
+        <div style="font-size:14px;font-weight:700;color:var(--text);text-align:center">用户操作过程中<br>需要 AI 持续辅助？</div>
+        <div></div>
+        <div></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px;margin-top:16px">
+        <div style="display:flex;align-items:center;gap:12px">
+          <span style="font-size:11px;padding:3px 10px;border-radius:20px;white-space:nowrap;background:var(--green-bg);color:var(--green);border:1px solid var(--green-bd)">需要持续辅助</span>
+          <span style="color:var(--muted2);font-size:14px">→</span>
+          <span style="font-size:13px;font-weight:700;padding:6px 14px;border-radius:6px;background:var(--green-bg);color:var(--green);border:1px solid var(--green-bd)">侧边栏形态 ✓</span>
+          <span style="font-size:12px;color:var(--muted)">需要同时看原文 + AI 结果，有一定上下文</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px">
+          <span style="font-size:11px;padding:3px 10px;border-radius:20px;white-space:nowrap;background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-bd)">单点辅助即可</span>
+          <span style="color:var(--muted2);font-size:14px">→</span>
+          <span style="font-size:13px;font-weight:700;padding:6px 14px;border-radius:6px;background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-bd)">按钮触发形态 ✓</span>
+          <span style="font-size:12px;color:var(--muted)">单个字段或操作，不需要上下文</span>
+        </div>
+      </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="section-num">03</span>布局规范</div>
+      <div class="layout-spec">
+        <div class="layout-spec-header">主界面 + 侧边辅助区 · 用户主操作区不被压缩</div>
+        <div class="layout-spec-body">
+          <div class="layout-spec-col">
+            <div class="lsc-label">主界面</div>
+            <div class="lsc-title">用户主操作区</div>
+            <div class="lsc-width">宽度 56% · 不因侧边展开压缩</div>
+            <div class="lsc-items">
+              <div class="lsc-item">用户<b>正常操作</b>表单、查看文件</div>
+              <div class="lsc-item">AI 检查结果以<b>颜色标注</b>呈现，不弹窗</div>
+              <div class="lsc-item">高风险字段：<b>红色下划线</b>提示</div>
+            </div>
+          </div>
+          <div class="layout-spec-col" style="background:rgba(56,217,152,0.02)">
+            <div class="lsc-label">侧边辅助区</div>
+            <div class="lsc-title">AI 辅助展示区</div>
+            <div class="lsc-width">宽度 320px · 不可调整</div>
+            <div class="lsc-items">
+              <div class="lsc-item">触发方式：<b>按钮 / 自动 / 字段点击</b></div>
+              <div class="lsc-item">无对话历史，每次触发重新加载</div>
+              <div class="lsc-item">结果按<b>风险等级分层</b>展示</div>
+              <div class="lsc-item">底部：应用建议 / 忽略 / 追问</div>
+            </div>
+          </div>
+          <div class="layout-spec-col">
+            <div class="lsc-label">结果分层规范</div>
+            <div class="lsc-title">三级风险展示</div>
+            <div class="lsc-width">按优先级从上到下</div>
+            <div class="lsc-items">
+              <div class="lsc-item"><b style="color:var(--red)">🔴 必须处理</b>：高风险，需人工确认</div>
+              <div class="lsc-item"><b style="color:var(--amber)">🟡 建议处理</b>：提示但不强制</div>
+              <div class="lsc-item"><b style="color:var(--green)">🟢 已通过</b>：简单展示，不抢注意力</div>
+              <div class="lsc-item">每条结果必须有<b>原文依据</b></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="section-num">04</span>人工介入强度</div>
+      <div class="hitl-bar">
+        <div style="flex:1">
+          <div class="hitl-label">人工介入强度：低 ~ 强（视形态而定）</div>
+          <div class="hitl-track" style="margin-top:8px">
+            <div class="hitl-fill" style="width:65%;background:linear-gradient(90deg,var(--green),var(--amber))"></div>
+          </div>
+          <div class="hitl-dots">
+            <span style="color:var(--green)">低（按钮触发）</span><span>中</span><span style="color:var(--amber)">强（侧边栏）</span><span>极强</span>
+          </div>
+        </div>
+        <div class="hitl-rules">
+          <div class="hitl-rule">AI 建议<b>仅供参考</b>，不自动写入主界面</div>
+          <div class="hitl-rule">用户主动点击「应用建议」才更新字段</div>
+          <div class="hitl-rule">审批类操作<b>必须由用户在主界面完成</b></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="content-tab-panel active" data-content-tab-panel="frame-side-demo">
+    <div class="case-demo-shell"><iframe class="case-demo-frame" data-case-src="payment-application-review-demo/index.html?shell=sidebar" title="付款申请审核助手"></iframe></div>
+  </div>
+</div>
+
+
+
+<!-- ━━━━ UX PAGES START ━━━━ -->
+
+<!-- ━━ 3.1 用户输入设计 ━━ -->
+<div class="page" id="p-ux-1">
+  <div class="page-eyebrow">交互规范 · 3.1</div>
+  <h1 class="page-title">用户输入设计：从<em>填字段</em>到<em>交信息</em></h1>
+  <p class="page-desc">AI 产品的用户输入不只是打字。核心问题是「用户把什么信息交给 AI」。包含六种输入形式，每种有独立的设计规范和适用场景。</p>
+
+  <div class="section">
+    <div class="section-title"><span class="section-num">01</span>六种输入形式</div>
+    <div class="input-pattern-grid">
+      <div class="input-pattern-card">
+        <button type="button" aria-label="查看上传文件抽屉示例" onclick="openPatternDrawer()">
+          <img src="design-input-patterns/upload-files.png" alt="上传文件输入示例">
+        </button>
+        <h3>上传文件</h3>
+        <p>把上下文直接交给 AI，AI 负责读取理解提取。支持 doc/pdf/zip/xlsx 等格式，可多文件批量上传</p>
+      </div>
+      <div class="input-pattern-card">
+        <img src="design-input-patterns/select-options.png" alt="选择选项输入示例">
+        <h3>选择选项</h3>
+        <p>AI 给出 A/B/C，用户选一个。比打字快，比自由输入稳定。选项不超过 5 个，每个选项有说明</p>
+      </div>
+      <div class="input-pattern-card">
+        <img src="design-input-patterns/trigger-action.png" alt="触发动作输入示例">
+        <h3>触发动作</h3>
+        <p>用户主动让 AI 开始处理，保留控制感。按钮文案说明 AI 会做什么，触发后立即反馈</p>
+      </div>
+      <div class="input-pattern-card">
+        <img src="design-input-patterns/confirm-recommendation.png" alt="确认推荐值输入示例">
+        <h3>确认推荐值</h3>
+        <p>AI 已经填好了，用户判断对不对。必须给推荐值，不给空框；说明推荐来源；提供修改入口</p>
+      </div>
+      <div class="input-pattern-card">
+        <img src="design-input-patterns/voice-input.png" alt="语音录入输入示例">
+        <h3>语音录入</h3>
+        <p>移动端场景下的低成本输入方式。录音过程有波形反馈，识别完成后可编辑文字结果</p>
+      </div>
+      <div class="input-pattern-card">
+        <img src="design-input-patterns/reference-context.png" alt="引用上下文输入示例">
+        <h3>引用上下文</h3>
+        <p>用户输入时附带引用来源（文档/代码片段/历史消息），在输入框以带图标的灰色块状形式呈现</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title"><span class="section-num">02</span>设计规范对照</div>
+    <table class="compare-table">
+      <thead><tr><th style="width:130px">输入形式</th><th>设计要点</th><th>正例</th><th>反例</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>上传文件</td>
+          <td>上传后立即显示文件列表；明确说明 AI 会用这些文件做什么；支持多文件</td>
+          <td><span style="color:var(--green)">「AI 将从这 3 个文件中提取 25 个字段」</span></td>
+          <td><span style="color:var(--red)">上传后无反馈，用户不知道发生了什么</span></td>
+        </tr>
+        <tr>
+          <td>选择选项</td>
+          <td>不超过 5 个；每个选项有说明文字；可搜索过滤</td>
+          <td><span style="color:var(--green)">「付款申请」+ 说明「适用于工程款、材料款等」</span></td>
+          <td><span style="color:var(--red)">只有标签没有说明，用户不知道选哪个</span></td>
+        </tr>
+        <tr>
+          <td>触发动作</td>
+          <td>按钮文案说明 AI 做什么；触发后立即反馈；不可重复点击</td>
+          <td><span style="color:var(--green)">点击后变为「识别中…」并显示进度</span></td>
+          <td><span style="color:var(--red)">点击后无反应，用户不确定是否已触发</span></td>
+        </tr>
+        <tr>
+          <td>确认推荐值</td>
+          <td>必须给推荐值不给空框；说明来源；提供修改入口</td>
+          <td><span style="color:var(--green)">「10%（来源：招标文件第 6.2 条）」+ 修改链接</span></td>
+          <td><span style="color:var(--red)">空框让用户填写，没有推荐值和来源</span></td>
+        </tr>
+        <tr>
+          <td>语音录入</td>
+          <td>录音时有波形动效；识别结果可二次编辑；噪音环境有降噪提示</td>
+          <td><span style="color:var(--green)">识别后展示文字，用户可修改再发送</span></td>
+          <td><span style="color:var(--red)">直接发送识别结果，用户无法确认</span></td>
+        </tr>
+        <tr>
+          <td>引用上下文</td>
+          <td>引用以带图标灰色块呈现；可删除引用；发送后 AI 明确回应引用内容</td>
+          <td><span style="color:var(--green)">输入框显示「[@模板名]」灰色块，可一键移除</span></td>
+          <td><span style="color:var(--red)">引用混在文字里，AI 和用户都不清楚边界</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <div class="section-title"><span class="section-num">03</span>控制感三原则</div>
+    <div class="callout blue">💡 控制感不是给用户更多按钮，而是让用户在整个过程里<b>知道发生了什么、随时可以介入</b>。</div>
+    <div class="three-col" style="margin-top:16px">
+      <div class="info-card">
+        <div class="info-card-title">👁 过程透明</div>
+        <div class="info-card-items">
+          <div class="ic-item">AI 处理过程中用户<b>看得见进展</b></div>
+          <div class="ic-item">不出现长时间无反馈的等待</div>
+          <div class="ic-item">告知 AI 基于什么信息在工作</div>
+        </div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-title">✏️ 随时可改</div>
+        <div class="info-card-items">
+          <div class="ic-item">AI 填写的所有字段<b>用户可直接编辑</b></div>
+          <div class="ic-item">修改后 AI 不会自动覆盖用户输入</div>
+          <div class="ic-item">提供「重新识别」入口</div>
+        </div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-title">⏸ 可以暂停</div>
+        <div class="info-card-items">
+          <div class="ic-item">高风险动作前<b>必须有确认节点</b></div>
+          <div class="ic-item">用户可以中断 AI 执行</div>
+          <div class="ic-item">支持撤销最近一步操作</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ━━ 3.2 AI 执行可见性 ━━ -->
+<div class="page" id="p-ux-2">
+  <div class="page-eyebrow">交互规范 · 3.2</div>
+  <h1 class="page-title">AI 执行可见性：干活不能<em>偷偷摸摸</em></h1>
+  <p class="page-desc">AI 产品里的等待是「协作等待」，不是「系统等待」。用户必须知道 AI 在做什么、做到哪里了、结果从哪来。对应 3.2 中的：思考过程 Think、任务列表 Todolist、工具调用 ToolCall、子代理 SubAgent、进度 Process。</p>
+
+  <div class="section">
+    <div class="section-title">
+      <span class="section-num">01</span>五种可见性组件及适用判断
+      <button class="section-title-action" type="button" onclick="openPatternDrawer('visibility-component-demo/index.html', '组件界面预览', { header: true, wide: true })">查看组件界面</button>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px">
+
+      <div style="background:var(--s2);border:1px solid var(--border2);border-radius:12px;overflow:hidden">
+        <div style="display:grid;grid-template-columns:200px 1fr 1fr;border-bottom:1px solid var(--border)">
+          <div style="padding:16px 20px;border-right:1px solid var(--border);background:var(--s3)">
+            <div style="font-size:11px;color:var(--blue2);font-family:'JetBrains Mono',monospace;letter-spacing:.1em;margin-bottom:6px">THINK</div>
+            <div style="font-size:14px;font-weight:700;color:var(--text)">思考过程</div>
+          </div>
+          <div style="padding:14px 18px;border-right:1px solid var(--border)">
+            <div style="font-size:11px;color:var(--muted2);margin-bottom:6px;font-family:'JetBrains Mono',monospace">何时使用</div>
+            <div style="font-size:12px;color:var(--muted);line-height:1.6"><b style="color:var(--green)">强需求</b>：决策影响大、需要可解释性（合同风险、财务审核）<br><b style="color:var(--amber)">可选</b>：可提供「展开查看」，默认折叠<br><b style="color:var(--red)">不需要</b>：追求极致效率的简单查询</div>
+          </div>
+          <div style="padding:14px 18px">
+            <div style="font-size:11px;color:var(--muted2);margin-bottom:6px;font-family:'JetBrains Mono',monospace">设计规范</div>
+            <div style="font-size:12px;color:var(--muted);line-height:1.6">思考中用动态图标；完成后可展开收起；不暴露纯技术细节（算法参数等）</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="background:var(--s2);border:1px solid var(--border2);border-radius:12px;overflow:hidden">
+        <div style="display:grid;grid-template-columns:200px 1fr 1fr;border-bottom:1px solid var(--border)">
+          <div style="padding:16px 20px;border-right:1px solid var(--border);background:var(--s3)">
+            <div style="font-size:11px;color:var(--green);font-family:'JetBrains Mono',monospace;letter-spacing:.1em;margin-bottom:6px">TODOLIST</div>
+            <div style="font-size:14px;font-weight:700;color:var(--text)">任务列表</div>
+          </div>
+          <div style="padding:14px 18px;border-right:1px solid var(--border)">
+            <div style="font-size:11px;color:var(--muted2);margin-bottom:6px;font-family:'JetBrains Mono',monospace">何时使用</div>
+            <div style="font-size:12px;color:var(--muted);line-height:1.6">任务可拆解为多个步骤时必须使用。呈现任务规划、执行过程和实时状态（已完成/进行中/待办）</div>
+          </div>
+          <div style="padding:14px 18px">
+            <div style="font-size:11px;color:var(--muted2);margin-bottom:6px;font-family:'JetBrains Mono',monospace">设计规范</div>
+            <div style="font-size:12px;color:var(--muted);line-height:1.6">进行中标题加粗高亮；已完成打勾变灰；支持展开/收起；显示总进度「2/7」</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="background:var(--s2);border:1px solid var(--border2);border-radius:12px;overflow:hidden">
+        <div style="display:grid;grid-template-columns:200px 1fr 1fr;border-bottom:1px solid var(--border)">
+          <div style="padding:16px 20px;border-right:1px solid var(--border);background:var(--s3)">
+            <div style="font-size:11px;color:var(--amber);font-family:'JetBrains Mono',monospace;letter-spacing:.1em;margin-bottom:6px">TOOLCALL</div>
+            <div style="font-size:14px;font-weight:700;color:var(--text)">工具调用</div>
+          </div>
+          <div style="padding:14px 18px;border-right:1px solid var(--border)">
+            <div style="font-size:11px;color:var(--muted2);margin-bottom:6px;font-family:'JetBrains Mono',monospace">何时使用</div>
+            <div style="font-size:12px;color:var(--muted);line-height:1.6">每次工具调用都应透明呈现。明确展示工具名称、参数、执行状态和返回结果，让过程有据可查</div>
+          </div>
+          <div style="padding:14px 18px">
+            <div style="font-size:11px;color:var(--muted2);margin-bottom:6px;font-family:'JetBrains Mono',monospace">设计规范</div>
+            <div style="font-size:12px;color:var(--muted);line-height:1.6">调用过多时支持展开收起；显示输入参数和输出结果；失败时展示错误原因</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="background:var(--s2);border:1px solid var(--border2);border-radius:12px;overflow:hidden">
+        <div style="display:grid;grid-template-columns:200px 1fr 1fr;border-bottom:1px solid var(--border)">
+          <div style="padding:16px 20px;border-right:1px solid var(--border);background:var(--s3)">
+            <div style="font-size:11px;color:var(--purple);font-family:'JetBrains Mono',monospace;letter-spacing:.1em;margin-bottom:6px">SUBAGENT</div>
+            <div style="font-size:14px;font-weight:700;color:var(--text)">子代理</div>
+          </div>
+          <div style="padding:14px 18px;border-right:1px solid var(--border)">
+            <div style="font-size:11px;color:var(--muted2);margin-bottom:6px;font-family:'JetBrains Mono',monospace">何时使用</div>
+            <div style="font-size:12px;color:var(--muted);line-height:1.6">主代理自动调用子代理处理细分任务时。界面需清晰展示当前是哪个子代理在工作</div>
+          </div>
+          <div style="padding:14px 18px">
+            <div style="font-size:11px;color:var(--muted2);margin-bottom:6px;font-family:'JetBrains Mono',monospace">设计规范</div>
+            <div style="font-size:12px;color:var(--muted);line-height:1.6">显示子代理名称和当前状态；多个子代理并行工作时分组展示；切换时有过渡提示</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="background:var(--s2);border:1px solid var(--border2);border-radius:12px;overflow:hidden">
+        <div style="display:grid;grid-template-columns:200px 1fr 1fr">
+          <div style="padding:16px 20px;border-right:1px solid var(--border);background:var(--s3)">
+            <div style="font-size:11px;color:var(--red);font-family:'JetBrains Mono',monospace;letter-spacing:.1em;margin-bottom:6px">PROCESS</div>
+            <div style="font-size:14px;font-weight:700;color:var(--text)">进度</div>
+          </div>
+          <div style="padding:14px 18px;border-right:1px solid var(--border)">
+            <div style="font-size:11px;color:var(--muted2);margin-bottom:6px;font-family:'JetBrains Mono',monospace">何时使用</div>
+            <div style="font-size:12px;color:var(--muted);line-height:1.6">AI 进行推理计算或信息识别时。如：上传文件后 AI 进行解析和推理，并输出结果</div>
+          </div>
+          <div style="padding:14px 18px">
+            <div style="font-size:11px;color:var(--muted2);margin-bottom:6px;font-family:'JetBrains Mono',monospace">设计规范</div>
+            <div style="font-size:12px;color:var(--muted);line-height:1.6">显示当前步骤和总步骤；识别出的关键信息实时透传；完成后进度条保留可查</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title"><span class="section-num">02</span>对话面板四层信息层次</div>
+    <div style="display:grid;grid-template-columns:1fr 280px;gap:32px;align-items:start">
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div style="display:flex;gap:14px;align-items:flex-start;padding:15px 18px;background:var(--s2);border:1px solid var(--green-bd);border-radius:10px">
+          <div style="width:22px;height:22px;border-radius:50%;background:var(--green-bg);border:1px solid var(--green-bd);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--green);font-family:'JetBrains Mono',monospace;font-weight:700;flex-shrink:0">1</div>
+          <div><div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:2px">用户消息 <span style="font-size:11px;font-weight:400;color:var(--muted)">· 右对齐气泡</span></div><div style="font-size:12px;color:var(--muted);line-height:1.6">用户说了什么、上传了什么——AI 的上下文对用户透明</div></div>
+        </div>
+        <div style="display:flex;gap:14px;align-items:flex-start;padding:15px 18px;background:var(--s2);border:1px solid var(--blue-bd);border-radius:10px">
+          <div style="width:22px;height:22px;border-radius:50%;background:var(--blue-bg);border:1px solid var(--blue-bd);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--blue2);font-family:'JetBrains Mono',monospace;font-weight:700;flex-shrink:0">2</div>
+          <div><div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:2px">AI 回应 <span style="font-size:11px;font-weight:400;color:var(--muted)">· 头像+名称，左对齐</span></div><div style="font-size:12px;color:var(--muted);line-height:1.6">AI 理解了什么、准备做什么、进行到哪一步——持续汇报，不沉默等待</div></div>
+        </div>
+        <div style="display:flex;gap:14px;align-items:flex-start;padding:15px 18px;background:var(--s2);border:1px solid var(--amber-bd);border-radius:10px">
+          <div style="width:22px;height:22px;border-radius:50%;background:var(--amber-bg);border:1px solid var(--amber-bd);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--amber);font-family:'JetBrains Mono',monospace;font-weight:700;flex-shrink:0">3</div>
+          <div><div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:2px">工具运行状态 <span style="font-size:11px;font-weight:400;color:var(--muted)">· 小字+图标，可展开</span></div><div style="font-size:12px;color:var(--muted);line-height:1.6">实时透传：读了哪个字段、从哪个文件识别的——有据可查，用户知道 AI 在认真干活</div></div>
+        </div>
+        <div style="display:flex;gap:14px;align-items:flex-start;padding:15px 18px;background:var(--s2);border:1px solid var(--purple-bd);border-radius:10px">
+          <div style="width:22px;height:22px;border-radius:50%;background:var(--purple-bg);border:1px solid var(--purple-bd);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--purple);font-family:'JetBrains Mono',monospace;font-weight:700;flex-shrink:0">4</div>
+          <div><div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:2px">操作卡片 <span style="font-size:11px;font-weight:400;color:var(--muted)">· 需人工介入时推出</span></div><div style="font-size:12px;color:var(--muted);line-height:1.6"><b style="color:var(--text)">每次只推一张</b>，聚焦一个决策点，不是整张表单扔给用户</div></div>
+        </div>
+      </div>
+      <div style="background:var(--bg);border:1px solid var(--border2);border-radius:12px;overflow:hidden">
+        <div style="padding:9px 14px;border-bottom:1px solid var(--border);font-size:11px;color:var(--muted);display:flex;align-items:center;gap:6px"><div style="width:5px;height:5px;border-radius:50%;background:var(--blue)"></div>AI 对话面板</div>
+        <div style="padding:12px;display:flex;flex-direction:column;gap:7px">
+          <div style="padding:8px 11px;border-radius:7px;font-size:11px;line-height:1.6;background:var(--blue-bg);border:1px solid var(--blue-bd);color:var(--blue2);align-self:flex-end;max-width:88%">上传了 3 份合同文件</div>
+          <div style="padding:8px 11px;border-radius:7px;font-size:11px;line-height:1.6;background:var(--s2);border:1px solid var(--border);color:var(--muted);align-self:flex-start">已收到，开始解析 25 个关键字段…</div>
+          <div style="padding:7px 9px;border-radius:6px;font-size:10px;line-height:1.6;background:var(--amber-bg);border:1px solid var(--amber-bd);color:var(--amber);align-self:flex-start;font-family:'JetBrains Mono',monospace">✓ 合同名称 · 合同正本 P.1<br>✓ 合同金额 · ¥19,980,000<br>⚠ 履约担保 · 条款不一致</div>
+          <div style="padding:8px 11px;border-radius:7px;font-size:11px;line-height:1.6;background:var(--purple-bg);border:1px solid var(--purple-bd);color:rgba(167,139,250,.9);align-self:flex-start;width:96%">📋 1 项需要您确认<br>履约担保：建议 <b>10%</b>（招标文件 6.2 条）<br>─────<br>✓ 确认　　✎ 修改</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title"><span class="section-num">03</span>进度状态文案规范</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+      <div style="border-radius:12px;overflow:hidden;border:1px solid var(--red-bd)">
+        <div style="padding:12px 16px;background:var(--red-bg);color:var(--red);font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;border-bottom:1px solid var(--red-bd)">✗ 不该说的</div>
+        <div style="background:var(--s2);padding:16px;display:flex;flex-direction:column;gap:8px">
+          <div style="font-size:13px;color:rgba(240,96,96,.7);display:flex;gap:8px;align-items:flex-start"><span style="flex-shrink:0">✗</span>「处理中…」——不知道在处理什么</div>
+          <div style="font-size:13px;color:rgba(240,96,96,.7);display:flex;gap:8px;align-items:flex-start"><span style="flex-shrink:0">✗</span>「请稍候」——没有进展信息</div>
+          <div style="font-size:13px;color:rgba(240,96,96,.7);display:flex;gap:8px;align-items:flex-start"><span style="flex-shrink:0">✗</span>「操作成功」——没有说做了什么</div>
+          <div style="font-size:13px;color:rgba(240,96,96,.7);display:flex;gap:8px;align-items:flex-start"><span style="flex-shrink:0">✗</span>「发生错误，请重试」——不知道为什么出错</div>
+        </div>
+      </div>
+      <div style="border-radius:12px;overflow:hidden;border:1px solid var(--green-bd)">
+        <div style="padding:12px 16px;background:var(--green-bg);color:var(--green);font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;border-bottom:1px solid var(--green-bd)">✓ 应该说的</div>
+        <div style="background:var(--s2);padding:16px;display:flex;flex-direction:column;gap:8px">
+          <div style="font-size:13px;color:var(--muted);display:flex;gap:8px;align-items:flex-start"><span style="color:var(--green);flex-shrink:0">✓</span>「正在从合同正本中提取字段…」</div>
+          <div style="font-size:13px;color:var(--muted);display:flex;gap:8px;align-items:flex-start"><span style="color:var(--green);flex-shrink:0">✓</span>「已识别 18 个字段，还剩 7 个」</div>
+          <div style="font-size:13px;color:var(--muted);display:flex;gap:8px;align-items:flex-start"><span style="color:var(--green);flex-shrink:0">✓</span>「合同金额已填写：¥19,980,000」</div>
+          <div style="font-size:13px;color:var(--muted);display:flex;gap:8px;align-items:flex-start"><span style="color:var(--green);flex-shrink:0">✓</span>「履约担保条款表述不一致，需要您判断」</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ━━ 3.3 结果呈现规范 ━━ -->
+<div class="page" id="p-ux-3">
+  <div class="page-eyebrow">交互规范 · 3.3</div>
+  <h1 class="page-title">结果呈现：AI 输出不能只<em>扔结论</em></h1>
+  <p class="page-desc">根据任务的 HITL 强度（人工介入的深浅程度）不同，结果呈现的方式、信息密度、操作入口也不同。对应 3.2 中的：产物 Artifact、卡片 Card、来源 Source。</p>
+
+  <div class="section">
+    <div class="section-title"><span class="section-num">01</span>四种结果呈现组件</div>
+    <div class="result-pattern-grid">
+      <div class="result-pattern-card">
+        <div class="result-pattern-media"><img src="result-presentation-patterns/artifact.png" alt="产物组件示例"></div>
+        <div class="result-pattern-body">
+          <div class="result-pattern-kicker">ARTIFACT</div>
+          <div class="result-pattern-title">产物</div>
+          <div class="result-pattern-sub">AI 执行后生成的最终文件、链接或可交付内容，适用于报告、文档、表格、图片等多产物输出。</div>
+          <div class="result-pattern-spec">
+            <div class="result-pattern-spec-title">设计规范</div>
+            <div class="result-pattern-rule">以列表卡片呈现，明确显示<b>文件类型、标题、大小和详情入口</b>。</div>
+            <div class="result-pattern-rule">多产物按生成顺序排列，避免用户在对话正文里查找附件。</div>
+            <div class="result-pattern-rule">可点击项必须提供查看、编辑、下载或跳转能力。</div>
+          </div>
+        </div>
+      </div>
+      <div class="result-pattern-card">
+        <div class="result-pattern-media"><img src="result-presentation-patterns/source.png" alt="数据来源组件示例"></div>
+        <div class="result-pattern-body">
+          <div class="result-pattern-kicker">SOURCE</div>
+          <div class="result-pattern-title">数据来源</div>
+          <div class="result-pattern-sub">展示 AI 结论引用的文档、系统、链接和数据范围，用来支撑结果可验证、可追溯。</div>
+          <div class="result-pattern-spec">
+            <div class="result-pattern-spec-title">设计规范</div>
+            <div class="result-pattern-rule">来源必须有<b>数量、序号、类型图标和来源名称</b>，用户能快速核对依据。</div>
+            <div class="result-pattern-rule">涉及金额、合规、审核判断时必须展示来源，不允许只给结论。</div>
+            <div class="result-pattern-rule">来源较多时支持折叠或查看全部，默认保留关键来源。</div>
+          </div>
+        </div>
+      </div>
+      <div class="result-pattern-card">
+        <div class="result-pattern-media"><img src="result-presentation-patterns/entry-card.png" alt="录入卡片组件示例"></div>
+        <div class="result-pattern-body">
+          <div class="result-pattern-kicker">ENTRY CARD</div>
+          <div class="result-pattern-title">录入卡片</div>
+          <div class="result-pattern-sub">把 AI 识别出的字段转成可编辑表单，适用于合同录入、资料补全、结构化采集等流程。</div>
+          <div class="result-pattern-spec">
+            <div class="result-pattern-spec-title">设计规范</div>
+            <div class="result-pattern-rule">字段应以<b>草稿态</b>呈现，用户确认前不直接写入业务系统。</div>
+            <div class="result-pattern-rule">用户确认的是判断，不是重新录入；默认值可直接修改。</div>
+            <div class="result-pattern-rule">关键字段需标注来源或置信提示，提交前保留确认动作。</div>
+          </div>
+        </div>
+      </div>
+      <div class="result-pattern-card">
+        <div class="result-pattern-media"><img src="result-presentation-patterns/audit-card.png" alt="审核卡片组件示例"></div>
+        <div class="result-pattern-body">
+          <div class="result-pattern-kicker">AUDIT CARD</div>
+          <div class="result-pattern-title">审核卡片</div>
+          <div class="result-pattern-sub">将 AI 检查结果按风险等级分层展示，适用于合同审核、付款审核、合规审查等高风险场景。</div>
+          <div class="result-pattern-spec">
+            <div class="result-pattern-spec-title">设计规范</div>
+            <div class="result-pattern-rule">风险项需要有<b>等级、问题标题、判断依据和展开详情</b>。</div>
+            <div class="result-pattern-rule">高风险信息优先展示，避免混在普通提示里被忽略。</div>
+            <div class="result-pattern-rule">审核结论必须由人确认，AI 只提供建议和证据。</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title"><span class="section-num">02</span>三种 HITL 强度（人工介入的深浅程度）对应的呈现规范</div>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div style="background:var(--s2);border:1px solid var(--green-bd);border-radius:12px;overflow:hidden">
+        <div style="padding:14px 22px;background:var(--green-bg);border-bottom:1px solid var(--green-bd);display:flex;align-items:center;gap:12px">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;color:var(--green)">HITL · 低</div>
+          <div style="font-size:14px;font-weight:700;color:var(--text)">可自动返回，不写回系统</div>
+          <div style="font-size:11px;color:var(--muted);margin-left:auto">典型场景：综合查询</div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr)">
+          <div style="padding:16px 18px;border-right:1px solid var(--border)"><div style="font-size:11px;color:var(--muted2);font-family:'JetBrains Mono',monospace;margin-bottom:6px">呈现形式</div><div style="font-size:12px;color:var(--muted);line-height:1.6">结果卡片 + 来源依据 + 追问入口</div></div>
+          <div style="padding:16px 18px;border-right:1px solid var(--border)"><div style="font-size:11px;color:var(--muted2);font-family:'JetBrains Mono',monospace;margin-bottom:6px">必须包含</div><div style="font-size:12px;color:var(--muted);line-height:1.6">① 查询结果<br>② 数据来源和时间<br>③ 「追问」或「查看详情」入口</div></div>
+          <div style="padding:16px 18px"><div style="font-size:11px;color:var(--muted2);font-family:'JetBrains Mono',monospace;margin-bottom:6px">不需要</div><div style="font-size:12px;color:var(--muted);line-height:1.6">不需要确认面板<br>不需要人工审批<br>不写入业务系统</div></div>
+        </div>
+      </div>
+      <div style="background:var(--s2);border:1px solid var(--amber-bd);border-radius:12px;overflow:hidden">
+        <div style="padding:14px 22px;background:var(--amber-bg);border-bottom:1px solid var(--amber-bd);display:flex;align-items:center;gap:12px">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;color:var(--amber)">HITL · 强</div>
+          <div style="font-size:14px;font-weight:700;color:var(--text)">先草稿，不直接生效</div>
+          <div style="font-size:11px;color:var(--muted);margin-left:auto">典型场景：合同录入</div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr)">
+          <div style="padding:16px 18px;border-right:1px solid var(--border)"><div style="font-size:11px;color:var(--muted2);font-family:'JetBrains Mono',monospace;margin-bottom:6px">呈现形式</div><div style="font-size:12px;color:var(--muted);line-height:1.6">草稿态表单 + 字段置信度 + 逐一确认卡片</div></div>
+          <div style="padding:16px 18px;border-right:1px solid var(--border)"><div style="font-size:11px;color:var(--muted2);font-family:'JetBrains Mono',monospace;margin-bottom:6px">必须包含</div><div style="font-size:12px;color:var(--muted);line-height:1.6">① 已填字段（可直接编辑）<br>② 不确定字段（橙色标注）<br>③ 每个字段的来源说明</div></div>
+          <div style="padding:16px 18px"><div style="font-size:11px;color:var(--muted2);font-family:'JetBrains Mono',monospace;margin-bottom:6px">关键规则</div><div style="font-size:12px;color:var(--muted);line-height:1.6">草稿态不写入系统<br>用户确认后才生效<br>金额类字段必须确认</div></div>
+        </div>
+      </div>
+      <div style="background:var(--s2);border:1px solid var(--red-bd);border-radius:12px;overflow:hidden">
+        <div style="padding:14px 22px;background:var(--red-bg);border-bottom:1px solid var(--red-bd);display:flex;align-items:center;gap:12px">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;color:var(--red)">HITL · 极强</div>
+          <div style="font-size:14px;font-weight:700;color:var(--text)">有建议，不替代人审批</div>
+          <div style="font-size:11px;color:var(--muted);margin-left:auto">典型场景：付款审核</div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr)">
+          <div style="padding:16px 18px;border-right:1px solid var(--border)"><div style="font-size:11px;color:var(--muted2);font-family:'JetBrains Mono',monospace;margin-bottom:6px">呈现形式</div><div style="font-size:12px;color:var(--muted);line-height:1.6">风险分层展示 + 原始依据 + 审批意见草稿</div></div>
+          <div style="padding:16px 18px;border-right:1px solid var(--border)"><div style="font-size:11px;color:var(--muted2);font-family:'JetBrains Mono',monospace;margin-bottom:6px">必须包含</div><div style="font-size:12px;color:var(--muted);line-height:1.6">① 风险等级分类<br>② 每条风险的原文依据<br>③ AI 建议意见（仅参考）</div></div>
+          <div style="padding:16px 18px"><div style="font-size:11px;color:var(--muted2);font-family:'JetBrains Mono',monospace;margin-bottom:6px">关键规则</div><div style="font-size:12px;color:var(--muted);line-height:1.6">审批结论必须由人填写<br>AI 不替代人做批准/驳回<br>所有操作留审计记录</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ━━ 3.4 确认交接规范 ━━ -->
+<div class="page" id="p-ux-4">
+  <div class="page-eyebrow">交互规范 · 3.4</div>
+  <h1 class="page-title">确认交接：不是<em>扔框给用户</em>，是帮用户<em>做到最后一步</em></h1>
+  <p class="page-desc">确认环节是人和 AI 协作最关键的交接点。对应 3.2 中的：文件审查 Document Review、卡片 Card（确认态）。AI 请求确认时，不是把决策推回给用户，而是帮用户把决策做到只剩最后一步。</p>
+
+  <div class="section">
+    <div class="section-title"><span class="section-num">01</span>文件审查 Document Review</div>
+    <div class="callout amber">⚠ AI 执行过程中产生的文档需要人工确认，是否进行审查。这是高风险操作前的必要关卡。</div>
+    <div class="two-col" style="margin-top:16px">
+      <div class="info-card">
+        <div class="info-card-title">📋 何时触发文件审查</div>
+        <div class="info-card-items">
+          <div class="ic-item">AI 生成了需要对外提交的文档</div>
+          <div class="ic-item">文档内容涉及金额、合规、法律条款</div>
+          <div class="ic-item">文档将触发不可逆的业务流程</div>
+          <div class="ic-item">用户第一次使用该类模板生成文档</div>
+        </div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-title">✅ 文件审查界面规范</div>
+        <div class="info-card-items">
+          <div class="ic-item">展示文件名、大小、生成时间</div>
+          <div class="ic-item">提供预览入口，用户可查看全文</div>
+          <div class="ic-item"><b>「审查并继续」</b>和<b>「重新生成」</b>两个操作</div>
+          <div class="ic-item">AI 附上关键内容摘要，帮用户快速判断</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title"><span class="section-num">02</span>确认卡片规范</div>
+    <div class="confirm-handoff-layout">
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div style="background:var(--s2);border:1px solid var(--border2);border-radius:10px;padding:16px 18px">
+          <div style="font-size:11px;color:var(--green);font-family:'JetBrains Mono',monospace;letter-spacing:.1em;margin-bottom:10px">✓ 必须包含的元素</div>
+          <div style="display:flex;flex-direction:column;gap:7px">
+            <div style="display:flex;gap:8px;font-size:13px;color:var(--muted);line-height:1.55"><span style="color:var(--green);flex-shrink:0">①</span><span><b style="color:var(--text)">字段名称和推荐值</b>——必须有推荐值，不给空框</span></div>
+            <div style="display:flex;gap:8px;font-size:13px;color:var(--muted);line-height:1.55"><span style="color:var(--green);flex-shrink:0">②</span><span><b style="color:var(--text)">推荐来源说明</b>——「根据[文件名]第[X]条」</span></div>
+            <div style="display:flex;gap:8px;font-size:13px;color:var(--muted);line-height:1.55"><span style="color:var(--green);flex-shrink:0">③</span><span><b style="color:var(--text)">为什么需要确认</b>——AI 不确定的原因</span></div>
+            <div style="display:flex;gap:8px;font-size:13px;color:var(--muted);line-height:1.55"><span style="color:var(--green);flex-shrink:0">④</span><span><b style="color:var(--text)">确认 / 修改两个操作</b>——不只是「确认」</span></div>
+          </div>
+        </div>
+        <div style="background:var(--s2);border:1px solid var(--border2);border-radius:10px;padding:16px 18px">
+          <div style="font-size:11px;color:var(--red);font-family:'JetBrains Mono',monospace;letter-spacing:.1em;margin-bottom:10px">✗ 不应该出现的设计</div>
+          <div style="display:flex;flex-direction:column;gap:7px">
+            <div style="font-size:13px;color:rgba(240,96,96,.65);display:flex;gap:8px"><span style="flex-shrink:0">✗</span>空框让用户填写（AI 应该给推荐值）</div>
+            <div style="font-size:13px;color:rgba(240,96,96,.65);display:flex;gap:8px"><span style="flex-shrink:0">✗</span>一次推出多张卡片（每次只推一张）</div>
+            <div style="font-size:13px;color:rgba(240,96,96,.65);display:flex;gap:8px"><span style="flex-shrink:0">✗</span>没有来源说明（用户没有判断依据）</div>
+            <div style="font-size:13px;color:rgba(240,96,96,.65);display:flex;gap:8px"><span style="flex-shrink:0">✗</span>只有「确认」没有「修改」（用户被迫接受）</div>
+          </div>
+        </div>
+        <div class="callout amber">⚠ 每次只推出一张确认卡片，聚焦一个决策点。多张同时展示等于把认知负担推回给用户，AI 没有真正参与。显示进度「1/3 项」让用户知道还有几步。</div>
+      </div>
+      <div class="confirm-handoff-demo" aria-label="确认卡片示例">
+        <div class="confirm-ai-bubble">
+          <div class="confirm-profile-card">
+            <div class="confirm-profile-head">
+              <div class="confirm-doc-icon" aria-hidden="true">
+                <svg width="30" height="30" viewBox="0 0 30 30" fill="none">
+                  <path d="M7.25 3.5h12.4l3.1 3.3v19.7H7.25V3.5Z" fill="currentColor" opacity=".92"/>
+                  <path d="M19.65 3.5v4.1h4.05" stroke="#fff" stroke-width="1.2" opacity=".9"/>
+                  <path d="M11.1 12.2h7.8M11.1 16.2h7.8M11.1 20.2h4.8" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/>
+                </svg>
+              </div>
+              <div class="confirm-profile-main">
+                <div class="confirm-profile-title-row">
+                  <div>
+                    <h3 class="confirm-profile-title">安置房设计集中采购招标</h3>
+                    <div class="confirm-tags">
+                      <span class="confirm-tag">YA-CG-LC003-BD0011</span>
+                      <span class="confirm-tag">工程施工</span>
+                      <span class="confirm-tag">公开招标</span>
+                    </div>
+                  </div>
+                  <button class="confirm-edit-btn" type="button">编辑</button>
+                </div>
+              </div>
+            </div>
+            <div class="confirm-field-grid">
+              <div class="confirm-field">
+                <div class="confirm-field-label">招标单位</div>
+                <div class="confirm-field-value">深圳人才安居集团有限公司</div>
+              </div>
+              <div class="confirm-field">
+                <div class="confirm-field-label">代理机构</div>
+                <div class="confirm-field-value">深圳市国际招标有限公司</div>
+              </div>
+              <div class="confirm-field">
+                <div class="confirm-field-label">执行人</div>
+                <div class="confirm-field-value">张三</div>
+              </div>
+              <div class="confirm-field">
+                <div class="confirm-field-label">执行时间</div>
+                <div class="confirm-field-value">2026/01/01</div>
+              </div>
+              <div class="confirm-field confirm-field-wide">
+                <div class="confirm-field-label">项目概况</div>
+                <div class="confirm-field-value nowrap">本项目位于深圳市龙岗区，总建筑面积约12万平方米，包含住宅、商业及配套设施。</div>
+              </div>
+            </div>
+          </div>
+          <button class="confirm-submit-btn" type="button" onclick="confirmHandoffExample(this)">确认</button>
+          <p class="confirm-next-copy">接下来将为“安置房设计集中采购招标”进行招标文件审查。确认后，将使用「文件检查 Agent」来完成审查任务。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title"><span class="section-num">03</span>什么情况必须有确认节点</div>
+    <table class="compare-table">
+      <thead><tr><th style="width:150px">情况</th><th>为什么需要确认</th><th>确认形式</th></tr></thead>
+      <tbody>
+        <tr><td>涉及金额字段</td><td>金额错误影响财务，必须人工核实</td><td>确认卡片 + 来源金额对比</td></tr>
+        <tr><td>AI 置信度低的字段</td><td>AI 识别不确定，推荐值可能不准</td><td>橙色标注 + 确认卡片</td></tr>
+        <tr><td>不可逆操作前</td><td>提交审批、发起流程不能撤销</td><td>操作确认弹窗 + 影响说明</td></tr>
+        <tr><td>高风险合规字段</td><td>合同条款、法律条款有法律效力</td><td>确认卡片 + 原文引用</td></tr>
+        <tr><td>多源数据冲突</td><td>不同文件数据不一致，需人工判断</td><td>确认卡片 + 冲突对比展示</td></tr>
+        <tr><td>AI 生成的文档产物</td><td>文档将对外提交或触发业务流程</td><td>文件审查 Document Review</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ━━ 3.5 可控可信规范 ━━ -->
+<div class="page" id="p-ux-5">
+  <div class="page-eyebrow">交互规范 · 3.5</div>
+  <h1 class="page-title"><em>可控可信</em>规范</h1>
+  <p class="page-desc">“可控可信”不是单独只落在一个组件里，而是应该渗透在 AI 产品的关键交互组件中。可以按控制权、透明度、风险兜底三类来看。</p>
+
+  <div class="section">
+    <div class="section-title"><span class="section-num">01</span>三类判断视角</div>
+    <div class="trust-dim-grid">
+      <div class="trust-dim-card">
+        <div class="trust-dim-label">CONTROL</div>
+        <div class="trust-dim-title">控制权</div>
+        <div class="trust-dim-desc">用户能明确告诉 AI 要做什么、能访问什么、什么时候停、结果能不能改。</div>
+      </div>
+      <div class="trust-dim-card">
+        <div class="trust-dim-label">TRANSPARENCY</div>
+        <div class="trust-dim-title">透明度</div>
+        <div class="trust-dim-desc">AI 的执行过程、调用工具、引用来源和判断依据对用户可见、可理解。</div>
+      </div>
+      <div class="trust-dim-card">
+        <div class="trust-dim-label">FALLBACK</div>
+        <div class="trust-dim-title">风险兜底</div>
+        <div class="trust-dim-desc">高风险动作前有确认、审批、撤销、人工接管和操作留痕。</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title"><span class="section-num">02</span>关键交互组件</div>
+    <div class="trust-component-list">
+      <div class="trust-component-card">
+        <div class="trust-component-head">
+          <div>
+            <div class="trust-component-index">01 INPUT</div>
+            <div class="trust-component-title">输入类组件</div>
+          </div>
+          <div class="trust-component-desc">体现用户是否能明确控制 AI 要做什么。</div>
+        </div>
+        <div class="trust-chip-grid">
+          <div class="trust-chip">Prompt 输入框：支持补充约束、目标、范围、语气、格式</div>
+          <div class="trust-chip">参数设置组件：模型、风格、长度、温度、数据范围、时间范围</div>
+          <div class="trust-chip">场景模板 / 快捷指令：让用户知道 AI 会按什么规则执行</div>
+          <div class="trust-chip">文件 / 数据选择器：明确 AI 可以访问哪些资料</div>
+          <div class="trust-chip">权限授权弹窗：是否允许读取客户数据或调用系统接口</div>
+        </div>
+      </div>
+
+      <div class="trust-component-card">
+        <div class="trust-component-head">
+          <div>
+            <div class="trust-component-index">02 PROCESS</div>
+            <div class="trust-component-title">执行过程组件</div>
+          </div>
+          <div class="trust-component-desc">体现 AI 的行为是否透明、可中断、可追踪。</div>
+        </div>
+        <div class="trust-chip-grid">
+          <div class="trust-chip">执行进度条 / 步骤条：正在检索、分析、生成、校验</div>
+          <div class="trust-chip">思考过程 / 执行日志：展示关键依据，不一定暴露完整链路</div>
+          <div class="trust-chip">工具调用卡片：说明调用了哪个工具、用了什么数据</div>
+          <div class="trust-chip">停止生成按钮：用户可以随时中断</div>
+          <div class="trust-chip">重新生成 / 调整方向按钮：用户能纠偏</div>
+          <div class="trust-chip">状态提示：排队中、执行中、失败、超时、需确认</div>
+        </div>
+      </div>
+
+      <div class="trust-component-card">
+        <div class="trust-component-head">
+          <div>
+            <div class="trust-component-index">03 RESULT</div>
+            <div class="trust-component-title">结果呈现组件</div>
+          </div>
+          <div class="trust-component-desc">体现结果是否可验证、可解释、可修改。</div>
+        </div>
+        <div class="trust-chip-grid">
+          <div class="trust-chip">引用来源 / 证据卡片：展示数据来源、文档出处、引用片段</div>
+          <div class="trust-chip">置信度 / 风险提示：说明结果可能不完整、需人工确认</div>
+          <div class="trust-chip">差异对比组件：展示 AI 修改前后变化</div>
+          <div class="trust-chip">可编辑结果区：用户可以直接改，而不是只能接受</div>
+          <div class="trust-chip">结果解释区：说明为什么这样推荐或判断</div>
+          <div class="trust-chip">错误反馈入口：有误、不相关、重新回答等反馈</div>
+        </div>
+      </div>
+
+      <div class="trust-component-card">
+        <div class="trust-component-head">
+          <div>
+            <div class="trust-component-index">04 HANDOFF</div>
+            <div class="trust-component-title">确认交接组件</div>
+          </div>
+          <div class="trust-component-desc">这是可控可信最重要的落点之一。</div>
+        </div>
+        <div class="trust-chip-grid">
+          <div class="trust-chip">二次确认弹窗：执行高风险操作前确认</div>
+          <div class="trust-chip">审批流组件：AI 生成建议，人来审批</div>
+          <div class="trust-chip">人工接管按钮：从 AI 自动处理切回人工</div>
+          <div class="trust-chip">发送前预览：发送邮件、提交工单、发布内容前让用户检查</div>
+          <div class="trust-chip">撤销 / 回滚按钮：AI 执行后可恢复</div>
+          <div class="trust-chip">操作记录：谁让 AI 做了什么，AI 做了什么</div>
+        </div>
+      </div>
+
+      <div class="trust-component-card">
+        <div class="trust-component-head">
+          <div>
+            <div class="trust-component-index">05 SAFETY</div>
+            <div class="trust-component-title">安全与边界组件</div>
+          </div>
+          <div class="trust-component-desc">体现系统对风险的主动限制。</div>
+        </div>
+        <div class="trust-chip-grid">
+          <div class="trust-chip">敏感信息脱敏提示</div>
+          <div class="trust-chip">高风险操作拦截</div>
+          <div class="trust-chip">权限不足提示</div>
+          <div class="trust-chip">合规声明 / 免责声明</div>
+          <div class="trust-chip">黑白名单配置</div>
+          <div class="trust-chip">数据使用范围说明</div>
+          <div class="trust-chip">安全策略配置面板</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title"><span class="section-num">03</span>规范总结</div>
+    <div class="trust-summary">
+      <div class="trust-summary-title">可控可信的核心落点</div>
+      <p><b>可控可信规范主要体现在：</b>权限授权、执行可见、用户确认、结果可验证、可编辑可撤销、风险提示、人工接管、操作留痕等组件中。</p>
+      <p style="margin-top:10px">一句话：只要这个组件能让用户知道 AI 在做什么、为什么这么做、能不能改、能不能停、出了问题能不能追回，它就在体现“可控可信”。</p>
+    </div>
+  </div>
+</div>
+
+<!-- ━━━━ UX PAGES END ━━━━ -->
+
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  场景案例  总览
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<div class="page" id="p-case-0">
+  <div class="page-eyebrow">场景案例 · 总览</div>
+  <h1 class="page-title">五类场景的<em>框架选型</em>与<em>规范对应</em></h1>
+  <p class="page-desc">五类业务场景是应用案例，不是分类维度。每个场景对应特定的框架选型、HITL 强度（人工介入的深浅程度）和关键交互规范，产品经理通过这张总览快速定位该用哪套规范。</p>
+
+  <div class="section">
+    <div class="section-title"><span class="section-num">01</span>五类场景对应关系总表</div>
+    <table class="matrix-table">
+      <thead>
+        <tr>
+          <th style="text-align:left;width:100px">场景</th>
+          <th style="text-align:left">典型任务</th>
+          <th class="wt">推荐框架</th>
+          <th style="background:rgba(167,139,250,0.1);color:var(--purple)">HITL 强度（人工介入的深浅程度）</th>
+          <th style="text-align:left;background:var(--s2);color:var(--muted2)">关键规范</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="background:var(--s2)"><b>查询</b></td>
+          <td style="background:var(--s2);text-align:left;color:var(--muted)">查待办、查合同、查付款状态</td>
+          <td><span style="font-size:12px;padding:3px 10px;border-radius:4px;background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-bd)">按钮触发</span></td>
+          <td style="color:var(--green);font-weight:700">低</td>
+          <td style="text-align:left;color:var(--muted)">结果卡片 + 来源标注 + 追问入口</td>
+        </tr>
+        <tr>
+          <td style="background:var(--s2)"><b>录入</b></td>
+          <td style="background:var(--s2);text-align:left;color:var(--muted)">合同录入、请款申请、调价录入</td>
+          <td><span style="font-size:12px;padding:3px 10px;border-radius:4px;background:var(--blue-bg);color:var(--blue2);border:1px solid var(--blue-bd)">全屏 Agent</span></td>
+          <td style="color:var(--amber);font-weight:700">强</td>
+          <td style="text-align:left;color:var(--muted)">文件上传 + 字段置信度 + 逐一确认卡片</td>
+        </tr>
+        <tr>
+          <td style="background:var(--s2)"><b>审核</b></td>
+          <td style="background:var(--s2);text-align:left;color:var(--muted)">合同审批、付款审核、标底审查</td>
+          <td><span style="font-size:12px;padding:3px 10px;border-radius:4px;background:var(--green-bg);color:var(--green);border:1px solid var(--green-bd)">侧边栏</span></td>
+          <td style="color:var(--red);font-weight:700">极强</td>
+          <td style="text-align:left;color:var(--muted)">风险分层 + 原始依据 + 建议摘要（不替代审批）</td>
+        </tr>
+        <tr>
+          <td style="background:var(--s2)"><b>分析</b></td>
+          <td style="background:var(--s2);text-align:left;color:var(--muted)">成本分析、指标追踪、异常识别</td>
+          <td><span style="font-size:12px;padding:3px 10px;border-radius:4px;background:var(--blue-bg);color:var(--blue2);border:1px solid var(--blue-bd)">全屏 Agent</span></td>
+          <td style="color:var(--amber);font-weight:700">中</td>
+          <td style="text-align:left;color:var(--muted)">主题数据查询 + 指标解释 + 可追问分析</td>
+        </tr>
+        <tr>
+          <td style="background:var(--s2)"><b>报告</b></td>
+          <td style="background:var(--s2);text-align:left;color:var(--muted)">销售日报、成本月报、经营透视报告</td>
+          <td><span style="font-size:12px;padding:3px 10px;border-radius:4px;background:var(--blue-bg);color:var(--blue2);border:1px solid var(--blue-bd)">全屏 Agent</span></td>
+          <td style="color:var(--amber);font-weight:700">中</td>
+          <td style="text-align:left;color:var(--muted)">可编辑草稿 + 数据溯源 + 管理语言生成</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <div class="section-title"><span class="section-num">02</span>场景案例页面</div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px">
+      <button class="case-card" type="button" onclick="showCase('查询', 'p-case-query', null)">
+        <div style="font-size:22px;margin-bottom:10px">🔍</div>
+        <div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:6px">查询类案例</div>
+        <div style="font-size:12px;color:var(--muted);line-height:1.6;margin-bottom:12px">资产查询、欢迎页和对话详情</div>
+        <div style="font-size:11px;padding:4px 10px;border-radius:4px;background:var(--green-bg);color:var(--green);border:1px solid var(--green-bd);display:inline-block;font-family:'JetBrains Mono',monospace">资产查询</div>
+      </button>
+      <button class="case-card" type="button" onclick="showCase('录入', 'p-case-entry', null)">
+        <div style="font-size:22px;margin-bottom:10px">📝</div>
+        <div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:6px">录入类案例</div>
+        <div style="font-size:12px;color:var(--muted);line-height:1.6;margin-bottom:12px">成本合同录入 Native 与助手形态</div>
+        <div style="font-size:11px;padding:4px 10px;border-radius:4px;background:var(--blue-bg);color:var(--blue2);border:1px solid var(--blue-bd);display:inline-block;font-family:'JetBrains Mono',monospace">合同录入</div>
+      </button>
+      <button class="case-card" type="button" onclick="showCase('审核', 'p-case-audit', null)">
+        <div style="font-size:22px;margin-bottom:10px">✅</div>
+        <div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:6px">审核类案例</div>
+        <div style="font-size:12px;color:var(--muted);line-height:1.6;margin-bottom:12px">合同审查、招标书审查和审核原则</div>
+        <div style="font-size:11px;padding:4px 10px;border-radius:4px;background:var(--red-bg);color:var(--red);border:1px solid var(--red-bd);display:inline-block;font-family:'JetBrains Mono',monospace">招标书审查</div>
+      </button>
+      <button class="case-card" type="button" onclick="showCase('分析', 'p-case-analysis', null)">
+        <div style="font-size:22px;margin-bottom:10px">📊</div>
+        <div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:6px">分析类案例</div>
+        <div style="font-size:12px;color:var(--muted);line-height:1.6;margin-bottom:12px">数据分析和分析详情</div>
+        <div style="font-size:11px;padding:4px 10px;border-radius:4px;background:var(--purple-bg);color:var(--purple);border:1px solid var(--purple-bd);display:inline-block;font-family:'JetBrains Mono',monospace">数据分析</div>
+      </button>
+      <button class="case-card" type="button" onclick="showCase('报告', 'p-case-report', null)">
+        <div style="font-size:22px;margin-bottom:10px">📋</div>
+        <div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:6px">报告类案例</div>
+        <div style="font-size:12px;color:var(--muted);line-height:1.6;margin-bottom:12px">销售日报与销售日报助手</div>
+        <div style="font-size:11px;padding:4px 10px;border-radius:4px;background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-bd);display:inline-block;font-family:'JetBrains Mono',monospace">销售日报</div>
+      </button>
+      <button class="case-card" type="button" onclick="showCase('组合场景', 'p-case-combo', null)">
+        <div style="font-size:22px;margin-bottom:10px">🔗</div>
+        <div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:6px">组合场景案例</div>
+        <div style="font-size:12px;color:var(--muted);line-height:1.6;margin-bottom:12px">成本审核控价和设计原则</div>
+        <div style="font-size:11px;padding:4px 10px;border-radius:4px;background:var(--blue-bg);color:var(--blue2);border:1px solid var(--blue-bd);display:inline-block;font-family:'JetBrains Mono',monospace">成本审核控价</div>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="page" id="p-case-entry">
+  <div class="page-eyebrow">场景案例 · 录入</div>
+  <h1 class="page-title">录入场景</h1>
+  <p class="page-desc">成本合同录入 Native demo。用于查看 AI 主导的结构化录入流程。</p>
+  <div class="section">
+    <div class="case-demo-shell"><iframe class="case-demo-frame" data-case-src="cost-contract-native-demo/index.html" title="录入场景"></iframe></div>
+  </div>
+</div>
+
+<div class="page" id="p-case-query">
+  <div class="page-eyebrow">场景案例 · 查询</div>
+  <h1 class="page-title">查询场景</h1>
+  <p class="page-desc">资产查询 demo。用于查看查询入口、欢迎页和对话详情类体验。</p>
+  <div class="section">
+    <div class="case-demo-shell"><iframe class="case-demo-frame" data-case-src="asset-query-demo/index.html" title="查询场景"></iframe></div>
+  </div>
+</div>
+
+<div class="page" id="p-case-audit">
+  <div class="page-eyebrow">场景案例 · 审核</div>
+  <h1 class="page-title">审核场景</h1>
+  <p class="page-desc">合同审核与合规审查 demo。用于查看高风险审查、证据溯源和人工确认流程。</p>
+  <div class="section">
+    <div class="case-tab-panel active" data-case-tab-panel="audit-contract">
+      <div class="case-demo-shell"><iframe class="case-demo-frame" data-case-src="contract-audit-demo/index.html" title="合同审核"></iframe></div>
+    </div>
+    <div class="case-tab-panel" data-case-tab-panel="audit-compliance">
+      <div class="case-demo-shell"><iframe class="case-demo-frame" data-case-src="tender-review-demo/ai-audit/task-P-2025-DEMO/index.html" title="合规审查"></iframe></div>
+    </div>
+  </div>
+</div>
+
+<div class="page" id="p-case-analysis">
+  <div class="page-eyebrow">场景案例 · 分析</div>
+  <h1 class="page-title">分析场景</h1>
+  <p class="page-desc">成本分析 demo。用于查看指标分析、异常识别和可追问分析体验。</p>
+  <div class="section">
+    <div class="case-demo-shell"><iframe class="case-demo-frame" data-case-src="cost-analysis-demo/index.html" title="分析场景"></iframe></div>
+  </div>
+</div>
+
+<div class="page" id="p-case-report">
+  <div class="page-eyebrow">场景案例 · 报告</div>
+  <h1 class="page-title">报告场景</h1>
+  <p class="page-desc">销售日报 demo。用于查看报告生成与销售日报助手体验。</p>
+  <div class="section">
+    <div class="case-demo-shell"><iframe class="case-demo-frame" data-case-src="sales-daily-demo/index.html" title="报告场景"></iframe></div>
+  </div>
+</div>
+
+<div class="page" id="p-case-combo">
+  <div class="page-eyebrow">场景案例 · 组合场景</div>
+  <h1 class="page-title">组合场景</h1>
+  <p class="page-desc">成本审核控价 demo。用于查看多能力组合、审核控制价和设计原则。</p>
+  <div class="section">
+    <div class="case-demo-shell"><iframe class="case-demo-frame" data-case-src="cost-advisor-control-price-demo/index.html?phase=auditing" title="组合场景"></iframe></div>
+  </div>
+</div>
+
+</main>
+
+<div class="pattern-drawer-mask" id="patternDrawer" aria-hidden="true" onclick="closePatternDrawer(event)">
+  <aside class="pattern-drawer" role="dialog" aria-modal="true" aria-label="组件示例抽屉" onclick="event.stopPropagation()">
+    <div class="pattern-drawer-header">
+      <div class="pattern-drawer-title" id="patternDrawerTitle">上传文件</div>
+      <button class="pattern-drawer-close" type="button" aria-label="关闭" onclick="closePatternDrawer()">×</button>
+    </div>
+    <iframe class="pattern-drawer-frame" data-drawer-src="input-drawer-demo/index.html?shell=sidebar&autoOpen=1&uploadSample=1" title="上传文件抽屉示例"></iframe>
+  </aside>
+</div>
+
+<script>
+function show(id) {
+  const target = document.getElementById(id);
+  if (!target) return;
+  const current = document.querySelector('.page.active');
+  if (current !== target) {
+    target.classList.add('active');
+    if (current) current.classList.remove('active');
+  }
+  document.querySelectorAll('.nav-item.active').forEach(n => n.classList.remove('active'));
+  if (id !== 'p-frame-1') document.getElementById('p-frame-1')?.classList.remove('is-demo-wide');
+  document.body.classList.toggle('case-preview', id.startsWith('p-case-') && id !== 'p-case-0');
+
+  // auto expand group if needed
+  const frameIds = ['p-frame-0','p-frame-1','p-frame-2'];
+  const principleIds = ['p-lang-1','p-lang-3'];
+  const uxIds    = ['p-ux-1','p-ux-2','p-ux-3','p-ux-4','p-ux-5'];
+  const caseIds  = ['p-case-0','p-case-entry','p-case-query','p-case-audit','p-case-analysis','p-case-report','p-case-combo'];
+  if (principleIds.includes(id)) expandGroup('g-principle');
+  if (frameIds.includes(id)) expandGroup('g-frame');
+  if (uxIds.includes(id))    expandGroup('g-ux');
+  if (caseIds.includes(id))  expandGroup('g-case');
+
+  const activeItem = document.querySelector(`.nav-item[data-page="${id}"]`);
+  if (activeItem) activeItem.classList.add('active');
+  updateTopbar(id);
+  window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+}
+
+function updateTopbar(id) {
+  const page = document.getElementById(id);
+  const topbar = document.querySelector('.topbar');
+  const topbarTitle = document.getElementById('topbarTitle');
+  const topbarChip = document.getElementById('topbarChip');
+  const topbarDesc = document.getElementById('topbarDesc');
+  const topbarActions = document.getElementById('topbarActions');
+  if (!page || !topbarTitle || !topbarChip || !topbarDesc) return;
+
+  const section = page.querySelector('.page-eyebrow')?.textContent.trim().split('·')[0].trim() || '设计原则';
+  const activeNav = document.querySelector('.nav-item.active');
+  const label = activeNav?.querySelector('div > div:first-child')?.textContent.trim() || page.querySelector('.page-title')?.textContent.trim() || section;
+  const navSub = activeNav?.querySelector('.nav-item-sub')?.textContent.trim() || '';
+  const visibleSet = id === 'p-case-audit' ? 'audit' : id === 'p-frame-1' ? 'frame-native' : id === 'p-frame-2' ? 'frame-side' : '';
+  topbar?.classList.toggle('has-actions', !!visibleSet);
+  if (topbarActions) {
+    topbarActions.style.display = visibleSet ? 'flex' : 'none';
+    topbarActions.querySelectorAll('.topbar-tabset').forEach(set => {
+      set.style.display = set.getAttribute('data-topbar-tabset') === visibleSet ? 'flex' : 'none';
+    });
+  }
+  if (document.body.classList.contains('case-preview')) {
+    topbarTitle.textContent = page.querySelector('.page-title')?.textContent.trim() || label;
+    topbarChip.textContent = '';
+    topbarDesc.textContent = '';
+  } else {
+    topbarTitle.textContent = label;
+    topbarChip.textContent = label;
+    topbarDesc.textContent = navSub;
+  }
+}
+
+function showCase(label, pageId, el) {
+  show(pageId);
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  if (el) el.classList.add('active');
+  updateTopbar(pageId);
+}
+
+function switchCaseTab(tabId, button) {
+  const page = document.getElementById('p-case-audit');
+  if (!page) return;
+  document.querySelectorAll('.case-tab').forEach(tab => {
+    const active = tab === button;
+    tab.classList.toggle('active', active);
+    tab.setAttribute('aria-selected', active ? 'true' : 'false');
+  });
+  let activePanel = null;
+  page.querySelectorAll('.case-tab-panel').forEach(panel => {
+    const active = panel.getAttribute('data-case-tab-panel') === tabId;
+    panel.classList.toggle('active', active);
+    if (active) activePanel = panel;
+  });
+  hydrateCasePreviews(activePanel || page);
+}
+
+function switchContentTab(tabId, button) {
+  const page = tabId.startsWith('frame-side-') ? document.getElementById('p-frame-2') : document.getElementById('p-frame-1');
+  if (!page) return;
+  page.classList.toggle('is-demo-wide', tabId === 'frame-native-demo' || tabId === 'frame-side-demo');
+  const tabset = button?.closest('.topbar-tabset') || document;
+  tabset.querySelectorAll('.content-tab').forEach(tab => {
+    const active = tab === button;
+    tab.classList.toggle('active', active);
+    tab.setAttribute('aria-selected', active ? 'true' : 'false');
+  });
+  let activePanel = null;
+  page.querySelectorAll('.content-tab-panel').forEach(panel => {
+    const active = panel.getAttribute('data-content-tab-panel') === tabId;
+    panel.classList.toggle('active', active);
+    if (active) activePanel = panel;
+  });
+  hydrateCasePreviews(activePanel || page);
+}
+
+function resolveCaseAsset(path) {
+  if (!path) return '';
+  if (window.location.protocol === 'file:') {
+    return 'http://127.0.0.1:8866/assets/' + path;
+  }
+  return path;
+}
+
+function openPatternDrawer(srcPath = 'input-drawer-demo/index.html?shell=sidebar&autoOpen=1&uploadSample=1', title = '上传文件', options = {}) {
+  const drawer = document.getElementById('patternDrawer');
+  const panel = drawer?.querySelector('.pattern-drawer');
+  const titleEl = document.getElementById('patternDrawerTitle');
+  const frame = drawer?.querySelector('[data-drawer-src]');
+  if (!drawer || !frame) return;
+  frame.setAttribute('data-drawer-src', srcPath);
+  const src = resolveCaseAsset(srcPath);
+  if (frame.getAttribute('src') !== src) frame.setAttribute('src', src);
+  if (titleEl) titleEl.textContent = title;
+  panel?.classList.toggle('pattern-drawer--with-header', !!options.header);
+  panel?.classList.toggle('pattern-drawer--wide', !!options.wide);
+  drawer.classList.add('is-open');
+  drawer.setAttribute('aria-hidden', 'false');
+}
+
+function closePatternDrawer(event) {
+  if (event && event.target !== event.currentTarget) return;
+  const drawer = document.getElementById('patternDrawer');
+  if (!drawer) return;
+  drawer.classList.remove('is-open');
+  drawer.setAttribute('aria-hidden', 'true');
+}
+
+function confirmHandoffExample(button) {
+  if (!button || button.classList.contains('is-confirmed')) return;
+  const copy = button.closest('.confirm-ai-bubble')?.querySelector('.confirm-next-copy');
+  button.classList.add('is-confirmed');
+  button.textContent = '已确认，开始审查';
+  button.setAttribute('aria-pressed', 'true');
+  if (copy) {
+    copy.classList.add('is-confirmed');
+    copy.textContent = '已确认。正在调用「文件检查 Agent」进行招标文件审查。';
+  }
+}
+
+document.addEventListener('keydown', event => {
+  if (event.key === 'Escape') closePatternDrawer();
+});
+
+function hydrateCasePreviews(root = document) {
+  root.querySelectorAll('[data-case-src]').forEach(el => {
+    const rawSrc = el.getAttribute('data-case-src');
+    const joiner = rawSrc && rawSrc.includes('?') ? '&' : '?';
+    const src = resolveCaseAsset(`${rawSrc}${joiner}sitev=clean-20260522`);
+    if (el.getAttribute('src') !== src) el.setAttribute('src', src);
+  });
+}
+
+function toggleGroup(id) {
+  const el = document.getElementById(id);
+  const icon = document.getElementById('icon-' + id);
+  if (!el || !icon) return;
+  const collapsed = el.classList.toggle('collapsed');
+  icon.style.transform = collapsed ? 'rotate(-90deg)' : 'rotate(0deg)';
+}
+
+function expandGroup(id) {
+  const el = document.getElementById(id);
+  const icon = document.getElementById('icon-' + id);
+  if (!el || !icon) return;
+  el.classList.remove('collapsed');
+  icon.style.transform = 'rotate(0deg)';
+}
+
+// init group heights
+document.addEventListener('DOMContentLoaded', () => {
+  ['g-principle','g-frame','g-ux','g-case'].forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.style.maxHeight = el.scrollHeight + 'px';
+  });
+  updateTopbar(document.querySelector('.page.active')?.id || 'p-lang-1');
+});
+
+function applyEmbedMode() {
+  const params = new URLSearchParams(window.location.search);
+  if (params.has('embed')) document.body.classList.add('embed');
+  hydrateCasePreviews();
+  const id = decodeURIComponent(window.location.hash.replace(/^#/, ''));
+  if (id) show(id);
+  const panel = params.get('panel');
+  if (panel) {
+    const tabButton = document.querySelector(`.content-tab[onclick*="${panel}"]`);
+    switchContentTab(panel, tabButton);
+  }
+}
+
+window.addEventListener('hashchange', applyEmbedMode);
+applyEmbedMode();
+</script>
+</body>
+</html>

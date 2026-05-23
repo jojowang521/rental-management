@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>合同详情 - Honeycomb ERP</title>
+<style>
+:root {
+  --color-primary: #266EFF;
+  --color-primary-hover: #4F90FF;
+  --color-primary-light: #E5EBFE;
+  --color-text-0: #333333;
+  --color-text-1: #666666;
+  --color-text-2: #999999;
+  --color-text-disabled: #c5c5c5;
+  --color-text-inverse: #ffffff;
+  --color-border: #dddddd;
+  --color-border-divider: #eaeaea;
+  --color-bg-white-0: #ffffff;
+  --color-bg-grey-0: #f8f8f8;
+  --color-bg-hover: #f5f5f5;
+  --color-bg-table-header: #fbfbfb;
+  --color-success: #52c41a;
+  --color-success-light: #f6ffed;
+  --color-warning: #faad14;
+  --color-warning-light: #fffbe6;
+  --color-error: #ff4d4f;
+  --color-error-light: #fff2f0;
+  --color-info: #1677ff;
+  --color-info-light: #e6f4ff;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"PingFang SC","Microsoft YaHei",sans-serif;font-size:14px;color:var(--color-text-0);background:var(--color-bg-grey-0);height:100vh;display:flex;overflow:hidden}
+.side-nav{width:220px;min-width:220px;background:var(--color-bg-white-0);border-right:1px solid var(--color-border-divider);display:flex;flex-direction:column;height:100vh;overflow-y:auto}
+.side-logo{height:56px;display:flex;align-items:center;padding:0 20px;border-bottom:1px solid var(--color-border-divider);}
+.logo-badge{background:var(--color-primary);color:#fff;border-radius:var(--radius-sm);padding:2px 7px;font-size:11px;font-weight:700;letter-spacing:.5px}
+.nav-item{display:flex;align-items:center;gap:8px;padding:0 16px;height:40px;cursor:pointer;color:var(--color-text-1);font-size:14px;transition:background .15s}
+.nav-item:hover{background:var(--color-bg-hover);color:var(--color-text-0)}
+.nav-item.active{background:var(--color-primary-light);color:var(--color-primary);font-weight:500}
+.nav-item.sub{padding-left:40px;height:36px;font-size:13px}
+.nav-item.parent{font-weight:500;color:var(--color-text-0);margin-top:4px}
+.nav-divider{height:1px;background:var(--color-border-divider);margin:8px 0}
+.content{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.page-header{height:56px;min-height:56px;background:var(--color-bg-white-0);border-bottom:1px solid var(--color-border-divider);display:flex;align-items:center;justify-content:space-between;padding:0 24px}
+.breadcrumb{display:flex;align-items:center;gap:4px;font-size:12px;color:var(--color-text-2);margin-bottom:2px}
+.breadcrumb a{color:var(--color-text-2);text-decoration:none;transition:color .15s}
+.breadcrumb a:hover{color:var(--color-primary)}
+.page-title{font-size:16px;font-weight:500;color:var(--color-text-0)}
+.ph-actions{display:flex;gap:8px}
+.btn{display:inline-flex;align-items:center;justify-content:center;border:none;cursor:pointer;font-size:14px;border-radius:var(--radius-sm);transition:all .15s;white-space:nowrap;padding:0 16px;height:32px;font-family:inherit}
+.btn-primary{background:var(--color-primary);color:#fff}.btn-primary:hover{background:var(--color-primary-hover)}
+.btn-default{background:#fff;color:var(--color-text-0);border:1px solid var(--color-border)}.btn-default:hover{border-color:var(--color-primary);color:var(--color-primary)}
+.main{flex:1;padding:24px;overflow-y:auto;background:var(--color-bg-grey-0)}
+.tabs-wrap{background:var(--color-bg-white-0);border-radius:var(--radius-md);box-shadow:0 2px 8px rgba(0,0,0,.08);overflow:hidden}
+.tabs-nav{display:flex;border-bottom:1px solid var(--color-border-divider);padding:0 24px;background:var(--color-bg-white-0)}
+.tab-item{padding:16px 20px 14px;font-size:14px;color:var(--color-text-1);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .15s;user-select:none}
+.tab-item:hover{color:var(--color-text-0)}
+.tab-item.active{color:var(--color-primary);border-bottom-color:var(--color-primary);font-weight:500}
+.tab-pane{display:none;padding:24px}
+.tab-pane.active{display:block}
+.section{margin-bottom:24px}
+.section-title{font-size:14px;font-weight:600;color:var(--color-text-0);padding-bottom:12px;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.section-title::before{content:"";display:block;width:3px;height:15px;background:var(--color-primary);border-radius:2px}
+.info-grid{display:grid;grid-template-columns:1fr 1fr}
+.info-cell{display:flex;padding:12px 0;gap:0}
+.info-cell.span-2{grid-column:span 2}
+.info-label{width:110px;min-width:110px;color:var(--color-text-1);font-size:13px;padding-right:8px}
+.info-value{flex:1;color:var(--color-text-0);font-size:14px}
+.tag{display:inline-flex;align-items:center;padding:1px 8px;border-radius:var(--radius-sm);font-size:12px;font-weight:500;line-height:20px}
+.tag-success{background:var(--color-success-light);color:var(--color-success)}
+.tag-warning{background:var(--color-warning-light);color:var(--color-warning)}
+.tag-error{background:var(--color-error-light);color:var(--color-error)}
+.tag-info{background:var(--color-info-light);color:var(--color-info)}
+.value-warning{color:var(--color-warning);font-weight:500}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{padding:12px 16px;text-align:left;font-weight:500;color:var(--color-text-1);background:var(--color-bg-table-header);border-bottom:1px solid var(--color-border-divider);white-space:nowrap}
+td{padding:14px 16px;border-bottom:1px solid var(--color-border-divider);color:var(--color-text-0);vertical-align:middle}
+tr:hover td{background:var(--color-bg-hover)}
+.table-empty{text-align:center;padding:48px;color:var(--color-text-2)}
+.link-btn{background:none;border:none;color:var(--color-primary);cursor:pointer;font-size:13px;padding:0;font-family:inherit;text-decoration:none}
+.link-btn:hover{opacity:.75}
+.link-btn.danger{color:var(--color-error)}
+.link-sep{color:var(--color-border);margin:0 6px;font-size:12px}
+.status-bar{height:4px;background:var(--color-primary-light);position:relative;overflow:hidden}
+.status-bar-fill{height:100%;width:75%;background:var(--color-primary);border-radius:2px}
+</style>
+</head>
+<body>
+<!-- Side Nav -->
+<nav class="side-nav">
+  <div class="side-logo"><img src="images/logo@4x.png" alt="logo" style="height:44px;max-width:200px;object-fit:contain;"></div>
+  <div class="nav-item parent">🏠 工作台</div>
+  <div class="nav-item parent" onclick="location.href='property-list.html'">🏢 房源管理</div>
+  <div class="nav-item sub" onclick="location.href='property-list.html'">房源列表</div>
+  <div class="nav-item sub" onclick="location.href='property-list.html'">房源地图</div>
+  <div class="nav-item parent active" onclick="location.href='contract-list.html'">📄 合同管理</div>
+  <div class="nav-item sub active" onclick="location.href='contract-list.html'">合同列表</div>
+  <div class="nav-item sub" onclick="location.href='contract-list.html#expiring'">即将到期</div>
+  <div class="nav-item parent" onclick="location.href='tenant-list.html'">👤 租客管理</div>
+  <div class="nav-item sub" onclick="location.href='tenant-list.html'">租客列表</div>
+  <div class="nav-item">💰 财务管理</div>
+  <div class="nav-divider"></div>
+  <div class="nav-item">⚙️ 系统设置</div>
+</nav>
+
+<!-- Content -->
+<div class="content">
+  <!-- Page Header -->
+  <header class="page-header">
+    <div>
+      <div class="breadcrumb">
+        <a href="contract-list.html">合同管理</a>
+        <span>/</span>
+        <a href="contract-list.html">合同列表</a>
+        <span>/</span>
+        <span>合同详情</span>
+      </div>
+      <div class="page-title">合同详情</div>
+    </div>
+    <div class="ph-actions">
+      <button class="btn btn-default">打印合同</button>
+      <button class="btn btn-primary">编辑</button>
+    </div>
+  </header>
+
+  <!-- Main -->
+  <main class="main">
+    <div class="tabs-wrap">
+      <!-- Tabs Nav -->
+      <div class="tabs-nav">
+        <div class="tab-item active" onclick="switchTab(this,'info')">基本信息</div>
+        <div class="tab-item" onclick="switchTab(this,'payment')">收款记录</div>
+        <div class="tab-item" onclick="switchTab(this,'files')">合同附件</div>
+        <div class="tab-item" onclick="switchTab(this,'log')">操作日志</div>
+      </div>
+
+      <!-- Tab: 基本信息 -->
+      <div class="tab-pane active" id="pane-info">
+        <!-- 合同信息 -->
+        <div class="section">
+          <div class="section-title">合同信息</div>
+          <div class="info-grid">
+            <div class="info-cell"><span class="info-label">合同编号</span><span class="info-value">HT-2026-001234</span></div>
+            <div class="info-cell"><span class="info-label">合同状态</span><span class="info-value"><span class="tag tag-success">生效中</span></span></div>
+            <div class="info-cell"><span class="info-label">签约日期</span><span class="info-value">2026-01-15</span></div>
+            <div class="info-cell"><span class="info-label">合同类型</span><span class="info-value">住宅租赁</span></div>
+            <div class="info-cell"><span class="info-label">租赁开始</span><span class="info-value">2026-02-01</span></div>
+            <div class="info-cell"><span class="info-label">租赁结束</span><span class="info-value">2027-01-31</span></div>
+            <div class="info-cell"><span class="info-label">租赁期限</span><span class="info-value">12 个月</span></div>
+            <div class="info-cell"><span class="info-label">合同来源</span><span class="info-value">线下签约</span></div>
+          </div>
+        </div>
+        <!-- 房源信息 -->
+        <div class="section">
+          <div class="section-title">房源信息</div>
+          <div class="info-grid">
+            <div class="info-cell"><span class="info-label">房源名称</span><span class="info-value">阳光花园 3-2-802</span></div>
+            <div class="info-cell"><span class="info-label">房源编号</span><span class="info-value">HS-2025-0088</span></div>
+            <div class="info-cell"><span class="info-label">房源类型</span><span class="info-value">住宅</span></div>
+            <div class="info-cell"><span class="info-label">建筑面积</span><span class="info-value">89.5 ㎡</span></div>
+            <div class="info-cell span-2"><span class="info-label">详细地址</span><span class="info-value">北京市朝阳区阳光花园3号楼2单元802室</span></div>
+          </div>
+        </div>
+        <!-- 租客信息 -->
+        <div class="section">
+          <div class="section-title">租客信息</div>
+          <div class="info-grid">
+            <div class="info-cell"><span class="info-label">租客姓名</span><span class="info-value"><a class="link-btn" onclick="location.href='tenant-detail.html'">张三</a></span></div>
+            <div class="info-cell"><span class="info-label">证件类型</span><span class="info-value">居民身份证</span></div>
+            <div class="info-cell"><span class="info-label">证件号码</span><span class="info-value">110101199001011234</span></div>
+            <div class="info-cell"><span class="info-label">联系电话</span><span class="info-value">138-0000-1234</span></div>
+            <div class="info-cell"><span class="info-label">紧急联系人</span><span class="info-value">李四</span></div>
+            <div class="info-cell"><span class="info-label">紧急电话</span><span class="info-value">139-0000-5678</span></div>
+          </div>
+        </div>
+        <!-- 租金信息 -->
+        <div class="section">
+          <div class="section-title">租金信息</div>
+          <div class="info-grid">
+            <div class="info-cell"><span class="info-label">月租金</span><span class="info-value">¥ 4,500.00</span></div>
+            <div class="info-cell"><span class="info-label">付款周期</span><span class="info-value">季付</span></div>
+            <div class="info-cell"><span class="info-label">押金</span><span class="info-value">¥ 9,000.00</span></div>
+            <div class="info-cell"><span class="info-label">首期付款</span><span class="info-value">¥ 13,500.00</span></div>
+            <div class="info-cell"><span class="info-label">下次收款日</span><span class="info-value value-warning">2026-05-01</span></div>
+            <div class="info-cell"><span class="info-label">租期进度</span><span class="info-value"><div class="status-bar"><div class="status-bar-fill"></div></div><span style="font-size:12px;color:var(--color-text-2);margin-top:4px;display:block">已履行 3 个月，剩余 9 个月</span></span></div>
+            <div class="info-cell span-2"><span class="info-label">备注</span><span class="info-value">每季度首月1日前付清</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab: 收款记录 -->
+      <div class="tab-pane" id="pane-payment">
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>账期</th><th>应收金额</th><th>实收金额</th><th>收款日期</th><th>收款方式</th><th>状态</th><th>备注</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>2026-02-01 ~ 2026-04-30</td>
+                <td>¥ 13,500.00</td>
+                <td>¥ 13,500.00</td>
+                <td>2026-01-28</td>
+                <td>银行转账</td>
+                <td><span class="tag tag-success">已收款</span></td>
+                <td>首季度租金</td>
+              </tr>
+              <tr>
+                <td>2026-05-01 ~ 2026-07-31</td>
+                <td>¥ 13,500.00</td>
+                <td>—</td>
+                <td>—</td>
+                <td>—</td>
+                <td><span class="tag tag-warning">待收款</span></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>2026-08-01 ~ 2026-10-31</td>
+                <td>¥ 13,500.00</td>
+                <td>—</td>
+                <td>—</td>
+                <td>—</td>
+                <td><span class="tag tag-warning">待收款</span></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>2026-11-01 ~ 2027-01-31</td>
+                <td>¥ 13,500.00</td>
+                <td>—</td>
+                <td>—</td>
+                <td>—</td>
+                <td><span class="tag tag-warning">待收款</span></td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Tab: 合同附件 -->
+      <div class="tab-pane" id="pane-files">
+        <div style="display:flex;justify-content:flex-end;margin-bottom:12px">
+          <button class="btn btn-default">+ 上传附件</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>文件名称</th><th>文件大小</th><th>文件类型</th><th>上传人</th><th>上传时间</th><th style="width:120px">操作</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>租赁合同-HT-2026-001234.pdf</td>
+                <td>2.4 MB</td>
+                <td>PDF</td>
+                <td>李经理</td>
+                <td>2026-01-15 14:32</td>
+                <td>
+                  <button class="link-btn">下载</button>
+                  <span class="link-sep">|</span>
+                  <button class="link-btn danger">删除</button>
+                </td>
+              </tr>
+              <tr>
+                <td>身份证正面-张三.jpg</td>
+                <td>380 KB</td>
+                <td>图片</td>
+                <td>李经理</td>
+                <td>2026-01-15 14:35</td>
+                <td>
+                  <button class="link-btn">下载</button>
+                  <span class="link-sep">|</span>
+                  <button class="link-btn danger">删除</button>
+                </td>
+              </tr>
+              <tr>
+                <td>身份证反面-张三.jpg</td>
+                <td>362 KB</td>
+                <td>图片</td>
+                <td>李经理</td>
+                <td>2026-01-15 14:35</td>
+                <td>
+                  <button class="link-btn">下载</button>
+                  <span class="link-sep">|</span>
+                  <button class="link-btn danger">删除</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Tab: 操作日志 -->
+      <div class="tab-pane" id="pane-log">
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th style="width:120px">操作类型</th><th>操作详情</th><th style="width:120px">操作人</th><th style="width:180px">操作时间</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>创建合同</td><td>创建合同 HT-2026-001234，租客：张三，房源：阳光花园 3-2-802</td><td>李经理</td><td>2026-01-15 14:30</td></tr>
+              <tr><td>上传附件</td><td>上传附件「租赁合同-HT-2026-001234.pdf」</td><td>李经理</td><td>2026-01-15 14:32</td></tr>
+              <tr><td>上传附件</td><td>上传附件「身份证正面-张三.jpg」</td><td>李经理</td><td>2026-01-15 14:35</td></tr>
+              <tr><td>合同生效</td><td>合同状态变更：草稿 → 生效中</td><td>系统</td><td>2026-02-01 00:00</td></tr>
+              <tr><td>收款确认</td><td>确认首季度租金 ¥13,500.00 已到账，收款日期：2026-01-28</td><td>王出纳</td><td>2026-01-29 09:15</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div><!-- /.tabs-wrap -->
+  </main>
+</div><!-- /.content -->
+
+<script>
+function switchTab(el, paneId) {
+  document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('pane-' + paneId).classList.add('active');
+}
+</script>
+</body>
+</html>

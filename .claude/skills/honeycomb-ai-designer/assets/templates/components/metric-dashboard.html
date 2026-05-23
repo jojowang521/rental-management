@@ -1,0 +1,31 @@
+<!-- Honeycomb Metric Dashboard Component Template
+Use for admin home/overview pages. Data cards, chart/image area, and list area are separated by 12px.
+-->
+<div class="dash">
+  <div class="metric-grid">
+    {{METRIC_CARDS}}
+  </div>
+  <div class="dash-row">
+    <div class="card chart-card">
+      <div class="section-title"><h3>{{CHART_TITLE}}</h3><span>{{CHART_SUBTITLE}}</span></div>
+      <div class="chart-grid">
+        {{PRIMARY_CHART}}
+        {{SECONDARY_CHART}}
+      </div>
+    </div>
+    <div class="card quick-card">
+      <div class="section-title"><h3>{{QUICK_TITLE}}</h3><span>{{QUICK_SUBTITLE}}</span></div>
+      <div class="quick-grid">
+        {{QUICK_ITEMS}}
+      </div>
+    </div>
+  </div>
+  {{DASHBOARD_TABLE_CARD}}
+</div>
+
+<!-- Required spacing contract -->
+<style>
+.dash{display:flex;flex-direction:column;gap:12px;min-height:0;overflow:auto}
+.metric-grid{display:grid;grid-template-columns:repeat(5,minmax(160px,1fr));gap:12px}
+.dash-row{display:grid;grid-template-columns:2fr 1fr;gap:12px}
+</style>

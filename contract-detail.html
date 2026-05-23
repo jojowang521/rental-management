@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>合同详情</title>
+<style>
+:root{--cp50:#EBF2FF;--cp600:#266EFF;--cp700:#1A55D6;--cg0:#fff;--cg25:#FAFAFA;--cg50:#F5F5F5;--cg100:#F0F0F0;--cg300:#D9D9D9;--cg500:#8C8C8C;--ce500:#FF4D4F;--cbg:#F0F2F5;--cb:#E8E8E8;--ctp:#262626;--ctt:#8C8C8C;--ctl:#266EFF;--ff:"PingFang SC",-apple-system,Arial,sans-serif}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--ff);font-size:13px;color:var(--ctp);background:var(--cbg);display:flex;height:100vh;overflow:hidden}
+.sn{width:208px;height:100vh;background:#1C1C1E;display:flex;flex-direction:column;flex-shrink:0;transition:width .2s}
+.sn.collapsed{width:56px}
+.sn-logo{display:flex;align-items:center;padding:11px 16px;gap:8px;border-bottom:1px solid rgba(255,255,255,.12);height:44px;overflow:hidden}
+.sn-logo-img{height:22px;flex-shrink:0}
+.sn.collapsed .sn-logo-img{display:none}
+.sn-collapse-btn{margin-left:auto;cursor:pointer;opacity:.6;width:18px;height:18px;object-fit:contain;flex-shrink:0}
+.sn-body{flex:1;overflow-y:auto;padding:8px 0}
+.sn-body::-webkit-scrollbar{display:none}
+.nl{list-style:none}
+.ni{display:flex;align-items:center;padding:13px 20px;gap:16px;cursor:pointer;color:rgba(255,255,255,.65);font-size:14px;transition:all .15s;white-space:nowrap;overflow:hidden}
+.sn.collapsed .ni{padding:14px 18px;justify-content:center;gap:0}
+.ni:hover{background:rgba(255,255,255,.06);color:rgba(255,255,255,.9)}
+.ni.on{background:rgba(255,255,255,.1);color:#fff}
+.ni-ic{width:16px;height:16px;flex-shrink:0;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.ni-lb{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sn.collapsed .ni-lb,.sn.collapsed .ni-arrow{display:none}
+.ni-arrow{width:14px;height:14px;flex-shrink:0;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;opacity:.5;transition:transform .2s}
+.ni.open .ni-arrow{transform:rotate(180deg)}
+.nsl{list-style:none;display:none}
+.nsl.open{display:block}
+.sn.collapsed .nsl{display:none!important}
+.nsi{display:flex;align-items:center;padding:9px 20px 9px 52px;cursor:pointer;color:rgba(255,255,255,.45);font-size:13px;transition:all .15s}
+.nsi:hover{background:rgba(255,255,255,.05);color:rgba(255,255,255,.75)}
+.nsi.active{color:#60A5FA;background:rgba(37,99,235,.15)}
+.sn-foot{box-shadow:inset 0 1px 0 0 rgba(255,255,255,.1);padding:12px 20px;color:rgba(255,255,255,.4);font-size:12px;flex-shrink:0}
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0}
+.topbar{height:48px;background:#fff;border-bottom:1px solid var(--cb);display:flex;align-items:center;padding:0 24px;gap:12px;flex-shrink:0}
+.bc{display:flex;align-items:center;gap:4px;font-size:13px;color:var(--ctt);flex:1}
+.bc a{color:var(--ctt);text-decoration:none;cursor:pointer}
+.bc a:hover{color:var(--ctl)}
+.bc-sep{color:#D9D9D9;margin:0 2px}
+.bc-cur{color:var(--ctp)}
+.tb-r{display:flex;align-items:center;gap:8px}
+.pb{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:12px}
+.pb::-webkit-scrollbar{width:6px}
+.pb::-webkit-scrollbar-thumb{background:var(--cg300);border-radius:3px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:32px;padding:0 16px;border-radius:4px;font-size:13px;font-family:var(--ff);cursor:pointer;border:1px solid transparent;transition:all .15s;white-space:nowrap;text-decoration:none}
+.btn-p{background:var(--cp600);color:#fff;border-color:var(--cp600)}
+.btn-p:hover{background:var(--cp700)}
+.btn-d{background:#fff;color:#333;border-color:var(--cg300)}
+.btn-d:hover{border-color:var(--cp600);color:var(--cp600)}
+.btn-x{background:#fff;color:#FF4D4F;border-color:#FF4D4F}
+.tag{display:inline-flex;align-items:center;height:22px;padding:0 6px;border-radius:2px;font-size:12px}
+.t-green{background:#F6FFED;color:#389E0D;border:1px solid #B7EB8F}
+.t-orange{background:#FFFBE6;color:#D48806;border:1px solid #FFD591}
+.t-blue{background:#EBF2FF;color:#266EFF}
+/* 顶部概要卡片 */
+.profile-card{background:#fff;border-radius:4px;box-shadow:0 0 3px rgba(0,0,0,.04);padding:20px 24px}
+.profile-hd{display:flex;align-items:center;gap:16px;margin-bottom:16px}
+.p-icon{width:48px;height:48px;border-radius:8px;background:#EBF2FF;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.p-icon svg{width:24px;height:24px;fill:none;stroke:#266EFF;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.p-name{font-size:16px;font-weight:600;color:#333}
+.p-actions{margin-left:auto;display:flex;gap:8px}
+.p-fields{display:flex;gap:32px;flex-wrap:wrap}
+.pf{display:flex;gap:4px;font-size:13px}
+.pf-l{color:var(--ctt)}
+.pf-v{color:#333}
+/* 统计卡片行 */
+.stat-row{display:flex;gap:12px}
+.stat-card{flex:1;background:#fff;border-radius:4px;padding:16px 20px;display:flex;align-items:center;gap:16px;box-shadow:0 0 3px rgba(0,0,0,.04)}
+.s-ic{width:40px;height:40px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.s-ic svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.s-ic.blue{background:#EBF2FF;color:#266EFF}
+.s-ic.green{background:#F6FFED;color:#52C41A}
+.s-ic.orange{background:#FFFBE6;color:#D48806}
+.s-body{display:flex;flex-direction:column;gap:4px}
+.s-label{font-size:12px;color:var(--ctt)}
+.s-value{font-size:20px;font-weight:600;color:#333}
+.s-unit{font-size:12px;color:var(--ctt);margin-left:2px}
+/* tabs */
+.tabs-bar{background:#fff;border-radius:3px;box-shadow:0 0 3px rgba(0,0,0,.04);height:44px;display:flex;align-items:stretch;padding:0 20px;gap:32px}
+.tab{display:flex;align-items:center;padding:11px 0;cursor:pointer;font-size:13px;color:var(--ctt);border-bottom:2px solid transparent;transition:all .15s}
+.tab:hover{color:var(--cp600)}
+.tab.on{color:var(--cp600);border-bottom-color:var(--cp600);font-weight:500}
+.tab-panel{display:none}
+.tab-panel.on{display:block}
+/* detail card */
+.detail-card{background:#fff;border-radius:4px;box-shadow:0 0 3px rgba(0,0,0,.04);padding:20px;display:flex;flex-direction:column;gap:24px}
+.d-sec{display:flex;flex-direction:column;gap:0}
+.d-title{font-size:14px;font-weight:600;color:#333;padding:5px 0;display:flex;align-items:center;gap:8px;margin-bottom:16px}
+.d-title::before{content:'';display:block;width:3px;height:16px;border-radius:2px;background:var(--cp600);flex-shrink:0}
+.d-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px 24px}
+.d-item{display:flex;flex-direction:row;align-items:baseline}
+.d-lbl{font-size:13px;color:var(--ctt);width:100px;flex-shrink:0}
+.d-val{font-size:13px;color:#333;flex:1}
+/* 账单表格 */
+.tbl{width:100%;border-collapse:collapse}
+.tbl th{padding:10px 16px;text-align:left;font-size:13px;font-weight:600;color:#333;border-bottom:1px solid var(--cb);background:#FAFAFA}
+.tbl td{padding:10px 16px;font-size:13px;color:#333;border-bottom:1px solid var(--cg50)}
+.tbl tr:last-child td{border-bottom:none}
+.tbl tr:hover td{background:#FAFAFA}
+/* confirm */
+.confirm-mask{position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:2000;display:none;align-items:center;justify-content:center}
+.confirm-mask.open{display:flex}
+.confirm-box{background:#fff;border-radius:4px;width:400px;padding:32px 24px 24px;position:relative;box-shadow:0 3px 8px rgba(0,0,0,0.1);display:flex;flex-direction:column;gap:24px}
+.confirm-close{position:absolute;top:16px;right:16px;width:16px;height:16px;cursor:pointer;color:#999;border:none;background:none;padding:0;display:flex;align-items:center;justify-content:center}
+.confirm-close:hover{color:#333}
+.confirm-close svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.confirm-content{display:flex;gap:12px;align-items:flex-start}
+.confirm-icon{width:24px;height:24px;flex-shrink:0;margin-top:1px}
+.confirm-text{display:flex;flex-direction:column;gap:8px;flex:1}
+.confirm-title{font-size:16px;font-weight:600;color:#333;line-height:1.5}
+.confirm-desc{font-size:13px;color:#666;line-height:1.692}
+.confirm-ft{display:flex;align-items:center;justify-content:flex-end;gap:12px}
+</style>
+</head>
+<body>
+<aside class="sn" id="sn">
+  <div class="sn-logo">
+    <img src="prototypes/images/海外logo@2x.png" alt="logo" class="sn-logo-img">
+    <img src="prototypes/images/收起.png" class="sn-collapse-btn" onclick="toggleSidebar()" alt="收起">
+  </div>
+  <div class="sn-body">
+    <ul class="nl">
+      <li class="ni">
+        <svg class="ni-ic" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        <span class="ni-lb">首页</span>
+      </li>
+      <li class="ni open" onclick="toggleNav(this)">
+        <svg class="ni-ic" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+        <span class="ni-lb">房源管理</span>
+        <svg class="ni-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </li>
+      <ul class="nsl open">
+        <li class="nsi" style="cursor:pointer" onclick="location.href='prototype-list-page.html'">房源列表</li>
+        <li class="nsi">房源地图</li>
+      </ul>
+      <li class="ni open" onclick="toggleNav(this)">
+        <svg class="ni-ic" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        <span class="ni-lb">合同管理</span>
+        <svg class="ni-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </li>
+      <ul class="nsl open">
+        <li class="nsi" style="cursor:pointer" onclick="location.href='contract-list.html'">合同列表</li>
+        <li class="nsi">续签管理</li>
+        <li class="nsi">到期提醒</li>
+      </ul>
+      <li class="ni" onclick="toggleNav(this)">
+        <svg class="ni-ic" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+        <span class="ni-lb">租户管理</span>
+        <svg class="ni-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </li>
+      <li class="ni" onclick="toggleNav(this)">
+        <svg class="ni-ic" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        <span class="ni-lb">账单管理</span>
+        <svg class="ni-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </li>
+      <li class="ni" onclick="toggleNav(this)">
+        <svg class="ni-ic" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        <span class="ni-lb">工单管理</span>
+        <svg class="ni-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </li>
+    </ul>
+  </div>
+  <div class="sn-foot">Powered by 天际</div>
+</aside>
+
+<div class="main">
+  <div class="topbar">
+    <div class="bc">
+      <a href="contract-list.html">合同管理</a>
+      <span class="bc-sep">/</span>
+      <span class="bc-cur">HT-2024-0001 合同详情</span>
+    </div>
+    <div class="tb-r">
+      <a href="contract-edit.html" class="btn btn-d" style="text-decoration:none">编辑</a>
+      <button class="btn btn-x" onclick="openConfirm('confirmTerminate')">终止合同</button>
+    </div>
+  </div>
+
+  <div class="pb">
+    <!-- 概要卡片 -->
+    <div class="profile-card">
+      <div class="profile-hd">
+        <div class="p-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+        <div>
+          <div class="p-name">HT-2024-0001</div>
+          <div style="margin-top:4px;display:flex;gap:8px;align-items:center">
+            <span class="tag t-blue">办公租赁</span>
+            <span class="tag t-green">履行中</span>
+          </div>
+        </div>
+      </div>
+      <div class="p-fields">
+        <div class="pf"><span class="pf-l">租户：</span><span class="pf-v">张伟</span></div>
+        <div class="pf"><span class="pf-l">房源：</span><span class="pf-v">朝阳国贸中心A座1201</span></div>
+        <div class="pf"><span class="pf-l">签约日期：</span><span class="pf-v">2024-01-15</span></div>
+        <div class="pf"><span class="pf-l">到期日期：</span><span class="pf-v">2025-01-14</span></div>
+        <div class="pf"><span class="pf-l">月租金：</span><span class="pf-v" style="color:var(--cp600);font-weight:600">¥18,500</span></div>
+        <div class="pf"><span class="pf-l">经办人：</span><span class="pf-v">李晓明</span></div>
+      </div>
+    </div>
+
+    <!-- 统计行 -->
+    <div class="stat-row">
+      <div class="stat-card"><div class="s-ic blue"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div><div class="s-body"><div class="s-label">剩余天数</div><div class="s-value">287<span class="s-unit">天</span></div></div></div>
+      <div class="stat-card"><div class="s-ic green"><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div><div class="s-body"><div class="s-label">已收租金</div><div class="s-value">74,000<span class="s-unit">元</span></div></div></div>
+      <div class="stat-card"><div class="s-ic orange"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div><div class="s-body"><div class="s-label">待收租金</div><div class="s-value">18,500<span class="s-unit">元</span></div></div></div>
+      <div class="stat-card"><div class="s-ic blue"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><div class="s-body"><div class="s-label">累计账单</div><div class="s-value">4<span class="s-unit">期</span></div></div></div>
+    </div>
+
+    <!-- tabs -->
+    <div class="tabs-bar">
+      <div class="tab on" onclick="switchTab(this,'panel-info')">合同信息</div>
+      <div class="tab" onclick="switchTab(this,'panel-bill')">账单记录</div>
+      <div class="tab" onclick="switchTab(this,'panel-log')">操作日志</div>
+    </div>
+
+    <!-- 合同信息 -->
+    <div class="tab-panel on" id="panel-info">
+      <div class="detail-card">
+        <div class="d-sec">
+          <div class="d-title">基本信息</div>
+          <div class="d-grid">
+            <div class="d-item"><div class="d-lbl">合同编号</div><div class="d-val">HT-2024-0001</div></div>
+            <div class="d-item"><div class="d-lbl">合同类型</div><div class="d-val"><span class="tag t-blue">办公租赁</span></div></div>
+            <div class="d-item"><div class="d-lbl">租户姓名</div><div class="d-val">张伟</div></div>
+            <div class="d-item"><div class="d-lbl">联系电话</div><div class="d-val">138-0010-1234</div></div>
+            <div class="d-item"><div class="d-lbl">身份证号</div><div class="d-val">110101199001011234</div></div>
+            <div class="d-item"><div class="d-lbl">紧急联系人</div><div class="d-val">张芳 / 138-0010-5678</div></div>
+          </div>
+        </div>
+        <div class="d-sec">
+          <div class="d-title">租约信息</div>
+          <div class="d-grid">
+            <div class="d-item"><div class="d-lbl">房源名称</div><div class="d-val">朝阳国贸中心A座1201</div></div>
+            <div class="d-item"><div class="d-lbl">所在区域</div><div class="d-val">朝阳区</div></div>
+            <div class="d-item"><div class="d-lbl">签约日期</div><div class="d-val">2024-01-15</div></div>
+            <div class="d-item"><div class="d-lbl">到期日期</div><div class="d-val">2025-01-14</div></div>
+            <div class="d-item"><div class="d-lbl">租期</div><div class="d-val">12 个月</div></div>
+            <div class="d-item"><div class="d-lbl">合同状态</div><div class="d-val"><span class="tag t-green">履行中</span></div></div>
+          </div>
+        </div>
+        <div class="d-sec">
+          <div class="d-title">租金信息</div>
+          <div class="d-grid">
+            <div class="d-item"><div class="d-lbl">月租金</div><div class="d-val" style="color:var(--cp600);font-weight:600">¥18,500</div></div>
+            <div class="d-item"><div class="d-lbl">付款方式</div><div class="d-val">季付</div></div>
+            <div class="d-item"><div class="d-lbl">押金</div><div class="d-val">¥37,000（2个月）</div></div>
+            <div class="d-item"><div class="d-lbl">经办人</div><div class="d-val">李晓明</div></div>
+            <div class="d-item" style="grid-column:1/-1"><div class="d-lbl">备注</div><div class="d-val">位于国贸核心区，交通便利，配套完善。</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 账单记录 -->
+    <div class="tab-panel" id="panel-bill">
+      <div class="detail-card" style="padding:0;overflow:hidden">
+        <table class="tbl">
+          <thead><tr><th>账单期次</th><th>应收金额</th><th>实收金额</th><th>账单周期</th><th>到期日</th><th>收款日</th><th>状态</th></tr></thead>
+          <tbody>
+            <tr><td>第1期</td><td>¥55,500</td><td>¥55,500</td><td>2024-01-15 ~ 2024-04-14</td><td>2024-01-15</td><td>2024-01-12</td><td><span class="tag t-green">已收款</span></td></tr>
+            <tr><td>第2期</td><td>¥55,500</td><td>¥55,500</td><td>2024-04-15 ~ 2024-07-14</td><td>2024-04-15</td><td>2024-04-10</td><td><span class="tag t-green">已收款</span></td></tr>
+            <tr><td>第3期</td><td>¥55,500</td><td>—</td><td>2024-07-15 ~ 2024-10-14</td><td>2024-07-15</td><td>—</td><td><span class="tag t-orange">待收款</span></td></tr>
+            <tr><td>第4期</td><td>¥55,500</td><td>—</td><td>2024-10-15 ~ 2025-01-14</td><td>2024-10-15</td><td>—</td><td><span class="tag" style="background:#FAFAFA;color:#8C8C8C;border:1px solid #D9D9D9">未生成</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 操作日志 -->
+    <div class="tab-panel" id="panel-log">
+      <div class="detail-card">
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <div style="display:flex;gap:16px;align-items:flex-start">
+            <div style="width:8px;height:8px;border-radius:50%;background:var(--cp600);margin-top:5px;flex-shrink:0"></div>
+            <div><div style="font-size:13px;color:#333;font-weight:500">合同创建</div><div style="font-size:12px;color:var(--ctt);margin-top:2px">李晓明 · 2024-01-15 09:32</div></div>
+          </div>
+          <div style="display:flex;gap:16px;align-items:flex-start">
+            <div style="width:8px;height:8px;border-radius:50%;background:var(--cp600);margin-top:5px;flex-shrink:0"></div>
+            <div><div style="font-size:13px;color:#333;font-weight:500">第1期账单已收款</div><div style="font-size:12px;color:var(--ctt);margin-top:2px">王芳 · 2024-01-12 14:20</div></div>
+          </div>
+          <div style="display:flex;gap:16px;align-items:flex-start">
+            <div style="width:8px;height:8px;border-radius:50%;background:var(--cp600);margin-top:5px;flex-shrink:0"></div>
+            <div><div style="font-size:13px;color:#333;font-weight:500">第2期账单已收款</div><div style="font-size:12px;color:var(--ctt);margin-top:2px">王芳 · 2024-04-10 10:05</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 终止确认框 -->
+<div class="confirm-mask" id="confirmTerminate">
+  <div class="confirm-box">
+    <button class="confirm-close" onclick="closeConfirm('confirmTerminate')"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    <div class="confirm-content">
+      <div class="confirm-icon"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#FFF3CD"/><path d="M12 8v4m0 4h.01" stroke="#FF9902" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="confirm-text">
+        <div class="confirm-title">确定终止该合同吗？</div>
+        <div class="confirm-desc">合同终止后将无法恢复，相关账单将停止生成，请确认已与租户协商一致后再操作。</div>
+      </div>
+    </div>
+    <div class="confirm-ft">
+      <button class="btn btn-d" onclick="closeConfirm('confirmTerminate')">取消</button>
+      <button class="btn" style="background:#FF4C4C;color:#fff;border-color:#FF4C4C" onclick="closeConfirm('confirmTerminate')">确认终止</button>
+    </div>
+  </div>
+</div>
+
+<script>
+function toggleSidebar(){const sn=document.getElementById('sn');sn.classList.toggle('collapsed');const img=sn.querySelector('.sn-logo-img');if(img)img.style.display=sn.classList.contains('collapsed')?'none':'';}
+function toggleNav(ni){const nsl=ni.nextElementSibling;if(nsl&&nsl.classList.contains('nsl')){const o=nsl.classList.toggle('open');ni.classList.toggle('open',o);}}
+function switchTab(tab,panelId){document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('on'));tab.classList.add('on');document.getElementById(panelId).classList.add('on');}
+function openConfirm(id){document.getElementById(id).classList.add('open')}
+function closeConfirm(id){document.getElementById(id).classList.remove('open')}
+document.addEventListener('DOMContentLoaded',function(){document.querySelectorAll('.confirm-mask').forEach(m=>m.addEventListener('click',function(e){if(e.target===this)this.classList.remove('open');}));});
+</script>
+</body>
+</html>

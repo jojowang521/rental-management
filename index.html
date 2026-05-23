@@ -1,0 +1,2893 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI产品设计系统</title>
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --primary-bg: rgba(37, 99, 235, 0.06);
+      --success: #15803d;
+      --warning: #b45309;
+      --error: #b91c1c;
+      --text: #18181b;
+      --muted: #71717a;
+      --weak: #a1a1aa;
+      --line: rgba(0, 0, 0, 0.06);
+      --line-strong: rgba(0, 0, 0, 0.10);
+      --page: #fafafa;
+      --panel: #ffffff;
+      --sidebar: #001529;
+      --sidebar-soft: #0d2038;
+      --sidebar-width: 228px;
+      --sidebar-collapsed-width: 64px;
+      --shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+      --radius: 12px;
+      font-family: Inter, Geist, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        "PingFang SC", "Microsoft YaHei", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      color: var(--text);
+      background: var(--page);
+      min-height: 100vh;
+    }
+
+    button, input, select, textarea { font: inherit; }
+
+    .app {
+      display: grid;
+      grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
+      min-height: 100vh;
+      transition: grid-template-columns 0.2s ease;
+    }
+
+    .app.nav-collapsed {
+      grid-template-columns: var(--sidebar-collapsed-width) minmax(0, 1fr);
+    }
+
+    .sidebar {
+      background: var(--sidebar);
+      color: rgba(255, 255, 255, 0.86);
+      padding: 18px 12px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow: auto;
+      transition: padding 0.2s ease;
+    }
+
+    .app.nav-collapsed .sidebar {
+      padding: 18px 8px;
+    }
+
+    .brand {
+      min-height: 46px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 0 8px 14px 10px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      margin-bottom: 14px;
+    }
+
+    .brand-main {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+      flex-wrap: nowrap;
+    }
+
+    .brand-copy {
+      min-width: 0;
+      overflow: hidden;
+    }
+
+    .app.nav-collapsed .brand {
+      flex-direction: column;
+      justify-content: center;
+      gap: 8px;
+      padding: 0 0 14px;
+    }
+
+    .app.nav-collapsed .brand-main {
+      justify-content: center;
+      width: 100%;
+    }
+
+    .app.nav-collapsed .brand-copy,
+    .app.nav-collapsed .menu-group-title,
+    .app.nav-collapsed .nav-text {
+      display: none;
+    }
+
+    .brand-mark {
+      width: 30px;
+      height: 30px;
+      display: grid;
+      place-items: center;
+      background: var(--primary);
+      color: white;
+      border-radius: 10px;
+      font-weight: 700;
+    }
+
+    .brand-title {
+      font-size: 15px;
+      line-height: 1.2;
+      font-weight: 650;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      color: rgba(255, 255, 255, 0.92);
+    }
+
+    .brand-subtitle {
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.52);
+      margin-top: 3px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .menu-group-title {
+      width: 100%;
+      border: 0;
+      background: transparent;
+      padding: 16px 12px 8px;
+      color: rgba(255, 255, 255, 0.42);
+      font-size: 12px;
+      letter-spacing: 0;
+      text-transform: none;
+      font-weight: 650;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      text-align: left;
+      border-radius: 6px;
+      white-space: nowrap;
+      min-width: 0;
+    }
+
+    .menu-group-title > span:first-child {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .menu-group-title:hover {
+      color: rgba(255, 255, 255, 0.72);
+      background: var(--sidebar-soft);
+    }
+
+    .group-arrow {
+      width: 16px;
+      height: 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex: 0 0 auto;
+      opacity: 0.7;
+      transition: transform 0.18s ease;
+      white-space: nowrap;
+    }
+
+    .line-icon {
+      width: 16px;
+      height: 16px;
+      display: block;
+      stroke: currentColor;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
+    }
+
+    .menu-group-title.collapsed .group-arrow {
+      transform: rotate(-90deg);
+    }
+
+    .nav-item {
+      width: 100%;
+      min-height: 42px;
+      border: 0;
+      border-radius: 6px;
+      background: transparent;
+      color: rgba(255, 255, 255, 0.76);
+      display: grid;
+      grid-template-columns: 24px minmax(0, 1fr);
+      align-items: center;
+      gap: 8px;
+      padding: 8px 10px;
+      cursor: pointer;
+      text-align: left;
+      margin-bottom: 3px;
+      white-space: nowrap;
+    }
+
+    .nav-group {
+      overflow: hidden;
+      display: grid;
+      transition: grid-template-rows 0.2s ease;
+      grid-template-rows: 1fr;
+    }
+
+    .nav-group.collapsed {
+      grid-template-rows: 0fr;
+    }
+
+    .nav-group-inner {
+      min-height: 0;
+    }
+
+    .app.nav-collapsed .nav-item {
+      grid-template-columns: 1fr;
+      place-items: center;
+      padding: 10px;
+    }
+
+    .nav-item:hover { background: var(--sidebar-soft); color: white; }
+    .nav-item.active {
+      background: var(--primary);
+      color: white;
+      box-shadow: none;
+    }
+    .nav-icon,
+    .ni-ic {
+      width: 20px;
+      height: 20px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: currentColor;
+    }
+    .ni-img {
+      width: 16px;
+      height: 16px;
+      display: block;
+      opacity: 0.72;
+      filter: invert(88%) sepia(6%) saturate(354%) hue-rotate(177deg) brightness(93%) contrast(90%);
+    }
+    .nav-item:hover .ni-img,
+    .nav-item.active .ni-img {
+      opacity: 0.98;
+      filter: invert(100%);
+    }
+    .nav-text { min-width: 0; display: grid; gap: 2px; }
+    .nav-label { font-size: 14px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+    main {
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .topbar {
+      height: 58px;
+      background: var(--panel);
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      position: sticky;
+      top: 0;
+      z-index: 5;
+    }
+
+    .crumbs {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--weak);
+      font-size: 13px;
+      min-width: 0;
+    }
+
+    .crumb-current { color: var(--text); font-weight: 600; }
+    .crumb-note {
+      color: var(--weak);
+      font-size: 13px;
+      font-weight: 500;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .nav-toggle {
+      width: 26px;
+      height: 26px;
+      border: 1px solid transparent;
+      background: transparent;
+      color: rgba(255, 255, 255, 0.92);
+      border-radius: 10px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      padding: 0;
+      flex: 0 0 auto;
+    }
+
+    .nav-toggle .line-icon {
+      width: 18px;
+      height: 18px;
+      stroke-width: 1.8;
+    }
+
+    .nav-toggle-icon-img {
+      width: 16px;
+      height: 16px;
+      display: block;
+      filter: brightness(0) invert(1);
+      opacity: 0.92;
+    }
+
+    .nav-toggle:hover {
+      color: var(--muted);
+      border-color: var(--line-strong);
+      background: #fff;
+    }
+
+    .nav-toggle:hover .nav-toggle-icon-img {
+      filter: none;
+      opacity: 1;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .input {
+      width: 260px;
+      height: 34px;
+      border: 1px solid var(--line-strong);
+      border-radius: 6px;
+      background: #fff;
+      padding: 0 12px;
+      outline: none;
+    }
+
+    .input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px rgba(22, 119, 255, 0.12);
+    }
+
+    .btn {
+      min-height: 32px;
+      border: 1px solid var(--line-strong);
+      background: #fff;
+      color: var(--text);
+      border-radius: 6px;
+      padding: 5px 12px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
+    .btn:hover { color: var(--primary); border-color: var(--primary-hover); }
+    .btn.primary { background: var(--primary); color: white; border-color: var(--primary); }
+    .btn.primary:hover { background: var(--primary-hover); border-color: var(--primary-hover); color: white; }
+
+    .content {
+      padding: 20px 24px 28px;
+      display: grid;
+      gap: 16px;
+    }
+
+    .hero {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .blue-title {
+      min-height: 48px;
+      background: #fff;
+      color: var(--text);
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 18px;
+    }
+
+    .blue-title h1 {
+      margin: 0;
+      font-size: 18px;
+      letter-spacing: 0;
+    }
+
+    .hero-body { padding: 18px; }
+
+    body.preview-only .topbar {
+      display: none;
+    }
+
+    body.preview-only main {
+      min-height: 100vh;
+      overflow: auto;
+    }
+
+    body.preview-only .content {
+      padding: 0;
+      min-width: 0;
+    }
+
+    body.preview-only .hero {
+      max-width: none;
+      width: 100%;
+      min-width: 0;
+      margin: 0;
+      box-shadow: none;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+    }
+
+    body.preview-only .hero-body {
+      padding: 0;
+    }
+
+    body.preview-only .app:not(.nav-collapsed) .brand-copy,
+    body.preview-only .nav-text {
+      display: grid;
+    }
+
+    body.preview-only .menu-group-title {
+      display: flex;
+    }
+
+    body.preview-only .app.nav-collapsed .brand-copy {
+      display: none;
+    }
+
+    body.preview-only .nav-item {
+      grid-template-columns: 24px minmax(0, 1fr);
+      place-items: initial;
+      padding: 8px 10px;
+      min-width: 0;
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(120px, 1fr));
+      gap: 12px;
+    }
+
+    .stat {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 14px;
+      background: #fff;
+      min-height: 88px;
+    }
+
+    .stat-label {
+      font-size: 12px;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .stat-value {
+      font-size: 26px;
+      font-weight: 700;
+      margin-top: 8px;
+    }
+
+    .stat-trend {
+      color: var(--success);
+      font-size: 12px;
+      margin-top: 4px;
+    }
+
+    .fig-ref {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 10px;
+      background: #fbfdff;
+      min-height: 184px;
+    }
+
+    .fig-ref img {
+      width: 100%;
+      max-height: 160px;
+      object-fit: contain;
+      display: block;
+      background: #111827;
+      border-radius: 6px;
+    }
+
+    .fig-caption {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 8px;
+    }
+
+    .page-preview-card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+      overflow: hidden;
+      min-height: 0;
+      width: 100%;
+      min-width: 0;
+    }
+
+    body.preview-only .page-preview-card {
+      border-radius: 0;
+      border-left: 0;
+      border-right: 0;
+    }
+
+    .page-preview-head {
+      min-height: 64px;
+      padding: 12px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      border-bottom: 1px solid var(--line);
+      background: #fff;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      box-shadow: 0 1px 0 rgba(0, 0, 0, 0.03);
+    }
+
+    body.preview-only .page-preview-head {
+      position: fixed;
+      top: 0;
+      left: var(--sidebar-width);
+      right: 0;
+      z-index: 50;
+    }
+
+    body.preview-only .app.nav-collapsed .page-preview-head {
+      left: var(--sidebar-collapsed-width);
+    }
+
+    .page-preview-title {
+      font-size: 18px;
+      font-weight: 650;
+      white-space: nowrap;
+    }
+
+    .preview-switcher {
+      display: inline-flex;
+      max-width: calc(100vw - var(--sidebar-width) - 148px);
+      overflow-x: auto;
+      gap: 2px;
+      padding: 2px;
+      border-radius: 10px;
+      background: #f4f4f5;
+      scrollbar-width: none;
+    }
+
+    .preview-switcher::-webkit-scrollbar {
+      display: none;
+    }
+
+    .preview-switcher button {
+      border: 0;
+      border-radius: 8px;
+      background: transparent;
+      flex: 0 0 auto;
+      min-height: 34px;
+      padding: 0 7px;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .preview-switcher button.active {
+      background: white;
+      color: var(--text);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+      font-weight: 650;
+    }
+
+    .preview-stage {
+      padding: 16px;
+      background: #fafafa;
+      overflow: auto;
+      max-height: none;
+      text-align: center;
+    }
+
+    body.preview-only .preview-stage {
+      padding-top: 80px;
+    }
+
+    .real-preview-image {
+      width: 960px;
+      max-width: 100%;
+      height: auto;
+      min-height: 0;
+      display: inline-block;
+      object-fit: contain;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: #fff;
+      image-rendering: auto;
+    }
+
+    .project-preview-frame {
+      width: 100%;
+      height: calc(100vh - 96px);
+      min-height: 760px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: #fff;
+      display: block;
+    }
+
+    .principles-panel {
+      max-width: 1120px;
+      margin: 0 auto;
+      text-align: left;
+      display: grid;
+      gap: 14px;
+    }
+
+    .principles-hero {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 22px 24px;
+    }
+
+    .principles-hero h2 {
+      margin: 0 0 8px;
+      font-size: 24px;
+      line-height: 1.35;
+    }
+
+    .principles-hero p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .principles-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .principle-card {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 18px;
+    }
+
+    .principle-card h3 {
+      margin: 0 0 8px;
+      font-size: 16px;
+    }
+
+    .principle-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .language-panel {
+      max-width: 1180px;
+      margin: 0 auto;
+      text-align: left;
+      display: grid;
+      gap: 12px;
+    }
+
+    .language-hero {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 22px 24px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .language-eyebrow {
+      color: var(--primary);
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .language-hero h2 {
+      margin: 0 0 8px;
+      font-size: 24px;
+      line-height: 1.35;
+    }
+
+    .language-hero p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.7;
+      max-width: 760px;
+    }
+
+    .language-hero-metric {
+      min-width: 210px;
+      border: 1px solid #d9e8ff;
+      background: #f3f8ff;
+      border-radius: 8px;
+      padding: 14px 16px;
+    }
+
+    .language-hero-metric strong {
+      display: block;
+      color: var(--primary);
+      font-size: 24px;
+      line-height: 1.2;
+      margin-bottom: 4px;
+    }
+
+    .language-hero-metric span {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .language-section {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 18px;
+    }
+
+    .language-section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 14px;
+    }
+
+    .language-section-title {
+      margin: 0;
+      font-size: 17px;
+      line-height: 1.4;
+    }
+
+    .language-section-kicker {
+      color: var(--weak);
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .flow-compare {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 12px;
+    }
+
+    .flow-column {
+      border: 1px solid #edf1f7;
+      border-radius: 8px;
+      background: #fbfcff;
+      padding: 16px;
+    }
+
+    .flow-column.ai {
+      border-color: #cfe3ff;
+      background: #f6faff;
+    }
+
+    .flow-column-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 14px;
+      font-weight: 600;
+    }
+
+    .language-badge {
+      display: inline-flex;
+      align-items: center;
+      height: 22px;
+      padding: 0 8px;
+      border-radius: 4px;
+      background: #f1f5f9;
+      color: #64748b;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .language-badge.blue {
+      background: var(--primary-bg);
+      color: var(--primary);
+    }
+
+    .flow-steps {
+      display: grid;
+      gap: 8px;
+    }
+
+    .flow-step {
+      display: grid;
+      grid-template-columns: 22px minmax(0, 1fr);
+      gap: 8px;
+      align-items: start;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .flow-step-mark {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: #eef2f7;
+      color: #64748b;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .flow-column.ai .flow-step-mark {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .direction-grid,
+    .input-mode-grid,
+    .principle-five-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .direction-card,
+    .input-mode-card,
+    .info-layer,
+    .quality-card,
+    .layout-choice-card,
+    .principle-five-card {
+      border: 1px solid #edf1f7;
+      border-radius: 8px;
+      background: #fbfcff;
+      padding: 16px;
+    }
+
+    .direction-card.primary,
+    .layout-choice-card.primary {
+      border-color: #cfe3ff;
+      background: #f6faff;
+    }
+
+    .direction-card h4,
+    .input-mode-card h4,
+    .info-layer h4,
+    .quality-card h4,
+    .layout-choice-card h4,
+    .principle-five-card h4 {
+      margin: 0 0 8px;
+      font-size: 15px;
+      line-height: 1.4;
+    }
+
+    .direction-card p,
+    .input-mode-card p,
+    .info-layer p,
+    .quality-card p,
+    .layout-choice-card p,
+    .principle-five-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    .keyword-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+
+    .keyword-pill {
+      display: inline-flex;
+      align-items: center;
+      height: 24px;
+      padding: 0 9px;
+      border-radius: 12px;
+      background: #eef6ff;
+      color: #2563eb;
+      font-size: 12px;
+    }
+
+    .input-mode-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .input-mode-index,
+    .principle-index {
+      width: 26px;
+      height: 26px;
+      border-radius: 6px;
+      display: grid;
+      place-items: center;
+      background: var(--primary-bg);
+      color: var(--primary);
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .layer-layout,
+    .quality-grid,
+    .layout-choice-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .info-layer {
+      display: grid;
+      grid-template-columns: 30px minmax(0, 1fr);
+      gap: 10px;
+      align-items: start;
+    }
+
+    .layer-number {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: #eef6ff;
+      color: var(--primary);
+      font-weight: 700;
+      font-size: 13px;
+    }
+
+    .quality-card.bad {
+      border-color: #ffd6d6;
+      background: #fff8f7;
+    }
+
+    .quality-card.good {
+      border-color: #bfe8cf;
+      background: #f7fcf8;
+    }
+
+    .quality-list {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.8;
+    }
+
+    .principle-five-grid {
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+    }
+
+    .language-verdict {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .language-verdict-card {
+      border: 1px solid #edf1f7;
+      border-radius: 8px;
+      background: #fff;
+      padding: 15px;
+      text-align: center;
+    }
+
+    .language-verdict-card strong {
+      display: block;
+      color: var(--primary);
+      font-size: 18px;
+      margin-bottom: 6px;
+    }
+
+    .language-verdict-card span {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 1100px) {
+      .language-hero,
+      .flow-compare,
+      .direction-grid,
+      .layer-layout,
+      .quality-grid,
+      .layout-choice-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .input-mode-grid,
+      .principle-five-grid,
+      .language-verdict {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    .mini-page {
+      height: 172px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: #ffffff;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .mini-brand {
+      position: absolute;
+      top: 10px;
+      left: 12px;
+      color: #3866e8;
+      font-weight: 700;
+      font-size: 10px;
+    }
+
+    .mini-side {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 58px;
+      height: 100%;
+      background: #fafafa;
+      border-right: 1px solid var(--line);
+    }
+
+    .mini-side .line {
+      height: 5px;
+      margin: 18px 9px 0;
+      border-radius: 5px;
+      background: #d8e1f5;
+    }
+
+    .mini-side .line:nth-child(2) { width: 34px; }
+    .mini-side .line:nth-child(3) { width: 26px; }
+    .mini-side .line:nth-child(4) { width: 38px; }
+
+    .mini-welcome-center {
+      position: absolute;
+      left: 104px;
+      right: 38px;
+      top: 54px;
+      text-align: center;
+    }
+
+    .mini-avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      margin: 0 auto 7px;
+      background: #f4f4f5;
+      border: 1px solid var(--line);
+      box-shadow: none;
+    }
+
+    .mini-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+
+    .mini-input {
+      height: 36px;
+      border: 1px solid #e5eaf3;
+      border-radius: 6px;
+      background: #fff;
+      box-shadow: 0 6px 16px rgba(31, 35, 41, 0.06);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 8px;
+      color: #a0a7b5;
+      font-size: 9px;
+    }
+
+    .mini-send {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #d8dee9;
+    }
+
+    .mini-chips {
+      display: flex;
+      justify-content: center;
+      gap: 5px;
+      margin-top: 8px;
+      flex-wrap: wrap;
+    }
+
+    .mini-chip {
+      width: 52px;
+      height: 8px;
+      border-radius: 8px;
+      background: rgba(255,255,255,.85);
+      border: 1px solid #e8edf5;
+    }
+
+    .mini-chat {
+      position: absolute;
+      inset: 0;
+      padding: 12px 64px;
+      background: #f8fafd;
+    }
+
+    .mini-chat-card {
+      width: 58%;
+      min-height: 84px;
+      margin: 26px auto 0;
+      border-radius: 7px;
+      background: #fff;
+      box-shadow: var(--shadow);
+      padding: 10px;
+      border: 1px solid #edf1f7;
+    }
+
+    .mini-chat-card .row {
+      height: 6px;
+      border-radius: 5px;
+      background: #dfe6f3;
+      margin-bottom: 7px;
+    }
+
+    .mini-chat-card .row.short { width: 68%; }
+
+    .mini-file {
+      height: 18px;
+      border-radius: 5px;
+      background: #f3f7ff;
+      border: 1px solid #e3ebfb;
+      margin-top: 8px;
+    }
+
+    .mini-bottom-input {
+      position: absolute;
+      left: 94px;
+      right: 94px;
+      bottom: 12px;
+      height: 28px;
+      border-radius: 7px;
+      background: #fff;
+      border: 1px solid #e4e9f2;
+    }
+
+    .mini-workbench {
+      position: absolute;
+      inset: 0;
+      background: #f6f8fb;
+      display: grid;
+      grid-template-columns: 78px 1fr;
+      gap: 0;
+    }
+
+    .mini-workbench-left {
+      padding: 16px 8px;
+      background: #fff;
+      border-right: 1px solid #edf1f7;
+    }
+
+    .mini-workbench-left .row {
+      height: 6px;
+      border-radius: 5px;
+      background: #dfe7f6;
+      margin-bottom: 8px;
+    }
+
+    .mini-report {
+      margin: 10px;
+      border-radius: 7px;
+      background: #fff;
+      border: 1px solid #e7ebf2;
+      box-shadow: var(--shadow);
+      padding: 10px 14px;
+    }
+
+    .mini-report-title {
+      text-align: center;
+      font-weight: 700;
+      font-size: 12px;
+      margin-bottom: 10px;
+    }
+
+    .mini-paragraph {
+      height: 5px;
+      border-radius: 5px;
+      background: #e2e8f2;
+      margin-bottom: 5px;
+    }
+
+    .mini-table {
+      margin-top: 9px;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      gap: 1px;
+      background: #edf1f7;
+      border: 1px solid #edf1f7;
+    }
+
+    .mini-table span {
+      height: 12px;
+      background: #fff;
+    }
+
+    .page-preview-caption {
+      padding: 16px 22px 18px;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.5;
+      background: #fff;
+      border-top: 1px solid var(--line);
+    }
+
+    .workspace {
+      display: grid;
+      grid-template-columns: 320px minmax(0, 1fr);
+      gap: 16px;
+      align-items: start;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .panel-head {
+      min-height: 48px;
+      padding: 0 16px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .panel-title {
+      font-size: 15px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .panel-body { padding: 16px; }
+
+    .page-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .page-card {
+      width: 100%;
+      border: 1px solid var(--line);
+      background: white;
+      border-radius: var(--radius);
+      padding: 12px;
+      cursor: pointer;
+      text-align: left;
+    }
+
+    .page-card:hover {
+      border-color: var(--primary-hover);
+      box-shadow: 0 4px 12px rgba(22, 119, 255, 0.12);
+    }
+
+    .page-card.active {
+      border-color: var(--primary);
+      background: var(--primary-bg);
+    }
+
+    .page-card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .page-name { font-size: 14px; font-weight: 600; }
+    .page-desc { margin-top: 8px; color: var(--muted); font-size: 12px; line-height: 1.6; }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 22px;
+      border-radius: 4px;
+      padding: 0 7px;
+      font-size: 12px;
+      color: #0958d9;
+      background: var(--primary-bg);
+      border: 1px solid #91caff;
+      white-space: nowrap;
+    }
+
+    .tag.green { color: #237804; background: #f6ffed; border-color: #b7eb8f; }
+    .tag.gold { color: #ad6800; background: #fffbe6; border-color: #ffe58f; }
+    .tag.red { color: #a8071a; background: #fff1f0; border-color: #ffa39e; }
+    .tag.gray { color: #595959; background: #fafafa; border-color: #d9d9d9; }
+
+    .tabs {
+      display: flex;
+      border-bottom: 1px solid var(--line);
+      padding: 0 16px;
+      gap: 22px;
+      background: #fff;
+    }
+
+    .tab {
+      height: 44px;
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      padding: 0;
+    }
+
+    .tab.active {
+      color: var(--primary);
+      border-bottom-color: var(--primary);
+      font-weight: 600;
+    }
+
+    .preview-shell {
+      padding: 16px;
+      background: #f7f9fc;
+    }
+
+    .mock-screen {
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: var(--radius);
+      overflow: hidden;
+      min-height: 470px;
+    }
+
+    .mock-header {
+      min-height: 54px;
+      border-bottom: 1px solid var(--line);
+      padding: 0 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .mock-title {
+      font-size: 16px;
+      font-weight: 650;
+    }
+
+    .mock-meta {
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 4px;
+    }
+
+    .segmented {
+      display: inline-grid;
+      grid-auto-flow: column;
+      background: #f0f2f5;
+      border-radius: 6px;
+      padding: 2px;
+      gap: 2px;
+    }
+
+    .segmented button {
+      border: 0;
+      border-radius: 5px;
+      background: transparent;
+      min-height: 28px;
+      padding: 0 12px;
+      cursor: pointer;
+      color: var(--muted);
+    }
+
+    .segmented button.active {
+      background: #fff;
+      color: var(--primary);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    }
+
+    .mock-body {
+      padding: 16px;
+      display: grid;
+      gap: 14px;
+    }
+
+    .assistant-bar {
+      border: 1px solid #91caff;
+      background: var(--primary-bg);
+      border-radius: var(--radius);
+      padding: 12px;
+      display: grid;
+      grid-template-columns: 30px minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .ai-dot {
+      width: 30px;
+      height: 30px;
+      display: grid;
+      place-items: center;
+      border-radius: 6px;
+      background: var(--primary);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .assistant-title { font-size: 14px; font-weight: 600; }
+    .assistant-desc { color: var(--muted); font-size: 12px; margin-top: 3px; }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .field label {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      margin-bottom: 6px;
+    }
+
+    .field input, .field select, .field textarea {
+      width: 100%;
+      border: 1px solid var(--line-strong);
+      border-radius: 6px;
+      min-height: 34px;
+      padding: 6px 10px;
+      background: #fff;
+      outline: none;
+    }
+
+    .field textarea {
+      min-height: 78px;
+      resize: vertical;
+    }
+
+    .field input:focus, .field select:focus, .field textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px rgba(22, 119, 255, 0.1);
+    }
+
+    .span-2 { grid-column: span 2; }
+    .span-3 { grid-column: span 3; }
+
+    .toolbar {
+      min-height: 42px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 8px 10px;
+      background: #fff;
+    }
+
+    .toolbar-left, .toolbar-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+      font-size: 13px;
+    }
+
+    th, td {
+      padding: 11px 12px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: middle;
+    }
+
+    th {
+      background: #fafafa;
+      color: #4b5563;
+      font-weight: 600;
+    }
+
+    tr:last-child td { border-bottom: 0; }
+    tbody tr:hover { background: #fafcff; }
+
+    .link {
+      color: var(--primary);
+      border: 0;
+      background: transparent;
+      cursor: pointer;
+      padding: 0;
+    }
+
+    .timeline {
+      display: grid;
+      gap: 12px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .timeline li {
+      display: grid;
+      grid-template-columns: 22px minmax(0, 1fr);
+      gap: 10px;
+    }
+
+    .time-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--primary);
+      margin: 5px auto 0;
+      box-shadow: 0 0 0 4px var(--primary-bg);
+    }
+
+    .time-title { font-weight: 600; font-size: 13px; }
+    .time-desc { color: var(--muted); font-size: 12px; margin-top: 4px; line-height: 1.6; }
+
+    .chart-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .chart-card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 14px;
+      background: #fff;
+      min-height: 180px;
+    }
+
+    .chart-title { font-size: 14px; font-weight: 600; margin-bottom: 14px; }
+    .bars { display: grid; gap: 10px; }
+    .bar-row { display: grid; grid-template-columns: 76px minmax(0, 1fr) 42px; gap: 10px; align-items: center; font-size: 12px; color: var(--muted); }
+    .bar-track { height: 9px; border-radius: 6px; background: #edf2f7; overflow: hidden; }
+    .bar-fill { height: 100%; background: var(--primary); border-radius: inherit; }
+
+    .donut {
+      width: 124px;
+      height: 124px;
+      border-radius: 50%;
+      background: conic-gradient(#1677ff 0 58%, #52c41a 58% 76%, #faad14 76% 91%, #ff4d4f 91% 100%);
+      position: relative;
+      margin: 8px auto 12px;
+    }
+
+    .donut::after {
+      content: "89%";
+      position: absolute;
+      inset: 22px;
+      border-radius: 50%;
+      background: white;
+      display: grid;
+      place-items: center;
+      font-weight: 700;
+      color: var(--primary);
+      font-size: 22px;
+    }
+
+    .drawer {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: min(520px, 100vw);
+      height: 100vh;
+      background: white;
+      border-left: 1px solid var(--line);
+      box-shadow: -12px 0 30px rgba(15, 23, 42, 0.16);
+      transform: translateX(104%);
+      transition: transform 0.22s ease;
+      z-index: 20;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .drawer.open { transform: translateX(0); }
+
+    .drawer-head {
+      height: 58px;
+      padding: 0 16px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .drawer-body {
+      padding: 16px;
+      overflow: auto;
+      display: grid;
+      gap: 14px;
+    }
+
+    .mask {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.26);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.22s ease;
+      z-index: 19;
+    }
+
+    .mask.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .toast {
+      position: fixed;
+      top: 74px;
+      right: 24px;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 10px 14px;
+      z-index: 30;
+      transform: translateY(-12px);
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.2s ease;
+      color: var(--text);
+      font-size: 13px;
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    @media (max-width: 1080px) {
+      .app { grid-template-columns: 76px minmax(0, 1fr); }
+      body.preview-only .app { grid-template-columns: var(--sidebar-width) minmax(0, 1fr); }
+      body.preview-only .app.nav-collapsed { grid-template-columns: var(--sidebar-collapsed-width) minmax(0, 1fr); }
+      .brand-copy, .menu-group-title, .nav-text { display: none; }
+      body.preview-only .app:not(.nav-collapsed) .brand-copy,
+      body.preview-only .app:not(.nav-collapsed) .nav-text {
+        display: grid;
+      }
+      body.preview-only .app:not(.nav-collapsed) .menu-group-title {
+        display: flex;
+      }
+      .nav-item { grid-template-columns: 1fr; place-items: center; padding: 10px; }
+      body.preview-only .app:not(.nav-collapsed) .nav-item {
+        grid-template-columns: 24px minmax(0, 1fr);
+        place-items: initial;
+        padding: 8px 10px;
+      }
+      .hero-body, .workspace { grid-template-columns: 1fr; }
+      .summary-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .input { width: 180px; }
+    }
+
+    @media (max-width: 720px) {
+      .app { display: block; }
+      body.preview-only .app {
+        display: grid;
+        grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
+      }
+      body.preview-only .app.nav-collapsed {
+        grid-template-columns: var(--sidebar-collapsed-width) minmax(0, 1fr);
+      }
+      .sidebar {
+        position: static;
+        height: auto;
+        display: flex;
+        gap: 6px;
+        overflow-x: auto;
+        padding: 10px;
+      }
+      .brand, .menu-group-title { display: none; }
+      body.preview-only .sidebar {
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        display: block;
+        overflow: auto;
+        padding: 18px 12px;
+      }
+      body.preview-only .brand {
+        display: flex;
+      }
+      body.preview-only .app.nav-collapsed .brand {
+        justify-content: center;
+      }
+      body.preview-only .menu-group-title {
+        display: flex;
+      }
+      body.preview-only .app.nav-collapsed .menu-group-title,
+      body.preview-only .app.nav-collapsed .brand-copy,
+      body.preview-only .app.nav-collapsed .nav-text {
+        display: none;
+      }
+      .nav-item { min-width: 64px; margin: 0; }
+      .topbar { padding: 0 12px; }
+      .top-actions .input, .top-actions .btn:not(.primary) { display: none; }
+      .content { padding: 12px; }
+      .summary-grid, .form-grid, .chart-grid { grid-template-columns: 1fr; }
+      .span-2, .span-3 { grid-column: auto; }
+      .toolbar { align-items: stretch; flex-direction: column; }
+      .mock-header { align-items: flex-start; flex-direction: column; padding: 12px 16px; }
+      .real-preview-image {
+        width: auto;
+        height: auto;
+        min-height: 0;
+      }
+      table { min-width: 680px; }
+      .table-scroll { overflow: auto; }
+    }
+  </style>
+</head>
+<body class="preview-only">
+  <div class="app" id="appShell">
+    <aside class="sidebar" aria-label="页面分类">
+      <div class="brand">
+        <div class="brand-main">
+          <div class="brand-mark">AI</div>
+          <div class="brand-copy">
+            <div class="brand-title">AI产品设计系统</div>
+            <div class="brand-subtitle">Honeycomb Design X AI</div>
+          </div>
+        </div>
+        <button class="nav-toggle" id="navToggle" type="button" aria-label="收起左侧导航" title="收起左侧导航"></button>
+      </div>
+      <div id="nav"></div>
+    </aside>
+
+    <main>
+      <header class="topbar">
+        <div class="crumbs">
+          <span>原型</span>
+          <span>/</span>
+          <span class="crumb-current" id="crumb">AI Native</span>
+          <span class="crumb-note" id="crumbNote"></span>
+        </div>
+        <div class="top-actions">
+          <input class="input" id="globalSearch" placeholder="搜索页面、能力或字段" />
+          <button class="btn" id="previewBtn" type="button">全局预览</button>
+          <button class="btn primary" id="submitBtn" type="button">模拟提交</button>
+        </div>
+      </header>
+
+      <section class="content">
+        <section class="hero">
+          <div class="hero-body">
+            <div class="page-preview-card" id="pagePreview"></div>
+          </div>
+        </section>
+      </section>
+    </main>
+  </div>
+
+  <div class="mask" id="mask"></div>
+  <aside class="drawer" id="drawer" aria-label="详情抽屉">
+    <div class="drawer-head">
+      <strong id="drawerTitle">详情</strong>
+      <button class="btn" id="closeDrawer" type="button">关闭</button>
+    </div>
+    <div class="drawer-body" id="drawerBody"></div>
+  </aside>
+  <div class="toast" id="toast">操作已完成</div>
+
+  <script>
+    const sections = [
+      {
+        id: "frame-selector",
+        group: "设计原则",
+        label: "设计原则",
+        note: "判断矩阵与流程",
+        iconKey: "dashboard",
+        tag: "框架选型 2.0",
+        stats: [["框架", "3", "可选"], ["问题", "3", "判断"], ["矩阵", "1", "核心"], ["误区", "3", "规避"]],
+        pages: [
+          { name: "三个问题选框架", type: "table", status: "可用", desc: "看 AI 是否主导任务、是否需要持续上下文、是否需要集中工作台。" },
+          { name: "框架选型流程", type: "flow", status: "可用", desc: "从任务主导权、资料对照、触发频次推导最佳框架。" },
+          { name: "常见误区", type: "analysis", status: "可用", desc: "避免把所有 AI 功能都做成聊天框或按钮。" }
+        ]
+      },
+      {
+        id: "frame-sidebar",
+        group: "框架选型",
+        label: "侧边栏模式",
+        note: "用户主导·轻重两种形态",
+        iconKey: "work-order",
+        tag: "PRD-02",
+        stats: [["主导", "用户", "业务页"], ["形态", "2", "辅助"], ["对照", "原文", "表单"], ["适用", "审查", "补录"]],
+        pages: [
+          { name: "形态 A：侧边栏", type: "native", status: "可用", desc: "用户在业务页完成主操作，AI 在侧边提供解释、建议和证据。" },
+          { name: "形态 B：按钮触发", type: "entry", status: "可用", desc: "在单个字段、文本域或表格单元格上触发轻量 AI 辅助。" },
+          { name: "选择判断与边界", type: "flow", status: "可用", desc: "持续辅助用侧边栏，单点辅助用按钮触发，复杂任务升级到工作台。" }
+        ]
+      },
+      {
+        id: "frame-workbench",
+        group: "框架选型",
+        label: "AI Native模式",
+        note: "AI 主导·集中处理",
+        iconKey: "home",
+        tag: "PRD-01",
+        stats: [["主导", "AI", "任务"], ["布局", "三栏", "典型"], ["历史", "保留", "上下文"], ["适用", "批量", "集中"]],
+        pages: [
+          { name: "AI Native模式", type: "native", status: "可用", desc: "AI 是主角，适合主动、集中、批量的录入或生成任务。" },
+          { name: "工作台布局规范", type: "flow", status: "可用", desc: "左侧历史、中间对话、右侧任务/报告/证据协同。" },
+          { name: "合同录入 Agent 示例", type: "form", status: "可用", desc: "用户上传合同，AI 完成字段识别、校验和确认交接。" }
+        ]
+      },
+      {
+        id: "ux-input",
+        group: "交互规范",
+        label: "用户输入设计",
+        note: "上传·选择·触发·确认",
+        iconKey: "lead",
+        tag: "交互规范 3.1",
+        stats: [["输入", "4", "形式"], ["上下文", "文件", "优先"], ["控制", "明确", "动作"], ["确认", "推荐值", "依据"]],
+        pages: [
+          { name: "上传文件", type: "entry", status: "可用", desc: "把合同、招标文件、通知书等上下文交给 AI。" },
+          { name: "选择与触发", type: "form", status: "可用", desc: "用稳定选项和明确动作降低自由输入误差。" },
+          { name: "确认推荐值", type: "audit", status: "可用", desc: "AI 给出推荐值和依据，用户判断采纳或修正。" }
+        ]
+      },
+      {
+        id: "ux-visibility",
+        group: "交互规范",
+        label: "AI 执行可见性",
+        note: "四层信息·进度状态",
+        iconKey: "business-data",
+        tag: "交互规范 3.2",
+        stats: [["层级", "4", "信息"], ["状态", "可见", "必要"], ["证据", "来源", "可查"], ["等待", "透明", "减少焦虑"]],
+        pages: [
+          { name: "用户消息与 AI 回应", type: "native", status: "可用", desc: "让用户知道 AI 理解了什么、准备做什么。" },
+          { name: "工具运行状态", type: "flow", status: "可用", desc: "展示读取文件、抽取字段、匹配规则等关键过程。" },
+          { name: "操作卡片", type: "audit", status: "可用", desc: "需要人工判断时推出具体卡片，每次只聚焦一个决策点。" }
+        ]
+      },
+      {
+        id: "ux-result",
+        group: "交互规范",
+        label: "结果呈现规范",
+        note: "低·强·极强介入",
+        iconKey: "log",
+        tag: "交互规范 3.3",
+        stats: [["HITL", "3级", "强度"], ["结果", "分层", "呈现"], ["风险", "优先", "暴露"], ["动作", "可操作", "闭环"]],
+        pages: [
+          { name: "低介入结果", type: "analysis", status: "可用", desc: "高置信输出直接呈现摘要、趋势或自动填充结果。" },
+          { name: "强介入结果", type: "audit", status: "可用", desc: "中风险内容需要用户确认、修正或补充说明。" },
+          { name: "极强介入结果", type: "flow", status: "可用", desc: "高风险结论需要明确责任、证据和审批动作。" }
+        ]
+      },
+      {
+        id: "ux-handoff",
+        group: "交互规范",
+        label: "确认交接规范",
+        note: "推荐值·来源·卡片",
+        iconKey: "contract",
+        tag: "交互规范 3.4",
+        stats: [["推荐", "值+依据", "必须"], ["确认", "一步", "完成"], ["来源", "可回看", "可信"], ["交接", "责任", "清晰"]],
+        pages: [
+          { name: "推荐值卡片", type: "form", status: "可用", desc: "不是扔空框给用户，而是把用户带到最后一步。" },
+          { name: "来源与置信度", type: "table", status: "可用", desc: "明确字段来自哪份文件、哪段文本、可信度如何。" },
+          { name: "确认动作", type: "audit", status: "可用", desc: "采纳、修正、忽略、发起复核等动作必须就近可用。" }
+        ]
+      },
+      {
+        id: "ux-loop",
+        group: "交互规范",
+        label: "闭环追问规范",
+        note: "质疑·依据·修正",
+        iconKey: "permission",
+        tag: "交互规范 3.5",
+        stats: [["追问", "支持", "闭环"], ["依据", "可解释", "必要"], ["修正", "可反馈", "学习"], ["信任", "增强", "长期"]],
+        pages: [
+          { name: "质疑 AI 结论", type: "native", status: "可用", desc: "用户可以问为什么，AI 必须给出依据而非重复结论。" },
+          { name: "证据展开", type: "audit", status: "可用", desc: "从结论回到原文、规则、字段或历史记录。" },
+          { name: "修正反馈", type: "flow", status: "可用", desc: "用户修正后，AI 更新结果并保留变化原因。" }
+        ]
+      }
+    ];
+
+    const state = {
+      sectionIndex: 0,
+      pageIndex: 0,
+      tab: "preview",
+      mode: "标准",
+      previewIndex: 0,
+      navCollapsed: false,
+      expandedGroups: {}
+    };
+
+    const appShell = document.querySelector("#appShell");
+    const nav = document.querySelector("#nav");
+    const navToggle = document.querySelector("#navToggle");
+    const pagePreview = document.querySelector("#pagePreview");
+    const canvas = document.querySelector("#canvas");
+    const sectionTitle = document.querySelector("#sectionTitle");
+    const sectionTag = document.querySelector("#sectionTag");
+    const summaryGrid = document.querySelector("#summaryGrid");
+    const pageCount = document.querySelector("#pageCount");
+    const crumb = document.querySelector("#crumb");
+    const crumbNote = document.querySelector("#crumbNote");
+    const toast = document.querySelector("#toast");
+    const drawer = document.querySelector("#drawer");
+    const mask = document.querySelector("#mask");
+    const drawerTitle = document.querySelector("#drawerTitle");
+    const drawerBody = document.querySelector("#drawerBody");
+
+    function currentSection() {
+      return sections[state.sectionIndex];
+    }
+
+    function currentPage() {
+      return currentSection().pages[state.pageIndex];
+    }
+
+    function statusTag(status) {
+      const cls = status.includes("待") ? "gold" : status.includes("风险") ? "red" : status.includes("可用") || status.includes("运行") ? "green" : "";
+      return `<span class="tag ${cls}">${status}</span>`;
+    }
+
+    function navIcon(iconKey) {
+      const key = iconKey || "dashboard";
+      const source = `assets/icons/navigation/svg/${key}.svg`;
+      return `<span class="nav-icon ni-ic" data-icon-key="${key}" data-icon-source="${source}"><img class="ni-img" src="${source}" alt=""></span>`;
+    }
+
+    function lineIcon(name) {
+      const paths = {
+        left: '<path d="M10 4 6 8l4 4"></path>',
+        right: '<path d="m6 4 4 4-4 4"></path>',
+        down: '<path d="m4 6 4 4 4-4"></path>',
+        panel: '<rect x="2.5" y="2.5" width="11" height="11" rx="1.5"></rect><path d="M6.5 2.5v11"></path>'
+      };
+      return `<svg class="line-icon" viewBox="0 0 16 16" aria-hidden="true">${paths[name] || paths.down}</svg>`;
+    }
+
+    function renderNav() {
+      const groups = [];
+      sections.forEach((section, index) => {
+        let group = groups.find(item => item.name === section.group);
+        if (!group) {
+          group = { name: section.group, items: [] };
+          groups.push(group);
+        }
+        group.items.push({ section, index });
+      });
+
+      groups.forEach(group => {
+        if (state.expandedGroups[group.name] === undefined) {
+          state.expandedGroups[group.name] = true;
+        }
+      });
+      state.expandedGroups[currentSection().group] = true;
+
+      nav.innerHTML = groups.map(group => {
+        const collapsed = !state.expandedGroups[group.name];
+        return `
+          <button class="menu-group-title ${collapsed ? "collapsed" : ""}" type="button" data-group="${group.name}" aria-expanded="${!collapsed}">
+            <span>${group.name}</span>
+            <span class="group-arrow">${lineIcon("down")}</span>
+          </button>
+          <div class="nav-group ${collapsed ? "collapsed" : ""}">
+            <div class="nav-group-inner">
+              ${group.items.map(({ section, index }) => `
+                <button class="nav-item ${index === state.sectionIndex ? "active" : ""}" type="button" data-section="${index}">
+                  ${navIcon(section.iconKey)}
+                  <span class="nav-text">
+                    <span class="nav-label">${section.label}</span>
+                  </span>
+                </button>
+              `).join("")}
+            </div>
+          </div>
+        `;
+      }).join("");
+
+      nav.querySelectorAll(".menu-group-title").forEach(button => {
+        button.addEventListener("click", () => {
+          const group = button.dataset.group;
+          state.expandedGroups[group] = !state.expandedGroups[group];
+          renderNav();
+        });
+      });
+
+      nav.querySelectorAll(".nav-item").forEach(button => {
+        button.addEventListener("click", () => {
+          state.sectionIndex = Number(button.dataset.section);
+          state.expandedGroups[currentSection().group] = true;
+          state.pageIndex = 0;
+          state.tab = "preview";
+          state.previewIndex = 0;
+          render();
+        });
+      });
+    }
+
+    function renderHeader() {
+      const section = currentSection();
+      crumb.textContent = section.label;
+      if (crumbNote) crumbNote.textContent = section.note || "";
+      renderPagePreview();
+    }
+
+    function renderPagePreview() {
+      const sitePage = (id, panel = "") => `assets/site-pages.html?embed=1&v=20260523-nav${panel ? `&panel=${panel}` : ""}#${id}`;
+      const previewSets = {
+        "frame-selector": [
+          { label: "设计原则", frame: sitePage("p-frame-0") }
+        ],
+        "frame-workbench": [
+          { label: "AI 原生模式", frame: "assets/ai-native-mode-demo/index.html?v=clean-20260522" },
+          { label: "设计理念", frame: sitePage("p-frame-1", "frame-native-overview") }
+        ],
+        "frame-sidebar": [
+          { label: "侧边栏", frame: "assets/payment-application-review-demo/index.html?shell=sidebar" },
+          { label: "设计理念", frame: sitePage("p-frame-2", "frame-side-overview") }
+        ],
+        "ux-input": [
+          { label: "用户输入设计", frame: sitePage("p-ux-1") }
+        ],
+        "ux-visibility": [
+          { label: "AI 执行可见性", frame: sitePage("p-ux-2") }
+        ],
+        "ux-result": [
+          { label: "结果呈现规范", frame: sitePage("p-ux-3") }
+        ],
+        "ux-handoff": [
+          { label: "确认交接规范", frame: sitePage("p-ux-4") }
+        ],
+        "ux-loop": [
+          { label: "闭环追问规范", frame: sitePage("p-ux-5") }
+        ]
+      };
+      const section = currentSection();
+      const previews = previewSets[section.id] || previewSets["frame-selector"];
+      if (state.previewIndex >= previews.length) state.previewIndex = 0;
+      const active = previews[state.previewIndex];
+      const previewTitle = section.group;
+      const switcher = previews.length > 1 ? `
+          <div class="preview-switcher">
+            ${previews.map((item, index) => `<button class="${index === state.previewIndex ? "active" : ""}" type="button" data-preview="${index}">${previewName(item)}</button>`).join("")}
+          </div>
+        ` : "";
+      pagePreview.innerHTML = `
+        <div class="page-preview-head">
+          <div class="page-preview-title">${previewTitle}</div>
+          ${switcher}
+        </div>
+        <div class="preview-stage">
+          ${renderMiniPreview(active)}
+        </div>
+      `;
+      scalePreviewImage();
+      pagePreview.querySelectorAll("[data-preview]").forEach(button => {
+        button.addEventListener("click", () => {
+          state.previewIndex = Number(button.dataset.preview);
+          renderPagePreview();
+          const stage = pagePreview.querySelector(".preview-stage");
+          if (stage) stage.scrollTo({ top: 0, left: 0 });
+        });
+      });
+    }
+
+    function renderMiniPreview(preview) {
+      if (preview && preview.type === "design-language") {
+        return renderDesignLanguage(preview);
+      }
+      if (preview && preview.type === "planning") {
+        return renderPlanningPreview(preview);
+      }
+      if (preview && preview.type === "principles") {
+        return renderDesignPrinciples();
+      }
+      if (preview && preview.type === "audit-principles") {
+        return renderAuditPrinciples();
+      }
+      if (preview && preview.frame) {
+        return `<iframe class="project-preview-frame" src="${encodeURI(preview.frame)}" title="${previewName(preview)}"></iframe>`;
+      }
+      if (preview && preview.src) {
+        return `<img class="real-preview-image" src="${encodeURI(preview.src)}" alt="${previewName(preview)} 真实设计稿预览" />`;
+      }
+      return "";
+    }
+
+    function renderPlanningPreview(preview = {}) {
+      const cards = {
+        decision: {
+          title: "三层设计决策",
+          subtitle: "产品经理先定框架，设计师再定过程和组件。",
+          items: [
+            ["框架选型", "这个 AI 功能应该放在全屏工作台、侧边栏，还是局部按钮？"],
+            ["过程设计", "用户输入、AI 执行、结果呈现、确认交接和追问闭环如何串起来？"],
+            ["组件规范", "对话、进度、证据、推荐值、确认动作如何统一落地？"]
+          ]
+        },
+        matrix: {
+          title: "框架判断矩阵",
+          subtitle: "用三个问题快速判断 AI 交互框架。",
+          items: [
+            ["AI 是否主导任务", "是：倾向全屏 Agent；否：看是否依附业务页。"],
+            ["是否需要持续上下文", "需要文件、历史、结果长时间共存时，用工作台或侧边栏。"],
+            ["用户是否仍在主页面操作", "仍以业务页面为主时，优先侧边栏助手或局部按钮。"]
+          ]
+        },
+        selector: {
+          title: "框架选型流程",
+          subtitle: "从任务主导权到界面承载方式逐步收敛。",
+          items: [
+            ["集中批量任务", "AI Native模式承载完整任务流。"],
+            ["边看边处理", "侧边栏助手保持原文、表单和建议同屏。"],
+            ["单点轻量辅助", "局部 AI 按钮只处理当前字段或文本。"]
+          ]
+        },
+        workbench: {
+          title: "AI Native模式",
+          subtitle: "AI 主导完整任务，适合录入、生成、批量处理。",
+          items: [
+            ["左侧历史", "保留任务、会话和上下文。"],
+            ["中间对话", "展示用户输入、AI 执行状态和追问。"],
+            ["右侧工作区", "承载表单、报告、证据和确认动作。"]
+          ]
+        },
+        sidebar: {
+          title: "侧边栏助手模式",
+          subtitle: "用户主导业务页，AI 在旁边解释、建议、找证据。",
+          items: [
+            ["不打断主流程", "业务页面不跳转，助手作为增强层出现。"],
+            ["同屏对照", "适合原文、规则、字段和结论之间反复确认。"],
+            ["可收起可追问", "保持任务上下文，但不强占主界面。"]
+          ]
+        },
+        button: {
+          title: "局部 AI 按钮",
+          subtitle: "轻量触发，解决一个字段、一段文本、一个动作。",
+          items: [
+            ["低风险", "适合润色、摘要、推荐选项等辅助动作。"],
+            ["低上下文", "只依赖当前字段或附近内容。"],
+            ["可升级", "复杂任务不要硬塞按钮，升级为侧边栏或工作台。"]
+          ]
+        },
+        handoff: {
+          title: "确认交接",
+          subtitle: "AI 不把空框丢给用户，而是帮用户做到最后一步。",
+          items: [
+            ["推荐值", "给出建议值、来源和置信度。"],
+            ["确认动作", "采纳、修正、忽略、复核就近出现。"],
+            ["责任边界", "AI 负责整理和推荐，用户负责最终确认。"]
+          ]
+        },
+        loop: {
+          title: "闭环追问",
+          subtitle: "用户可以质疑 AI，AI 必须给依据并支持修正。",
+          items: [
+            ["可质疑", "为什么这样判断？来源在哪里？"],
+            ["可展开", "结论能回到原文、规则、字段和历史记录。"],
+            ["可修正", "用户修正后，AI 更新结论并保留变化原因。"]
+          ]
+        }
+      };
+      const card = cards[preview.view] || cards.decision;
+      return `
+        <section class="principles-panel">
+          <div class="principles-hero">
+            <h2>${card.title}</h2>
+            <p>${card.subtitle}</p>
+          </div>
+          <div class="principles-grid">
+            ${card.items.map(([title, desc]) => `
+              <article class="principle-card">
+                <h3>${title}</h3>
+                <p>${desc}</p>
+              </article>
+            `).join("")}
+          </div>
+        </section>
+      `;
+    }
+
+    function renderDesignLanguage(preview = {}) {
+      const inputs = [
+        ["上传文件", "把合同、招标文件、通知书等上下文交给 AI，用户不再逐字段抄录。"],
+        ["选择选项", "AI 给出稳定选项，用户选择业务意图和处理类型，减少自由输入误差。"],
+        ["触发动作", "由用户明确启动识别、解析、审核、生成等关键动作，保留控制感。"],
+        ["确认推荐值", "AI 已经给出推荐值和依据，用户只判断是否采纳或修正。"]
+      ];
+      const layers = [
+        ["用户消息", "用户说了什么、上传了什么，让 AI 的工作上下文对用户透明。"],
+        ["AI 回应", "AI 理解了什么、准备做什么、进行到哪一步，避免沉默等待。"],
+        ["工具运行状态", "透传读了哪个字段、来自哪个文件和页码，让过程有据可查。"],
+        ["操作卡片", "需要人工判断时推出具体卡片，每次只聚焦一个决策点。"]
+      ];
+      const principles = [
+        ["输入原则", "用户交付的是上下文，不是字段。设计起点是用户把什么信息交给 AI。"],
+        ["可见性原则", "AI 工作过程必须可感知，用户要知道 AI 在认真处理。"],
+        ["交接原则", "AI 自动完成确定性工作，人类负责最终责任和高风险确认。"],
+        ["位置原则", "AI 放在哪，取决于用户需要同时看什么。"],
+        ["闭环原则", "用户可以质疑 AI，AI 必须给出依据并允许修正。"]
+      ];
+
+      const diagrams = {
+        flow: `
+          <article class="language-section">
+            <div class="language-section-head">
+              <h3 class="language-section-title">从页面流到协作流</h3>
+              <span class="language-section-kicker">用户填字段 → AI 处理上下文</span>
+            </div>
+            <div class="flow-compare">
+              <div class="flow-column">
+                <div class="flow-column-title">以前 · 页面流 <span class="language-badge">工具模式</span></div>
+                <div class="flow-steps">
+                  <div class="flow-step"><span class="flow-step-mark">1</span><span>打开合同登记表单</span></div>
+                  <div class="flow-step"><span class="flow-step-mark">2</span><span>对照文件逐字段填写，25 个字段需要 15 到 30 分钟</span></div>
+                  <div class="flow-step"><span class="flow-step-mark">3</span><span>用户自行检查后保存提交</span></div>
+                </div>
+              </div>
+              <div class="flow-column ai">
+                <div class="flow-column-title">现在 · 协作流 <span class="language-badge blue">AI 参与者</span></div>
+                <div class="flow-steps">
+                  <div class="flow-step"><span class="flow-step-mark">1</span><span>用户上传合同文件，交付完整上下文</span></div>
+                  <div class="flow-step"><span class="flow-step-mark">2</span><span>AI 解析关键字段并完成内容检查</span></div>
+                  <div class="flow-step"><span class="flow-step-mark">3</span><span>用户只确认不确定字段，再发起审批</span></div>
+                </div>
+              </div>
+            </div>
+          </article>
+        `,
+        direction: `
+          <article class="language-section">
+            <div class="language-section-head">
+              <h3 class="language-section-title">人机协作的两个设计方向</h3>
+              <span class="language-section-kicker">Human → AI / AI → Human</span>
+            </div>
+            <div class="direction-grid">
+              <div class="direction-card">
+                <h4>用户怎么和 AI 交互</h4>
+                <div class="keyword-row">
+                  ${["表达", "控制", "确认", "纠错", "信任"].map(item => `<span class="keyword-pill">${item}</span>`).join("")}
+                </div>
+                <p>设计用户如何把信息交给 AI、如何知道 AI 是否理解、如何限定执行范围，以及在高风险动作前如何确认。</p>
+              </div>
+              <div class="direction-card primary">
+                <h4>AI 怎么和用户交互</h4>
+                <div class="keyword-row">
+                  ${["呈现", "引导", "推荐", "证据", "边界"].map(item => `<span class="keyword-pill">${item}</span>`).join("")}
+                </div>
+                <p>设计 AI 如何展示执行过程、何时给结论或卡片、如何给推荐值，以及需要人工介入时如何把用户带到下一步。</p>
+              </div>
+            </div>
+          </article>
+        `,
+        input: `
+          <article class="language-section">
+            <div class="language-section-head">
+              <h3 class="language-section-title">用户输入的四种形式</h3>
+              <span class="language-section-kicker">不是打字，而是交信息</span>
+            </div>
+            <div class="input-mode-grid">
+              ${inputs.map(([title, desc], index) => `
+                <div class="input-mode-card">
+                  <div class="input-mode-index">${index + 1}</div>
+                  <h4>${title}</h4>
+                  <p>${desc}</p>
+                </div>
+              `).join("")}
+            </div>
+          </article>
+        `,
+        layers: `
+          <article class="language-section">
+            <div class="language-section-head">
+              <h3 class="language-section-title">对话面板的四层信息</h3>
+              <span class="language-section-kicker">让 AI 干活可见，而不是黑盒</span>
+            </div>
+            <div class="layer-layout">
+              ${layers.map(([title, desc], index) => `
+                <div class="info-layer">
+                  <span class="layer-number">${index + 1}</span>
+                  <div>
+                    <h4>${title}</h4>
+                    <p>${desc}</p>
+                  </div>
+                </div>
+              `).join("")}
+            </div>
+          </article>
+        `,
+        quality: `
+          <article class="language-section">
+            <div class="language-section-head">
+              <h3 class="language-section-title">AI 输出要带用户走完最后一步</h3>
+              <span class="language-section-kicker">结论必须可解释、可确认、可操作</span>
+            </div>
+            <div class="quality-grid">
+              <div class="quality-card bad">
+                <h4>低级 AI 交互</h4>
+                <ul class="quality-list">
+                  <li>只提示解析完成，再把整张表单交给用户检查</li>
+                  <li>给空框，让用户从零填写</li>
+                  <li>不说明数据来源，用户无法判断可信度</li>
+                  <li>检查结果只给总结，不指出具体问题</li>
+                </ul>
+              </div>
+              <div class="quality-card good">
+                <h4>好的 AI 交互</h4>
+                <ul class="quality-list">
+                  <li>确定字段直接填好，只标出不确定项</li>
+                  <li>给推荐值、依据和置信度，不让用户猜</li>
+                  <li>把完整性、准确性、合规性分类呈现</li>
+                  <li>明确告诉用户现在只需要确认哪一步</li>
+                </ul>
+              </div>
+            </div>
+          </article>
+        `,
+        layout: `
+          <article class="language-section">
+            <div class="language-section-head">
+              <h3 class="language-section-title">工作台模式与侧边栏模式</h3>
+              <span class="language-section-kicker">判断标准：用户需要同时看什么</span>
+            </div>
+            <div class="layout-choice-grid">
+              <div class="layout-choice-card primary">
+                <h4>全屏 Agent 模式</h4>
+                <p>AI 是主角，适合主动、集中、批量的录入或生成任务。用户主要看 AI 处理结果、异常项和最终确认动作。</p>
+              </div>
+              <div class="layout-choice-card">
+                <h4>侧边栏助手模式</h4>
+                <p>用户是主角，AI 在旁边辅助。适合在原始文件、业务表单和 AI 建议之间来回对照，不打断主操作流程。</p>
+              </div>
+            </div>
+          </article>
+        `,
+        principles: `
+          <article class="language-section">
+            <div class="language-section-head">
+              <h3 class="language-section-title">AI UED 五原则</h3>
+              <span class="language-section-kicker">判断协作过程是否设计清楚</span>
+            </div>
+            <div class="principle-five-grid">
+              ${principles.map(([title, desc], index) => `
+                <div class="principle-five-card">
+                  <div class="principle-index">${String(index + 1).padStart(2, "0")}</div>
+                  <h4>${title}</h4>
+                  <p>${desc}</p>
+                </div>
+              `).join("")}
+            </div>
+            <div class="language-verdict">
+              <div class="language-verdict-card"><strong>确认越少</strong><span>说明 AI 对上下文消化得越彻底。</span></div>
+              <div class="language-verdict-card"><strong>卡片越少</strong><span>说明协作流越清楚，而不是功能堆砌。</span></div>
+              <div class="language-verdict-card"><strong>干预越少</strong><span>说明人机交接边界越明确。</span></div>
+            </div>
+          </article>
+        `
+      };
+
+      return `
+        <section class="language-panel">
+          ${diagrams[preview.diagram] || diagrams.flow}
+        </section>
+      `;
+    }
+
+    function renderDesignPrinciples() {
+      const items = [
+        ["任务即入口", "组合场景不再先展示说明页，而是直接进入用户最需要处理的业务任务，例如成本审核控价的审核报告与证据面板。"],
+        ["过程可追溯", "在对话、左侧历史、右侧报告之间保留同一任务上下文，让用户能看到从文件、指标、对标到结论的完整链路。"],
+        ["结果可操作", "每个 AI 结论都需要落到可确认、可展开、可追问、可导出的操作点，避免只给摘要不支持业务闭环。"],
+        ["多能力协同", "用查询、录入、审核、分析、报告组成同一个流程，而不是把 AI 能力拆成孤立页面。"],
+        ["人机分工清晰", "AI 负责识别异常、生成证据和推荐动作；用户负责确认关键判断、补充业务口径并提交最终结果。"],
+        ["界面不打断", "右侧报告、对话输入和历史任务共存，用户切换信息时不丢失当前审查进度。"]
+      ];
+      return `
+        <section class="principles-panel">
+          <div class="principles-hero">
+            <h2>组合场景设计原则</h2>
+            <p>围绕“成本审核控价”这类跨模块任务，把查询、文件解析、指标分析、风险审查和报告输出组织成一个连续工作流。</p>
+          </div>
+          <div class="principles-grid">
+            ${items.map(([title, desc]) => `
+              <article class="principle-card">
+                <h3>${title}</h3>
+                <p>${desc}</p>
+              </article>
+            `).join("")}
+          </div>
+        </section>
+      `;
+    }
+
+    function renderAuditPrinciples() {
+      const items = [
+        ["风险先行", "审核页先暴露高风险、待确认和阻断项，再展开普通通过项，让用户优先处理真正影响审批的内容。"],
+        ["证据同屏", "每条结论必须能回到原文、条款、字段或规则来源，避免只有判断没有依据。"],
+        ["分级处置", "把风险拆成通过、提示、待确认、阻断等等级，并匹配确认、修正、忽略、发起复核等动作。"],
+        ["人机交接", "AI 负责初筛、比对、归因和建议；用户负责最终判断、例外说明和审批责任。"],
+        ["过程留痕", "保留识别、命中规则、人工修改、确认意见和时间节点，支持后续追溯与复盘。"],
+        ["不打断主流程", "审核建议可以在右侧、抽屉或卡片中展开，用户处理风险时不丢失当前合同或招标书上下文。"]
+      ];
+      return `
+        <section class="principles-panel">
+          <div class="principles-hero">
+            <h2>审核设计原则</h2>
+            <p>面向合同审查、招标书审查和定价审核等场景，把 AI 审核结果设计成可判断、可追溯、可处置的业务闭环。</p>
+          </div>
+          <div class="principles-grid">
+            ${items.map(([title, desc]) => `
+              <article class="principle-card">
+                <h3>${title}</h3>
+                <p>${desc}</p>
+              </article>
+            `).join("")}
+          </div>
+        </section>
+      `;
+    }
+
+    function previewName(preview) {
+      if (preview.label) return preview.label;
+      if (preview.frame) {
+        const filename = decodeURIComponent(preview.frame.split("/").pop() || "");
+        return filename.replace(/\.[^.]+$/, "");
+      }
+      const filename = decodeURIComponent(preview.src.split("/").pop() || "");
+      return filename.replace(/\.[^.]+$/, "");
+    }
+
+    function scalePreviewImage() {
+      const stage = pagePreview.querySelector(".preview-stage");
+      const image = pagePreview.querySelector(".real-preview-image");
+      if (!stage || !image) return;
+
+      const applyScale = () => {
+        image.style.width = `${Math.round(image.naturalWidth * 0.4)}px`;
+        image.style.height = "auto";
+        stage.scrollLeft = 0;
+        stage.scrollTop = 0;
+      };
+
+      if (image.complete && image.naturalWidth) {
+        applyScale();
+      } else {
+        image.addEventListener("load", applyScale, { once: true });
+      }
+    }
+
+    function renderPages() {
+      if (!pageCount || !pageList) return;
+      const section = currentSection();
+      pageCount.textContent = `${section.pages.length} 页`;
+      pageList.innerHTML = section.pages.map((page, index) => `
+        <button class="page-card ${index === state.pageIndex ? "active" : ""}" type="button" data-page="${index}">
+          <div class="page-card-top">
+            <span class="page-name">${page.name}</span>
+            ${statusTag(page.status)}
+          </div>
+          <div class="page-desc">${page.desc}</div>
+        </button>
+      `).join("");
+
+      pageList.querySelectorAll(".page-card").forEach(button => {
+        button.addEventListener("click", () => {
+          state.pageIndex = Number(button.dataset.page);
+          state.tab = "preview";
+          render();
+        });
+      });
+    }
+
+    function renderTabs() {
+      if (!canvas) return;
+      document.querySelectorAll(".tab").forEach(tab => {
+        tab.classList.toggle("active", tab.dataset.tab === state.tab);
+        tab.onclick = () => {
+          state.tab = tab.dataset.tab;
+          renderCanvas();
+        };
+      });
+    }
+
+    function screenHeader(page) {
+      return `
+        <div class="mock-header">
+          <div>
+            <div class="mock-title">${page.name}</div>
+            <div class="mock-meta">${currentSection().label} / ${page.desc}</div>
+          </div>
+          <div class="segmented" aria-label="查看模式">
+            ${["标准", "AI建议", "异常"].map(mode => `<button class="${state.mode === mode ? "active" : ""}" type="button" data-mode="${mode}">${mode}</button>`).join("")}
+          </div>
+        </div>
+      `;
+    }
+
+    function bindModeButtons() {
+      canvas.querySelectorAll("[data-mode]").forEach(button => {
+        button.addEventListener("click", () => {
+          state.mode = button.dataset.mode;
+          renderCanvas();
+        });
+      });
+    }
+
+    function renderPreview(page) {
+      const type = page.type;
+      if (["form", "entry", "batch"].includes(type)) return renderFormScreen(page);
+      if (["query", "table"].includes(type)) return renderQueryScreen(page);
+      if (type === "audit") return renderAuditScreen(page);
+      if (type === "analysis") return renderAnalysisScreen(page);
+      if (type === "flow") return renderFlowScreen(page);
+      return renderNativeScreen(page);
+    }
+
+    function renderNativeScreen(page) {
+      return `
+        ${screenHeader(page)}
+        <div class="mock-body">
+          <div class="assistant-bar">
+            <div class="ai-dot">AI</div>
+            <div>
+              <div class="assistant-title">智能助手已根据当前角色生成推荐任务</div>
+              <div class="assistant-desc">可直接进入录入、查询、审核或分析，也可查看系统推荐的下一步动作。</div>
+            </div>
+            <button class="btn primary js-toast" type="button">生成建议</button>
+          </div>
+          <div class="summary-grid">
+            <div class="stat"><div class="stat-label">推荐任务</div><div class="stat-value">12</div><div class="stat-trend">按优先级排序</div></div>
+            <div class="stat"><div class="stat-label">待我处理</div><div class="stat-value">26</div><div class="stat-trend">含 5 个超时预警</div></div>
+            <div class="stat"><div class="stat-label">智能填充</div><div class="stat-value">89%</div><div class="stat-trend">字段命中率</div></div>
+            <div class="stat"><div class="stat-label">风险提示</div><div class="stat-value">5</div><div class="stat-trend">需复核</div></div>
+          </div>
+          <div class="table-scroll">
+            ${taskTable()}
+          </div>
+        </div>
+      `;
+    }
+
+    function renderFormScreen(page) {
+      return `
+        ${screenHeader(page)}
+        <div class="mock-body">
+          <div class="assistant-bar">
+            <div class="ai-dot">AI</div>
+            <div>
+              <div class="assistant-title">${state.mode === "异常" ? "发现 3 个字段需要人工确认" : "已从附件中识别并填充 22 个字段"}</div>
+              <div class="assistant-desc">字段右侧显示置信度，低置信度内容进入补录队列。</div>
+            </div>
+            <button class="btn primary js-toast" type="button">重新识别</button>
+          </div>
+          <div class="form-grid">
+            <div class="field"><label>业务编号</label><input value="AI-2026-0515-008" /></div>
+            <div class="field"><label>客户名称</label><input value="明源云生态客户" /></div>
+            <div class="field"><label>录入方式</label><select><option>附件智能识别</option><option>手动录入</option></select></div>
+            <div class="field"><label>合同金额</label><input value="¥ 168,000.00" /></div>
+            <div class="field"><label>开始日期</label><input value="2026-05-15" /></div>
+            <div class="field"><label>结束日期</label><input value="2027-05-14" /></div>
+            <div class="field span-2"><label>AI 摘要</label><textarea>系统已识别主体、金额、周期与关键条款，建议复核付款节点与附件完整性。</textarea></div>
+            <div class="field"><label>置信度</label><input value="${state.mode === "异常" ? "72%，需复核" : "94%，建议通过"}" /></div>
+          </div>
+          <div class="toolbar">
+            <div class="toolbar-left">
+              <span class="tag green">已识别 22</span>
+              <span class="tag gold">待确认 3</span>
+              <span class="tag gray">附件 5</span>
+            </div>
+            <div class="toolbar-right">
+              <button class="btn" type="button">保存草稿</button>
+              <button class="btn primary js-toast" type="button">提交审核</button>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderQueryScreen(page) {
+      return `
+        ${screenHeader(page)}
+        <div class="mock-body">
+          <div class="toolbar">
+            <div class="toolbar-left">
+              <input class="input" value="查询本月 AI 录入且待审核的合同" />
+              <button class="btn primary js-toast" type="button">智能查询</button>
+              <button class="btn" type="button">展开筛选</button>
+            </div>
+            <div class="toolbar-right">
+              <button class="btn" type="button">导出</button>
+              <button class="btn" type="button">保存视图</button>
+            </div>
+          </div>
+          <div class="table-scroll">
+            ${resultTable()}
+          </div>
+        </div>
+      `;
+    }
+
+    function renderAuditScreen(page) {
+      return `
+        ${screenHeader(page)}
+        <div class="mock-body">
+          <div class="assistant-bar">
+            <div class="ai-dot">AI</div>
+            <div>
+              <div class="assistant-title">审核建议：有条件通过</div>
+              <div class="assistant-desc">命中 2 条提醒规则，未触发强拦截。建议复核付款节点和附件签章页。</div>
+            </div>
+            <button class="btn primary js-drawer" type="button">查看证据</button>
+          </div>
+          <div class="chart-grid">
+            <div class="chart-card">
+              <div class="chart-title">风险命中</div>
+              <ul class="timeline">
+                <li><span class="time-dot"></span><div><div class="time-title">主体一致性通过</div><div class="time-desc">合同主体与客户主数据匹配。</div></div></li>
+                <li><span class="time-dot"></span><div><div class="time-title">付款节点需复核</div><div class="time-desc">第二期付款日期晚于标准模板 7 天。</div></div></li>
+                <li><span class="time-dot"></span><div><div class="time-title">附件完整性提醒</div><div class="time-desc">缺少签章页高清扫描件。</div></div></li>
+              </ul>
+            </div>
+            <div class="chart-card">
+              <div class="chart-title">审批动作</div>
+              <div class="form-grid">
+                <div class="field span-3"><label>审核意见</label><textarea>同意进入下一节点，请补充签章页后归档。</textarea></div>
+              </div>
+              <div class="toolbar" style="margin-top: 12px;">
+                <div class="toolbar-left"><span class="tag gold">需补充材料</span></div>
+                <div class="toolbar-right"><button class="btn" type="button">退回</button><button class="btn primary js-toast" type="button">通过</button></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderAnalysisScreen(page) {
+      return `
+        ${screenHeader(page)}
+        <div class="mock-body">
+          <div class="chart-grid">
+            <div class="chart-card">
+              <div class="chart-title">AI 处理分布</div>
+              <div class="bars">
+                ${bar("辅助录入", 82)}
+                ${bar("智能查询", 68)}
+                ${bar("审核建议", 54)}
+                ${bar("异常归因", 38)}
+              </div>
+            </div>
+            <div class="chart-card">
+              <div class="chart-title">综合准确率</div>
+              <div class="donut"></div>
+              <div class="toolbar">
+                <span class="tag green">高置信 58%</span>
+                <span class="tag gold">待确认 15%</span>
+                <span class="tag red">异常 9%</span>
+              </div>
+            </div>
+          </div>
+          <div class="assistant-bar">
+            <div class="ai-dot">AI</div>
+            <div>
+              <div class="assistant-title">自动洞察</div>
+              <div class="assistant-desc">本周批量导入异常主要集中在金额格式和日期格式，建议在入口处增加模板校验。</div>
+            </div>
+            <button class="btn primary js-toast" type="button">生成摘要</button>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderFlowScreen(page) {
+      return `
+        ${screenHeader(page)}
+        <div class="mock-body">
+          <div class="chart-card">
+            <div class="chart-title">流程编排</div>
+            <ul class="timeline">
+              <li><span class="time-dot"></span><div><div class="time-title">资料接入</div><div class="time-desc">上传文件、粘贴文本或从业务单据带入上下文。</div></div></li>
+              <li><span class="time-dot"></span><div><div class="time-title">AI 识别</div><div class="time-desc">抽取字段、生成摘要、标注置信度和证据位置。</div></div></li>
+              <li><span class="time-dot"></span><div><div class="time-title">规则校验</div><div class="time-desc">执行必填、格式、主数据、风控和审批规则。</div></div></li>
+              <li><span class="time-dot"></span><div><div class="time-title">人工确认</div><div class="time-desc">低置信字段进入确认区，高置信字段自动填充。</div></div></li>
+              <li><span class="time-dot"></span><div><div class="time-title">提交归档</div><div class="time-desc">形成业务单据、审核记录和分析指标。</div></div></li>
+            </ul>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderFlowTab(page) {
+      return `
+        ${screenHeader(page)}
+        <div class="mock-body">
+          ${renderFlowScreen(page).replace(screenHeader(page), "")}
+        </div>
+      `;
+    }
+
+    function renderDataTab(page) {
+      return `
+        ${screenHeader(page)}
+        <div class="mock-body">
+          <div class="table-scroll">
+            <table>
+              <thead><tr><th>字段</th><th>类型</th><th>来源</th><th>交互说明</th></tr></thead>
+              <tbody>
+                <tr><td>pageName</td><td>String</td><td>导航</td><td>${page.name}</td></tr>
+                <tr><td>category</td><td>Enum</td><td>蓝色标题</td><td>${currentSection().label}</td></tr>
+                <tr><td>aiConfidence</td><td>Number</td><td>AI 识别</td><td>用于展示置信度、异常提示和审核建议。</td></tr>
+                <tr><td>businessStatus</td><td>Enum</td><td>流程状态</td><td>${page.status}</td></tr>
+                <tr><td>evidenceList</td><td>Array</td><td>附件/原文</td><td>点击详情或查看证据时打开右侧抽屉。</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      `;
+    }
+
+    function taskTable() {
+      return `
+        <table>
+          <thead><tr><th>任务</th><th>分类</th><th>优先级</th><th>状态</th><th>操作</th></tr></thead>
+          <tbody>
+            <tr><td>合同附件智能录入</td><td>录入</td><td><span class="tag red">高</span></td><td>待处理</td><td><button class="link js-drawer" type="button">打开</button></td></tr>
+            <tr><td>本月待审核合同查询</td><td>查询</td><td><span class="tag gold">中</span></td><td>可执行</td><td><button class="link js-toast" type="button">运行</button></td></tr>
+            <tr><td>异常字段归因分析</td><td>分析</td><td><span class="tag gray">低</span></td><td>已生成</td><td><button class="link js-drawer" type="button">查看</button></td></tr>
+          </tbody>
+        </table>
+      `;
+    }
+
+    function resultTable() {
+      return `
+        <table>
+          <thead><tr><th>单据编号</th><th>客户</th><th>金额</th><th>AI 状态</th><th>业务状态</th><th>操作</th></tr></thead>
+          <tbody>
+            <tr><td>HT-20260515-001</td><td>明源云生态客户</td><td>¥168,000</td><td><span class="tag green">高置信</span></td><td>待审核</td><td><button class="link js-drawer" type="button">详情</button></td></tr>
+            <tr><td>HT-20260515-002</td><td>城市空间运营</td><td>¥92,400</td><td><span class="tag gold">待确认</span></td><td>录入中</td><td><button class="link js-drawer" type="button">详情</button></td></tr>
+            <tr><td>HT-20260515-003</td><td>产业园服务中心</td><td>¥236,800</td><td><span class="tag green">高置信</span></td><td>已通过</td><td><button class="link js-drawer" type="button">详情</button></td></tr>
+            <tr><td>HT-20260515-004</td><td>商业资产管理</td><td>¥58,600</td><td><span class="tag red">异常</span></td><td>退回补录</td><td><button class="link js-drawer" type="button">详情</button></td></tr>
+          </tbody>
+        </table>
+      `;
+    }
+
+    function bar(label, value) {
+      return `<div class="bar-row"><span>${label}</span><div class="bar-track"><div class="bar-fill" style="width:${value}%"></div></div><span>${value}%</span></div>`;
+    }
+
+    function bindCanvasActions() {
+      bindModeButtons();
+      canvas.querySelectorAll(".js-toast").forEach(button => button.addEventListener("click", () => showToast("操作已模拟完成")));
+      canvas.querySelectorAll(".js-drawer").forEach(button => button.addEventListener("click", () => openDrawer()));
+    }
+
+    function renderCanvas() {
+      if (!canvas) return;
+      const page = currentPage();
+      if (state.tab === "flow") canvas.innerHTML = renderFlowTab(page);
+      else if (state.tab === "data") canvas.innerHTML = renderDataTab(page);
+      else canvas.innerHTML = renderPreview(page);
+      bindCanvasActions();
+      renderTabs();
+    }
+
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add("show");
+      setTimeout(() => toast.classList.remove("show"), 1800);
+    }
+
+    function openDrawer() {
+      const page = currentPage();
+      drawerTitle.textContent = `${page.name} · 详情`;
+      drawerBody.innerHTML = `
+        <div class="assistant-bar">
+          <div class="ai-dot">AI</div>
+          <div>
+            <div class="assistant-title">证据与上下文</div>
+            <div class="assistant-desc">这里模拟从原始附件、识别文本和业务规则中汇总的详情信息。</div>
+          </div>
+        </div>
+        <table>
+          <tbody>
+            <tr><th>当前分类</th><td>${currentSection().label}</td></tr>
+            <tr><th>页面名称</th><td>${page.name}</td></tr>
+            <tr><th>页面状态</th><td>${page.status}</td></tr>
+            <tr><th>AI 建议</th><td>建议优先确认低置信字段，再提交到后续流程。</td></tr>
+            <tr><th>证据来源</th><td>附件文本、历史单据、主数据与审批规则。</td></tr>
+          </tbody>
+        </table>
+        <div class="toolbar">
+          <div class="toolbar-left"><span class="tag green">可继续操作</span></div>
+          <div class="toolbar-right"><button class="btn primary js-toast" type="button">采纳建议</button></div>
+        </div>
+      `;
+      drawer.classList.add("open");
+      mask.classList.add("open");
+      drawerBody.querySelectorAll(".js-toast").forEach(button => button.addEventListener("click", () => showToast("已采纳 AI 建议")));
+    }
+
+    function closeDrawer() {
+      drawer.classList.remove("open");
+      mask.classList.remove("open");
+    }
+
+    function render() {
+      appShell.classList.toggle("nav-collapsed", state.navCollapsed);
+      navToggle.setAttribute("aria-label", state.navCollapsed ? "展开左侧导航" : "收起左侧导航");
+      navToggle.setAttribute("title", state.navCollapsed ? "展开左侧导航" : "收起左侧导航");
+      navToggle.innerHTML = '<img class="nav-toggle-icon-img" src="assets/icons/fold.svg" alt="">';
+      renderNav();
+      renderHeader();
+    }
+
+    navToggle.addEventListener("pointerdown", event => {
+      event.preventDefault();
+      state.navCollapsed = !state.navCollapsed;
+      render();
+    });
+    document.querySelector("#closeDrawer").addEventListener("click", closeDrawer);
+    mask.addEventListener("click", closeDrawer);
+    document.querySelector("#previewBtn").addEventListener("click", () => openDrawer());
+    document.querySelector("#submitBtn").addEventListener("click", () => showToast("模拟提交成功"));
+    document.querySelector("#globalSearch").addEventListener("input", event => {
+      const keyword = event.target.value.trim();
+      if (!keyword) return;
+      const sectionIndex = sections.findIndex(section =>
+        section.label.includes(keyword) ||
+        section.note.includes(keyword) ||
+        section.pages.some(page => page.name.includes(keyword) || page.desc.includes(keyword))
+      );
+      if (sectionIndex >= 0 && sectionIndex !== state.sectionIndex) {
+        state.sectionIndex = sectionIndex;
+        state.pageIndex = 0;
+        render();
+      }
+    });
+
+    render();
+  </script>
+</body>
+</html>

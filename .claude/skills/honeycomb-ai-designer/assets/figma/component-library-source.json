@@ -1,0 +1,38 @@
+{
+  "name": "Honeycomb 中后台组件库",
+  "type": "figma-url-source",
+  "localFile": null,
+  "offlineCache": "figma/Honeycomb中后台组件库.fig",
+  "offlineCacheRequired": false,
+  "figma": {
+    "fileKey": "HQFmiqvsbukzAAKbiB1sla",
+    "url": "https://www.figma.com/design/HQFmiqvsbukzAAKbiB1sla/Honeycomb%E4%B8%AD%E5%90%8E%E5%8F%B0%E7%BB%84%E4%BB%B6%E5%BA%93",
+    "navigationIconNodeId": "46:418"
+  },
+  "appliesTo": [
+    "SideNav",
+    "PageHeader",
+    "Button",
+    "Input",
+    "Select",
+    "DatePicker",
+    "Grid",
+    "Pagination",
+    "Form",
+    "Card",
+    "Tag",
+    "Modal",
+    "Tabs",
+    "Steps",
+    "Statistic",
+    "Action",
+    "Icon"
+  ],
+  "priority": [
+    "Figma MCP live node data",
+    "Optional local .fig offline cache",
+    "components/design-components.json contract",
+    "templates/rental-management examples",
+    "inline fallback only when source is unavailable"
+  ]
+}

@@ -1,0 +1,125 @@
+{
+  "_ref": "https://honeycomb.mingyuanyun.com/component/",
+
+  "SideNav": {
+    "props": { "activeKey": "string", "collapsed": "boolean", "items": "NavItem[]" },
+    "NavItem": { "key": "string", "label": "string", "icon": "string?", "children": "NavItem[]?" },
+    "tokens": { "background": "var(--color-bg-white-0)", "width": "220px", "collapsedWidth": "64px", "borderRight": "1px solid var(--color-border-divider)" }
+  },
+
+  "PageHeader": {
+    "props": { "title": "string", "subtitle": "string?", "breadcrumb": "BreadcrumbItem[]?", "actions": "Action[]?" },
+    "tokens": { "background": "var(--color-bg-white-0)", "height": "56px", "padding": "0 24px", "borderBottom": "1px solid var(--color-border-divider)", "titleTypography": "tokenRef(\"typography.heading-md\")" }
+  },
+
+  "Button": {
+    "variants": { "type": ["primary","default","danger","link","text"], "size": ["small","middle","large"] },
+    "props": { "type": "string", "size": "string", "disabled": "boolean", "loading": "boolean", "icon": "string?" },
+    "tokens": {
+      "primary": { "background": "var(--color-primary)", "color": "var(--color-text-inverse)", "hoverBg": "var(--color-primary-hover)" },
+      "default": { "background": "var(--color-bg-white-0)", "color": "var(--color-text-primary)", "border": "1px solid var(--color-border)" },
+      "danger":  { "background": "var(--color-error)", "color": "var(--color-text-inverse)" },
+      "radius": "var(--radius-sm)",
+      "sizeMap": {
+        "small":  { "height": "28px", "padding": "0 12px", "fontSize": "12px" },
+        "middle": { "height": "32px", "padding": "0 16px", "fontSize": "14px" },
+        "large":  { "height": "40px", "padding": "0 20px", "fontSize": "14px" }
+      }
+    }
+  },
+
+  "Input": {
+    "variants": { "size": ["small","middle","large"] },
+    "props": { "placeholder": "string", "value": "string", "size": "string", "disabled": "boolean", "allowClear": "boolean" },
+    "tokens": {
+      "border": "1px solid var(--color-border)",
+      "background": "var(--color-bg-white-0)",
+      "color": "var(--color-text-primary)",
+      "placeholderColor": "var(--color-text-tertiary)",
+      "focusBorder": "1px solid var(--color-border-focus)",
+      "radius": "var(--radius-sm)",
+      "sizeMap": {
+        "small":  { "height": "28px", "padding": "0 8px" },
+        "middle": { "height": "32px", "padding": "0 12px" },
+        "large":  { "height": "40px", "padding": "0 16px" }
+      }
+    }
+  },
+
+  "Select": {
+    "props": { "options": "Option[]", "placeholder": "string", "value": "string|string[]", "mode": "multiple|tags?", "size": "string", "allowClear": "boolean", "showSearch": "boolean" },
+    "tokens": { "border": "1px solid var(--color-border)", "background": "var(--color-bg-white-0)", "radius": "var(--radius-sm)" }
+  },
+
+  "DatePicker": {
+    "variants": ["DatePicker","RangePicker"],
+    "props": { "picker": "date|week|month|quarter|year", "format": "string", "placeholder": "string|string[]", "allowClear": "boolean", "size": "string" }
+  },
+
+  "Grid": {
+    "_alias": "Table",
+    "props": { "rowKey": "string", "columns": "Column[]", "dataSource": "object[]", "loading": "boolean", "pagination": "false", "scroll": "object?", "rowSelection": "object?", "size": "string" },
+    "Column": { "key": "string", "title": "string", "dataIndex": "string", "width": "number?", "fixed": "left|right?", "render": "string (tag|link|actions|status)" },
+    "rule": "操作列 render 必须包含 link/button 组合（如 详情/编辑/删除）",
+    "tokens": {
+      "headerBackground": "var(--color-bg-table-header)",
+      "headerColor": "var(--color-text-secondary)",
+      "borderColor": "var(--color-border-divider)",
+      "rowHeight": "48px",
+      "hoverBackground": "var(--color-bg-hover)"
+    }
+  },
+
+  "Pagination": {
+    "props": { "current": "number", "pageSize": "number (default:20)", "total": "number", "showSizeChanger": "boolean", "showQuickJumper": "boolean", "showTotal": "function" },
+    "tokens": { "activeColor": "var(--color-primary)", "alignment": "flex-end", "marginTop": "16px" }
+  },
+
+  "Form": {
+    "props": { "layout": "horizontal|vertical|inline", "labelCol": "object", "wrapperCol": "object", "initialValues": "object", "onFinish": "function" },
+    "FormItem": { "name": "string", "label": "string", "rules": "Rule[]", "required": "boolean" }
+  },
+
+  "Card": {
+    "props": { "title": "string?", "extra": "ReactNode?", "bordered": "boolean" },
+    "tokens": { "background": "var(--color-bg-white-0)", "border": "1px solid var(--color-border-divider)", "radius": "var(--radius-md)", "padding": "24px", "shadow": "tokenRef(\"effect.shadow.card\")" }
+  },
+
+  "Tag": {
+    "variants": ["default","success","warning","error","info"],
+    "props": { "color": "string", "closable": "boolean" },
+    "tokenMap": {
+      "success": { "background": "var(--color-success-light)", "color": "var(--color-success)", "border": "var(--color-success)" },
+      "warning": { "background": "var(--color-warning-light)", "color": "var(--color-warning)", "border": "var(--color-warning)" },
+      "error":   { "background": "var(--color-error-light)",   "color": "var(--color-error)",   "border": "var(--color-error)" },
+      "info":    { "background": "var(--color-info-light)",    "color": "var(--color-info)",    "border": "var(--color-info)" }
+    }
+  },
+
+  "Modal": {
+    "props": { "title": "string", "open": "boolean", "width": "number (default:520)", "footer": "ReactNode?", "onOk": "function", "onCancel": "function" },
+    "tokens": { "background": "var(--color-bg-white-0)", "radius": "var(--radius-lg)", "shadow": "tokenRef(\"effect.shadow.modal\")" }
+  },
+
+  "Tabs": {
+    "props": { "activeKey": "string", "items": "TabItem[]", "type": "line|card", "onChange": "function" },
+    "TabItem": { "key": "string", "label": "string", "children": "ReactNode" },
+    "tokens": { "activeColor": "var(--color-primary)", "borderBottom": "1px solid var(--color-border-divider)" }
+  },
+
+  "Steps": {
+    "props": { "current": "number", "items": "StepItem[]", "direction": "horizontal|vertical" },
+    "StepItem": { "title": "string", "description": "string?" },
+    "tokens": { "activeColor": "var(--color-primary)", "finishColor": "var(--color-primary)" }
+  },
+
+  "Statistic": {
+    "props": { "title": "string", "value": "number|string", "prefix": "ReactNode?", "suffix": "string?" },
+    "tokens": { "valueTypography": "tokenRef(\"typography.display-md\")", "titleColor": "var(--color-text-secondary)" }
+  },
+
+  "Action": {
+    "_comment": "统一动作定义，用于 PageHeader/Grid 操作列等",
+    "fields": { "type": "Button|Link", "variant": "primary|default|danger|link", "text": "string", "actionKey": "string (create|export|reset|search|detail|edit|delete)" }
+  }
+}

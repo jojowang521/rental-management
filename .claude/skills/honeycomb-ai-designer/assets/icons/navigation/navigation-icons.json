@@ -1,0 +1,41 @@
+{
+  "name": "honeycomb-navigation-icons",
+  "description": "Honeycomb 中后台组件库导航图标资源索引。生成导航时默认优先引用此库。",
+  "source": {
+    "provider": "figma",
+    "fileKey": "HQFmiqvsbukzAAKbiB1sla",
+    "nodeId": "46:418",
+    "url": "https://www.figma.com/design/HQFmiqvsbukzAAKbiB1sla/Honeycomb%E4%B8%AD%E5%90%8E%E5%8F%B0%E7%BB%84%E4%BB%B6%E5%BA%93?node-id=46-418&t=OucfePRPIaCVIIQX-1",
+    "offlineCache": "assets/figma/Honeycomb中后台组件库.fig",
+    "offlineCacheRequired": false
+  },
+  "usage": {
+    "preferred": "cached-svg",
+    "cachedSvgDir": "assets/icons/navigation/svg",
+    "fallback": "figma-node-reference",
+    "htmlPattern": "<span class=\"ni-ic\" data-icon-key=\"<key>\" data-icon-source=\"assets/icons/navigation/svg/<key>.svg\"><img class=\"ni-img\" src=\"assets/icons/navigation/svg/<key>.svg\" alt=\"\"></span>",
+    "imageClass": "ni-img",
+    "legacyCssClassPrefix": "nav-ic nav-ic-"
+  },
+  "defaultMapping": [
+    { "key": "home", "label": "首页", "preferredName": "home" },
+    { "key": "dashboard", "label": "工作台/看板", "preferredName": "dashboard" },
+    { "key": "lead", "label": "线索跟进", "preferredName": "lead" },
+    { "key": "company", "label": "企业管理/企业档案", "preferredName": "company" },
+    { "key": "business-data", "label": "企业经营数据", "preferredName": "chart" },
+    { "key": "building", "label": "楼宇管理", "preferredName": "building" },
+    { "key": "contract", "label": "合同管理", "preferredName": "contract" },
+    { "key": "bill", "label": "账单管理", "preferredName": "bill" },
+    { "key": "work-order", "label": "工单管理", "preferredName": "work-order" },
+    { "key": "settings", "label": "设置中心", "preferredName": "settings" },
+    { "key": "permission", "label": "权限管理", "preferredName": "permission" },
+    { "key": "log", "label": "日志/审计", "preferredName": "log" }
+  ],
+  "rules": [
+    "生成左侧导航时，先按业务 key 在 cachedSvgDir 中查找同名 SVG；存在同名 SVG 时必须引用该文件。",
+    "若 cachedSvgDir 尚未同步真实 SVG，且 Figma MCP/API 可用，读取 source.nodeId 下的导航图标组件并导出。",
+    "若不能访问 Figma 且 cachedSvgDir 无对应 key，才允许临时使用线性 SVG 占位，并必须在交付说明中标明未同步真实图标。",
+    "图标尺寸默认 16x16，1px-1.4px 细线 Two Tone 风格；静态 HTML 原型必须使用 htmlPattern 中的真实 img 引用，避免本地 file:// 预览中 CSS mask 不显示。",
+    "深色侧栏中的 SVG 图片可通过 .ni-img 的 filter/opacity 调整为灰白色；只有经过浏览器预览确认后才允许改用 CSS mask。"
+  ]
+}

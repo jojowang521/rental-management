@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>房源管理 - Honeycomb ERP</title>
+<style>
+:root {
+  --color-primary: #266EFF;
+  --color-primary-hover: #4F90FF;
+  --color-primary-active: #175BE5;
+  --color-primary-light: #E5EBFE;
+  --color-text-0: #333333;
+  --color-text-1: #666666;
+  --color-text-2: #999999;
+  --color-text-disabled: #c5c5c5;
+  --color-text-inverse: #ffffff;
+  --color-border: #dddddd;
+  --color-border-divider: #eaeaea;
+  --color-border-focus: #266EFF;
+  --color-bg-white-0: #ffffff;
+  --color-bg-grey-0: #f8f8f8;
+  --color-bg-hover: #f5f5f5;
+  --color-bg-table-header: #fbfbfb;
+  --color-success: #52c41a;
+  --color-success-light: #f6ffed;
+  --color-warning: #faad14;
+  --color-warning-light: #fffbe6;
+  --color-error: #ff4d4f;
+  --color-error-light: #fff2f0;
+  --color-info: #1677ff;
+  --color-info-light: #e6f4ff;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.06);
+  --shadow-card: 0 2px 8px rgba(0,0,0,0.08);
+  --shadow-modal: 0 8px 24px rgba(0,0,0,0.12);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"PingFang SC","Microsoft YaHei",sans-serif;font-size:14px;color:var(--color-text-0);background:var(--color-bg-grey-0);height:100vh;display:flex;overflow:hidden}
+.side-nav{width:220px;min-width:220px;background:var(--color-bg-white-0);border-right:1px solid var(--color-border-divider);display:flex;flex-direction:column;height:100vh;overflow-y:auto}
+.side-logo{height:56px;display:flex;align-items:center;padding:0 20px;border-bottom:1px solid var(--color-border-divider)}
+.nav-item{display:flex;align-items:center;gap:8px;padding:0 16px;height:40px;cursor:pointer;color:var(--color-text-1);font-size:14px;transition:background .15s}
+.nav-item:hover{background:var(--color-bg-hover);color:var(--color-text-0)}
+.nav-item.active{background:var(--color-primary-light);color:var(--color-primary);font-weight:500}
+.nav-item.sub{padding-left:40px;height:36px;font-size:13px}
+.nav-item.parent{font-weight:500;color:var(--color-text-0);margin-top:4px}
+.nav-divider{height:1px;background:var(--color-border-divider);margin:8px 0}
+.content{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.page-header{height:56px;min-height:56px;background:var(--color-bg-white-0);border-bottom:1px solid var(--color-border-divider);display:flex;align-items:center;justify-content:space-between;padding:0 24px}
+.page-title{font-size:16px;font-weight:500;color:var(--color-text-0)}
+.ph-actions{display:flex;gap:8px;align-items:center}
+.main{flex:1;padding:24px;overflow-y:auto;background:var(--color-bg-grey-0)}
+.btn{display:inline-flex;align-items:center;justify-content:center;border:none;cursor:pointer;font-size:14px;border-radius:var(--radius-sm);transition:all .15s;white-space:nowrap;padding:0 16px;height:32px;font-family:inherit;gap:6px}
+.btn-primary{background:var(--color-primary);color:#fff}.btn-primary:hover{background:var(--color-primary-hover)}
+.btn-default{background:#fff;color:var(--color-text-0);border:1px solid var(--color-border)}.btn-default:hover{border-color:var(--color-primary);color:var(--color-primary)}
+.view-toggle{display:flex;border:1px solid var(--color-border);border-radius:var(--radius-sm);overflow:hidden;margin-left:8px}
+.view-btn{width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;background:#fff;border:none;color:var(--color-text-2);transition:all .15s}
+.view-btn:hover{background:var(--color-bg-hover);color:var(--color-text-0)}
+.view-btn.active{background:var(--color-primary-light);color:var(--color-primary)}
+.filter-bar{background:var(--color-bg-white-0);border-radius:var(--radius-md);padding:16px 24px;margin-bottom:16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;box-shadow:var(--shadow-sm)}
+.filter-group{display:flex;align-items:center;gap:6px}
+.filter-label{font-size:13px;color:var(--color-text-1);white-space:nowrap}
+.filter-input{height:32px;border:1px solid var(--color-border);border-radius:var(--radius-sm);padding:0 10px;font-size:13px;color:var(--color-text-0);outline:none;font-family:inherit;background:#fff}
+.filter-input:focus{border-color:var(--color-border-focus)}
+.filter-select{height:32px;border:1px solid var(--color-border);border-radius:var(--radius-sm);padding:0 8px;font-size:13px;color:var(--color-text-0);outline:none;background:#fff;font-family:inherit}
+.filter-actions{display:flex;gap:8px;margin-left:auto}
+.stats-bar{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin-bottom:16px}
+.stat-card{background:var(--color-bg-white-0);border-radius:var(--radius-md);padding:16px 20px;box-shadow:var(--shadow-sm);display:flex;flex-direction:column;gap:4px}
+.stat-value{font-size:24px;font-weight:600;color:var(--color-text-0);line-height:1.2}
+.stat-label{font-size:12px;color:var(--color-text-1)}
+.stat-card.s-primary .stat-value{color:var(--color-primary)}
+.stat-card.s-success .stat-value{color:var(--color-success)}
+.stat-card.s-warning .stat-value{color:var(--color-warning)}
+.stat-card.s-error .stat-value{color:var(--color-error)}
+.grid-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.grid-total{font-size:13px;color:var(--color-text-1)}
+.card-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+@media(max-width:1400px){.card-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:1024px){.card-grid{grid-template-columns:repeat(2,1fr)}}
+/* Figma 横向列表卡片 node=607-176141 */
+.card-grid{display:flex;flex-direction:column;gap:0;border-radius:var(--radius-sm);overflow:hidden;background:var(--color-bg-white-0);box-shadow:var(--shadow-sm)}
+.card-grid-toolbar{display:flex;align-items:center;justify-content:space-between;padding:12px 20px 8px;border-bottom:1px solid var(--color-border-divider)}
+.toolbar-title{font-size:14px;font-weight:600;color:var(--color-text-0)}
+.sort-bar{display:flex;align-items:center;gap:24px;padding:9px 20px;background:var(--color-bg-grey-0);border-bottom:1px solid var(--color-border-divider);font-size:13px}
+.sort-item{display:flex;align-items:center;gap:4px;cursor:pointer;color:var(--color-text-1)}
+.sort-item.active{color:var(--color-primary)}
+.prop-card{display:flex;align-items:center;gap:16px;padding:20px;background:var(--color-bg-white-0);border-bottom:1px solid var(--color-border-divider);transition:background .15s;min-height:160px}
+.prop-card:last-child{border-bottom:none}
+.prop-card:hover{background:var(--color-bg-hover)}
+.prop-card:hover{box-shadow:var(--shadow-modal)}
+.card-cover{position:relative;aspect-ratio:16/9;background:var(--color-bg-grey-0);overflow:hidden}
+.card-cover img{width:100%;height:100%;object-fit:cover;display:block}
+.card-cover-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:36px;color:var(--color-text-disabled)}
+.card-status-badge{position:absolute;top:10px;right:10px}
+.card-body{padding:16px;flex:1;display:flex;flex-direction:column;gap:5px}
+.card-check{width:16px;flex-shrink:0}.card-check input{width:16px;height:16px;cursor:pointer}
+.card-cover{width:200px;min-width:200px;height:120px;border-radius:6px;overflow:hidden;background:var(--color-primary-light);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.card-cover img{width:100%;height:100%;object-fit:cover}
+.card-cover-placeholder{font-size:32px;color:var(--color-primary)}
+.card-body{flex:1;display:flex;flex-direction:column;gap:12px;min-width:0}
+.card-header-row{display:flex;align-items:center;gap:8px}
+.card-room-no{font-size:12px;color:var(--color-primary);font-weight:500;background:var(--color-primary-light);display:inline-flex;align-items:center;padding:1px 8px;border-radius:var(--radius-sm);white-space:nowrap;flex-shrink:0}
+.card-title{font-size:15px;font-weight:600;color:var(--color-text-0);line-height:24px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.card-tags{display:flex;align-items:center;gap:4px}
+.card-fields{display:flex;flex-wrap:wrap;gap:6px 24px}
+.card-field{display:flex;align-items:center;gap:4px;font-size:13px}
+.card-field-label{color:var(--color-text-2);white-space:nowrap}
+.card-field-value{color:var(--color-text-0);white-space:nowrap}
+.card-field-value.price{color:var(--color-error);font-weight:600;font-size:15px}
+.card-footer{display:flex;align-items:flex-start;flex-shrink:0}
+.card-title{font-size:15px;font-weight:500;color:var(--color-text-0);line-height:1.4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.card-meta{display:flex;flex-direction:column;gap:3px;margin-top:4px}
+.card-meta-row{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--color-text-1)}
+.card-price{font-size:17px;font-weight:600;color:var(--color-error);margin-top:6px}
+.card-price span{font-size:12px;font-weight:400;color:var(--color-text-2)}
+.card-footer{padding:11px 16px;border-top:1px solid var(--color-border-divider);display:flex;align-items:center}
+.link-btn{background:none;border:none;color:var(--color-primary);cursor:pointer;font-size:13px;padding:0;font-family:inherit;text-decoration:none}
+.link-btn:hover{opacity:.75}
+.link-btn.danger{color:var(--color-error)}
+.link-sep{color:var(--color-border);margin:0 8px}
+.tag{display:inline-flex;align-items:center;padding:1px 8px;border-radius:var(--radius-sm);font-size:12px;font-weight:500;line-height:20px}
+.tag-success{background:var(--color-success-light);color:var(--color-success)}
+.tag-warning{background:var(--color-warning-light);color:var(--color-warning)}
+.tag-error{background:var(--color-error-light);color:var(--color-error)}
+.tag-info{background:var(--color-info-light);color:var(--color-info)}
+.tag-default{background:var(--color-bg-grey-0);color:var(--color-text-1);border:1px solid var(--color-border)}
+.table-wrap{background:var(--color-bg-white-0);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);overflow:hidden;display:none}
+.table-wrap.show{display:block}
+.table-toolbar{display:flex;align-items:center;justify-content:space-between;padding:14px 24px;border-bottom:1px solid var(--color-border-divider)}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{padding:12px 16px;text-align:left;font-weight:500;color:var(--color-text-1);background:var(--color-bg-table-header);border-bottom:1px solid var(--color-border-divider);white-space:nowrap}
+td{padding:13px 16px;border-bottom:1px solid var(--color-border-divider);color:var(--color-text-0);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(--color-bg-hover)}
+.pagination{display:flex;align-items:center;justify-content:flex-end;padding:16px 0 0;gap:4px}
+.pg-info{font-size:13px;color:var(--color-text-1);margin-right:8px}
+.pg-btn{height:28px;min-width:28px;padding:0 6px;border:1px solid var(--color-border);border-radius:var(--radius-sm);background:#fff;font-size:13px;cursor:pointer;color:var(--color-text-0)}
+.pg-btn:hover{border-color:var(--color-primary);color:var(--color-primary)}
+.pg-btn.active{background:var(--color-primary);color:#fff;border-color:var(--color-primary)}
+</style>
+</head>
+<body>
+<nav class="side-nav">
+  <div class="side-logo"><img src="images/logo@4x.png" alt="logo" style="height:44px;max-width:200px;object-fit:contain;"></div>
+  <div class="nav-item parent">🏠 工作台</div>
+  <div class="nav-item parent active" onclick="location.href='property-list.html'">🏢 房源管理</div>
+  <div class="nav-item sub active" onclick="location.href='property-list.html'">房源列表</div>
+  <div class="nav-item sub" onclick="location.href='property-list.html'">房源地图</div>
+  <div class="nav-item parent" onclick="location.href='contract-list.html'">📄 合同管理</div>
+  <div class="nav-item sub" onclick="location.href='contract-list.html'">合同列表</div>
+  <div class="nav-item sub" onclick="location.href='contract-list.html#expiring'">即将到期</div>
+  <div class="nav-item parent" onclick="location.href='tenant-list.html'">👤 租客管理</div>
+  <div class="nav-item sub" onclick="location.href='tenant-list.html'">租客列表</div>
+  <div class="nav-item">💰 财务管理</div>
+  <div class="nav-divider"></div>
+  <div class="nav-item">⚙️ 系统设置</div>
+</nav>
+<div class="content">
+  <header class="page-header">
+    <div class="page-title">房源管理</div>
+    <div class="ph-actions">
+      <button class="btn btn-default">导出</button>
+      <button class="btn btn-primary">+ 新增房源</button>
+      <div class="view-toggle">
+        <button class="view-btn active" id="btnCardView" onclick="switchView('card')" title="卡片视图">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="1" width="6" height="6" rx="1" fill="currentColor"/><rect x="9" y="1" width="6" height="6" rx="1" fill="currentColor"/><rect x="1" y="9" width="6" height="6" rx="1" fill="currentColor"/><rect x="9" y="9" width="6" height="6" rx="1" fill="currentColor"/></svg>
+        </button>
+        <button class="view-btn" id="btnListView" onclick="switchView('list')" title="列表视图">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="2" width="14" height="2" rx="1" fill="currentColor"/><rect x="1" y="7" width="14" height="2" rx="1" fill="currentColor"/><rect x="1" y="12" width="14" height="2" rx="1" fill="currentColor"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+  <main class="main">
+    <div class="stats-bar">
+      <div class="stat-card"><div class="stat-value">128</div><div class="stat-label">房源总数</div></div>
+      <div class="stat-card s-success"><div class="stat-value">86</div><div class="stat-label">已出租</div></div>
+      <div class="stat-card s-primary"><div class="stat-value">32</div><div class="stat-label">空置中</div></div>
+      <div class="stat-card s-warning"><div class="stat-value">10</div><div class="stat-label">维修中</div></div>
+      <div class="stat-card s-error"><div class="stat-value">67.2%</div><div class="stat-label">出租率</div></div>
+    </div>
+    <div class="filter-bar">
+      <div class="filter-group">
+        <span class="filter-label">关键词搜索</span>
+        <input class="filter-input" placeholder="房源名称 / 地址" style="width:200px">
+      </div>
+      <div class="filter-group">
+        <span class="filter-label">房号查询</span>
+        <input class="filter-input" placeholder="请输入房号" style="width:150px">
+      </div>
+      <div class="filter-group">
+        <span class="filter-label">房源状态</span>
+        <select class="filter-select" style="width:120px">
+          <option value="">全部状态</option>
+          <option>已出租</option>
+          <option>空置中</option>
+          <option>维修中</option>
+          <option>已停用</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <span class="filter-label">房源类型</span>
+        <select class="filter-select" style="width:120px">
+          <option value="">全部类型</option>
+          <option>住宅</option>
+          <option>公寓</option>
+          <option>商铺</option>
+          <option>写字楼</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <span class="filter-label">面积范围</span>
+        <input class="filter-input" placeholder="最小㎡" style="width:88px">
+        <span style="color:var(--color-text-2)">~</span>
+        <input class="filter-input" placeholder="最大㎡" style="width:88px">
+      </div>
+      <div class="filter-actions">
+        <button class="btn btn-primary">查询</button>
+        <button class="btn btn-default">重置</button>
+      </div>
+    </div>
+    <div id="cardView">
+      <div class="card-grid">
+        <div class="card-grid-toolbar">
+          <span class="toolbar-title">房源列表 <span style="font-weight:400;color:var(--color-text-1);font-size:13px">共 128 套</span></span>
+          <div style="display:flex;gap:8px">
+            <button class="btn btn-default" style="height:32px">批量操作</button>
+            <button class="btn btn-default" style="height:32px">导出</button>
+          </div>
+        </div>
+        <div class="sort-bar">
+          <span class="sort-item">创建时间 ↕</span>
+          <span class="sort-item active">房源名称 ↑</span>
+          <span class="sort-item">月租金 ↕</span>
+          <span class="sort-item">面积 ↕</span>
+        </div>
+
+        <div class="prop-card">
+          <div class="card-check"><input type="checkbox"></div>
+          <div class="card-cover"><div class="card-cover-placeholder">🏠</div></div>
+          <div class="card-body">
+            <div class="card-header-row">
+              <span class="card-room-no">3-2-802</span>
+              <span class="card-title">阳光花园 3栋2单元802室</span>
+              <div class="card-tags"><span class="tag tag-success">已出租</span><span class="tag tag-default">住宅</span></div>
+            </div>
+            <div class="card-fields">
+              <div class="card-field"><span class="card-field-label">地址：</span><span class="card-field-value">北京市朝阳区阳光花园小区</span></div>
+              <div class="card-field"><span class="card-field-label">面积：</span><span class="card-field-value">89㎡</span></div>
+              <div class="card-field"><span class="card-field-label">户型：</span><span class="card-field-value">3室2厅1卫</span></div>
+              <div class="card-field"><span class="card-field-label">当前租客：</span><span class="card-field-value">张三</span></div>
+              <div class="card-field"><span class="card-field-label">月租金：</span><span class="card-field-value price">¥4,500</span></div>
+              <div class="card-field"><span class="card-field-label">合同到期：</span><span class="card-field-value">2027-01-31</span></div>
+            </div>
+          </div>
+          <div class="card-footer"><button class="link-btn" onclick="location.href='property-detail.html'">详情</button><span class="link-sep">|</span><button class="link-btn">编辑</button><span class="link-sep">|</span><button class="link-btn" onclick="location.href='contract-list.html'">合同</button></div>
+        </div>
+
+        <div class="prop-card">
+          <div class="card-check"><input type="checkbox"></div>
+          <div class="card-cover"><div class="card-cover-placeholder">🏢</div></div>
+          <div class="card-body">
+            <div class="card-header-row">
+              <span class="card-room-no">1-1-301</span>
+              <span class="card-title">碧水湾 1栋1单元301室</span>
+              <div class="card-tags"><span class="tag tag-info">空置中</span><span class="tag tag-default">住宅</span></div>
+            </div>
+            <div class="card-fields">
+              <div class="card-field"><span class="card-field-label">地址：</span><span class="card-field-value">北京市海淀区碧水湾小区</span></div>
+              <div class="card-field"><span class="card-field-label">面积：</span><span class="card-field-value">65㎡</span></div>
+              <div class="card-field"><span class="card-field-label">户型：</span><span class="card-field-value">2室1厅1卫</span></div>
+              <div class="card-field"><span class="card-field-label">当前租客：</span><span class="card-field-value" style="color:var(--color-text-2)">暂无</span></div>
+              <div class="card-field"><span class="card-field-label">月租金：</span><span class="card-field-value price">¥3,800</span></div>
+              <div class="card-field"><span class="card-field-label">空置天数：</span><span class="card-field-value" style="color:var(--color-warning)">32天</span></div>
+            </div>
+          </div>
+          <div class="card-footer"><button class="link-btn">详情</button><span class="link-sep">|</span><button class="link-btn">编辑</button><span class="link-sep">|</span><button class="link-btn" style="color:var(--color-primary)">发布招租</button></div>
+        </div>
+
+        <div class="prop-card">
+          <div class="card-check"><input type="checkbox"></div>
+          <div class="card-cover"><div class="card-cover-placeholder">🏗️</div></div>
+          <div class="card-body">
+            <div class="card-header-row">
+              <span class="card-room-no">2-3-501</span>
+              <span class="card-title">翠湖苑 2栋3单元501室</span>
+              <div class="card-tags"><span class="tag tag-warning">维修中</span><span class="tag tag-default">住宅</span></div>
+            </div>
+            <div class="card-fields">
+              <div class="card-field"><span class="card-field-label">地址：</span><span class="card-field-value">北京市西城区翠湖苑小区</span></div>
+              <div class="card-field"><span class="card-field-label">面积：</span><span class="card-field-value">120㎡</span></div>
+              <div class="card-field"><span class="card-field-label">户型：</span><span class="card-field-value">4室2厅2卫</span></div>
+              <div class="card-field"><span class="card-field-label">月租金：</span><span class="card-field-value price">¥6,200</span></div>
+              <div class="card-field"><span class="card-field-label">预计完工：</span><span class="card-field-value" style="color:var(--color-warning)">2026-04-10</span></div>
+            </div>
+          </div>
+          <div class="card-footer"><button class="link-btn">详情</button><span class="link-sep">|</span><button class="link-btn">编辑</button><span class="link-sep">|</span><button class="link-btn danger">停用</button></div>
+        </div>
+
+        <div class="prop-card">
+          <div class="card-check"><input type="checkbox"></div>
+          <div class="card-cover"><div class="card-cover-placeholder">🏠</div></div>
+          <div class="card-body">
+            <div class="card-header-row">
+              <span class="card-room-no">5-1-203</span>
+              <span class="card-title">金色家园 5栋1单元203室</span>
+              <div class="card-tags"><span class="tag tag-success">已出租</span><span class="tag tag-default">住宅</span></div>
+            </div>
+            <div class="card-fields">
+              <div class="card-field"><span class="card-field-label">地址：</span><span class="card-field-value">北京市朝阳区金色家园</span></div>
+              <div class="card-field"><span class="card-field-label">面积：</span><span class="card-field-value">75㎡</span></div>
+              <div class="card-field"><span class="card-field-label">户型：</span><span class="card-field-value">2室2厅1卫</span></div>
+              <div class="card-field"><span class="card-field-label">当前租客：</span><span class="card-field-value">王五</span></div>
+              <div class="card-field"><span class="card-field-label">月租金：</span><span class="card-field-value price">¥2,900</span></div>
+              <div class="card-field"><span class="card-field-label">合同到期：</span><span class="card-field-value">2026-02-28</span></div>
+            </div>
+          </div>
+          <div class="card-footer"><button class="link-btn" onclick="location.href='property-detail.html'">详情</button><span class="link-sep">|</span><button class="link-btn">编辑</button><span class="link-sep">|</span><button class="link-btn" onclick="location.href='contract-list.html'">合同</button></div>
+        </div>
+
+        <div class="prop-card">
+          <div class="card-check"><input type="checkbox"></div>
+          <div class="card-cover"><div class="card-cover-placeholder">🏢</div></div>
+          <div class="card-body">
+            <div class="card-header-row">
+              <span class="card-room-no">7-4-1101</span>
+              <span class="card-title">龙湖春江 7栋4单元1101室</span>
+              <div class="card-tags"><span class="tag tag-info">空置中</span><span class="tag tag-default">公寓</span></div>
+            </div>
+            <div class="card-fields">
+              <div class="card-field"><span class="card-field-label">地址：</span><span class="card-field-value">北京市丰台区龙湖春江郦城</span></div>
+              <div class="card-field"><span class="card-field-label">面积：</span><span class="card-field-value">98㎡</span></div>
+              <div class="card-field"><span class="card-field-label">户型：</span><span class="card-field-value">3室2厅2卫</span></div>
+              <div class="card-field"><span class="card-field-label">当前租客：</span><span class="card-field-value" style="color:var(--color-text-2)">暂无</span></div>
+              <div class="card-field"><span class="card-field-label">月租金：</span><span class="card-field-value price">¥5,500</span></div>
+              <div class="card-field"><span class="card-field-label">空置天数：</span><span class="card-field-value" style="color:var(--color-warning)">15天</span></div>
+            </div>
+          </div>
+          <div class="card-footer"><button class="link-btn">详情</button><span class="link-sep">|</span><button class="link-btn">编辑</button><span class="link-sep">|</span><button class="link-btn" style="color:var(--color-primary)">发布招租</button></div>
+        </div>
+
+        <div class="prop-card">
+          <div class="card-check"><input type="checkbox"></div>
+          <div class="card-cover"><div class="card-cover-placeholder">🏠</div></div>
+          <div class="card-body">
+            <div class="card-header-row">
+              <span class="card-room-no">1-2-602</span>
+              <span class="card-title">远洋天地 1栋2单元602室</span>
+              <div class="card-tags"><span class="tag tag-success">已出租</span><span class="tag tag-default">住宅</span></div>
+            </div>
+            <div class="card-fields">
+              <div class="card-field"><span class="card-field-label">地址：</span><span class="card-field-value">北京市朝阳区远洋天地</span></div>
+              <div class="card-field"><span class="card-field-label">面积：</span><span class="card-field-value">55㎡</span></div>
+              <div class="card-field"><span class="card-field-label">户型：</span><span class="card-field-value">1室1厅1卫</span></div>
+              <div class="card-field"><span class="card-field-label">当前租客：</span><span class="card-field-value">李四</span></div>
+              <div class="card-field"><span class="card-field-label">月租金：</span><span class="card-field-value price">¥4,100</span></div>
+              <div class="card-field"><span class="card-field-label">合同到期：</span><span class="card-field-value">2027-08-31</span></div>
+            </div>
+          </div>
+          <div class="card-footer"><button class="link-btn" onclick="location.href='property-detail.html'">详情</button><span class="link-sep">|</span><button class="link-btn">编辑</button><span class="link-sep">|</span><button class="link-btn" onclick="location.href='contract-list.html'">合同</button></div>
+        </div>
+
+        <div class="prop-card">
+          <div class="card-check"><input type="checkbox"></div>
+          <div class="card-cover"><div class="card-cover-placeholder">🏢</div></div>
+          <div class="card-body">
+            <div class="card-header-row">
+              <span class="card-room-no">3-1-401</span>
+              <span class="card-title">保利中央公园 3栋1单元401室</span>
+              <div class="card-tags"><span class="tag tag-info">空置中</span><span class="tag tag-default">住宅</span></div>
+            </div>
+            <div class="card-fields">
+              <div class="card-field"><span class="card-field-label">地址：</span><span class="card-field-value">北京市顺义区保利中央公园</span></div>
+              <div class="card-field"><span class="card-field-label">面积：</span><span class="card-field-value">110㎡</span></div>
+              <div class="card-field"><span class="card-field-label">户型：</span><span class="card-field-value">3室2厅2卫</span></div>
+              <div class="card-field"><span class="card-field-label">当前租客：</span><span class="card-field-value" style="color:var(--color-text-2)">暂无</span></div>
+              <div class="card-field"><span class="card-field-label">月租金：</span><span class="card-field-value price">¥7,800</span></div>
+              <div class="card-field"><span class="card-field-label">空置天数：</span><span class="card-field-value" style="color:var(--color-warning)">8天</span></div>
+            </div>
+          </div>
+          <div class="card-footer"><button class="link-btn">详情</button><span class="link-sep">|</span><button class="link-btn">编辑</button><span class="link-sep">|</span><button class="link-btn" style="color:var(--color-primary)">发布招租</button></div>
+        </div>
+
+        <div class="prop-card">
+          <div class="card-check"><input type="checkbox"></div>
+          <div class="card-cover"><div class="card-cover-placeholder">🏠</div></div>
+          <div class="card-body">
+            <div class="card-header-row">
+              <span class="card-room-no">6-3-702</span>
+              <span class="card-title">中海国际 6栋3单元702室</span>
+              <div class="card-tags"><span class="tag tag-success">已出租</span><span class="tag tag-default">住宅</span></div>
+            </div>
+            <div class="card-fields">
+              <div class="card-field"><span class="card-field-label">地址：</span><span class="card-field-value">北京市海淀区中海国际社区</span></div>
+              <div class="card-field"><span class="card-field-label">面积：</span><span class="card-field-value">82㎡</span></div>
+              <div class="card-field"><span class="card-field-label">户型：</span><span class="card-field-value">2室2厅1卫</span></div>
+              <div class="card-field"><span class="card-field-label">当前租客：</span><span class="card-field-value">赵六</span></div>
+              <div class="card-field"><span class="card-field-label">月租金：</span><span class="card-field-value price">¥5,200</span></div>
+              <div class="card-field"><span class="card-field-label">合同到期：</span><span class="card-field-value">2026-12-31</span></div>
+            </div>
+          </div>
+          <div class="card-footer"><button class="link-btn" onclick="location.href='property-detail.html'">详情</button><span class="link-sep">|</span><button class="link-btn">编辑</button><span class="link-sep">|</span><button class="link-btn" onclick="location.href='contract-list.html'">合同</button></div>
+        </div>
+
+      </div>
+      <div class="pagination">
+        <span class="pg-info">共 128 条</span>
+        <button class="pg-btn">&laquo;</button>
+        <button class="pg-btn active">1</button>
+        <button class="pg-btn">2</button>
+        <button class="pg-btn">3</button>
+        <button class="pg-btn">...</button>
+        <button class="pg-btn">7</button>
+        <button class="pg-btn">&raquo;</button>
+        <select class="filter-select" style="width:90px;margin-left:8px"><option>20条/页</option><option>50条/页</option></select>
+      </div>
+    </div>
+    <div class="table-wrap" id="listView" style="display:none">
+      <div class="table-toolbar"><span class="grid-total">共 128 套房源</span></div>
+      <table>
+        <thead><tr>
+          <th style="width:40px"><input type="checkbox"></th>
+          <th style="width:100px">房号</th>
+          <th>房源名称</th>
+          <th>地址</th>
+          <th style="width:70px">面积</th>
+          <th style="width:70px">类型</th>
+          <th style="width:100px">月租金</th>
+          <th style="width:90px">状态</th>
+          <th>当前租客</th>
+          <th style="width:180px">操作</th>
+        </tr></thead>
+        <tbody>
+          <tr>
+            <td><input type="checkbox"></td>
+            <td><span class="card-room-no">3-2-802</span></td>
+            <td>阳光花园 3栋2单元802室</td>
+            <td style="color:var(--color-text-1)">朝阳区阳光花园小区</td>
+            <td>89㎡</td><td>住宅</td>
+            <td style="color:var(--color-error);font-weight:600">¥4,500</td>
+            <td><span class="tag tag-success">已出租</span></td>
+            <td>张三</td>
+            <td><button class="link-btn">详情</button><span class="link-sep">|</span><button class="link-btn">编辑</button><span class="link-sep">|</span><button class="link-btn" onclick="location.href='contract-list.html'">合同</button><span class="link-sep">|</span><button class="link-btn danger">停用</button></td>
+          </tr>
+          <tr>
+            <td><input type="checkbox"></td>
+            <td><span class="card-room-no">1-1-301</span></td>
+            <td>碧水湾 1栋1单元301室</td>
+            <td style="color:var(--color-text-1)">海淀区碧水湾小区</td>
+            <td>65㎡</td><td>住宅</td>
+            <td style="color:var(--color-error);font-weight:600">¥3,800</td>
+            <td><span class="tag tag-info">空置中</span></td>
+            <td style="color:var(--color-text-2)">—</td>
+            <td><button class="link-btn">详情</button><span class="link-sep">|</span><button class="link-btn">编辑</button><span class="link-sep">|</span><button class="link-btn" style="color:var(--color-primary)">发布招租</button><span class="link-sep">|</span><button class="link-btn danger">停用</button></td>
+          </tr>
+          <tr>
+            <td><input type="checkbox"></td>
+            <td><span class="card-room-no">2-3-501</span></td>
+            <td>翠湖苑 2栋3单元501室</td>
+            <td style="color:var(--color-text-1)">西城区翠湖苑小区</td>
+            <td>120㎡</td><td>住宅</td>
+            <td style="color:var(--color-error);font-weight:600">¥6,200</td>
+            <td><span class="tag tag-warning">维修中</span></td>
+            <td style="color:var(--color-text-2)">—</td>
+            <td><button class="link-btn">详情</button><span class="link-sep">|</span><button class="link-btn">编辑</button><span class="link-sep">|</span><button class="link-btn danger">停用</button></td>
+          </tr>
+          <tr>
+            <td><input type="checkbox"></td>
+            <td><span class="card-room-no">5-1-203</span></td>
+            <td>金色家园 5栋1单元203室</td>
+            <td style="color:var(--color-text-1)">朝阳区金色家园</td>
+            <td>75㎡</td><td>住宅</td>
+            <td style="color:var(--color-error);font-weight:600">¥2,900</td>
+            <td><span class="tag tag-success">已出租</span></td>
+            <td>王五</td>
+            <td><button class="link-btn">详情</button><span class="link-sep">|</span><button class="link-btn">编辑</button><span class="link-sep">|</span><button class="link-btn" onclick="location.href='contract-list.html'">合同</button><span class="link-sep">|</span><button class="link-btn danger">停用</button></td>
+          </tr>
+          <tr>
+            <td><input type="checkbox"></td>
+            <td><span class="card-room-no">6-3-702</span></td>
+            <td>中海国际 6栋3单元702室</td>
+            <td style="color:var(--color-text-1)">海淀区中海国际社区</td>
+            <td>82㎡</td><td>住宅</td>
+            <td style="color:var(--color-error);font-weight:600">¥5,200</td>
+            <td><span class="tag tag-success">已出租</span></td>
+            <td>赵六</td>
+            <td><button class="link-btn">详情</button><span class="link-sep">|</span><button class="link-btn">编辑</button><span class="link-sep">|</span><button class="link-btn" onclick="location.href='contract-list.html'">合同</button><span class="link-sep">|</span><button class="link-btn danger">停用</button></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="pagination">
+        <span class="pg-info">共 128 条</span>
+        <button class="pg-btn">&laquo;</button>
+        <button class="pg-btn active">1</button>
+        <button class="pg-btn">2</button>
+        <button class="pg-btn">3</button>
+        <button class="pg-btn">&raquo;</button>
+      </div>
+    </div>
+  </main>
+</div>
+<script>
+function switchView(v){
+  document.getElementById('cardView').style.display = v==='card'?'block':'none';
+  document.getElementById('listView').style.display = v==='list'?'block':'none';
+  document.getElementById('btnCardView').classList.toggle('active', v==='card');
+  document.getElementById('btnListView').classList.toggle('active', v==='list');
+}
+</script>
+</body>
+</html>

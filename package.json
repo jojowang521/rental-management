@@ -1,0 +1,10 @@
+{
+  "name": "ai-product-design-system",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Static website for AI product design system, interaction patterns, and scenario demos.",
+  "scripts": {
+    "start": "python3 -m http.server 8866",
+    "validate": "node scripts/validate-site.js"
+  }
+}

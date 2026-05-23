@@ -1,0 +1,154 @@
+{
+  "_comment": "表单页完整示例 - 新建房源，Token-Strict 规范",
+  "name": "新建房源",
+  "platform": "pc",
+  "width": 1920,
+  "height": 1080,
+  "pattern": "FormPage",
+  "figmaRef": "https://www.figma.com/design/YnekqUcG4ElWENxUoffqcv/中后台设计模板?node-id=5952-110498",
+  "generatedAt": "2026-03-18",
+  "nodes": [
+    {
+      "id": "page-root",
+      "type": "Page",
+      "props": {},
+      "style": {
+        "display": "flex",
+        "height": "100vh",
+        "backgroundColor": "var(--color-bg-grey-0)"
+      },
+      "children": [
+        {
+          "id": "side-nav",
+          "type": "SideNav",
+          "props": {
+            "activeKey": "property-list",
+            "items": [
+              { "key": "dashboard", "label": "工作台" },
+              { "key": "property-list", "label": "房源管理" },
+              { "key": "contract-list", "label": "合同管理" }
+            ]
+          },
+          "style": {},
+          "children": []
+        },
+        {
+          "id": "content",
+          "type": "Content",
+          "props": {},
+          "style": { "flex": "1", "display": "flex", "flexDirection": "column", "overflow": "hidden" },
+          "children": [
+            {
+              "id": "page-header",
+              "type": "PageHeader",
+              "props": {
+                "title": "新建房源",
+                "breadcrumb": [
+                  { "label": "房源管理", "href": "/property" },
+                  { "label": "新建房源" }
+                ]
+              },
+              "style": {},
+              "children": []
+            },
+            {
+              "id": "main",
+              "type": "Main",
+              "props": {},
+              "style": { "flex": "1", "padding": "24px", "overflow": "auto", "backgroundColor": "var(--color-bg-grey-0)" },
+              "children": [
+                {
+                  "id": "card-basic",
+                  "type": "Card",
+                  "props": { "title": "基本信息", "bordered": true },
+                  "style": { "marginBottom": "16px" },
+                  "children": [
+                    {
+                      "id": "form-basic",
+                      "type": "Form",
+                      "props": {
+                        "layout": "horizontal",
+                        "labelCol": { "span": 4 },
+                        "wrapperCol": { "span": 16 },
+                        "items": [
+                          { "name": "name",    "label": "房源名称", "type": "Input",    "required": true,  "placeholder": "请输入房源名称" },
+                          { "name": "code",    "label": "房源编号", "type": "Input",    "required": false, "placeholder": "留空时系统自动生成" },
+                          { "name": "type",    "label": "房源类型", "type": "Select",   "required": true,  "options": [{"label":"住宅","value":"residential"},{"label":"商业","value":"commercial"},{"label":"办公","value":"office"}] },
+                          { "name": "address", "label": "详细地址", "type": "Input",    "required": true,  "placeholder": "请输入详细地址" },
+                          { "name": "area",    "label": "建筑面积", "type": "InputNumber", "required": true, "placeholder": "请输入面积(㎡)", "suffix": "㎡" },
+                          { "name": "floor",   "label": "楼层",     "type": "InputNumber", "required": false, "placeholder": "请输入楼层" }
+                        ]
+                      },
+                      "style": {},
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "id": "card-rent",
+                  "type": "Card",
+                  "props": { "title": "租金信息", "bordered": true },
+                  "style": { "marginBottom": "16px" },
+                  "children": [
+                    {
+                      "id": "form-rent",
+                      "type": "Form",
+                      "props": {
+                        "layout": "horizontal",
+                        "labelCol": { "span": 4 },
+                        "wrapperCol": { "span": 16 },
+                        "items": [
+                          { "name": "rent",        "label": "月租金",   "type": "InputNumber", "required": true,  "placeholder": "请输入月租金", "prefix": "¥" },
+                          { "name": "deposit",     "label": "押金",     "type": "InputNumber", "required": false, "placeholder": "请输入押金", "prefix": "¥" },
+                          { "name": "paymentCycle","label": "付款周期", "type": "Select",   "required": true,  "options": [{"label":"月付","value":"monthly"},{"label":"季付","value":"quarterly"},{"label":"半年付","value":"semi-annual"},{"label":"年付","value":"annual"}] },
+                          { "name": "availableDate","label": "可租日期","type": "DatePicker","required": false, "placeholder": "请选择可出租日期" }
+                        ]
+                      },
+                      "style": {},
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "id": "card-desc",
+                  "type": "Card",
+                  "props": { "title": "补充信息", "bordered": true },
+                  "style": { "marginBottom": "24px" },
+                  "children": [
+                    {
+                      "id": "form-desc",
+                      "type": "Form",
+                      "props": {
+                        "layout": "horizontal",
+                        "labelCol": { "span": 4 },
+                        "wrapperCol": { "span": 16 },
+                        "items": [
+                          { "name": "tags",   "label": "标签",   "type": "Select",   "required": false, "mode": "tags",    "placeholder": "请输入标签" },
+                          { "name": "remark", "label": "备注",   "type": "TextArea", "required": false, "placeholder": "请输入备注信息", "rows": 4 }
+                        ]
+                      },
+                      "style": {},
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "id": "form-footer",
+                  "type": "FormFooter",
+                  "props": {
+                    "actions": [
+                      { "type": "Button", "variant": "default", "text": "取消", "actionKey": "cancel" },
+                      { "type": "Button", "variant": "primary", "text": "保存", "actionKey": "submit" }
+                    ]
+                  },
+                  "style": { "display": "flex", "gap": "8px", "justifyContent": "flex-end" },
+                  "children": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

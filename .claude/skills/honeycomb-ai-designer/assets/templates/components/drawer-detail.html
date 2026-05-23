@@ -1,0 +1,19 @@
+<!-- Honeycomb Drawer Detail Component Template
+Use for detail preview, trend preview, logs, and drill-down content. Keep content in white sections, not bare gray background.
+-->
+<div class="drawer" id="{{DRAWER_ID}}">
+  <div class="mask" onclick="closePanel('{{DRAWER_ID}}')"></div>
+  <div class="drawer-panel">
+    <div class="panel-head">
+      <h3>{{DRAWER_TITLE}}</h3>
+      <button class="close" onclick="closePanel('{{DRAWER_ID}}')">×</button>
+    </div>
+    <div class="panel-body">
+      {{DRAWER_CONTENT}}
+    </div>
+    <div class="panel-foot">
+      <button class="btn btn-d" onclick="closePanel('{{DRAWER_ID}}')">关闭</button>
+      {{OPTIONAL_ACTION}}
+    </div>
+  </div>
+</div>

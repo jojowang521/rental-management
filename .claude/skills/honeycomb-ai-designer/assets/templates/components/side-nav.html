@@ -1,0 +1,101 @@
+<!-- Honeycomb Side Navigation Component Template
+Use this contract for every PC admin shell. It follows the validated cost-investment side-nav
+interaction, but uses cached Honeycomb navigation SVG files instead of sprite positions.
+
+Required icon source:
+- First choose ICON_KEY from assets/icons/navigation/navigation-icons.json.
+- If assets/icons/navigation/svg/{{ICON_KEY}}.svg exists, use the img node below.
+- Inline SVG fallback is allowed only when no cached SVG and no Figma export are available.
+-->
+
+<!-- Parent item with children -->
+<li class="ni {{PARENT_OPEN_CLASS}} {{PARENT_ACTIVE_CLASS}}" onclick="toggleNav(this)">
+  <span class="ni-ic" data-icon-key="{{ICON_KEY}}" data-icon-source="assets/icons/navigation/svg/{{ICON_KEY}}.svg">
+    <img class="ni-img" src="assets/icons/navigation/svg/{{ICON_KEY}}.svg" alt="">
+  </span>
+  <span class="ni-lb">{{PARENT_LABEL}}</span>
+  <svg class="ni-arrow" viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+</li>
+<ul class="nsl {{CHILDREN_OPEN_CLASS}}">
+  {{CHILD_ITEMS}}
+</ul>
+
+<!-- Single top-level item without children -->
+<li class="ni {{PARENT_ACTIVE_CLASS}}" data-page="{{PAGE_ID}}">
+  <span class="ni-ic" data-icon-key="{{ICON_KEY}}" data-icon-source="assets/icons/navigation/svg/{{ICON_KEY}}.svg">
+    <img class="ni-img" src="assets/icons/navigation/svg/{{ICON_KEY}}.svg" alt="">
+  </span>
+  <span class="ni-lb">{{PARENT_LABEL}}</span>
+</li>
+
+<!-- Child item pattern. Active state belongs to child item, not the whole parent. -->
+<li class="nsi {{ACTIVE_CLASS}}" data-page="{{PAGE_ID}}">{{CHILD_LABEL}}</li>
+
+<!-- Minimum CSS contract for side navigation -->
+<style>
+.sn{width:208px;height:100vh;background:#1C1C1E;display:flex;flex-direction:column;flex-shrink:0;overflow:hidden;transition:width .18s ease}
+.sn.collapsed{width:56px}
+.sn-logo{height:44px;padding:11px 16px;border-bottom:1px solid rgba(255,255,255,.12);display:flex;align-items:center;gap:8px;flex-shrink:0}
+.sn-mark{width:22px;height:22px;border-radius:6px;background:var(--cp600,#266EFF);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0}
+.sn-txt{color:#fff;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sn-toggle{width:20px;height:20px;margin-left:auto;border:0;background:transparent;color:rgba(255,255,255,.55);cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0}
+.sn-toggle:hover{color:#fff}
+.sn-toggle svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.sn.collapsed .sn-txt,.sn.collapsed .ni-lb,.sn.collapsed .ni-arrow,.sn.collapsed .nsl,.sn.collapsed .sn-foot{display:none!important}
+.sn.collapsed .sn-logo{padding:11px 8px;justify-content:center}
+.sn.collapsed .sn-mark{display:none}
+.sn.collapsed .sn-toggle{margin-left:0}
+.sn-body{flex:1;overflow:auto;padding:8px 0}
+.sn-body::-webkit-scrollbar{display:none}
+.nl,.nsl{list-style:none;margin:0;padding:0}
+.ni{min-height:44px;padding:13px 20px;display:flex;align-items:center;gap:16px;color:rgba(255,255,255,.65);font-size:14px;cursor:pointer}
+.sn.collapsed .ni{padding:14px 18px;justify-content:center;gap:0}
+.ni:hover,.nsi:hover{background:rgba(255,255,255,.06)}
+.ni.on,.ni.open{color:rgba(255,255,255,.88)}
+.ni-ic{width:16px;height:16px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ni-img{width:16px;height:16px;display:block;opacity:.78;filter:brightness(0) invert(1)}
+.ni:hover .ni-img,.ni.on .ni-img,.ni.open .ni-img{opacity:1}
+.ni-lb{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ni-arrow{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;opacity:.5;transition:transform .18s ease}
+.ni.open .ni-arrow{transform:rotate(180deg)}
+.nsl{display:none}
+.nsl.open{display:block}
+.nsi{height:34px;padding:9px 20px 9px 52px;display:flex;align-items:center;color:rgba(255,255,255,.45);font-size:13px;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nsi.active{color:#60A5FA;background:rgba(37,99,235,.15)}
+.sn-foot{height:44px;padding:12px 20px;border-top:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.4);font-size:12px;flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+</style>
+
+<!-- Minimum JS contract for side navigation -->
+<script>
+function toggleSidebar(){
+  var sn=document.getElementById('sn')||document.querySelector('.sn');
+  if(sn) sn.classList.toggle('collapsed');
+}
+function toggleNav(ni){
+  var sub=ni.nextElementSibling;
+  if(sub&&sub.classList.contains('nsl')){
+    var open=sub.classList.toggle('open');
+    ni.classList.toggle('open',open);
+  }
+}
+function initNav(){
+  document.querySelectorAll('.sn .ni').forEach(function(item){
+    if(!item.classList.contains('on')) item.classList.remove('open');
+  });
+  document.querySelectorAll('.sn .nsl').forEach(function(sub){sub.classList.remove('open')});
+  var active=document.querySelector('.sn .nsi.active');
+  var parent=active&&active.parentElement&&active.parentElement.previousElementSibling;
+  if(parent&&parent.classList.contains('ni')){
+    parent.classList.add('open');
+    active.parentElement.classList.add('open');
+    return;
+  }
+  var activeParent=document.querySelector('.sn .ni.on');
+  if(activeParent){
+    activeParent.classList.add('open');
+    var next=activeParent.nextElementSibling;
+    if(next&&next.classList.contains('nsl')) next.classList.add('open');
+  }
+}
+initNav();
+</script>
