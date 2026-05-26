@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: rental-management
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm run start
+    autoDeploy: true
+    envVars:
+      - key: AUI_ACCESS_PASSWORD
+        sync: false

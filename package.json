@@ -4,7 +4,7 @@
   "private": true,
   "description": "Static website for AI product design system, interaction patterns, and scenario demos.",
   "scripts": {
-    "start": "python3 -m http.server 8866",
+    "start": "node scripts/secure-preview-server.js",
     "validate": "node scripts/validate-site.js"
   }
 }

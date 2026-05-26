@@ -4,6 +4,12 @@
 
 ## 快速预览
 
+首次本地预览前，创建 `.env.local` 并配置访问密码：
+
+```bash
+AUI_ACCESS_PASSWORD=your-password
+```
+
 ```bash
 npm run start
 ```
@@ -30,6 +36,33 @@ http://127.0.0.1:8866/assets/site-pages.html
 - `DESIGN.md`：视觉风格唯一准则。
 - `PROJECT.md`：项目管理、改动边界、导航与案例维护规则。
 - `scripts/validate-site.js`：本地结构校验脚本。
+- `scripts/secure-preview-server.js`：带访问密码校验的 Node 静态站点服务。
+
+## 在线部署
+
+当前访问密码保护依赖 Node 服务端，不能直接部署到 GitHub Pages。可部署到 Vercel、Render、Railway 或自有服务器，并配置环境变量：
+
+```bash
+AUI_ACCESS_PASSWORD=your-password
+```
+
+也可以配置密码哈希，避免平台环境变量中出现明文密码：
+
+```bash
+AUI_ACCESS_PASSWORD_HASH=sha256-password-hash
+```
+
+部署后将 `ued.mybaux.cn` 的 DNS 指向新平台提供的域名或 CNAME，原 GitHub Pages 绑定需要移除或停用。
+
+### Render 部署
+
+仓库根目录已提供 `render.yaml`。在 Render 新建 Blueprint 并选择本仓库时，会创建一个 Web Service，并提示填写：
+
+```bash
+AUI_ACCESS_PASSWORD
+```
+
+填入访问密码后部署即可。部署完成后，先用 Render 提供的 `onrender.com` 地址验证密码页，再绑定自定义域名 `ued.mybaux.cn`。
 
 ## 改动流程
 
