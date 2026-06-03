@@ -1147,7 +1147,7 @@ body.case-preview .topbar-desc {
 }
 
 /* ═══════════════════════════════════════
-   框架选型页面专用样式
+   交互范式页面专用样式
 ═══════════════════════════════════════ */
 
 /* ── 判断矩阵 ── */
@@ -1994,31 +1994,24 @@ body.embed {
         <div class="nav-item-sub">从设计操作界面到设计协作过程</div>
       </div>
     </a>
-    <a class="nav-item" data-page="p-lang-3" onclick="show('p-lang-3')">
-      <span class="nav-icon ni-ic" data-icon-key="permission" data-icon-source="icons/navigation/svg/permission.svg"><img class="ni-img" src="icons/navigation/svg/permission.svg" alt=""></span>
-      <div>
-        <div>设计决策层级</div>
-        <div class="nav-item-sub">框架·过程·组件</div>
-      </div>
-    </a>
   </div>
 
   <div class="nav-section nav-section-toggle" onclick="toggleGroup('g-frame')">
-    <span class="nav-section-label">框架选型</span><span class="nav-toggle-icon" id="icon-g-frame"><svg class="line-icon" viewBox="0 0 16 16" aria-hidden="true"><path d="m4 6 4 4 4-4"></path></svg></span>
+    <span class="nav-section-label">交互范式</span><span class="nav-toggle-icon" id="icon-g-frame"><svg class="line-icon" viewBox="0 0 16 16" aria-hidden="true"><path d="m4 6 4 4 4-4"></path></svg></span>
   </div>
   <div class="nav-group" id="g-frame" style="max-height:500px">
-    <a class="nav-item" data-page="p-frame-0" onclick="show('p-frame-0')">
-      <span class="nav-icon ni-ic" data-icon-key="dashboard" data-icon-source="icons/navigation/svg/dashboard.svg"><img class="ni-img" src="icons/navigation/svg/dashboard.svg" alt=""></span>
-      <div>
-        <div>设计原则</div>
-        <div class="nav-item-sub">判断矩阵与流程</div>
-      </div>
-    </a>
     <a class="nav-item" data-page="p-frame-2" onclick="show('p-frame-2')">
       <span class="nav-icon ni-ic" data-icon-key="work-order" data-icon-source="icons/navigation/svg/work-order.svg"><img class="ni-img" src="icons/navigation/svg/work-order.svg" alt=""></span>
       <div>
         <div>侧边栏模式</div>
         <div class="nav-item-sub">用户主导·轻重两种形态</div>
+      </div>
+    </a>
+    <a class="nav-item" data-page="p-frame-3" onclick="show('p-frame-3')">
+      <span class="nav-icon ni-ic" data-icon-key="building" data-icon-source="icons/navigation/svg/building.svg"><img class="ni-img" src="icons/navigation/svg/building.svg" alt=""></span>
+      <div>
+        <div>嵌入式</div>
+        <div class="nav-item-sub">页面内嵌·局部智能</div>
       </div>
     </a>
     <a class="nav-item" data-page="p-frame-1" onclick="show('p-frame-1')">
@@ -2250,7 +2243,7 @@ body.embed {
         <tr><td>系统角色</td><td>工具，响应操作</td><td><b class="hi">参与者，参与任务本身</b></td></tr>
         <tr><td>核心设计问题</td><td>页面放什么、用户怎么操作</td><td><b class="hi">用户干什么、AI 干什么、在哪交接</b></td></tr>
         <tr><td>衡量标准</td><td>界面是否清晰易用</td><td><b class="hi">协作流是否被设计清楚</b></td></tr>
-        <tr><td>典型输出</td><td>页面原型、交互说明</td><td><b class="hi">协作流设计 + 框架选型 + 组件规范</b></td></tr>
+        <tr><td>典型输出</td><td>页面原型、交互说明</td><td><b class="hi">协作流设计 + 交互范式 + 组件规范</b></td></tr>
       </tbody>
     </table>
   </div>
@@ -2303,7 +2296,7 @@ body.embed {
       <div class="layer-row">
         <div class="layer-left">
           <div class="layer-num-big">第一层</div>
-          <div class="layer-name">框架选型</div>
+          <div class="layer-name">交互范式</div>
           <div class="layer-q">选什么框架承载这个 AI 功能？</div>
         </div>
         <div class="layer-right">
@@ -2359,7 +2352,7 @@ body.embed {
     <div class="section-title"><span class="section-num">02</span>场景与层级的关系</div>
     <div class="callout blue">
       💡 五类业务场景（查询/录入/审核/分析/报告）不是分类维度，是应用案例。<br>
-      产品经理拿到一个录入场景的需求，先查框架选型选出框架，再按过程设计规范，最后用组件实现。<br>
+      产品经理拿到一个录入场景的需求，先查交互范式选出承载方式，再按过程设计规范，最后用组件实现。<br>
       场景是入口，不是标准本身。
     </div>
     <table class="compare-table" style="margin-top:16px">
@@ -2574,10 +2567,10 @@ body.embed {
 </div>
 
 <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  框架选型 2.1  AI Native模式
+  交互范式 2.1  AI Native模式
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
 <div class="page" id="p-frame-1">
-  <div class="page-eyebrow">框架选型 · 2.1</div>
+  <div class="page-eyebrow">交互范式 · 2.1</div>
   <div class="content-tab-panel" data-content-tab-panel="frame-native-overview">
   <div class="frame-hero">
     <div class="frame-info">
@@ -2785,10 +2778,10 @@ body.embed {
 </div>
 
 <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  框架选型 2.2  侧边栏模式
+  交互范式 2.2  侧边栏模式
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
 <div class="page" id="p-frame-2">
-  <div class="page-eyebrow">框架选型 · 2.2</div>
+  <div class="page-eyebrow">交互范式 · 2.2</div>
   <div class="content-tab-panel" data-content-tab-panel="frame-side-overview">
     <div class="frame-hero">
       <div class="frame-info">
@@ -2972,6 +2965,129 @@ body.embed {
   </div>
   <div class="content-tab-panel active" data-content-tab-panel="frame-side-demo">
     <div class="case-demo-shell"><iframe class="case-demo-frame" data-case-src="payment-application-review-demo/index.html?shell=sidebar&v=20260524-local-sync2" title="付款申请审核助手"></iframe></div>
+  </div>
+</div>
+
+
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  交互范式 2.3  嵌入式
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<div class="page" id="p-frame-3">
+  <div class="page-eyebrow">交互范式 · 2.3</div>
+  <div class="frame-hero">
+    <div class="frame-info">
+      <div class="frame-badge sb">嵌入式</div>
+      <h1 class="frame-title">AI 嵌入业务页面，<br>在局部完成判断</h1>
+      <p class="frame-subtitle">嵌入式不是再打开一个助手，而是把 AI 能力放进表单、列表、详情或审批节点中。用户仍停留在当前业务上下文里，AI 只对局部对象给出推荐、解释或校验结果。</p>
+      <div style="margin-bottom:16px">
+        <div style="font-size:11px;color:var(--green);font-family:'JetBrains Mono',monospace;letter-spacing:.1em;margin-bottom:8px">✓ 适用条件</div>
+        <div class="tag-list">
+          <span class="tag-green">业务页面已有明确操作对象</span>
+          <span class="tag-green">AI 只处理局部字段或局部模块</span>
+          <span class="tag-green">用户需要边看业务数据边判断</span>
+          <span class="tag-green">建议可被快速采纳或忽略</span>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:11px;color:var(--red);font-family:'JetBrains Mono',monospace;letter-spacing:.1em;margin-bottom:8px">✗ 不适用条件</div>
+        <div class="tag-list">
+          <span class="tag-red">需要多轮对话和历史上下文</span>
+          <span class="tag-red">AI 需要主导完整任务流</span>
+          <span class="tag-red">结果需要跨多个页面连续处理</span>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="layout-mock">
+        <div class="lm-titlebar">
+          <div class="lm-dot"></div><div class="lm-dot"></div><div class="lm-dot"></div>
+          <div style="font-size:10px;color:var(--muted2);margin-left:8px;font-family:'JetBrains Mono',monospace">嵌入式 AI 辅助</div>
+        </div>
+        <div class="lm-body">
+          <div class="lm-nav">
+            <div class="lm-ni"></div>
+            <div class="lm-ni" style="width:55%"></div>
+            <div class="lm-ni" style="width:72%"></div>
+          </div>
+          <div class="lm-main">
+            <div class="lm-field filled" style="width:92%"></div>
+            <div class="lm-field filled" style="width:68%"></div>
+            <div class="lm-field warn" style="width:82%"></div>
+            <div class="lm-side" style="width:84%;margin-top:4px;border-color:var(--green-bd);background:var(--green-bg)">
+              <div style="font-size:9px;color:var(--green);margin-bottom:4px;font-family:'JetBrains Mono',monospace">AI 建议已嵌入当前模块</div>
+              <div class="lm-si ok"></div>
+              <div class="lm-si warn" style="width:60%"></div>
+            </div>
+            <div class="lm-field empty" style="width:74%"></div>
+          </div>
+        </div>
+      </div>
+      <div class="layout-labels">
+        <span class="ll">左 14% · 业务导航</span>
+        <span class="ll green">主区域 · 业务对象</span>
+        <span class="ll hi">局部模块 · AI 建议</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title"><span class="section-num">01</span>典型嵌入位置</div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px">
+      <div style="background:var(--s2);border:1px solid var(--border2);border-radius:12px;padding:18px 20px">
+        <div style="font-size:11px;color:var(--blue2);font-family:'JetBrains Mono',monospace;letter-spacing:.1em;margin-bottom:8px">FORM</div>
+        <div style="font-size:15px;font-weight:700;color:var(--text);margin-bottom:8px">表单字段旁</div>
+        <div style="font-size:12px;color:var(--muted);line-height:1.7">用于推荐填写值、解释规则、校验异常。AI 结果贴近字段展示，用户可一键采用。</div>
+      </div>
+      <div style="background:var(--s2);border:1px solid var(--border2);border-radius:12px;padding:18px 20px">
+        <div style="font-size:11px;color:var(--green);font-family:'JetBrains Mono',monospace;letter-spacing:.1em;margin-bottom:8px">TABLE</div>
+        <div style="font-size:15px;font-weight:700;color:var(--text);margin-bottom:8px">列表行内</div>
+        <div style="font-size:12px;color:var(--muted);line-height:1.7">用于风险标记、优先级建议、缺失项提示。结果跟随单行对象，不打断列表扫描。</div>
+      </div>
+      <div style="background:var(--s2);border:1px solid var(--border2);border-radius:12px;padding:18px 20px">
+        <div style="font-size:11px;color:var(--amber);font-family:'JetBrains Mono',monospace;letter-spacing:.1em;margin-bottom:8px">PANEL</div>
+        <div style="font-size:15px;font-weight:700;color:var(--text);margin-bottom:8px">详情模块内</div>
+        <div style="font-size:12px;color:var(--muted);line-height:1.7">用于摘要、证据对照、下一步建议。模块可折叠，默认不遮挡主信息。</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title"><span class="section-num">02</span>设计规则</div>
+    <div class="layout-spec">
+      <div class="layout-spec-header">嵌入式 AI · 不改变业务页面主结构</div>
+      <div class="layout-spec-body">
+        <div class="layout-spec-col">
+          <div class="lsc-label">入口</div>
+          <div class="lsc-title">贴近对象触发</div>
+          <div class="lsc-width">字段 / 行 / 模块</div>
+          <div class="lsc-items">
+            <div class="lsc-item">入口必须和业务对象绑定</div>
+            <div class="lsc-item">使用图标、状态点或轻量按钮触发</div>
+            <div class="lsc-item">不在页面顶部新增全局大按钮</div>
+          </div>
+        </div>
+        <div class="layout-spec-col" style="background:rgba(56,217,152,0.02)">
+          <div class="lsc-label">结果</div>
+          <div class="lsc-title">局部呈现</div>
+          <div class="lsc-width">不超过当前模块边界</div>
+          <div class="lsc-items">
+            <div class="lsc-item">给推荐值、原因和证据来源</div>
+            <div class="lsc-item">支持采纳、忽略、查看依据</div>
+            <div class="lsc-item">弱提醒默认收起，高风险直接露出</div>
+          </div>
+        </div>
+        <div class="layout-spec-col">
+          <div class="lsc-label">边界</div>
+          <div class="lsc-title">不抢主任务</div>
+          <div class="lsc-width">AI 是局部能力</div>
+          <div class="lsc-items">
+            <div class="lsc-item">不承载完整对话历史</div>
+            <div class="lsc-item">不替代主界面审批动作</div>
+            <div class="lsc-item">需要连续协作时升级为侧边栏或 AI Native模式</div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -3635,8 +3751,8 @@ body.embed {
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
 <div class="page" id="p-case-0">
   <div class="page-eyebrow">场景案例 · 总览</div>
-  <h1 class="page-title">五类场景的<em>框架选型</em>与<em>规范对应</em></h1>
-  <p class="page-desc">五类业务场景是应用案例，不是分类维度。每个场景对应特定的框架选型、HITL 强度（人工介入的深浅程度）和关键交互规范，产品经理通过这张总览快速定位该用哪套规范。</p>
+  <h1 class="page-title">五类场景的<em>交互范式</em>与<em>规范对应</em></h1>
+  <p class="page-desc">五类业务场景是应用案例，不是分类维度。每个场景对应特定的交互范式、HITL 强度（人工介入的深浅程度）和关键交互规范，产品经理通过这张总览快速定位该用哪套规范。</p>
 
   <div class="section">
     <div class="section-title"><span class="section-num">01</span>五类场景对应关系总表</div>
@@ -3815,10 +3931,11 @@ function show(id) {
   }
   document.querySelectorAll('.nav-item.active').forEach(n => n.classList.remove('active'));
   if (id !== 'p-frame-1') document.getElementById('p-frame-1')?.classList.remove('is-demo-wide');
+  if (id !== 'p-frame-2') document.getElementById('p-frame-2')?.classList.remove('is-demo-wide');
   document.body.classList.toggle('case-preview', id.startsWith('p-case-') && id !== 'p-case-0');
 
   // auto expand group if needed
-  const frameIds = ['p-frame-0','p-frame-1','p-frame-2'];
+  const frameIds = ['p-frame-0','p-frame-1','p-frame-2','p-frame-3'];
   const principleIds = ['p-lang-1','p-lang-3'];
   const uxIds    = ['p-ux-1','p-ux-2','p-ux-3','p-ux-4','p-ux-5'];
   const caseIds  = ['p-case-0','p-case-entry','p-case-query','p-case-audit','p-case-analysis','p-case-report','p-case-combo'];
@@ -3830,7 +3947,29 @@ function show(id) {
   const activeItem = document.querySelector(`.nav-item[data-page="${id}"]`);
   if (activeItem) activeItem.classList.add('active');
   updateTopbar(id);
+  activateFrameDefaultPanel(id);
   window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+}
+
+function activateFrameDefaultPanel(id) {
+  const config = {
+    'p-frame-1': { tabset: 'frame-native', panel: 'frame-native-demo' },
+    'p-frame-2': { tabset: 'frame-side', panel: 'frame-side-demo' },
+  }[id];
+  if (!config) return;
+  const page = document.getElementById(id);
+  const tabset = document.querySelector(`.topbar-tabset[data-topbar-tabset="${config.tabset}"]`);
+  if (!page) return;
+  page.classList.add('is-demo-wide');
+  page.querySelectorAll('.content-tab-panel').forEach(panel => {
+    panel.classList.toggle('active', panel.getAttribute('data-content-tab-panel') === config.panel);
+  });
+  tabset?.querySelectorAll('.content-tab').forEach(tab => {
+    const active = tab.getAttribute('onclick')?.includes(config.panel);
+    tab.classList.toggle('active', !!active);
+    tab.setAttribute('aria-selected', active ? 'true' : 'false');
+  });
+  hydrateCasePreviews(page.querySelector(`[data-content-tab-panel="${config.panel}"]`) || page);
 }
 
 function updateTopbar(id) {
@@ -3911,9 +4050,27 @@ function switchContentTab(tabId, button) {
 function resolveCaseAsset(path) {
   if (!path) return '';
   if (window.location.protocol === 'file:') {
-    return 'http://127.0.0.1:8866/assets/' + path;
+    return 'http://127.0.0.1:8878/assets/' + path;
   }
   return path;
+}
+
+function showPreviewStatus(frame, message) {
+  const shell = frame?.closest('.case-demo-shell');
+  if (!shell) return;
+  let status = shell.querySelector('.case-demo-status');
+  if (!status) {
+    status = document.createElement('div');
+    status.className = 'case-demo-status';
+    status.style.cssText = 'position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:24px;text-align:center;font-size:14px;line-height:1.7;color:#667085;background:#fff;z-index:1';
+    shell.style.position = 'relative';
+    shell.appendChild(status);
+  }
+  status.textContent = message;
+}
+
+function hidePreviewStatus(frame) {
+  frame?.closest('.case-demo-shell')?.querySelector('.case-demo-status')?.remove();
 }
 
 function openPatternDrawer(srcPath = 'input-drawer-demo/index.html?shell=sidebar&autoOpen=1&uploadSample=1', title = '上传文件', options = {}) {
@@ -3961,7 +4118,12 @@ function hydrateCasePreviews(root = document) {
     const rawSrc = el.getAttribute('data-case-src');
     const joiner = rawSrc && rawSrc.includes('?') ? '&' : '?';
     const src = resolveCaseAsset(`${rawSrc}${joiner}sitev=20260524-local-sync2`);
-    if (el.getAttribute('src') !== src) el.setAttribute('src', src);
+    if (el.getAttribute('src') !== src) {
+      showPreviewStatus(el, '正在加载预览...');
+      el.setAttribute('src', src);
+    }
+    el.onload = () => hidePreviewStatus(el);
+    el.onerror = () => showPreviewStatus(el, '预览加载失败，请确认本地预览服务正在运行。');
   });
 }
 
