@@ -328,6 +328,55 @@ body.embed .topbar {
   max-width: 1120px;
 }
 .page.active { display: block; }
+.quick-toc {
+  display: none;
+  position: fixed;
+  top: 116px;
+  right: 28px;
+  width: 150px;
+  z-index: 40;
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: rgba(255,255,255,0.92);
+  box-shadow: var(--shadow-soft);
+}
+.quick-toc.visible {
+  display: block;
+}
+.quick-toc-title {
+  padding: 4px 6px 8px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--muted2);
+}
+.quick-toc-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.quick-toc-link {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  border-radius: 8px;
+  padding: 8px 7px;
+  text-align: left;
+  font: inherit;
+  font-size: 12px;
+  line-height: 1.35;
+  color: var(--muted);
+  cursor: pointer;
+}
+.quick-toc-link:hover {
+  background: var(--blue-bg);
+  color: var(--blue2);
+}
+.quick-toc-link.active {
+  background: var(--blue-bg);
+  color: var(--blue2);
+  font-weight: 700;
+}
 
 body.case-preview .topbar {
   min-height: 56px;
@@ -3820,6 +3869,8 @@ body.embed {
 
 </main>
 
+<aside class="quick-toc" id="quickToc" aria-label="页内快捷目录"></aside>
+
 <div class="pattern-drawer-mask" id="patternDrawer" aria-hidden="true" onclick="closePatternDrawer(event)">
   <aside class="pattern-drawer" role="dialog" aria-modal="true" aria-label="组件示例抽屉" onclick="event.stopPropagation()">
     <div class="pattern-drawer-header">
@@ -3859,7 +3910,61 @@ function show(id) {
   if (activeItem) activeItem.classList.add('active');
   updateTopbar(id);
   activateFrameDefaultPanel(id);
+  renderQuickToc(target);
   window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+  updateQuickTocActive();
+}
+
+function renderQuickToc(page) {
+  const toc = document.getElementById('quickToc');
+  if (!toc) return;
+  const isUxPage = page?.id && /^p-ux-\d+$/.test(page.id);
+  if (!isUxPage) {
+    toc.classList.remove('visible');
+    toc.innerHTML = '';
+    return;
+  }
+  const sections = Array.from(page.querySelectorAll(':scope > .section'));
+  if (!sections.length) {
+    toc.classList.remove('visible');
+    toc.innerHTML = '';
+    return;
+  }
+  const links = sections.map((section, index) => {
+    if (!section.id) section.id = `${page.id}-section-${index + 1}`;
+    const title = section.querySelector('.section-title')?.textContent.replace(/\s+/g, ' ').replace(/^\d+\s*/, '').trim() || `分组 ${index + 1}`;
+    return `<button class="quick-toc-link" type="button" data-target="${section.id}">${title}</button>`;
+  }).join('');
+  toc.innerHTML = `<div class="quick-toc-title">快捷目录</div><div class="quick-toc-list">${links}</div>`;
+  toc.classList.add('visible');
+  toc.querySelectorAll('.quick-toc-link').forEach(button => {
+    button.addEventListener('click', () => {
+      const section = document.getElementById(button.dataset.target);
+      if (!section) return;
+      const topbarHeight = document.querySelector('.topbar')?.offsetHeight || 0;
+      const targetTop = section.getBoundingClientRect().top + window.scrollY - topbarHeight - 24;
+      window.scrollTo({ top: Math.max(0, targetTop), left: 0, behavior: 'smooth' });
+      updateQuickTocActive(button.dataset.target);
+    });
+  });
+}
+
+function updateQuickTocActive(forceId) {
+  const toc = document.getElementById('quickToc');
+  if (!toc?.classList.contains('visible')) return;
+  const links = Array.from(toc.querySelectorAll('.quick-toc-link'));
+  if (!links.length) return;
+  let activeId = forceId;
+  if (!activeId) {
+    const topbarHeight = document.querySelector('.topbar')?.offsetHeight || 0;
+    const marker = topbarHeight + 56;
+    const sections = links.map(link => document.getElementById(link.dataset.target)).filter(Boolean);
+    activeId = sections[0]?.id;
+    sections.forEach(section => {
+      if (section.getBoundingClientRect().top <= marker) activeId = section.id;
+    });
+  }
+  links.forEach(link => link.classList.toggle('active', link.dataset.target === activeId));
 }
 
 function activateFrameDefaultPanel(id) {
@@ -4067,7 +4172,13 @@ document.addEventListener('DOMContentLoaded', () => {
     el.style.maxHeight = el.scrollHeight + 'px';
   });
   updateTopbar(document.querySelector('.page.active')?.id || 'p-lang-1');
+  renderQuickToc(document.querySelector('.page.active'));
+  updateQuickTocActive();
 });
+
+window.addEventListener('scroll', () => {
+  window.requestAnimationFrame(() => updateQuickTocActive());
+}, { passive: true });
 
 function applyEmbedMode() {
   const params = new URLSearchParams(window.location.search);
