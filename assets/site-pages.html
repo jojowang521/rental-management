@@ -2042,36 +2042,29 @@ body.embed {
     <a class="nav-item" data-page="p-ux-1" onclick="show('p-ux-1')">
       <span class="nav-icon ni-ic" data-icon-key="lead" data-icon-source="icons/navigation/svg/lead.svg"><img class="ni-img" src="icons/navigation/svg/lead.svg" alt=""></span>
       <div>
-        <div>用户输入设计</div>
-        <div class="nav-item-sub">上传·选择·触发·确认</div>
+        <div>输入层 Input</div>
+        <div class="nav-item-sub">对话·上下文·文件·确认</div>
       </div>
     </a>
     <a class="nav-item" data-page="p-ux-2" onclick="show('p-ux-2')">
       <span class="nav-icon ni-ic" data-icon-key="business-data" data-icon-source="icons/navigation/svg/business-data.svg"><img class="ni-img" src="icons/navigation/svg/business-data.svg" alt=""></span>
       <div>
-        <div>AI 执行可见性</div>
-        <div class="nav-item-sub">四层信息·进度状态</div>
+        <div>执行层 Runtime</div>
+        <div class="nav-item-sub">思考·任务·工具·协作</div>
       </div>
     </a>
     <a class="nav-item" data-page="p-ux-3" onclick="show('p-ux-3')">
       <span class="nav-icon ni-ic" data-icon-key="log" data-icon-source="icons/navigation/svg/log.svg"><img class="ni-img" src="icons/navigation/svg/log.svg" alt=""></span>
       <div>
-        <div>结果呈现规范</div>
-        <div class="nav-item-sub">低·强·极强介入</div>
+        <div>输出层 Output</div>
+        <div class="nav-item-sub">对话流·工作台·视窗·导出</div>
       </div>
     </a>
     <a class="nav-item" data-page="p-ux-4" onclick="show('p-ux-4')">
       <span class="nav-icon ni-ic" data-icon-key="contract" data-icon-source="icons/navigation/svg/contract.svg"><img class="ni-img" src="icons/navigation/svg/contract.svg" alt=""></span>
       <div>
-        <div>确认交接规范</div>
-        <div class="nav-item-sub">推荐值·来源·卡片</div>
-      </div>
-    </a>
-    <a class="nav-item" data-page="p-ux-5" onclick="show('p-ux-5')">
-      <span class="nav-icon ni-ic" data-icon-key="permission" data-icon-source="icons/navigation/svg/permission.svg"><img class="ni-img" src="icons/navigation/svg/permission.svg" alt=""></span>
-      <div>
-        <div>可控可信规范</div>
-        <div class="nav-item-sub">质疑·依据·修正</div>
+        <div>闭环层 Follow-up</div>
+        <div class="nav-item-sub">追问·修正·续跑·反馈</div>
       </div>
     </a>
   </div>
@@ -2332,14 +2325,14 @@ body.embed {
           <div class="layer-q">这个框架下，协作流怎么设计？</div>
         </div>
         <div class="layer-right">
-          <div style="font-size:12px;color:var(--muted);margin-bottom:8px">四个过程设计方向</div>
+          <div style="font-size:12px;color:var(--muted);margin-bottom:8px">四个 AUI 交互规范层级</div>
           <div class="layer-items">
-            <span class="layer-chip">用户输入设计</span>
-            <span class="layer-chip">AI 执行可见性</span>
-            <span class="layer-chip">确认交接设计</span>
-            <span class="layer-chip">闭环追问设计</span>
+            <span class="layer-chip">输入层 Input</span>
+            <span class="layer-chip">执行层 Runtime</span>
+            <span class="layer-chip">输出层 Output</span>
+            <span class="layer-chip">闭环层 Follow-up</span>
           </div>
-          <div class="layer-desc">判断依据：用户输入什么 · AI 做了什么要告知 · 哪里需要人工介入 · HITL 强度（人工介入的深浅程度）</div>
+          <div class="layer-desc">判断依据：用户交付什么信息 · AI 如何执行任务 · 结果以什么形态出现 · 如何继续追问、修正和续跑</div>
         </div>
       </div>
       <div class="layer-arrow">↓</div>
@@ -3116,651 +3109,409 @@ body.embed {
 
 <!-- ━━━━ UX PAGES START ━━━━ -->
 
-<!-- ━━ 3.1 用户输入设计 ━━ -->
+<!-- ━━ 3.1 输入层 Input ━━ -->
 <div class="page" id="p-ux-1">
   <div class="page-eyebrow">交互规范 · 3.1</div>
-  <h1 class="page-title">用户输入设计：从<em>填字段</em>到<em>交信息</em></h1>
-  <p class="page-desc">AI 产品的用户输入不只是打字。核心问题是「用户把什么信息交给 AI」。包含六种输入形式，每种有独立的设计规范和适用场景。</p>
+  <h1 class="page-title">输入层 <em>Input</em></h1>
+  <p class="page-desc">输入层定义用户如何把意图、上下文、资料和确认信息交给 AI。二级目录来自 AUI 组件清单，三级节点作为本页分组标题，组件项直接落在分组内。</p>
 
   <div class="section">
-    <div class="section-title"><span class="section-num">01</span>六种输入形式</div>
-    <div class="input-pattern-grid">
-      <div class="input-pattern-card">
-        <button type="button" aria-label="查看上传文件抽屉示例" onclick="openPatternDrawer()">
-          <img src="design-input-patterns/upload-files.png" alt="上传文件输入示例">
-        </button>
-        <h3>上传文件</h3>
-        <p>把上下文直接交给 AI，AI 负责读取理解提取。支持 doc/pdf/zip/xlsx 等格式，可多文件批量上传</p>
+    <div class="section-title"><span class="section-num">01</span>对话输入</div>
+    <div class="trust-component-card">
+      <div class="trust-component-head">
+        <div>
+          <div class="trust-component-index">INPUT / CONVERSATION</div>
+          <div class="trust-component-title">对话输入</div>
+        </div>
+        <div class="trust-component-desc">用户用自然语言、指令或模板发起 AI 任务。</div>
       </div>
-      <div class="input-pattern-card">
-        <img src="design-input-patterns/select-options.png" alt="选择选项输入示例">
-        <h3>选择选项</h3>
-        <p>AI 给出 A/B/C，用户选一个。比打字快，比自由输入稳定。选项不超过 5 个，每个选项有说明</p>
-      </div>
-      <div class="input-pattern-card">
-        <img src="design-input-patterns/trigger-action.png" alt="触发动作输入示例">
-        <h3>触发动作</h3>
-        <p>用户主动让 AI 开始处理，保留控制感。按钮文案说明 AI 会做什么，触发后立即反馈</p>
-      </div>
-      <div class="input-pattern-card">
-        <img src="design-input-patterns/confirm-recommendation.png" alt="确认推荐值输入示例">
-        <h3>确认推荐值</h3>
-        <p>AI 已经填好了，用户判断对不对。必须给推荐值，不给空框；说明推荐来源；提供修改入口</p>
-      </div>
-      <div class="input-pattern-card">
-        <img src="design-input-patterns/voice-input.png" alt="语音录入输入示例">
-        <h3>语音录入</h3>
-        <p>移动端场景下的低成本输入方式。录音过程有波形反馈，识别完成后可编辑文字结果</p>
-      </div>
-      <div class="input-pattern-card">
-        <img src="design-input-patterns/reference-context.png" alt="引用上下文输入示例">
-        <h3>引用上下文</h3>
-        <p>用户输入时附带引用来源（文档/代码片段/历史消息），在输入框以带图标的灰色块状形式呈现</p>
+      <div class="trust-chip-grid">
+        <div class="trust-chip">文本输入框</div>
+        <div class="trust-chip">语音输入</div>
+        <div class="trust-chip">快捷指令</div>
+        <div class="trust-chip">选择技能</div>
+        <div class="trust-chip">Prompt模板</div>
       </div>
     </div>
   </div>
 
   <div class="section">
-    <div class="section-title"><span class="section-num">02</span>设计规范对照</div>
-    <table class="compare-table">
-      <thead><tr><th style="width:130px">输入形式</th><th>设计要点</th><th>正例</th><th>反例</th></tr></thead>
-      <tbody>
-        <tr>
-          <td>上传文件</td>
-          <td>上传后立即显示文件列表；明确说明 AI 会用这些文件做什么；支持多文件</td>
-          <td><span style="color:var(--green)">「AI 将从这 3 个文件中提取 25 个字段」</span></td>
-          <td><span style="color:var(--red)">上传后无反馈，用户不知道发生了什么</span></td>
-        </tr>
-        <tr>
-          <td>选择选项</td>
-          <td>不超过 5 个；每个选项有说明文字；可搜索过滤</td>
-          <td><span style="color:var(--green)">「付款申请」+ 说明「适用于工程款、材料款等」</span></td>
-          <td><span style="color:var(--red)">只有标签没有说明，用户不知道选哪个</span></td>
-        </tr>
-        <tr>
-          <td>触发动作</td>
-          <td>按钮文案说明 AI 做什么；触发后立即反馈；不可重复点击</td>
-          <td><span style="color:var(--green)">点击后变为「识别中…」并显示进度</span></td>
-          <td><span style="color:var(--red)">点击后无反应，用户不确定是否已触发</span></td>
-        </tr>
-        <tr>
-          <td>确认推荐值</td>
-          <td>必须给推荐值不给空框；说明来源；提供修改入口</td>
-          <td><span style="color:var(--green)">「10%（来源：招标文件第 6.2 条）」+ 修改链接</span></td>
-          <td><span style="color:var(--red)">空框让用户填写，没有推荐值和来源</span></td>
-        </tr>
-        <tr>
-          <td>语音录入</td>
-          <td>录音时有波形动效；识别结果可二次编辑；噪音环境有降噪提示</td>
-          <td><span style="color:var(--green)">识别后展示文字，用户可修改再发送</span></td>
-          <td><span style="color:var(--red)">直接发送识别结果，用户无法确认</span></td>
-        </tr>
-        <tr>
-          <td>引用上下文</td>
-          <td>引用以带图标灰色块呈现；可删除引用；发送后 AI 明确回应引用内容</td>
-          <td><span style="color:var(--green)">输入框显示「[@模板名]」灰色块，可一键移除</span></td>
-          <td><span style="color:var(--red)">引用混在文字里，AI 和用户都不清楚边界</span></td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="section-title"><span class="section-num">02</span>上下文输入</div>
+    <div class="trust-component-card">
+      <div class="trust-component-head">
+        <div>
+          <div class="trust-component-index">INPUT / CONTEXT</div>
+          <div class="trust-component-title">上下文输入</div>
+        </div>
+        <div class="trust-component-desc">把历史、引用和知识来源显式交给 AI，避免上下文边界不清。</div>
+      </div>
+      <div class="trust-chip-grid">
+        <div class="trust-chip">引用消息</div>
+        <div class="trust-chip">历史对话</div>
+        <div class="trust-chip">会话记忆</div>
+        <div class="trust-chip">知识库引用</div>
+      </div>
+    </div>
   </div>
 
   <div class="section">
-    <div class="section-title"><span class="section-num">03</span>控制感三原则</div>
-    <div class="callout blue">💡 控制感不是给用户更多按钮，而是让用户在整个过程里<b>知道发生了什么、随时可以介入</b>。</div>
-    <div class="three-col" style="margin-top:16px">
-      <div class="info-card">
-        <div class="info-card-title">👁 过程透明</div>
-        <div class="info-card-items">
-          <div class="ic-item">AI 处理过程中用户<b>看得见进展</b></div>
-          <div class="ic-item">不出现长时间无反馈的等待</div>
-          <div class="ic-item">告知 AI 基于什么信息在工作</div>
+    <div class="section-title"><span class="section-num">03</span>文件输入</div>
+    <div class="trust-component-card">
+      <div class="trust-component-head">
+        <div>
+          <div class="trust-component-index">INPUT / FILE</div>
+          <div class="trust-component-title">文件输入</div>
         </div>
+        <div class="trust-component-desc">适用于文档解析、合同审查、资料归集等需要 AI 读取材料的场景。</div>
       </div>
-      <div class="info-card">
-        <div class="info-card-title">✏️ 随时可改</div>
-        <div class="info-card-items">
-          <div class="ic-item">AI 填写的所有字段<b>用户可直接编辑</b></div>
-          <div class="ic-item">修改后 AI 不会自动覆盖用户输入</div>
-          <div class="ic-item">提供「重新识别」入口</div>
-        </div>
+      <div class="trust-chip-grid">
+        <div class="trust-chip">文档上传（PDF、Word、Excel、图片、音频）</div>
+        <div class="trust-chip">多文件上传</div>
       </div>
-      <div class="info-card">
-        <div class="info-card-title">⏸ 可以暂停</div>
-        <div class="info-card-items">
-          <div class="ic-item">高风险动作前<b>必须有确认节点</b></div>
-          <div class="ic-item">用户可以中断 AI 执行</div>
-          <div class="ic-item">支持撤销最近一步操作</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title"><span class="section-num">04</span>用户确认</div>
+    <div class="trust-component-card">
+      <div class="trust-component-head">
+        <div>
+          <div class="trust-component-index">INPUT / CONFIRM</div>
+          <div class="trust-component-title">用户确认</div>
         </div>
+        <div class="trust-component-desc">当 AI 给出建议、触发流程或碰到风险时，把判断权交还给用户。</div>
+      </div>
+      <div class="trust-chip-grid">
+        <div class="trust-chip">单选</div>
+        <div class="trust-chip">多选</div>
+        <div class="trust-chip">审批确认</div>
+        <div class="trust-chip">风险确认</div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ━━ 3.2 AI 执行可见性 ━━ -->
+<!-- ━━ 3.2 执行层 Runtime ━━ -->
 <div class="page" id="p-ux-2">
   <div class="page-eyebrow">交互规范 · 3.2</div>
-  <h1 class="page-title">AI 执行可见性：干活不能<em>偷偷摸摸</em></h1>
-  <p class="page-desc">AI 产品里的等待是「协作等待」，不是「系统等待」。用户必须知道 AI 在做什么、做到哪里了、结果从哪来。对应 3.2 中的：思考过程 Think、任务列表 Todolist、工具调用 ToolCall、子代理 SubAgent、进度 Process。</p>
+  <h1 class="page-title">执行层 <em>Runtime</em></h1>
+  <p class="page-desc">执行层定义 AI 接到任务后如何拆解、思考、调用工具、协作和反馈状态。它决定用户是否能看见过程、理解进展，并在必要时介入。</p>
 
   <div class="section">
-    <div class="section-title">
-      <span class="section-num">01</span>五种可见性组件及适用判断
-      <button class="section-title-action" type="button" onclick="openPatternDrawer('visibility-component-demo/index.html', '组件界面预览', { header: true, wide: true })">查看组件界面</button>
-    </div>
-    <div style="display:flex;flex-direction:column;gap:12px">
-
-      <div style="background:var(--s2);border:1px solid var(--border2);border-radius:12px;overflow:hidden">
-        <div style="display:grid;grid-template-columns:200px 1fr 1fr;border-bottom:1px solid var(--border)">
-          <div style="padding:16px 20px;border-right:1px solid var(--border);background:var(--s3)">
-            <div style="font-size:11px;color:var(--blue2);font-family:'JetBrains Mono',monospace;letter-spacing:.1em;margin-bottom:6px">THINK</div>
-            <div style="font-size:14px;font-weight:700;color:var(--text)">思考过程</div>
-          </div>
-          <div style="padding:14px 18px;border-right:1px solid var(--border)">
-            <div style="font-size:11px;color:var(--muted2);margin-bottom:6px;font-family:'JetBrains Mono',monospace">何时使用</div>
-            <div style="font-size:12px;color:var(--muted);line-height:1.6"><b style="color:var(--green)">强需求</b>：决策影响大、需要可解释性（合同风险、财务审核）<br><b style="color:var(--amber)">可选</b>：可提供「展开查看」，默认折叠<br><b style="color:var(--red)">不需要</b>：追求极致效率的简单查询</div>
-          </div>
-          <div style="padding:14px 18px">
-            <div style="font-size:11px;color:var(--muted2);margin-bottom:6px;font-family:'JetBrains Mono',monospace">设计规范</div>
-            <div style="font-size:12px;color:var(--muted);line-height:1.6">思考中用动态图标；完成后可展开收起；不暴露纯技术细节（算法参数等）</div>
-          </div>
+    <div class="section-title"><span class="section-num">01</span>思考过程</div>
+    <div class="trust-component-card">
+      <div class="trust-component-head">
+        <div>
+          <div class="trust-component-index">RUNTIME / THINKING</div>
+          <div class="trust-component-title">思考过程</div>
         </div>
+        <div class="trust-component-desc">呈现 AI 的任务理解、计划和关键判断，让等待过程可解释。</div>
       </div>
-
-      <div style="background:var(--s2);border:1px solid var(--border2);border-radius:12px;overflow:hidden">
-        <div style="display:grid;grid-template-columns:200px 1fr 1fr;border-bottom:1px solid var(--border)">
-          <div style="padding:16px 20px;border-right:1px solid var(--border);background:var(--s3)">
-            <div style="font-size:11px;color:var(--green);font-family:'JetBrains Mono',monospace;letter-spacing:.1em;margin-bottom:6px">TODOLIST</div>
-            <div style="font-size:14px;font-weight:700;color:var(--text)">任务列表</div>
-          </div>
-          <div style="padding:14px 18px;border-right:1px solid var(--border)">
-            <div style="font-size:11px;color:var(--muted2);margin-bottom:6px;font-family:'JetBrains Mono',monospace">何时使用</div>
-            <div style="font-size:12px;color:var(--muted);line-height:1.6">任务可拆解为多个步骤时必须使用。呈现任务规划、执行过程和实时状态（已完成/进行中/待办）</div>
-          </div>
-          <div style="padding:14px 18px">
-            <div style="font-size:11px;color:var(--muted2);margin-bottom:6px;font-family:'JetBrains Mono',monospace">设计规范</div>
-            <div style="font-size:12px;color:var(--muted);line-height:1.6">进行中标题加粗高亮；已完成打勾变灰；支持展开/收起；显示总进度「2/7」</div>
-          </div>
-        </div>
-      </div>
-
-      <div style="background:var(--s2);border:1px solid var(--border2);border-radius:12px;overflow:hidden">
-        <div style="display:grid;grid-template-columns:200px 1fr 1fr;border-bottom:1px solid var(--border)">
-          <div style="padding:16px 20px;border-right:1px solid var(--border);background:var(--s3)">
-            <div style="font-size:11px;color:var(--amber);font-family:'JetBrains Mono',monospace;letter-spacing:.1em;margin-bottom:6px">TOOLCALL</div>
-            <div style="font-size:14px;font-weight:700;color:var(--text)">工具调用</div>
-          </div>
-          <div style="padding:14px 18px;border-right:1px solid var(--border)">
-            <div style="font-size:11px;color:var(--muted2);margin-bottom:6px;font-family:'JetBrains Mono',monospace">何时使用</div>
-            <div style="font-size:12px;color:var(--muted);line-height:1.6">每次工具调用都应透明呈现。明确展示工具名称、参数、执行状态和返回结果，让过程有据可查</div>
-          </div>
-          <div style="padding:14px 18px">
-            <div style="font-size:11px;color:var(--muted2);margin-bottom:6px;font-family:'JetBrains Mono',monospace">设计规范</div>
-            <div style="font-size:12px;color:var(--muted);line-height:1.6">调用过多时支持展开收起；显示输入参数和输出结果；失败时展示错误原因</div>
-          </div>
-        </div>
-      </div>
-
-      <div style="background:var(--s2);border:1px solid var(--border2);border-radius:12px;overflow:hidden">
-        <div style="display:grid;grid-template-columns:200px 1fr 1fr;border-bottom:1px solid var(--border)">
-          <div style="padding:16px 20px;border-right:1px solid var(--border);background:var(--s3)">
-            <div style="font-size:11px;color:var(--purple);font-family:'JetBrains Mono',monospace;letter-spacing:.1em;margin-bottom:6px">SUBAGENT</div>
-            <div style="font-size:14px;font-weight:700;color:var(--text)">子代理</div>
-          </div>
-          <div style="padding:14px 18px;border-right:1px solid var(--border)">
-            <div style="font-size:11px;color:var(--muted2);margin-bottom:6px;font-family:'JetBrains Mono',monospace">何时使用</div>
-            <div style="font-size:12px;color:var(--muted);line-height:1.6">主代理自动调用子代理处理细分任务时。界面需清晰展示当前是哪个子代理在工作</div>
-          </div>
-          <div style="padding:14px 18px">
-            <div style="font-size:11px;color:var(--muted2);margin-bottom:6px;font-family:'JetBrains Mono',monospace">设计规范</div>
-            <div style="font-size:12px;color:var(--muted);line-height:1.6">显示子代理名称和当前状态；多个子代理并行工作时分组展示；切换时有过渡提示</div>
-          </div>
-        </div>
-      </div>
-
-      <div style="background:var(--s2);border:1px solid var(--border2);border-radius:12px;overflow:hidden">
-        <div style="display:grid;grid-template-columns:200px 1fr 1fr">
-          <div style="padding:16px 20px;border-right:1px solid var(--border);background:var(--s3)">
-            <div style="font-size:11px;color:var(--red);font-family:'JetBrains Mono',monospace;letter-spacing:.1em;margin-bottom:6px">PROCESS</div>
-            <div style="font-size:14px;font-weight:700;color:var(--text)">进度</div>
-          </div>
-          <div style="padding:14px 18px;border-right:1px solid var(--border)">
-            <div style="font-size:11px;color:var(--muted2);margin-bottom:6px;font-family:'JetBrains Mono',monospace">何时使用</div>
-            <div style="font-size:12px;color:var(--muted);line-height:1.6">AI 进行推理计算或信息识别时。如：上传文件后 AI 进行解析和推理，并输出结果</div>
-          </div>
-          <div style="padding:14px 18px">
-            <div style="font-size:11px;color:var(--muted2);margin-bottom:6px;font-family:'JetBrains Mono',monospace">设计规范</div>
-            <div style="font-size:12px;color:var(--muted);line-height:1.6">显示当前步骤和总步骤；识别出的关键信息实时透传；完成后进度条保留可查</div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-title"><span class="section-num">02</span>对话面板四层信息层次</div>
-    <div style="display:grid;grid-template-columns:1fr 280px;gap:32px;align-items:start">
-      <div style="display:flex;flex-direction:column;gap:10px">
-        <div style="display:flex;gap:14px;align-items:flex-start;padding:15px 18px;background:var(--s2);border:1px solid var(--green-bd);border-radius:10px">
-          <div style="width:22px;height:22px;border-radius:50%;background:var(--green-bg);border:1px solid var(--green-bd);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--green);font-family:'JetBrains Mono',monospace;font-weight:700;flex-shrink:0">1</div>
-          <div><div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:2px">用户消息 <span style="font-size:11px;font-weight:400;color:var(--muted)">· 右对齐气泡</span></div><div style="font-size:12px;color:var(--muted);line-height:1.6">用户说了什么、上传了什么——AI 的上下文对用户透明</div></div>
-        </div>
-        <div style="display:flex;gap:14px;align-items:flex-start;padding:15px 18px;background:var(--s2);border:1px solid var(--blue-bd);border-radius:10px">
-          <div style="width:22px;height:22px;border-radius:50%;background:var(--blue-bg);border:1px solid var(--blue-bd);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--blue2);font-family:'JetBrains Mono',monospace;font-weight:700;flex-shrink:0">2</div>
-          <div><div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:2px">AI 回应 <span style="font-size:11px;font-weight:400;color:var(--muted)">· 头像+名称，左对齐</span></div><div style="font-size:12px;color:var(--muted);line-height:1.6">AI 理解了什么、准备做什么、进行到哪一步——持续汇报，不沉默等待</div></div>
-        </div>
-        <div style="display:flex;gap:14px;align-items:flex-start;padding:15px 18px;background:var(--s2);border:1px solid var(--amber-bd);border-radius:10px">
-          <div style="width:22px;height:22px;border-radius:50%;background:var(--amber-bg);border:1px solid var(--amber-bd);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--amber);font-family:'JetBrains Mono',monospace;font-weight:700;flex-shrink:0">3</div>
-          <div><div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:2px">工具运行状态 <span style="font-size:11px;font-weight:400;color:var(--muted)">· 小字+图标，可展开</span></div><div style="font-size:12px;color:var(--muted);line-height:1.6">实时透传：读了哪个字段、从哪个文件识别的——有据可查，用户知道 AI 在认真干活</div></div>
-        </div>
-        <div style="display:flex;gap:14px;align-items:flex-start;padding:15px 18px;background:var(--s2);border:1px solid var(--purple-bd);border-radius:10px">
-          <div style="width:22px;height:22px;border-radius:50%;background:var(--purple-bg);border:1px solid var(--purple-bd);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--purple);font-family:'JetBrains Mono',monospace;font-weight:700;flex-shrink:0">4</div>
-          <div><div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:2px">操作卡片 <span style="font-size:11px;font-weight:400;color:var(--muted)">· 需人工介入时推出</span></div><div style="font-size:12px;color:var(--muted);line-height:1.6"><b style="color:var(--text)">每次只推一张</b>，聚焦一个决策点，不是整张表单扔给用户</div></div>
-        </div>
-      </div>
-      <div style="background:var(--bg);border:1px solid var(--border2);border-radius:12px;overflow:hidden">
-        <div style="padding:9px 14px;border-bottom:1px solid var(--border);font-size:11px;color:var(--muted);display:flex;align-items:center;gap:6px"><div style="width:5px;height:5px;border-radius:50%;background:var(--blue)"></div>AI 对话面板</div>
-        <div style="padding:12px;display:flex;flex-direction:column;gap:7px">
-          <div style="padding:8px 11px;border-radius:7px;font-size:11px;line-height:1.6;background:var(--blue-bg);border:1px solid var(--blue-bd);color:var(--blue2);align-self:flex-end;max-width:88%">上传了 3 份合同文件</div>
-          <div style="padding:8px 11px;border-radius:7px;font-size:11px;line-height:1.6;background:var(--s2);border:1px solid var(--border);color:var(--muted);align-self:flex-start">已收到，开始解析 25 个关键字段…</div>
-          <div style="padding:7px 9px;border-radius:6px;font-size:10px;line-height:1.6;background:var(--amber-bg);border:1px solid var(--amber-bd);color:var(--amber);align-self:flex-start;font-family:'JetBrains Mono',monospace">✓ 合同名称 · 合同正本 P.1<br>✓ 合同金额 · ¥19,980,000<br>⚠ 履约担保 · 条款不一致</div>
-          <div style="padding:8px 11px;border-radius:7px;font-size:11px;line-height:1.6;background:var(--purple-bg);border:1px solid var(--purple-bd);color:rgba(167,139,250,.9);align-self:flex-start;width:96%">📋 1 项需要您确认<br>履约担保：建议 <b>10%</b>（招标文件 6.2 条）<br>─────<br>✓ 确认　　✎ 修改</div>
-        </div>
+      <div class="trust-chip-grid">
+        <div class="trust-chip">推理过程</div>
+        <div class="trust-chip">计划生成</div>
+        <div class="trust-chip">决策过程</div>
       </div>
     </div>
   </div>
 
   <div class="section">
-    <div class="section-title"><span class="section-num">03</span>进度状态文案规范</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
-      <div style="border-radius:12px;overflow:hidden;border:1px solid var(--red-bd)">
-        <div style="padding:12px 16px;background:var(--red-bg);color:var(--red);font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;border-bottom:1px solid var(--red-bd)">✗ 不该说的</div>
-        <div style="background:var(--s2);padding:16px;display:flex;flex-direction:column;gap:8px">
-          <div style="font-size:13px;color:rgba(240,96,96,.7);display:flex;gap:8px;align-items:flex-start"><span style="flex-shrink:0">✗</span>「处理中…」——不知道在处理什么</div>
-          <div style="font-size:13px;color:rgba(240,96,96,.7);display:flex;gap:8px;align-items:flex-start"><span style="flex-shrink:0">✗</span>「请稍候」——没有进展信息</div>
-          <div style="font-size:13px;color:rgba(240,96,96,.7);display:flex;gap:8px;align-items:flex-start"><span style="flex-shrink:0">✗</span>「操作成功」——没有说做了什么</div>
-          <div style="font-size:13px;color:rgba(240,96,96,.7);display:flex;gap:8px;align-items:flex-start"><span style="flex-shrink:0">✗</span>「发生错误，请重试」——不知道为什么出错</div>
+    <div class="section-title"><span class="section-num">02</span>任务管理</div>
+    <div class="trust-component-card">
+      <div class="trust-component-head">
+        <div>
+          <div class="trust-component-index">RUNTIME / TASK</div>
+          <div class="trust-component-title">任务管理</div>
         </div>
+        <div class="trust-component-desc">把长任务拆成可追踪的步骤，帮助用户理解 AI 正在处理哪一段。</div>
       </div>
-      <div style="border-radius:12px;overflow:hidden;border:1px solid var(--green-bd)">
-        <div style="padding:12px 16px;background:var(--green-bg);color:var(--green);font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;border-bottom:1px solid var(--green-bd)">✓ 应该说的</div>
-        <div style="background:var(--s2);padding:16px;display:flex;flex-direction:column;gap:8px">
-          <div style="font-size:13px;color:var(--muted);display:flex;gap:8px;align-items:flex-start"><span style="color:var(--green);flex-shrink:0">✓</span>「正在从合同正本中提取字段…」</div>
-          <div style="font-size:13px;color:var(--muted);display:flex;gap:8px;align-items:flex-start"><span style="color:var(--green);flex-shrink:0">✓</span>「已识别 18 个字段，还剩 7 个」</div>
-          <div style="font-size:13px;color:var(--muted);display:flex;gap:8px;align-items:flex-start"><span style="color:var(--green);flex-shrink:0">✓</span>「合同金额已填写：¥19,980,000」</div>
-          <div style="font-size:13px;color:var(--muted);display:flex;gap:8px;align-items:flex-start"><span style="color:var(--green);flex-shrink:0">✓</span>「履约担保条款表述不一致，需要您判断」</div>
+      <div class="trust-chip-grid">
+        <div class="trust-chip">任务拆解</div>
+        <div class="trust-chip">任务树</div>
+        <div class="trust-chip">todo列表</div>
+        <div class="trust-chip">任务状态</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title"><span class="section-num">03</span>工具调用</div>
+    <div class="trust-component-card">
+      <div class="trust-component-head">
+        <div>
+          <div class="trust-component-index">RUNTIME / TOOL</div>
+          <div class="trust-component-title">工具调用</div>
         </div>
+        <div class="trust-component-desc">展示 AI 调用了哪些能力、用了哪些数据、返回了什么结果。</div>
+      </div>
+      <div class="trust-chip-grid">
+        <div class="trust-chip">搜索</div>
+        <div class="trust-chip">数据库</div>
+        <div class="trust-chip">API</div>
+        <div class="trust-chip">浏览器</div>
+        <div class="trust-chip">代码执行</div>
+        <div class="trust-chip">文件处理</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title"><span class="section-num">04</span>Agent协作</div>
+    <div class="trust-component-card">
+      <div class="trust-component-head">
+        <div>
+          <div class="trust-component-index">RUNTIME / AGENT</div>
+          <div class="trust-component-title">Agent协作</div>
+        </div>
+        <div class="trust-component-desc">当一个任务由多个 Agent 分工完成时，清楚标识角色、状态和交接关系。</div>
+      </div>
+      <div class="trust-chip-grid">
+        <div class="trust-chip">子Agent</div>
+        <div class="trust-chip">多Agent协同</div>
+        <div class="trust-chip">Agent交接</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title"><span class="section-num">05</span>执行状态</div>
+    <div class="trust-component-card">
+      <div class="trust-component-head">
+        <div>
+          <div class="trust-component-index">RUNTIME / STATUS</div>
+          <div class="trust-component-title">执行状态</div>
+        </div>
+        <div class="trust-component-desc">让用户持续知道任务处于什么阶段，异常时能快速理解原因。</div>
+      </div>
+      <div class="trust-chip-grid">
+        <div class="trust-chip">等待中</div>
+        <div class="trust-chip">执行中</div>
+        <div class="trust-chip">已完成</div>
+        <div class="trust-chip">失败</div>
+        <div class="trust-chip">暂停</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title"><span class="section-num">06</span>进度展示</div>
+    <div class="trust-component-card">
+      <div class="trust-component-head">
+        <div>
+          <div class="trust-component-index">RUNTIME / PROGRESS</div>
+          <div class="trust-component-title">进度展示</div>
+        </div>
+        <div class="trust-component-desc">用于长耗时任务，按阶段展示完成度、当前步骤和预计耗时。</div>
+      </div>
+      <div class="trust-chip-grid">
+        <div class="trust-chip">阶段进度</div>
+        <div class="trust-chip">当前步骤</div>
+        <div class="trust-chip">预计耗时</div>
+        <div class="trust-chip">完成度</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title"><span class="section-num">07</span>人机协同</div>
+    <div class="trust-component-card">
+      <div class="trust-component-head">
+        <div>
+          <div class="trust-component-index">RUNTIME / HITL</div>
+          <div class="trust-component-title">人机协同</div>
+        </div>
+        <div class="trust-component-desc">AI 执行中需要用户判断、补充或接管时，提供明确的介入入口。</div>
+      </div>
+      <div class="trust-chip-grid">
+        <div class="trust-chip">中途确认</div>
+        <div class="trust-chip">中断执行</div>
+        <div class="trust-chip">恢复执行</div>
+        <div class="trust-chip">人工接管</div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ━━ 3.3 结果呈现规范 ━━ -->
+<!-- ━━ 3.3 输出层 Output ━━ -->
 <div class="page" id="p-ux-3">
   <div class="page-eyebrow">交互规范 · 3.3</div>
-  <h1 class="page-title">结果呈现：AI 输出不能只<em>扔结论</em></h1>
-  <p class="page-desc">根据任务的 HITL 强度（人工介入的深浅程度）不同，结果呈现的方式、信息密度、操作入口也不同。对应 3.2 中的：产物 Artifact、卡片 Card、来源 Source。</p>
+  <h1 class="page-title">输出层 <em>Output</em></h1>
+  <p class="page-desc">输出层定义 AI 结果以什么形态进入业务界面：可以是对话、工作台中的结构化任务、独立视窗，也可以是可导出的正式产物。</p>
 
   <div class="section">
-    <div class="section-title"><span class="section-num">01</span>四种结果呈现组件</div>
-    <div class="result-pattern-grid">
-      <div class="result-pattern-card">
-        <div class="result-pattern-media"><img src="result-presentation-patterns/artifact.png" alt="产物组件示例"></div>
-        <div class="result-pattern-body">
-          <div class="result-pattern-kicker">ARTIFACT</div>
-          <div class="result-pattern-title">产物</div>
-          <div class="result-pattern-sub">AI 执行后生成的最终文件、链接或可交付内容，适用于报告、文档、表格、图片等多产物输出。</div>
-          <div class="result-pattern-spec">
-            <div class="result-pattern-spec-title">设计规范</div>
-            <div class="result-pattern-rule">以列表卡片呈现，明确显示<b>文件类型、标题、大小和详情入口</b>。</div>
-            <div class="result-pattern-rule">多产物按生成顺序排列，避免用户在对话正文里查找附件。</div>
-            <div class="result-pattern-rule">可点击项必须提供查看、编辑、下载或跳转能力。</div>
-          </div>
+    <div class="section-title"><span class="section-num">01</span>对话流</div>
+    <div class="trust-component-card">
+      <div class="trust-component-head">
+        <div>
+          <div class="trust-component-index">OUTPUT / CHAT</div>
+          <div class="trust-component-title">对话流</div>
         </div>
+        <div class="trust-component-desc">用于持续协作、解释过程、承接追问和展示轻量结果。</div>
       </div>
-      <div class="result-pattern-card">
-        <div class="result-pattern-media"><img src="result-presentation-patterns/source.png" alt="数据来源组件示例"></div>
-        <div class="result-pattern-body">
-          <div class="result-pattern-kicker">SOURCE</div>
-          <div class="result-pattern-title">数据来源</div>
-          <div class="result-pattern-sub">展示 AI 结论引用的文档、系统、链接和数据范围，用来支撑结果可验证、可追溯。</div>
-          <div class="result-pattern-spec">
-            <div class="result-pattern-spec-title">设计规范</div>
-            <div class="result-pattern-rule">来源必须有<b>数量、序号、类型图标和来源名称</b>，用户能快速核对依据。</div>
-            <div class="result-pattern-rule">涉及金额、合规、审核判断时必须展示来源，不允许只给结论。</div>
-            <div class="result-pattern-rule">来源较多时支持折叠或查看全部，默认保留关键来源。</div>
-          </div>
-        </div>
-      </div>
-      <div class="result-pattern-card">
-        <div class="result-pattern-media"><img src="result-presentation-patterns/entry-card.png" alt="录入卡片组件示例"></div>
-        <div class="result-pattern-body">
-          <div class="result-pattern-kicker">ENTRY CARD</div>
-          <div class="result-pattern-title">录入卡片</div>
-          <div class="result-pattern-sub">把 AI 识别出的字段转成可编辑表单，适用于合同录入、资料补全、结构化采集等流程。</div>
-          <div class="result-pattern-spec">
-            <div class="result-pattern-spec-title">设计规范</div>
-            <div class="result-pattern-rule">字段应以<b>草稿态</b>呈现，用户确认前不直接写入业务系统。</div>
-            <div class="result-pattern-rule">用户确认的是判断，不是重新录入；默认值可直接修改。</div>
-            <div class="result-pattern-rule">关键字段需标注来源或置信提示，提交前保留确认动作。</div>
-          </div>
-        </div>
-      </div>
-      <div class="result-pattern-card">
-        <div class="result-pattern-media"><img src="result-presentation-patterns/audit-card.png" alt="审核卡片组件示例"></div>
-        <div class="result-pattern-body">
-          <div class="result-pattern-kicker">AUDIT CARD</div>
-          <div class="result-pattern-title">审核卡片</div>
-          <div class="result-pattern-sub">将 AI 检查结果按风险等级分层展示，适用于合同审核、付款审核、合规审查等高风险场景。</div>
-          <div class="result-pattern-spec">
-            <div class="result-pattern-spec-title">设计规范</div>
-            <div class="result-pattern-rule">风险项需要有<b>等级、问题标题、判断依据和展开详情</b>。</div>
-            <div class="result-pattern-rule">高风险信息优先展示，避免混在普通提示里被忽略。</div>
-            <div class="result-pattern-rule">审核结论必须由人确认，AI 只提供建议和证据。</div>
-          </div>
-        </div>
+      <div class="trust-chip-grid">
+        <div class="trust-chip">基础内容</div>
+        <div class="trust-chip">结构化内容</div>
+        <div class="trust-chip">数据引用</div>
+        <div class="trust-chip">资源对象</div>
       </div>
     </div>
   </div>
 
   <div class="section">
-    <div class="section-title"><span class="section-num">02</span>三种 HITL 强度（人工介入的深浅程度）对应的呈现规范</div>
-    <div style="display:flex;flex-direction:column;gap:14px">
-      <div style="background:var(--s2);border:1px solid var(--green-bd);border-radius:12px;overflow:hidden">
-        <div style="padding:14px 22px;background:var(--green-bg);border-bottom:1px solid var(--green-bd);display:flex;align-items:center;gap:12px">
-          <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;color:var(--green)">HITL · 低</div>
-          <div style="font-size:14px;font-weight:700;color:var(--text)">可自动返回，不写回系统</div>
-          <div style="font-size:11px;color:var(--muted);margin-left:auto">典型场景：综合查询</div>
+    <div class="section-title"><span class="section-num">02</span>工作台</div>
+    <div class="trust-component-card">
+      <div class="trust-component-head">
+        <div>
+          <div class="trust-component-index">OUTPUT / WORKBENCH</div>
+          <div class="trust-component-title">工作台</div>
         </div>
-        <div style="display:grid;grid-template-columns:repeat(3,1fr)">
-          <div style="padding:16px 18px;border-right:1px solid var(--border)"><div style="font-size:11px;color:var(--muted2);font-family:'JetBrains Mono',monospace;margin-bottom:6px">呈现形式</div><div style="font-size:12px;color:var(--muted);line-height:1.6">结果卡片 + 来源依据 + 追问入口</div></div>
-          <div style="padding:16px 18px;border-right:1px solid var(--border)"><div style="font-size:11px;color:var(--muted2);font-family:'JetBrains Mono',monospace;margin-bottom:6px">必须包含</div><div style="font-size:12px;color:var(--muted);line-height:1.6">① 查询结果<br>② 数据来源和时间<br>③ 「追问」或「查看详情」入口</div></div>
-          <div style="padding:16px 18px"><div style="font-size:11px;color:var(--muted2);font-family:'JetBrains Mono',monospace;margin-bottom:6px">不需要</div><div style="font-size:12px;color:var(--muted);line-height:1.6">不需要确认面板<br>不需要人工审批<br>不写入业务系统</div></div>
-        </div>
+        <div class="trust-component-desc">当 AI 结果需要进入业务操作区时，用工作台承载录入、审核、分析和报告。</div>
       </div>
-      <div style="background:var(--s2);border:1px solid var(--amber-bd);border-radius:12px;overflow:hidden">
-        <div style="padding:14px 22px;background:var(--amber-bg);border-bottom:1px solid var(--amber-bd);display:flex;align-items:center;gap:12px">
-          <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;color:var(--amber)">HITL · 强</div>
-          <div style="font-size:14px;font-weight:700;color:var(--text)">先草稿，不直接生效</div>
-          <div style="font-size:11px;color:var(--muted);margin-left:auto">典型场景：合同录入</div>
-        </div>
-        <div style="display:grid;grid-template-columns:repeat(3,1fr)">
-          <div style="padding:16px 18px;border-right:1px solid var(--border)"><div style="font-size:11px;color:var(--muted2);font-family:'JetBrains Mono',monospace;margin-bottom:6px">呈现形式</div><div style="font-size:12px;color:var(--muted);line-height:1.6">草稿态表单 + 字段置信度 + 逐一确认卡片</div></div>
-          <div style="padding:16px 18px;border-right:1px solid var(--border)"><div style="font-size:11px;color:var(--muted2);font-family:'JetBrains Mono',monospace;margin-bottom:6px">必须包含</div><div style="font-size:12px;color:var(--muted);line-height:1.6">① 已填字段（可直接编辑）<br>② 不确定字段（橙色标注）<br>③ 每个字段的来源说明</div></div>
-          <div style="padding:16px 18px"><div style="font-size:11px;color:var(--muted2);font-family:'JetBrains Mono',monospace;margin-bottom:6px">关键规则</div><div style="font-size:12px;color:var(--muted);line-height:1.6">草稿态不写入系统<br>用户确认后才生效<br>金额类字段必须确认</div></div>
-        </div>
+      <div class="trust-chip-grid">
+        <div class="trust-chip">录入</div>
+        <div class="trust-chip">审核</div>
+        <div class="trust-chip">分析</div>
+        <div class="trust-chip">报告</div>
       </div>
-      <div style="background:var(--s2);border:1px solid var(--red-bd);border-radius:12px;overflow:hidden">
-        <div style="padding:14px 22px;background:var(--red-bg);border-bottom:1px solid var(--red-bd);display:flex;align-items:center;gap:12px">
-          <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;color:var(--red)">HITL · 极强</div>
-          <div style="font-size:14px;font-weight:700;color:var(--text)">有建议，不替代人审批</div>
-          <div style="font-size:11px;color:var(--muted);margin-left:auto">典型场景：付款审核</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title"><span class="section-num">03</span>独立视窗</div>
+    <div class="trust-component-card">
+      <div class="trust-component-head">
+        <div>
+          <div class="trust-component-index">OUTPUT / WINDOW</div>
+          <div class="trust-component-title">独立视窗</div>
         </div>
-        <div style="display:grid;grid-template-columns:repeat(3,1fr)">
-          <div style="padding:16px 18px;border-right:1px solid var(--border)"><div style="font-size:11px;color:var(--muted2);font-family:'JetBrains Mono',monospace;margin-bottom:6px">呈现形式</div><div style="font-size:12px;color:var(--muted);line-height:1.6">风险分层展示 + 原始依据 + 审批意见草稿</div></div>
-          <div style="padding:16px 18px;border-right:1px solid var(--border)"><div style="font-size:11px;color:var(--muted2);font-family:'JetBrains Mono',monospace;margin-bottom:6px">必须包含</div><div style="font-size:12px;color:var(--muted);line-height:1.6">① 风险等级分类<br>② 每条风险的原文依据<br>③ AI 建议意见（仅参考）</div></div>
-          <div style="padding:16px 18px"><div style="font-size:11px;color:var(--muted2);font-family:'JetBrains Mono',monospace;margin-bottom:6px">关键规则</div><div style="font-size:12px;color:var(--muted);line-height:1.6">审批结论必须由人填写<br>AI 不替代人做批准/驳回<br>所有操作留审计记录</div></div>
+        <div class="trust-component-desc">用于承载临时聚焦、跨页面辅助或需要独立空间查看的 AI 结果。</div>
+      </div>
+      <div class="trust-chip-grid">
+        <div class="trust-chip">弹出窗</div>
+        <div class="trust-chip">抽屉</div>
+        <div class="trust-chip">全屏</div>
+        <div class="trust-chip">侧边栏</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title"><span class="section-num">04</span>导出结果</div>
+    <div class="trust-component-card">
+      <div class="trust-component-head">
+        <div>
+          <div class="trust-component-index">OUTPUT / EXPORT</div>
+          <div class="trust-component-title">导出结果</div>
         </div>
+        <div class="trust-component-desc">当 AI 产物需要外发、归档或流转时，提供清晰的格式选择和生成结果。</div>
+      </div>
+      <div class="trust-chip-grid">
+        <div class="trust-chip">PDF</div>
+        <div class="trust-chip">Word</div>
+        <div class="trust-chip">Excel</div>
+        <div class="trust-chip">PPt</div>
+        <div class="trust-chip">Markdown</div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ━━ 3.4 确认交接规范 ━━ -->
+<!-- ━━ 3.4 闭环层 Follow-up ━━ -->
 <div class="page" id="p-ux-4">
   <div class="page-eyebrow">交互规范 · 3.4</div>
-  <h1 class="page-title">确认交接：不是<em>扔框给用户</em>，是帮用户<em>做到最后一步</em></h1>
-  <p class="page-desc">确认环节是人和 AI 协作最关键的交接点。对应 3.2 中的：文件审查 Document Review、卡片 Card（确认态）。AI 请求确认时，不是把决策推回给用户，而是帮用户把决策做到只剩最后一步。</p>
+  <h1 class="page-title">闭环层 <em>Follow-up</em></h1>
+  <p class="page-desc">闭环层定义 AI 输出之后如何继续协作：追问、修正、续跑、人工协作和反馈学习，让一次生成变成可迭代的业务过程。</p>
 
   <div class="section">
-    <div class="section-title"><span class="section-num">01</span>文件审查 Document Review</div>
-    <div class="callout amber">⚠ AI 执行过程中产生的文档需要人工确认，是否进行审查。这是高风险操作前的必要关卡。</div>
-    <div class="two-col" style="margin-top:16px">
-      <div class="info-card">
-        <div class="info-card-title">📋 何时触发文件审查</div>
-        <div class="info-card-items">
-          <div class="ic-item">AI 生成了需要对外提交的文档</div>
-          <div class="ic-item">文档内容涉及金额、合规、法律条款</div>
-          <div class="ic-item">文档将触发不可逆的业务流程</div>
-          <div class="ic-item">用户第一次使用该类模板生成文档</div>
+    <div class="section-title"><span class="section-num">01</span>追问</div>
+    <div class="trust-component-card">
+      <div class="trust-component-head">
+        <div>
+          <div class="trust-component-index">FOLLOW-UP / QUESTION</div>
+          <div class="trust-component-title">追问</div>
         </div>
+        <div class="trust-component-desc">AI 主动发现缺口，用户补充信息，系统完成缺失信息收集。</div>
       </div>
-      <div class="info-card">
-        <div class="info-card-title">✅ 文件审查界面规范</div>
-        <div class="info-card-items">
-          <div class="ic-item">展示文件名、大小、生成时间</div>
-          <div class="ic-item">提供预览入口，用户可查看全文</div>
-          <div class="ic-item"><b>「审查并继续」</b>和<b>「重新生成」</b>两个操作</div>
-          <div class="ic-item">AI 附上关键内容摘要，帮用户快速判断</div>
-        </div>
+      <div class="trust-chip-grid">
+        <div class="trust-chip">AI主动追问</div>
+        <div class="trust-chip">用户补充信息</div>
+        <div class="trust-chip">缺失信息收集</div>
       </div>
     </div>
   </div>
 
   <div class="section">
-    <div class="section-title"><span class="section-num">02</span>确认卡片规范</div>
-    <div class="confirm-handoff-layout">
-      <div style="display:flex;flex-direction:column;gap:12px">
-        <div style="background:var(--s2);border:1px solid var(--border2);border-radius:10px;padding:16px 18px">
-          <div style="font-size:11px;color:var(--green);font-family:'JetBrains Mono',monospace;letter-spacing:.1em;margin-bottom:10px">✓ 必须包含的元素</div>
-          <div style="display:flex;flex-direction:column;gap:7px">
-            <div style="display:flex;gap:8px;font-size:13px;color:var(--muted);line-height:1.55"><span style="color:var(--green);flex-shrink:0">①</span><span><b style="color:var(--text)">字段名称和推荐值</b>——必须有推荐值，不给空框</span></div>
-            <div style="display:flex;gap:8px;font-size:13px;color:var(--muted);line-height:1.55"><span style="color:var(--green);flex-shrink:0">②</span><span><b style="color:var(--text)">推荐来源说明</b>——「根据[文件名]第[X]条」</span></div>
-            <div style="display:flex;gap:8px;font-size:13px;color:var(--muted);line-height:1.55"><span style="color:var(--green);flex-shrink:0">③</span><span><b style="color:var(--text)">为什么需要确认</b>——AI 不确定的原因</span></div>
-            <div style="display:flex;gap:8px;font-size:13px;color:var(--muted);line-height:1.55"><span style="color:var(--green);flex-shrink:0">④</span><span><b style="color:var(--text)">确认 / 修改两个操作</b>——不只是「确认」</span></div>
-          </div>
+    <div class="section-title"><span class="section-num">02</span>结果修正</div>
+    <div class="trust-component-card">
+      <div class="trust-component-head">
+        <div>
+          <div class="trust-component-index">FOLLOW-UP / REVISION</div>
+          <div class="trust-component-title">结果修正</div>
         </div>
-        <div style="background:var(--s2);border:1px solid var(--border2);border-radius:10px;padding:16px 18px">
-          <div style="font-size:11px;color:var(--red);font-family:'JetBrains Mono',monospace;letter-spacing:.1em;margin-bottom:10px">✗ 不应该出现的设计</div>
-          <div style="display:flex;flex-direction:column;gap:7px">
-            <div style="font-size:13px;color:rgba(240,96,96,.65);display:flex;gap:8px"><span style="flex-shrink:0">✗</span>空框让用户填写（AI 应该给推荐值）</div>
-            <div style="font-size:13px;color:rgba(240,96,96,.65);display:flex;gap:8px"><span style="flex-shrink:0">✗</span>一次推出多张卡片（每次只推一张）</div>
-            <div style="font-size:13px;color:rgba(240,96,96,.65);display:flex;gap:8px"><span style="flex-shrink:0">✗</span>没有来源说明（用户没有判断依据）</div>
-            <div style="font-size:13px;color:rgba(240,96,96,.65);display:flex;gap:8px"><span style="flex-shrink:0">✗</span>只有「确认」没有「修改」（用户被迫接受）</div>
-          </div>
-        </div>
-        <div class="callout amber">⚠ 每次只推出一张确认卡片，聚焦一个决策点。多张同时展示等于把认知负担推回给用户，AI 没有真正参与。显示进度「1/3 项」让用户知道还有几步。</div>
+        <div class="trust-component-desc">支持用户对 AI 输出进行整体或局部修正，并保留可回退路径。</div>
       </div>
-      <div class="confirm-handoff-demo" aria-label="确认卡片示例">
-        <div class="confirm-ai-bubble">
-          <div class="confirm-profile-card">
-            <div class="confirm-profile-head">
-              <div class="confirm-doc-icon" aria-hidden="true">
-                <svg width="30" height="30" viewBox="0 0 30 30" fill="none">
-                  <path d="M7.25 3.5h12.4l3.1 3.3v19.7H7.25V3.5Z" fill="currentColor" opacity=".92"/>
-                  <path d="M19.65 3.5v4.1h4.05" stroke="#fff" stroke-width="1.2" opacity=".9"/>
-                  <path d="M11.1 12.2h7.8M11.1 16.2h7.8M11.1 20.2h4.8" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/>
-                </svg>
-              </div>
-              <div class="confirm-profile-main">
-                <div class="confirm-profile-title-row">
-                  <div>
-                    <h3 class="confirm-profile-title">安置房设计集中采购招标</h3>
-                    <div class="confirm-tags">
-                      <span class="confirm-tag">YA-CG-LC003-BD0011</span>
-                      <span class="confirm-tag">工程施工</span>
-                      <span class="confirm-tag">公开招标</span>
-                    </div>
-                  </div>
-                  <button class="confirm-edit-btn" type="button">编辑</button>
-                </div>
-              </div>
-            </div>
-            <div class="confirm-field-grid">
-              <div class="confirm-field">
-                <div class="confirm-field-label">招标单位</div>
-                <div class="confirm-field-value">深圳人才安居集团有限公司</div>
-              </div>
-              <div class="confirm-field">
-                <div class="confirm-field-label">代理机构</div>
-                <div class="confirm-field-value">深圳市国际招标有限公司</div>
-              </div>
-              <div class="confirm-field">
-                <div class="confirm-field-label">执行人</div>
-                <div class="confirm-field-value">张三</div>
-              </div>
-              <div class="confirm-field">
-                <div class="confirm-field-label">执行时间</div>
-                <div class="confirm-field-value">2026/01/01</div>
-              </div>
-              <div class="confirm-field confirm-field-wide">
-                <div class="confirm-field-label">项目概况</div>
-                <div class="confirm-field-value nowrap">本项目位于深圳市龙岗区，总建筑面积约12万平方米，包含住宅、商业及配套设施。</div>
-              </div>
-            </div>
-          </div>
-          <button class="confirm-submit-btn" type="button" onclick="confirmHandoffExample(this)">确认</button>
-          <p class="confirm-next-copy">接下来将为“安置房设计集中采购招标”进行招标文件审查。确认后，将使用「文件检查 Agent」来完成审查任务。</p>
-        </div>
+      <div class="trust-chip-grid">
+        <div class="trust-chip">重新生成</div>
+        <div class="trust-chip">局部重跑</div>
+        <div class="trust-chip">回滚版本</div>
       </div>
     </div>
   </div>
 
   <div class="section">
-    <div class="section-title"><span class="section-num">03</span>什么情况必须有确认节点</div>
-    <table class="compare-table">
-      <thead><tr><th style="width:150px">情况</th><th>为什么需要确认</th><th>确认形式</th></tr></thead>
-      <tbody>
-        <tr><td>涉及金额字段</td><td>金额错误影响财务，必须人工核实</td><td>确认卡片 + 来源金额对比</td></tr>
-        <tr><td>AI 置信度低的字段</td><td>AI 识别不确定，推荐值可能不准</td><td>橙色标注 + 确认卡片</td></tr>
-        <tr><td>不可逆操作前</td><td>提交审批、发起流程不能撤销</td><td>操作确认弹窗 + 影响说明</td></tr>
-        <tr><td>高风险合规字段</td><td>合同条款、法律条款有法律效力</td><td>确认卡片 + 原文引用</td></tr>
-        <tr><td>多源数据冲突</td><td>不同文件数据不一致，需人工判断</td><td>确认卡片 + 冲突对比展示</td></tr>
-        <tr><td>AI 生成的文档产物</td><td>文档将对外提交或触发业务流程</td><td>文件审查 Document Review</td></tr>
-      </tbody>
-    </table>
-  </div>
-</div>
-
-<!-- ━━ 3.5 可控可信规范 ━━ -->
-<div class="page" id="p-ux-5">
-  <div class="page-eyebrow">交互规范 · 3.5</div>
-  <h1 class="page-title"><em>可控可信</em>规范</h1>
-  <p class="page-desc">“可控可信”不是单独只落在一个组件里，而是应该渗透在 AI 产品的关键交互组件中。可以按控制权、透明度、风险兜底三类来看。</p>
-
-  <div class="section">
-    <div class="section-title"><span class="section-num">01</span>三类判断视角</div>
-    <div class="trust-dim-grid">
-      <div class="trust-dim-card">
-        <div class="trust-dim-label">CONTROL</div>
-        <div class="trust-dim-title">控制权</div>
-        <div class="trust-dim-desc">用户能明确告诉 AI 要做什么、能访问什么、什么时候停、结果能不能改。</div>
+    <div class="section-title"><span class="section-num">03</span>任务续跑</div>
+    <div class="trust-component-card">
+      <div class="trust-component-head">
+        <div>
+          <div class="trust-component-index">FOLLOW-UP / RESUME</div>
+          <div class="trust-component-title">任务续跑</div>
+        </div>
+        <div class="trust-component-desc">长任务或失败任务需要能够补充资料后继续，而不是从头来过。</div>
       </div>
-      <div class="trust-dim-card">
-        <div class="trust-dim-label">TRANSPARENCY</div>
-        <div class="trust-dim-title">透明度</div>
-        <div class="trust-dim-desc">AI 的执行过程、调用工具、引用来源和判断依据对用户可见、可理解。</div>
-      </div>
-      <div class="trust-dim-card">
-        <div class="trust-dim-label">FALLBACK</div>
-        <div class="trust-dim-title">风险兜底</div>
-        <div class="trust-dim-desc">高风险动作前有确认、审批、撤销、人工接管和操作留痕。</div>
+      <div class="trust-chip-grid">
+        <div class="trust-chip">补充资料后继续</div>
+        <div class="trust-chip">失败重试</div>
+        <div class="trust-chip">定时执行</div>
+        <div class="trust-chip">长任务恢复</div>
       </div>
     </div>
   </div>
 
   <div class="section">
-    <div class="section-title"><span class="section-num">02</span>关键交互组件</div>
-    <div class="trust-component-list">
-      <div class="trust-component-card">
-        <div class="trust-component-head">
-          <div>
-            <div class="trust-component-index">01 INPUT</div>
-            <div class="trust-component-title">输入类组件</div>
-          </div>
-          <div class="trust-component-desc">体现用户是否能明确控制 AI 要做什么。</div>
+    <div class="section-title"><span class="section-num">04</span>人工协作</div>
+    <div class="trust-component-card">
+      <div class="trust-component-head">
+        <div>
+          <div class="trust-component-index">FOLLOW-UP / HUMAN</div>
+          <div class="trust-component-title">人工协作</div>
         </div>
-        <div class="trust-chip-grid">
-          <div class="trust-chip">Prompt 输入框：支持补充约束、目标、范围、语气、格式</div>
-          <div class="trust-chip">参数设置组件：模型、风格、长度、温度、数据范围、时间范围</div>
-          <div class="trust-chip">场景模板 / 快捷指令：让用户知道 AI 会按什么规则执行</div>
-          <div class="trust-chip">文件 / 数据选择器：明确 AI 可以访问哪些资料</div>
-          <div class="trust-chip">权限授权弹窗：是否允许读取客户数据或调用系统接口</div>
-        </div>
+        <div class="trust-component-desc">当 AI 结果需要多人判断或流程流转时，进入人工协作链路。</div>
       </div>
-
-      <div class="trust-component-card">
-        <div class="trust-component-head">
-          <div>
-            <div class="trust-component-index">02 PROCESS</div>
-            <div class="trust-component-title">执行过程组件</div>
-          </div>
-          <div class="trust-component-desc">体现 AI 的行为是否透明、可中断、可追踪。</div>
-        </div>
-        <div class="trust-chip-grid">
-          <div class="trust-chip">执行进度条 / 步骤条：正在检索、分析、生成、校验</div>
-          <div class="trust-chip">思考过程 / 执行日志：展示关键依据，不一定暴露完整链路</div>
-          <div class="trust-chip">工具调用卡片：说明调用了哪个工具、用了什么数据</div>
-          <div class="trust-chip">停止生成按钮：用户可以随时中断</div>
-          <div class="trust-chip">重新生成 / 调整方向按钮：用户能纠偏</div>
-          <div class="trust-chip">状态提示：排队中、执行中、失败、超时、需确认</div>
-        </div>
-      </div>
-
-      <div class="trust-component-card">
-        <div class="trust-component-head">
-          <div>
-            <div class="trust-component-index">03 RESULT</div>
-            <div class="trust-component-title">结果呈现组件</div>
-          </div>
-          <div class="trust-component-desc">体现结果是否可验证、可解释、可修改。</div>
-        </div>
-        <div class="trust-chip-grid">
-          <div class="trust-chip">引用来源 / 证据卡片：展示数据来源、文档出处、引用片段</div>
-          <div class="trust-chip">置信度 / 风险提示：说明结果可能不完整、需人工确认</div>
-          <div class="trust-chip">差异对比组件：展示 AI 修改前后变化</div>
-          <div class="trust-chip">可编辑结果区：用户可以直接改，而不是只能接受</div>
-          <div class="trust-chip">结果解释区：说明为什么这样推荐或判断</div>
-          <div class="trust-chip">错误反馈入口：有误、不相关、重新回答等反馈</div>
-        </div>
-      </div>
-
-      <div class="trust-component-card">
-        <div class="trust-component-head">
-          <div>
-            <div class="trust-component-index">04 HANDOFF</div>
-            <div class="trust-component-title">确认交接组件</div>
-          </div>
-          <div class="trust-component-desc">这是可控可信最重要的落点之一。</div>
-        </div>
-        <div class="trust-chip-grid">
-          <div class="trust-chip">二次确认弹窗：执行高风险操作前确认</div>
-          <div class="trust-chip">审批流组件：AI 生成建议，人来审批</div>
-          <div class="trust-chip">人工接管按钮：从 AI 自动处理切回人工</div>
-          <div class="trust-chip">发送前预览：发送邮件、提交工单、发布内容前让用户检查</div>
-          <div class="trust-chip">撤销 / 回滚按钮：AI 执行后可恢复</div>
-          <div class="trust-chip">操作记录：谁让 AI 做了什么，AI 做了什么</div>
-        </div>
-      </div>
-
-      <div class="trust-component-card">
-        <div class="trust-component-head">
-          <div>
-            <div class="trust-component-index">05 SAFETY</div>
-            <div class="trust-component-title">安全与边界组件</div>
-          </div>
-          <div class="trust-component-desc">体现系统对风险的主动限制。</div>
-        </div>
-        <div class="trust-chip-grid">
-          <div class="trust-chip">敏感信息脱敏提示</div>
-          <div class="trust-chip">高风险操作拦截</div>
-          <div class="trust-chip">权限不足提示</div>
-          <div class="trust-chip">合规声明 / 免责声明</div>
-          <div class="trust-chip">黑白名单配置</div>
-          <div class="trust-chip">数据使用范围说明</div>
-          <div class="trust-chip">安全策略配置面板</div>
-        </div>
+      <div class="trust-chip-grid">
+        <div class="trust-chip">指派</div>
+        <div class="trust-chip">审批</div>
+        <div class="trust-chip">接管</div>
+        <div class="trust-chip">协同处理</div>
       </div>
     </div>
   </div>
 
   <div class="section">
-    <div class="section-title"><span class="section-num">03</span>规范总结</div>
-    <div class="trust-summary">
-      <div class="trust-summary-title">可控可信的核心落点</div>
-      <p><b>可控可信规范主要体现在：</b>权限授权、执行可见、用户确认、结果可验证、可编辑可撤销、风险提示、人工接管、操作留痕等组件中。</p>
-      <p style="margin-top:10px">一句话：只要这个组件能让用户知道 AI 在做什么、为什么这么做、能不能改、能不能停、出了问题能不能追回，它就在体现“可控可信”。</p>
+    <div class="section-title"><span class="section-num">05</span>反馈学习</div>
+    <div class="trust-component-card">
+      <div class="trust-component-head">
+        <div>
+          <div class="trust-component-index">FOLLOW-UP / FEEDBACK</div>
+          <div class="trust-component-title">反馈学习</div>
+        </div>
+        <div class="trust-component-desc">收集用户对结果质量的判断，支撑后续优化和个性化记忆。</div>
+      </div>
+      <div class="trust-chip-grid">
+        <div class="trust-chip">点赞</div>
+        <div class="trust-chip">点踩</div>
+        <div class="trust-chip">纠错</div>
+        <div class="trust-chip">用户反馈</div>
+      </div>
     </div>
   </div>
 </div>
@@ -3959,7 +3710,7 @@ function show(id) {
   // auto expand group if needed
   const frameIds = ['p-frame-1','p-frame-2','p-frame-3'];
   const principleIds = ['p-frame-0','p-lang-1','p-lang-3'];
-  const uxIds    = ['p-ux-1','p-ux-2','p-ux-3','p-ux-4','p-ux-5'];
+  const uxIds    = ['p-ux-1','p-ux-2','p-ux-3','p-ux-4'];
   const caseIds  = ['p-case-0','p-case-entry','p-case-query','p-case-audit','p-case-analysis','p-case-report','p-case-combo'];
   if (principleIds.includes(id)) expandGroup('g-principle');
   if (frameIds.includes(id)) expandGroup('g-frame');
