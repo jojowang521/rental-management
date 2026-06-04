@@ -854,3 +854,8 @@ body {
 .risk-check-card__sort {
   margin-left: auto;
 }
+
+/* Hide the host-page floating AI entry in embedded previews. */
+.ai-entry-button {
+  display: none !important;
+}
