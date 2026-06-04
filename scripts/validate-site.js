@@ -49,6 +49,7 @@ requiredFiles.forEach(relativePath => {
 
 const indexHtml = read('index.html');
 const sitePagesHtml = read('assets/site-pages.html');
+const paymentWorkbenchHtml = read('assets/payment-application-review-demo/payment-application-review-workbench.html');
 
 checkScripts('index.html', indexHtml);
 checkScripts('assets/site-pages.html', sitePagesHtml);
@@ -102,8 +103,8 @@ if (!sitePagesHtml.includes('工作台预览模板') || !sitePagesHtml.includes(
   fail('Scene case navigation should keep the workbench preview template entry.');
 }
 
-if (!sitePagesHtml.includes('Noma AI 助手') || !sitePagesHtml.includes('data-workbench-screen="noma-home"')) {
-  fail('Workbench preview should include the Noma AI assistant home screen.');
+if (!paymentWorkbenchHtml.includes('Noma AI 助手') || !paymentWorkbenchHtml.includes('id="view-noma"')) {
+  fail('Payment sidebar host should include the Noma AI assistant entry and home screen.');
 }
 
 const auditTabSources = [
