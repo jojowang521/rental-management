@@ -1999,11 +1999,11 @@ body.embed {
     <span class="nav-section-label">设计原则</span><span class="nav-toggle-icon" id="icon-g-principle"><svg class="line-icon" viewBox="0 0 16 16" aria-hidden="true"><path d="m4 6 4 4 4-4"></path></svg></span>
   </div>
   <div class="nav-group" id="g-principle" style="max-height:120px">
-    <a class="nav-item active" data-page="p-lang-1" onclick="show('p-lang-1')">
-      <span class="nav-icon ni-ic" data-icon-key="settings" data-icon-source="icons/navigation/svg/settings.svg"><img class="ni-img" src="icons/navigation/svg/settings.svg" alt=""></span>
+    <a class="nav-item active" data-page="p-frame-0" onclick="show('p-frame-0')">
+      <span class="nav-icon ni-ic" data-icon-key="dashboard" data-icon-source="icons/navigation/svg/dashboard.svg"><img class="ni-img" src="icons/navigation/svg/dashboard.svg" alt=""></span>
       <div>
         <div>设计原则</div>
-        <div class="nav-item-sub">从设计操作界面到设计协作过程</div>
+        <div class="nav-item-sub">判断矩阵与流程</div>
       </div>
     </a>
   </div>
@@ -2145,7 +2145,7 @@ body.embed {
 <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   设计语言 1.1  核心认知转变
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
-<div class="page active" id="p-lang-1">
+<div class="page" id="p-lang-1">
   <div class="page-eyebrow">设计原则</div>
   <h1 class="page-title">从设计操作界面到<em>设计协作过程</em></h1>
   <p class="page-desc">AI 时代，UED 设计的对象变了。以前设计的是用户怎么操作界面，现在设计的是人和 AI 怎么协同完成一件事。五个原则是所有设计决策的判断基准。</p>
@@ -2419,7 +2419,7 @@ body.embed {
 <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   设计原则 2.0
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
-<div class="page" id="p-frame-0">
+<div class="page active" id="p-frame-0">
   <h1 class="page-title">设计原则</h1>
   <p class="page-desc">产品经理拿到一个 AI 功能需求，先回答这三个问题，再对照判断矩阵，快速确定设计原则。</p>
 
@@ -3957,8 +3957,8 @@ function show(id) {
   document.body.classList.toggle('case-preview', id.startsWith('p-case-') && id !== 'p-case-0');
 
   // auto expand group if needed
-  const frameIds = ['p-frame-0','p-frame-1','p-frame-2','p-frame-3'];
-  const principleIds = ['p-lang-1','p-lang-3'];
+  const frameIds = ['p-frame-1','p-frame-2','p-frame-3'];
+  const principleIds = ['p-frame-0','p-lang-1','p-lang-3'];
   const uxIds    = ['p-ux-1','p-ux-2','p-ux-3','p-ux-4','p-ux-5'];
   const caseIds  = ['p-case-0','p-case-entry','p-case-query','p-case-audit','p-case-analysis','p-case-report','p-case-combo'];
   if (principleIds.includes(id)) expandGroup('g-principle');
