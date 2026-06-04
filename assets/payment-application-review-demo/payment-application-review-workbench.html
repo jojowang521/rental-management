@@ -39,6 +39,13 @@ button,input,select{font:inherit}
 .nsl{display:none}.nsl.open{display:block}.nsi{height:34px;padding:9px 20px 9px 52px;display:flex;align-items:center;color:#667085;font-size:13px;line-height:16px;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.nsi.active{background:var(--blue-50);color:var(--blue);font-weight:600}
 .app.nav-collapsed .sn-head{padding:0;justify-content:center}.app.nav-collapsed .sn-title,.app.nav-collapsed .ni-lb,.app.nav-collapsed .ni-arrow,.app.nav-collapsed .nsl{display:none!important}.app.nav-collapsed .ni{padding:14px 20px;justify-content:center;gap:0}.app.nav-collapsed .ni.active::before{width:3px}
 .main{grid-row:2;min-width:0;display:flex;flex-direction:column;gap:12px;padding:12px;background:var(--bg);overflow:hidden}
+.noma-view{height:100%;display:grid;grid-template-columns:64px minmax(0,1fr);background:#F7F8FA;border:1px solid #EAEAEA;border-radius:12px;overflow:hidden}
+.noma-rail{background:#fff;border-right:1px solid #EAEAEA;display:flex;flex-direction:column;align-items:center;padding:12px 6px;gap:8px}
+.noma-mark{width:34px;height:28px;border-radius:10px;background:linear-gradient(135deg,#4F8CFF,#7F6BFF);color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;margin-bottom:8px}
+.noma-rail-item{width:52px;min-height:52px;border:0;border-radius:12px;background:transparent;color:#333;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:12px;cursor:pointer}
+.noma-rail-item.on{background:#F7F8FA}.noma-rail-ic{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}.noma-rail-bottom{margin-top:auto;display:flex;flex-direction:column;align-items:center;gap:10px}.noma-avatar-small{width:32px;height:32px;border-radius:50%;background:#EBF2FF;color:#266EFF;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700}
+.noma-main{position:relative;min-width:0;overflow:auto;background:#F7F8FA;padding:220px 48px 48px}
+.noma-center{max-width:800px;margin:0 auto}.noma-title{display:flex;align-items:baseline;justify-content:center;gap:8px;margin-bottom:28px;color:#333;font-size:clamp(16px,2.7vw,32px);font-weight:700;line-height:36px;letter-spacing:0;white-space:nowrap}.noma-brand{background:linear-gradient(90deg,#5B8CFF,#8B6BFF);-webkit-background-clip:text;background-clip:text;color:transparent}.noma-input-card{border:1px solid #E6E8EA;border-radius:16px;background:#fff;box-shadow:0 10px 20px rgba(0,0,0,.05);overflow:hidden}.noma-input-inner{min-height:92px;padding:12px;display:flex;flex-direction:column;justify-content:space-between;box-shadow:0 4px 8px rgba(0,0,0,.08)}.noma-placeholder{color:#999;font-size:14px;line-height:22px}.noma-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px}.noma-toolbar-left{display:flex;align-items:center;gap:8px}.noma-tool,.noma-send{width:30px;height:30px;border:1px solid #F2F4F6;border-radius:8px;background:#fff;color:#999;display:flex;align-items:center;justify-content:center}.noma-assistant-chip{height:30px;border:1px solid #F2F4F6;border-radius:8px;background:#fff;display:inline-flex;align-items:center;gap:6px;padding:0 8px;color:#222;font-size:12px}.noma-ai-face{width:18px;height:18px;border-radius:50%;background:#CCDDFF;color:#266EFF;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700}.noma-send{border-color:transparent;border-radius:50%;background:#DDD;color:#fff;transform:rotate(-90deg)}.noma-prompts{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:16px}.noma-prompt{height:32px;border:1px solid #fff;border-radius:999px;background:rgba(255,255,255,.58);color:#666;display:inline-flex;align-items:center;padding:0 12px;font-size:12px}
 .fc{background:#fff;border-radius:4px;border:none;padding:0;box-shadow:0 0 3px rgba(0,0,0,.04);flex-shrink:0}
 .fr{min-height:56px;padding:12px 20px;display:flex;align-items:flex-start;gap:12px 20px;flex-wrap:wrap}
 .fr-fields{display:flex;align-items:center;gap:12px 20px;flex-wrap:wrap;min-width:0;flex:1 1 auto}
@@ -191,6 +198,12 @@ td{height:48px;padding:0 16px;border-bottom:1px solid #F5F5F5;font-size:13px;col
     </div>
     <div class="sn-body">
       <ul class="nl">
+        <li class="ni" data-page="noma" onclick="showView('noma')">
+          <span class="ni-ic">
+            <svg class="ni-img" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5c3.3 0 6 2.7 6 6v5.1c0 2.4-1.9 4.3-4.3 4.3h-3.4c-2.4 0-4.3-1.9-4.3-4.3V9.5c0-3.3 2.7-6 6-6Z" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8.5 10.5h7M9.5 14h5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </span>
+          <span class="ni-lb">Noma AI 助手</span>
+        </li>
         <li class="ni" data-page="home">
           <span class="ni-ic"><img class="ni-img" src="icons/navigation/home.svg" alt=""></span>
           <span class="ni-lb">首页</span>
@@ -223,6 +236,61 @@ td{height:48px;padding:0 16px;border-bottom:1px solid #F5F5F5;font-size:13px;col
     </div>
   </aside>
   <main class="main">
+    <div class="view" id="view-noma">
+      <div class="noma-view">
+        <aside class="noma-rail" aria-label="Noma AI 导航">
+          <div class="noma-mark">N</div>
+          <button class="noma-rail-item on" type="button">
+            <svg class="noma-rail-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 7.5A3.5 3.5 0 0 1 8.5 4h7A3.5 3.5 0 0 1 19 7.5v4a3.5 3.5 0 0 1-3.5 3.5H12l-4 3v-3A3 3 0 0 1 5 12V7.5Z"></path></svg>
+            <span>对话</span>
+          </button>
+          <button class="noma-rail-item" type="button">
+            <svg class="noma-rail-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 4 7v10l8 4 8-4V7l-8-4Z"></path><path d="M12 8v8M8 10l4-2 4 2"></path></svg>
+            <span>智能体</span>
+          </button>
+          <button class="noma-rail-item" type="button">
+            <svg class="noma-rail-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="m14.5 5.5 4 4-9 9H5.5v-4l9-9Z"></path><path d="m13 7 4 4"></path></svg>
+            <span>技能</span>
+          </button>
+          <button class="noma-rail-item" type="button">
+            <svg class="noma-rail-ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="13" r="7"></circle><path d="M12 9v4l3 2M8 3 5 6M16 3l3 3"></path></svg>
+            <span>任务</span>
+          </button>
+          <div class="noma-rail-bottom">
+            <svg class="noma-rail-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8a4 4 0 1 1 0 8 4 4 0 0 1 0-8Zm8 4a8 8 0 0 1-.2 1.8l2 1.6-2 3.5-2.5-1a8.4 8.4 0 0 1-3.1 1.8L13.8 22H10l-.4-2.3a8.4 8.4 0 0 1-3.1-1.8l-2.5 1-2-3.5 2-1.6A8.5 8.5 0 0 1 4 12c0-.6.1-1.2.2-1.8l-2-1.6 2-3.5 2.5 1a8.4 8.4 0 0 1 3.1-1.8L10.2 2H14l.4 2.3a8.4 8.4 0 0 1 3.1 1.8l2.5-1 2 3.5-2 1.6c.1.6.2 1.2.2 1.8Z"></path></svg>
+            <div class="noma-avatar-small">明</div>
+          </div>
+        </aside>
+        <section class="noma-main">
+          <div class="noma-center">
+            <div class="noma-title">我是 <span class="noma-brand">Noma.ai</span>，有什么可以帮您的？</div>
+            <div class="noma-input-card">
+              <div class="noma-input-inner">
+                <div class="noma-placeholder">请输入您的问题，例如：审核数据</div>
+                <div class="noma-toolbar">
+                  <div class="noma-toolbar-left">
+                    <button class="noma-tool" type="button" aria-label="添加附件">
+                      <svg class="noma-rail-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="m8.5 13.5 6.2-6.2a3 3 0 0 1 4.2 4.2l-7.1 7.1a5 5 0 0 1-7.1-7.1l7.1-7.1"></path></svg>
+                    </button>
+                    <button class="noma-assistant-chip" type="button"><span class="noma-ai-face">AI</span>销售助手<span>⌄</span></button>
+                  </div>
+                  <button class="noma-send" type="button" aria-label="发送">
+                    <svg class="noma-rail-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="noma-prompts">
+              <button class="noma-prompt" type="button">查武汉项目硬景指标</button>
+              <button class="noma-prompt" type="button">查看本月动态成本变化</button>
+              <button class="noma-prompt" type="button">审核合同条款风险</button>
+              <button class="noma-prompt" type="button">对比目标成本差异</button>
+              <button class="noma-prompt" type="button">更多</button>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
     <div class="view on" id="view-list">
     <section class="fc">
       <div class="fr">
@@ -485,15 +553,18 @@ function initNav(){
 }
 initNav();
 function showView(name){
-  var keys=['list','detail','attachment'];
+  var keys=['noma','list','detail','attachment'];
   keys.forEach(function(k){
     var el=document.getElementById('view-'+k);
     if(!el) return;
     el.classList.toggle('on', k===name);
   });
+  document.querySelectorAll('[data-page]').forEach(function(item){
+    item.classList.toggle('active', item.getAttribute('data-page')===name || (name==='list' && item.getAttribute('data-page')==='payment-apply'));
+  });
   var titleEl=document.querySelector('.page-title');
   if(titleEl){
-    titleEl.textContent = name==='detail' ? '付款申请详情' : name==='attachment' ? '附件预览' : '付款申请';
+    titleEl.textContent = name==='noma' ? 'Noma AI 助手' : name==='detail' ? '付款申请详情' : name==='attachment' ? '附件预览' : '付款申请';
   }
 }
 function switchFormTab(btn, paneKey){
