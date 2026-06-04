@@ -1130,6 +1130,229 @@ body.case-preview .topbar-desc {
   font-size: 13px;
   line-height: 1.5;
 }
+.input-example-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 26px 28px;
+  padding: 24px 26px 28px;
+}
+.input-example-card {
+  min-width: 0;
+}
+.input-example-visual {
+  height: 170px;
+  border: 1px solid var(--border3);
+  border-radius: 20px;
+  background: #f5f5f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+.input-example-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+.input-example-desc {
+  font-size: 13px;
+  line-height: 1.75;
+  color: var(--muted);
+}
+.demo-chat-bubble {
+  width: 100%;
+  max-width: 330px;
+  padding: 10px 12px;
+  border-radius: 8px 8px 2px 8px;
+  background: linear-gradient(90deg, #e9ecff, #f0e9ff);
+  color: #333;
+  font-size: 12px;
+  line-height: 1.7;
+}
+.demo-voice-box {
+  width: 100%;
+  max-width: 320px;
+  text-align: center;
+}
+.demo-voice-tip {
+  font-size: 14px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 14px;
+}
+.demo-wave {
+  height: 86px;
+  border: 1px solid #a6ecd5;
+  border-radius: 16px;
+  background: #edfdf7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.demo-wave svg {
+  width: 82%;
+  height: 44px;
+}
+.demo-input-shell {
+  width: 100%;
+  max-width: 300px;
+  min-height: 92px;
+  border: 1px solid #a469fe;
+  border-radius: 10px;
+  background: #fff;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+}
+.demo-tags {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.demo-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 18px;
+  padding: 0 7px;
+  border-radius: 4px;
+  background: #f5f5f5;
+  color: #666;
+  font-size: 10px;
+}
+.demo-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.demo-tool-icons {
+  display: flex;
+  gap: 5px;
+}
+.demo-tool-icon,
+.demo-send {
+  width: 20px;
+  height: 20px;
+  border-radius: 999px;
+  border: 1px solid #eaeaea;
+  background: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #999;
+  font-size: 12px;
+}
+.demo-send {
+  border-color: transparent;
+  background: #8792ff;
+  color: #fff;
+}
+.demo-upload-panel {
+  width: 100%;
+  max-width: 320px;
+  padding: 20px;
+  border: 1px solid #eaeaea;
+  border-radius: 12px;
+  background: #fff;
+}
+.demo-upload-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 16px;
+  font-weight: 700;
+  color: #222;
+  margin-bottom: 14px;
+}
+.demo-upload-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 10px;
+  background: #ffecec;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #e5484d;
+}
+.demo-upload-panel p {
+  margin: 0 0 14px;
+  font-size: 12px;
+  line-height: 1.75;
+  color: #333;
+}
+.demo-upload-btn {
+  height: 34px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  font-size: 13px;
+}
+.demo-skill-shell {
+  width: 100%;
+  max-width: 300px;
+}
+.demo-skill-menu {
+  width: 235px;
+  margin: 0 auto -6px;
+  padding: 8px;
+  border: 1px solid #eaeaea;
+  border-radius: 9px;
+  background: #fff;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+  position: relative;
+  z-index: 1;
+}
+.demo-skill-row {
+  height: 24px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 7px;
+  font-size: 10px;
+  color: #999;
+}
+.demo-skill-row.active {
+  background: #f2f4f6;
+  color: #333;
+}
+.demo-skill-input {
+  height: 70px;
+  border: 1px solid #eaeaea;
+  border-radius: 10px;
+  background: #fff;
+  padding: 10px;
+  color: #999;
+  font-size: 11px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+.demo-prompt-list {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+  align-items: center;
+}
+.demo-prompt-pill {
+  min-width: 170px;
+  height: 32px;
+  border-radius: 999px;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  font-size: 12px;
+}
 .trust-summary {
   padding: 20px 22px;
   border-color: var(--blue-bd);
@@ -3181,12 +3404,84 @@ body.embed {
     <div class="section-title"><span class="section-num">01</span>对话输入</div>
     <p class="section-desc">用户用自然语言、指令或模板发起 AI 任务。</p>
     <div class="trust-component-card">
-      <div class="trust-chip-grid">
-        <div class="trust-chip">文本输入框</div>
-        <div class="trust-chip">语音输入</div>
-        <div class="trust-chip">快捷指令</div>
-        <div class="trust-chip">选择技能</div>
-        <div class="trust-chip">Prompt模板</div>
+      <div class="input-example-grid">
+        <div class="input-example-card">
+          <div class="input-example-visual">
+            <div class="demo-chat-bubble">你好，我是你的智能助理<br>现在的我还是初出茅庐的助理，在持续地升级和进步，请多多关照~</div>
+          </div>
+          <div class="input-example-name">文本</div>
+          <div class="input-example-desc">适合表达目标、约束、补充说明和追问。输入框要支持多行编辑、发送状态、附件入口与上下文引用。</div>
+        </div>
+        <div class="input-example-card">
+          <div class="input-example-visual">
+            <div class="demo-voice-box">
+              <div class="demo-voice-tip">松开发送，上滑取消</div>
+              <div class="demo-wave">
+                <svg viewBox="0 0 260 50" aria-hidden="true">
+                  <path d="M4 25 C35 25 48 12 78 25 S124 39 156 25 S204 12 256 25" fill="none" stroke="#13a374" stroke-width="2.2" opacity=".78"/>
+                  <path d="M4 25 C40 36 57 35 88 25 S134 14 166 25 S211 36 256 25" fill="none" stroke="#13a374" stroke-width="1.7" opacity=".38"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+          <div class="input-example-name">语音录入</div>
+          <div class="input-example-desc">适合移动端和低成本输入。录音中提供波形和取消反馈，转写完成后展示文字，允许用户编辑再发送。</div>
+        </div>
+        <div class="input-example-card">
+          <div class="input-example-visual">
+            <div class="demo-input-shell">
+              <div class="demo-tags">
+                <span class="demo-tag">📄 高层访谈</span>
+                <span class="demo-tag">📄 需求调研</span>
+              </div>
+              <div class="demo-toolbar">
+                <div class="demo-tool-icons"><span class="demo-tool-icon">@</span><span class="demo-tool-icon">#</span><span class="demo-tool-icon">⌘</span></div>
+                <span class="demo-send">›</span>
+              </div>
+            </div>
+          </div>
+          <div class="input-example-name">快捷指令</div>
+          <div class="input-example-desc">用于快速带入来源、技能或高频动作。指令以图标和标签组合呈现，并在发送前让用户看见上下文边界。</div>
+        </div>
+        <div class="input-example-card">
+          <div class="input-example-visual">
+            <div class="demo-upload-panel">
+              <div class="demo-upload-head"><span class="demo-upload-avatar">✦</span>套打助手</div>
+              <p>您好，我是套打助手，懂合同、懂套打字段、懂配置规则的模板生成专家</p>
+              <div class="demo-upload-btn">上传</div>
+            </div>
+          </div>
+          <div class="input-example-name">上传文件</div>
+          <div class="input-example-desc">适合把合同、表格、图片或音频等资料交给 AI 解析。上传后要展示文件列表、解析状态和失败重试入口。</div>
+        </div>
+        <div class="input-example-card">
+          <div class="input-example-visual">
+            <div class="demo-skill-shell">
+              <div class="demo-skill-menu">
+                <div class="demo-skill-row">◎ indicator-adjust　工程量清单指标调整</div>
+                <div class="demo-skill-row">◎ indicator-check　工程量清单指标校验</div>
+                <div class="demo-skill-row">◎ price-compare　综合单价对比分析</div>
+                <div class="demo-skill-row active">◎ cost-diagnosis　成本偏差诊断</div>
+                <div class="demo-skill-row">◎ report-generate　分析报告生成</div>
+              </div>
+              <div class="demo-skill-input"><span>请输入你的问题</span><span class="demo-send">›</span></div>
+            </div>
+          </div>
+          <div class="input-example-name">选择技能</div>
+          <div class="input-example-desc">适合多能力 Agent 入口。技能名称要说明能力边界，选中后让用户知道会调用什么规则、资料或工具。</div>
+        </div>
+        <div class="input-example-card">
+          <div class="input-example-visual">
+            <div class="demo-prompt-list">
+              <div class="demo-prompt-pill">查武汉项目硬景指标</div>
+              <div class="demo-prompt-pill">查看本月动态成本变化</div>
+              <div class="demo-prompt-pill">审核合同条款风险</div>
+              <div class="demo-prompt-pill">对比目标成本差异</div>
+            </div>
+          </div>
+          <div class="input-example-name">Prompt模板</div>
+          <div class="input-example-desc">适合沉淀高频任务的标准问法。模板要可预览、可编辑，并带入必要变量、输出格式和业务范围。</div>
+        </div>
       </div>
     </div>
     <div class="trust-component-card spec-guide-card">
@@ -3194,11 +3489,12 @@ body.embed {
       <table class="compare-table">
         <thead><tr><th style="width:150px">组件项</th><th>设计要点</th><th>正例</th><th>反例</th></tr></thead>
         <tbody>
-          <tr><td>文本输入框</td><td>支持多行输入、发送状态、附件入口和上下文引用；占位文案说明可输入什么。</td><td><span class="g">输入框提示「描述任务，可拖入合同或引用知识库」</span></td><td><span class="r">只有空白输入框，用户不知道该怎么开始</span></td></tr>
-          <tr><td>语音输入</td><td>录音中有波形/时长反馈；转写后可编辑再发送。</td><td><span class="g">识别后展示文字，用户确认后发送</span></td><td><span class="r">识别结果直接发送，用户无法校正</span></td></tr>
-          <tr><td>快捷指令</td><td>展示高频任务入口；文案用动词+对象，触发后带入必要参数。</td><td><span class="g">「生成付款审核意见」自动带入当前单据</span></td><td><span class="r">只写「智能处理」，用户不知道会做什么</span></td></tr>
-          <tr><td>选择技能</td><td>技能名称要说明能力边界；选择后提示会调用哪些资料或规则。</td><td><span class="g">选择「合同条款审查」后显示适用合同范围</span></td><td><span class="r">技能只有内部代号，用户无法判断差异</span></td></tr>
-          <tr><td>Prompt模板</td><td>模板应包含目标、输入变量和输出格式，可预览和二次编辑。</td><td><span class="g">模板填入项目名后生成可编辑 Prompt</span></td><td><span class="r">模板一键发送，用户看不到具体要求</span></td></tr>
+          <tr><td>文本</td><td>承载自然语言目标、约束和追问；支持多行编辑、发送状态、附件入口和上下文引用。</td><td><span class="g">输入框提示「描述任务，可拖入合同或引用知识库」</span></td><td><span class="r">只有空白输入框，用户不知道该怎么开始</span></td></tr>
+          <tr><td>语音录入</td><td>录音中有波形和取消反馈；识别结果先转成文字，用户可修改再发送。</td><td><span class="g">松开发送，上滑取消，识别后进入可编辑文本</span></td><td><span class="r">直接发送识别结果，用户无法确认</span></td></tr>
+          <tr><td>快捷指令</td><td>把来源、技能或高频动作以标签和图标呈现；发送前清楚展示上下文边界。</td><td><span class="g">输入框里显示「高层访谈」「需求调研」标签</span></td><td><span class="r">引用和正文混在一起，AI 与用户都不清楚边界</span></td></tr>
+          <tr><td>上传文件</td><td>上传后展示文件列表、类型、解析状态和失败重试；说明 AI 会如何使用资料。</td><td><span class="g">上传合同后提示「正在提取套打字段」</span></td><td><span class="r">上传后无反馈，用户不知道文件是否被使用</span></td></tr>
+          <tr><td>选择技能</td><td>技能名称要说明能力边界；选中后展示调用规则、资料范围或工具能力。</td><td><span class="g">选择「cost-diagnosis」后说明用于成本偏差诊断</span></td><td><span class="r">只有内部代号，用户无法判断技能差异</span></td></tr>
+          <tr><td>Prompt模板</td><td>沉淀高频任务标准问法；模板可预览、可编辑，并带入变量、输出格式和业务范围。</td><td><span class="g">「审核合同条款风险」可点击后生成可编辑 Prompt</span></td><td><span class="r">模板一键发送，用户看不到具体要求</span></td></tr>
         </tbody>
       </table>
     </div>
