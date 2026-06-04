@@ -460,6 +460,13 @@ body.case-preview .topbar-desc {
   color: var(--blue2);
   border: 1px solid var(--blue-bd);
 }
+.section-desc {
+  margin: -8px 0 16px 48px;
+  max-width: 780px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: var(--muted);
+}
 
 /* ── COMPARE TABLE ── */
 .compare-table {
@@ -3139,14 +3146,8 @@ body.embed {
 
   <div class="section">
     <div class="section-title"><span class="section-num">01</span>对话输入</div>
+    <p class="section-desc">用户用自然语言、指令或模板发起 AI 任务。</p>
     <div class="trust-component-card">
-      <div class="trust-component-head">
-        <div>
-          <div class="trust-component-index">INPUT / CONVERSATION</div>
-          <div class="trust-component-title">对话输入</div>
-        </div>
-        <div class="trust-component-desc">用户用自然语言、指令或模板发起 AI 任务。</div>
-      </div>
       <div class="trust-chip-grid">
         <div class="trust-chip">文本输入框</div>
         <div class="trust-chip">语音输入</div>
@@ -3172,14 +3173,8 @@ body.embed {
 
   <div class="section">
     <div class="section-title"><span class="section-num">02</span>上下文输入</div>
+    <p class="section-desc">把历史、引用和知识来源显式交给 AI，避免上下文边界不清。</p>
     <div class="trust-component-card">
-      <div class="trust-component-head">
-        <div>
-          <div class="trust-component-index">INPUT / CONTEXT</div>
-          <div class="trust-component-title">上下文输入</div>
-        </div>
-        <div class="trust-component-desc">把历史、引用和知识来源显式交给 AI，避免上下文边界不清。</div>
-      </div>
       <div class="trust-chip-grid">
         <div class="trust-chip">引用消息</div>
         <div class="trust-chip">历史对话</div>
@@ -3203,14 +3198,8 @@ body.embed {
 
   <div class="section">
     <div class="section-title"><span class="section-num">03</span>文件输入</div>
+    <p class="section-desc">适用于文档解析、合同审查、资料归集等需要 AI 读取材料的场景。</p>
     <div class="trust-component-card">
-      <div class="trust-component-head">
-        <div>
-          <div class="trust-component-index">INPUT / FILE</div>
-          <div class="trust-component-title">文件输入</div>
-        </div>
-        <div class="trust-component-desc">适用于文档解析、合同审查、资料归集等需要 AI 读取材料的场景。</div>
-      </div>
       <div class="trust-chip-grid">
         <div class="trust-chip">文档上传（PDF、Word、Excel、图片、音频）</div>
         <div class="trust-chip">多文件上传</div>
@@ -3230,14 +3219,8 @@ body.embed {
 
   <div class="section">
     <div class="section-title"><span class="section-num">04</span>用户确认</div>
+    <p class="section-desc">当 AI 给出建议、触发流程或碰到风险时，把判断权交还给用户。</p>
     <div class="trust-component-card">
-      <div class="trust-component-head">
-        <div>
-          <div class="trust-component-index">INPUT / CONFIRM</div>
-          <div class="trust-component-title">用户确认</div>
-        </div>
-        <div class="trust-component-desc">当 AI 给出建议、触发流程或碰到风险时，把判断权交还给用户。</div>
-      </div>
       <div class="trust-chip-grid">
         <div class="trust-chip">单选</div>
         <div class="trust-chip">多选</div>
@@ -3268,14 +3251,8 @@ body.embed {
 
   <div class="section">
     <div class="section-title"><span class="section-num">01</span>思考过程</div>
+    <p class="section-desc">呈现 AI 的任务理解、计划和关键判断，让等待过程可解释。</p>
     <div class="trust-component-card">
-      <div class="trust-component-head">
-        <div>
-          <div class="trust-component-index">RUNTIME / THINKING</div>
-          <div class="trust-component-title">思考过程</div>
-        </div>
-        <div class="trust-component-desc">呈现 AI 的任务理解、计划和关键判断，让等待过程可解释。</div>
-      </div>
       <div class="trust-chip-grid">
         <div class="trust-chip">推理过程</div>
         <div class="trust-chip">计划生成</div>
@@ -3297,14 +3274,8 @@ body.embed {
 
   <div class="section">
     <div class="section-title"><span class="section-num">02</span>任务管理</div>
+    <p class="section-desc">把长任务拆成可追踪的步骤，帮助用户理解 AI 正在处理哪一段。</p>
     <div class="trust-component-card">
-      <div class="trust-component-head">
-        <div>
-          <div class="trust-component-index">RUNTIME / TASK</div>
-          <div class="trust-component-title">任务管理</div>
-        </div>
-        <div class="trust-component-desc">把长任务拆成可追踪的步骤，帮助用户理解 AI 正在处理哪一段。</div>
-      </div>
       <div class="trust-chip-grid">
         <div class="trust-chip">任务拆解</div>
         <div class="trust-chip">任务树</div>
@@ -3328,14 +3299,8 @@ body.embed {
 
   <div class="section">
     <div class="section-title"><span class="section-num">03</span>工具调用</div>
+    <p class="section-desc">展示 AI 调用了哪些能力、用了哪些数据、返回了什么结果。</p>
     <div class="trust-component-card">
-      <div class="trust-component-head">
-        <div>
-          <div class="trust-component-index">RUNTIME / TOOL</div>
-          <div class="trust-component-title">工具调用</div>
-        </div>
-        <div class="trust-component-desc">展示 AI 调用了哪些能力、用了哪些数据、返回了什么结果。</div>
-      </div>
       <div class="trust-chip-grid">
         <div class="trust-chip">搜索</div>
         <div class="trust-chip">数据库</div>
@@ -3363,14 +3328,8 @@ body.embed {
 
   <div class="section">
     <div class="section-title"><span class="section-num">04</span>Agent协作</div>
+    <p class="section-desc">当一个任务由多个 Agent 分工完成时，清楚标识角色、状态和交接关系。</p>
     <div class="trust-component-card">
-      <div class="trust-component-head">
-        <div>
-          <div class="trust-component-index">RUNTIME / AGENT</div>
-          <div class="trust-component-title">Agent协作</div>
-        </div>
-        <div class="trust-component-desc">当一个任务由多个 Agent 分工完成时，清楚标识角色、状态和交接关系。</div>
-      </div>
       <div class="trust-chip-grid">
         <div class="trust-chip">子Agent</div>
         <div class="trust-chip">多Agent协同</div>
@@ -3392,14 +3351,8 @@ body.embed {
 
   <div class="section">
     <div class="section-title"><span class="section-num">05</span>执行状态</div>
+    <p class="section-desc">让用户持续知道任务处于什么阶段，异常时能快速理解原因。</p>
     <div class="trust-component-card">
-      <div class="trust-component-head">
-        <div>
-          <div class="trust-component-index">RUNTIME / STATUS</div>
-          <div class="trust-component-title">执行状态</div>
-        </div>
-        <div class="trust-component-desc">让用户持续知道任务处于什么阶段，异常时能快速理解原因。</div>
-      </div>
       <div class="trust-chip-grid">
         <div class="trust-chip">等待中</div>
         <div class="trust-chip">执行中</div>
@@ -3425,14 +3378,8 @@ body.embed {
 
   <div class="section">
     <div class="section-title"><span class="section-num">06</span>进度展示</div>
+    <p class="section-desc">用于长耗时任务，按阶段展示完成度、当前步骤和预计耗时。</p>
     <div class="trust-component-card">
-      <div class="trust-component-head">
-        <div>
-          <div class="trust-component-index">RUNTIME / PROGRESS</div>
-          <div class="trust-component-title">进度展示</div>
-        </div>
-        <div class="trust-component-desc">用于长耗时任务，按阶段展示完成度、当前步骤和预计耗时。</div>
-      </div>
       <div class="trust-chip-grid">
         <div class="trust-chip">阶段进度</div>
         <div class="trust-chip">当前步骤</div>
@@ -3456,14 +3403,8 @@ body.embed {
 
   <div class="section">
     <div class="section-title"><span class="section-num">07</span>人机协同</div>
+    <p class="section-desc">AI 执行中需要用户判断、补充或接管时，提供明确的介入入口。</p>
     <div class="trust-component-card">
-      <div class="trust-component-head">
-        <div>
-          <div class="trust-component-index">RUNTIME / HITL</div>
-          <div class="trust-component-title">人机协同</div>
-        </div>
-        <div class="trust-component-desc">AI 执行中需要用户判断、补充或接管时，提供明确的介入入口。</div>
-      </div>
       <div class="trust-chip-grid">
         <div class="trust-chip">中途确认</div>
         <div class="trust-chip">中断执行</div>
@@ -3494,14 +3435,8 @@ body.embed {
 
   <div class="section">
     <div class="section-title"><span class="section-num">01</span>对话流</div>
+    <p class="section-desc">用于持续协作、解释过程、承接追问和展示轻量结果。</p>
     <div class="trust-component-card">
-      <div class="trust-component-head">
-        <div>
-          <div class="trust-component-index">OUTPUT / CHAT</div>
-          <div class="trust-component-title">对话流</div>
-        </div>
-        <div class="trust-component-desc">用于持续协作、解释过程、承接追问和展示轻量结果。</div>
-      </div>
       <div class="trust-chip-grid">
         <div class="trust-chip">基础内容</div>
         <div class="trust-chip">结构化内容</div>
@@ -3525,14 +3460,8 @@ body.embed {
 
   <div class="section">
     <div class="section-title"><span class="section-num">02</span>工作台</div>
+    <p class="section-desc">当 AI 结果需要进入业务操作区时，用工作台承载录入、审核、分析和报告。</p>
     <div class="trust-component-card">
-      <div class="trust-component-head">
-        <div>
-          <div class="trust-component-index">OUTPUT / WORKBENCH</div>
-          <div class="trust-component-title">工作台</div>
-        </div>
-        <div class="trust-component-desc">当 AI 结果需要进入业务操作区时，用工作台承载录入、审核、分析和报告。</div>
-      </div>
       <div class="trust-chip-grid">
         <div class="trust-chip">录入</div>
         <div class="trust-chip">审核</div>
@@ -3556,14 +3485,8 @@ body.embed {
 
   <div class="section">
     <div class="section-title"><span class="section-num">03</span>独立视窗</div>
+    <p class="section-desc">用于承载临时聚焦、跨页面辅助或需要独立空间查看的 AI 结果。</p>
     <div class="trust-component-card">
-      <div class="trust-component-head">
-        <div>
-          <div class="trust-component-index">OUTPUT / WINDOW</div>
-          <div class="trust-component-title">独立视窗</div>
-        </div>
-        <div class="trust-component-desc">用于承载临时聚焦、跨页面辅助或需要独立空间查看的 AI 结果。</div>
-      </div>
       <div class="trust-chip-grid">
         <div class="trust-chip">弹出窗</div>
         <div class="trust-chip">抽屉</div>
@@ -3587,14 +3510,8 @@ body.embed {
 
   <div class="section">
     <div class="section-title"><span class="section-num">04</span>导出结果</div>
+    <p class="section-desc">当 AI 产物需要外发、归档或流转时，提供清晰的格式选择和生成结果。</p>
     <div class="trust-component-card">
-      <div class="trust-component-head">
-        <div>
-          <div class="trust-component-index">OUTPUT / EXPORT</div>
-          <div class="trust-component-title">导出结果</div>
-        </div>
-        <div class="trust-component-desc">当 AI 产物需要外发、归档或流转时，提供清晰的格式选择和生成结果。</div>
-      </div>
       <div class="trust-chip-grid">
         <div class="trust-chip">PDF</div>
         <div class="trust-chip">Word</div>
@@ -3627,14 +3544,8 @@ body.embed {
 
   <div class="section">
     <div class="section-title"><span class="section-num">01</span>追问</div>
+    <p class="section-desc">AI 主动发现缺口，用户补充信息，系统完成缺失信息收集。</p>
     <div class="trust-component-card">
-      <div class="trust-component-head">
-        <div>
-          <div class="trust-component-index">FOLLOW-UP / QUESTION</div>
-          <div class="trust-component-title">追问</div>
-        </div>
-        <div class="trust-component-desc">AI 主动发现缺口，用户补充信息，系统完成缺失信息收集。</div>
-      </div>
       <div class="trust-chip-grid">
         <div class="trust-chip">AI主动追问</div>
         <div class="trust-chip">用户补充信息</div>
@@ -3656,14 +3567,8 @@ body.embed {
 
   <div class="section">
     <div class="section-title"><span class="section-num">02</span>结果修正</div>
+    <p class="section-desc">支持用户对 AI 输出进行整体或局部修正，并保留可回退路径。</p>
     <div class="trust-component-card">
-      <div class="trust-component-head">
-        <div>
-          <div class="trust-component-index">FOLLOW-UP / REVISION</div>
-          <div class="trust-component-title">结果修正</div>
-        </div>
-        <div class="trust-component-desc">支持用户对 AI 输出进行整体或局部修正，并保留可回退路径。</div>
-      </div>
       <div class="trust-chip-grid">
         <div class="trust-chip">重新生成</div>
         <div class="trust-chip">局部重跑</div>
@@ -3685,14 +3590,8 @@ body.embed {
 
   <div class="section">
     <div class="section-title"><span class="section-num">03</span>任务续跑</div>
+    <p class="section-desc">长任务或失败任务需要能够补充资料后继续，而不是从头来过。</p>
     <div class="trust-component-card">
-      <div class="trust-component-head">
-        <div>
-          <div class="trust-component-index">FOLLOW-UP / RESUME</div>
-          <div class="trust-component-title">任务续跑</div>
-        </div>
-        <div class="trust-component-desc">长任务或失败任务需要能够补充资料后继续，而不是从头来过。</div>
-      </div>
       <div class="trust-chip-grid">
         <div class="trust-chip">补充资料后继续</div>
         <div class="trust-chip">失败重试</div>
@@ -3716,14 +3615,8 @@ body.embed {
 
   <div class="section">
     <div class="section-title"><span class="section-num">04</span>人工协作</div>
+    <p class="section-desc">当 AI 结果需要多人判断或流程流转时，进入人工协作链路。</p>
     <div class="trust-component-card">
-      <div class="trust-component-head">
-        <div>
-          <div class="trust-component-index">FOLLOW-UP / HUMAN</div>
-          <div class="trust-component-title">人工协作</div>
-        </div>
-        <div class="trust-component-desc">当 AI 结果需要多人判断或流程流转时，进入人工协作链路。</div>
-      </div>
       <div class="trust-chip-grid">
         <div class="trust-chip">指派</div>
         <div class="trust-chip">审批</div>
@@ -3747,14 +3640,8 @@ body.embed {
 
   <div class="section">
     <div class="section-title"><span class="section-num">05</span>反馈学习</div>
+    <p class="section-desc">收集用户对结果质量的判断，支撑后续优化和个性化记忆。</p>
     <div class="trust-component-card">
-      <div class="trust-component-head">
-        <div>
-          <div class="trust-component-index">FOLLOW-UP / FEEDBACK</div>
-          <div class="trust-component-title">反馈学习</div>
-        </div>
-        <div class="trust-component-desc">收集用户对结果质量的判断，支撑后续优化和个性化记忆。</div>
-      </div>
       <div class="trust-chip-grid">
         <div class="trust-chip">点赞</div>
         <div class="trust-chip">点踩</div>
