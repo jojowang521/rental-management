@@ -1547,6 +1547,224 @@ body.case-preview .topbar-desc {
   font-weight: 800;
   transform: rotate(-10deg);
 }
+.input-example-demo.confirm-demo {
+  width: 300px;
+  transform: scale(0.86);
+}
+.input-example-demo.confirm-form-demo {
+  transform: scale(0.7);
+}
+.input-example-demo.confirm-choice-demo {
+  transform: scale(0.72);
+}
+.input-example-demo.confirm-risk-demo {
+  width: 330px;
+  transform: scale(0.66);
+}
+.confirm-demo-panel {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 0 rgba(0,0,0,.04);
+  color: #1f1f1f;
+  font-size: 10px;
+  line-height: 1.45;
+}
+.confirm-form-panel {
+  padding: 18px 20px 16px;
+}
+.confirm-demo-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: #222;
+  margin-bottom: 12px;
+}
+.confirm-demo-label {
+  color: #7a7a7a;
+  font-size: 10px;
+  margin-bottom: 7px;
+}
+.confirm-demo-radio-row {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 14px;
+  white-space: nowrap;
+}
+.confirm-demo-radio,
+.confirm-demo-check {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: #555;
+}
+.confirm-demo-radio::before,
+.confirm-demo-check::before {
+  content: '';
+  width: 9px;
+  height: 9px;
+  border: 1px solid #d8d8d8;
+  flex: 0 0 auto;
+  background: #fff;
+}
+.confirm-demo-radio::before {
+  border-radius: 50%;
+}
+.confirm-demo-check::before {
+  border-radius: 2px;
+}
+.confirm-demo-radio.is-active::before {
+  border-color: #6157ff;
+  box-shadow: inset 0 0 0 2px #fff;
+  background: #6157ff;
+}
+.confirm-demo-check.is-active::before {
+  border-color: #6157ff;
+  background: #6157ff;
+}
+.confirm-demo-select {
+  height: 26px;
+  border: 1px solid #e6e6e6;
+  border-radius: 5px;
+  color: #5a5a5a;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 9px;
+  margin-bottom: 10px;
+}
+.confirm-demo-select::after {
+  content: '⌄';
+  color: #999;
+  font-size: 11px;
+}
+.confirm-demo-button {
+  height: 26px;
+  border: none;
+  border-radius: 5px;
+  background: #6658ff;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 0 18px;
+}
+.confirm-demo-button.is-wide {
+  width: 100%;
+}
+.confirm-choice-panel {
+  padding: 16px 18px;
+}
+.confirm-choice-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.confirm-choice-item {
+  border: 1px solid #ededed;
+  border-radius: 6px;
+  padding: 9px 10px;
+  display: flex;
+  gap: 8px;
+  background: #fff;
+}
+.confirm-choice-item.is-active {
+  border-color: #e8e6ff;
+  background: #fbfaff;
+}
+.confirm-choice-main {
+  min-width: 0;
+}
+.confirm-choice-title {
+  color: #282828;
+  font-weight: 700;
+  margin-bottom: 3px;
+}
+.confirm-choice-desc {
+  color: #8a8a8a;
+  line-height: 1.55;
+}
+.confirm-risk-panel {
+  padding: 12px 14px 13px;
+}
+.confirm-risk-tabs {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 10px;
+  color: #999;
+}
+.confirm-risk-tab {
+  padding-bottom: 4px;
+  border-bottom: 2px solid transparent;
+}
+.confirm-risk-tab.is-active {
+  color: #4768ff;
+  border-color: #4768ff;
+  font-weight: 700;
+}
+.confirm-risk-result {
+  font-size: 13px;
+  font-weight: 700;
+  color: #2a2a2a;
+  margin-bottom: 8px;
+}
+.confirm-risk-tags {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 9px;
+}
+.confirm-risk-tag {
+  padding: 2px 7px;
+  border-radius: 10px;
+  background: #f6f6f6;
+  color: #8a8a8a;
+}
+.confirm-risk-tag.is-danger { color: #eb5757; background: #fff1f1; }
+.confirm-risk-tag.is-warning { color: #d88b00; background: #fff8e6; }
+.confirm-risk-tag.is-ok { color: #16a765; background: #ecfff6; }
+.confirm-risk-box {
+  border: 1px solid #ffe1e1;
+  border-radius: 6px;
+  background: #fff7f7;
+  padding: 10px 12px;
+  margin-bottom: 11px;
+}
+.confirm-risk-box-title {
+  color: #222;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.confirm-risk-row {
+  display: grid;
+  grid-template-columns: 44px 1fr;
+  gap: 8px;
+  color: #777;
+  margin-top: 5px;
+}
+.confirm-risk-row b {
+  color: #f04444;
+  font-weight: 700;
+}
+.confirm-info-panel {
+  padding: 17px 20px 15px;
+}
+.confirm-info-row {
+  display: grid;
+  grid-template-columns: 68px 1fr;
+  gap: 14px;
+  min-height: 22px;
+  align-items: start;
+  margin-bottom: 8px;
+}
+.confirm-info-row:last-of-type {
+  margin-bottom: 14px;
+}
+.confirm-info-key {
+  color: #8a8a8a;
+}
+.confirm-info-value {
+  color: #333;
+}
 .trust-summary {
   padding: 20px 22px;
   border-color: var(--blue-bd);
@@ -3778,11 +3996,113 @@ body.embed {
     <div class="section-title"><span class="section-num">04</span>用户确认</div>
     <p class="section-desc">当 AI 给出建议、触发流程或碰到风险时，把判断权交还给用户。</p>
     <div class="trust-component-card">
-      <div class="trust-chip-grid">
-        <div class="trust-chip">单选</div>
-        <div class="trust-chip">多选</div>
-        <div class="trust-chip">审批确认</div>
-        <div class="trust-chip">风险确认</div>
+      <div class="input-example-grid">
+        <div class="input-example-card">
+          <div class="input-example-visual">
+            <div class="input-example-demo confirm-demo confirm-form-demo">
+              <div class="confirm-demo-panel confirm-form-panel">
+                <div class="confirm-demo-title">请配置比价分析规则</div>
+                <div class="confirm-demo-label">基准价计算公式</div>
+                <div class="confirm-demo-radio-row">
+                  <span class="confirm-demo-radio is-active">控制价</span>
+                  <span class="confirm-demo-radio">算数平均</span>
+                  <span class="confirm-demo-radio">截尾均值</span>
+                  <span class="confirm-demo-radio">中位数</span>
+                </div>
+                <div class="confirm-demo-label">严重偏差阈值</div>
+                <div class="confirm-demo-select">±30%</div>
+                <div class="confirm-demo-label">中度偏差阈值</div>
+                <div class="confirm-demo-select">±15%</div>
+                <button class="confirm-demo-button">确认</button>
+              </div>
+            </div>
+          </div>
+          <div class="input-example-name">单选确认</div>
+          <div class="input-example-desc">适合让用户从 AI 推荐的互斥方案中选择一个。默认项必须说明推荐依据，用户可修改后再确认。</div>
+        </div>
+        <div class="input-example-card">
+          <div class="input-example-visual">
+            <div class="input-example-demo confirm-demo confirm-choice-demo">
+              <div class="confirm-demo-panel confirm-choice-panel">
+                <div class="confirm-demo-title">请选择处理方式</div>
+                <div class="confirm-choice-list">
+                  <div class="confirm-choice-item is-active">
+                    <span class="confirm-demo-check is-active"></span>
+                    <div class="confirm-choice-main">
+                      <div class="confirm-choice-title">手动补充</div>
+                      <div class="confirm-choice-desc">手动录入所属项目、省份、城市、合同等信息，AI 将继续帮你核对。</div>
+                    </div>
+                  </div>
+                  <div class="confirm-choice-item">
+                    <span class="confirm-demo-check"></span>
+                    <div class="confirm-choice-main">
+                      <div class="confirm-choice-title">跳过，直接审核</div>
+                      <div class="confirm-choice-desc">保留缺失字段提示，直接进入人工审核环节。</div>
+                    </div>
+                  </div>
+                </div>
+                <button class="confirm-demo-button">确认</button>
+              </div>
+            </div>
+          </div>
+          <div class="input-example-name">多选确认</div>
+          <div class="input-example-desc">适合多个处理项可以组合生效的场景。每个选项要写清影响范围，并在提交前提示已选内容。</div>
+        </div>
+        <div class="input-example-card">
+          <div class="input-example-visual">
+            <div class="input-example-demo confirm-risk-demo">
+              <div class="confirm-demo-panel confirm-risk-panel">
+                <div class="confirm-risk-tabs">
+                  <span class="confirm-risk-tab is-active">程序风控</span>
+                  <span class="confirm-risk-tab">商务风控</span>
+                  <span class="confirm-risk-tab">法务风险</span>
+                </div>
+                <div class="confirm-risk-result">AI检查结果：发现风险，请审视</div>
+                <div class="confirm-risk-tags">
+                  <span class="confirm-risk-tag is-danger">风险 1</span>
+                  <span class="confirm-risk-tag is-warning">提示 2</span>
+                  <span class="confirm-risk-tag is-ok">通过 30</span>
+                </div>
+                <div class="confirm-risk-box">
+                  <div class="confirm-risk-box-title">合同补充政策</div>
+                  <div class="confirm-risk-row"><span>规则</span><span>合同约定内容：是否公开招租为“否”。</span></div>
+                  <div class="confirm-risk-row"><span>风险点</span><span><b>付款依据不完整</b>，可能影响后续审批。</span></div>
+                  <div class="confirm-risk-row"><span>建议</span><span>补充说明或申请特批后再提交。</span></div>
+                </div>
+                <button class="confirm-demo-button is-wide">申请特批</button>
+              </div>
+            </div>
+          </div>
+          <div class="input-example-name">风险确认</div>
+          <div class="input-example-desc">适合 AI 判断存在风险但仍需用户决策的场景。必须展示风险点、依据、影响和建议动作。</div>
+        </div>
+        <div class="input-example-card">
+          <div class="input-example-visual">
+            <div class="input-example-demo confirm-demo">
+              <div class="confirm-demo-panel confirm-info-panel">
+                <div class="confirm-info-row">
+                  <span class="confirm-info-key">待办标题</span>
+                  <span class="confirm-info-value">项目招采数据智能辅助上报</span>
+                </div>
+                <div class="confirm-info-row">
+                  <span class="confirm-info-key">主要人</span>
+                  <span class="confirm-info-value">胡明涛</span>
+                </div>
+                <div class="confirm-info-row">
+                  <span class="confirm-info-key">要求完成日期</span>
+                  <span class="confirm-info-value">2023-08-05</span>
+                </div>
+                <div class="confirm-info-row">
+                  <span class="confirm-info-key">事项说明</span>
+                  <span class="confirm-info-value">根据会议要求，对招采基础数据进行梳理并完成上报。</span>
+                </div>
+                <button class="confirm-demo-button is-wide">确定</button>
+              </div>
+            </div>
+          </div>
+          <div class="input-example-name">信息确认</div>
+          <div class="input-example-desc">适合用户核对 AI 已提取或即将写入系统的信息。字段要结构化展示，确认后立即执行下一步。</div>
+        </div>
       </div>
     </div>
     <div class="trust-component-card spec-guide-card">
@@ -3790,10 +4110,10 @@ body.embed {
       <table class="compare-table">
         <thead><tr><th style="width:150px">组件项</th><th>设计要点</th><th>正例</th><th>反例</th></tr></thead>
         <tbody>
-          <tr><td>单选</td><td>选项不超过 5 个；每项有说明，默认项要说明推荐原因。</td><td><span class="g">推荐「继续预审」，说明风险较低</span></td><td><span class="r">只有 A/B/C 标签，没有含义说明</span></td></tr>
-          <tr><td>多选</td><td>允许批量选择，但要显示影响范围和已选数量。</td><td><span class="g">「已选择 4 条风险进入复核」</span></td><td><span class="r">勾选后不知道会影响哪些结果</span></td></tr>
-          <tr><td>审批确认</td><td>展示审批对象、关键摘要、责任人和提交后流向。</td><td><span class="g">确认前显示金额、合同、下一审批人</span></td><td><span class="r">只有「同意」按钮，没有业务摘要</span></td></tr>
-          <tr><td>风险确认</td><td>高风险动作必须说明风险、依据和替代选择。</td><td><span class="g">「付款比例超合同约定，仍提交？」附依据</span></td><td><span class="r">只弹「是否确认」，用户无法判断风险</span></td></tr>
+          <tr><td>单选确认</td><td>用于互斥判断；推荐项要默认选中，并说明 AI 为什么这样建议。</td><td><span class="g">默认选择「控制价」，同时保留平均值、中位数等可改方案</span></td><td><span class="r">只给 A/B/C，用户不知道每个选项代表什么</span></td></tr>
+          <tr><td>多选确认</td><td>用于组合动作；每项要说明执行后果，提交前让用户看清已选内容。</td><td><span class="g">选择「手动补充」后说明会补哪些字段、AI 将继续核对</span></td><td><span class="r">多个复选框只有名称，勾选后不知道会影响哪些流程</span></td></tr>
+          <tr><td>风险确认</td><td>用于高风险决策；必须同时展示风险点、依据、影响和推荐动作。</td><td><span class="g">提示「付款依据不完整」，附合同规则和「申请特批」入口</span></td><td><span class="r">只弹「是否继续」，没有依据也没有替代路径</span></td></tr>
+          <tr><td>信息确认</td><td>用于确认 AI 提取或即将写入的数据；字段要结构化，确认后动作要明确。</td><td><span class="g">展示待办标题、责任人、完成日期和说明，用户确认后创建任务</span></td><td><span class="r">把整段识别文本丢给用户，让用户自己找关键字段</span></td></tr>
         </tbody>
       </table>
     </div>
