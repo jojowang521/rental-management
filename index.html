@@ -2111,71 +2111,57 @@
       {
         id: "ux-input",
         group: "交互规范",
-        label: "用户输入设计",
-        note: "上传·选择·触发·确认",
+        label: "输入层 Input",
+        note: "对话·上下文·文件·确认",
         iconKey: "lead",
         tag: "交互规范 3.1",
-        stats: [["输入", "4", "形式"], ["上下文", "文件", "优先"], ["控制", "明确", "动作"], ["确认", "推荐值", "依据"]],
+        stats: [["分组", "4", "类"], ["对话", "5", "组件"], ["上下文", "4", "组件"], ["确认", "4", "组件"]],
         pages: [
-          { name: "上传文件", type: "entry", status: "可用", desc: "把合同、招标文件、通知书等上下文交给 AI。" },
-          { name: "选择与触发", type: "form", status: "可用", desc: "用稳定选项和明确动作降低自由输入误差。" },
-          { name: "确认推荐值", type: "audit", status: "可用", desc: "AI 给出推荐值和依据，用户判断采纳或修正。" }
+          { name: "对话输入", type: "entry", status: "可用", desc: "文本、语音、快捷指令、技能选择和 Prompt 模板。" },
+          { name: "上下文输入", type: "native", status: "可用", desc: "引用消息、历史对话、会话记忆和知识库引用。" },
+          { name: "文件输入与用户确认", type: "audit", status: "可用", desc: "文档上传、多文件上传、单选、多选和风险确认。" }
         ]
       },
       {
-        id: "ux-visibility",
+        id: "ux-runtime",
         group: "交互规范",
-        label: "AI 执行可见性",
-        note: "四层信息·进度状态",
+        label: "执行层 Runtime",
+        note: "思考·任务·工具·协作",
         iconKey: "business-data",
         tag: "交互规范 3.2",
-        stats: [["层级", "4", "信息"], ["状态", "可见", "必要"], ["证据", "来源", "可查"], ["等待", "透明", "减少焦虑"]],
+        stats: [["分组", "7", "类"], ["任务", "可拆解", "可追踪"], ["工具", "6", "类型"], ["状态", "5", "阶段"]],
         pages: [
-          { name: "用户消息与 AI 回应", type: "native", status: "可用", desc: "让用户知道 AI 理解了什么、准备做什么。" },
-          { name: "工具运行状态", type: "flow", status: "可用", desc: "展示读取文件、抽取字段、匹配规则等关键过程。" },
-          { name: "操作卡片", type: "audit", status: "可用", desc: "需要人工判断时推出具体卡片，每次只聚焦一个决策点。" }
+          { name: "思考过程与任务管理", type: "flow", status: "可用", desc: "推理过程、计划生成、任务拆解、任务树和 todo 列表。" },
+          { name: "工具调用与 Agent 协作", type: "native", status: "可用", desc: "搜索、数据库、API、浏览器、代码执行、文件处理和多 Agent 交接。" },
+          { name: "执行状态与人机协同", type: "audit", status: "可用", desc: "等待中、执行中、失败、暂停、中途确认、人工接管。" }
         ]
       },
       {
-        id: "ux-result",
+        id: "ux-output",
         group: "交互规范",
-        label: "结果呈现规范",
-        note: "低·强·极强介入",
+        label: "输出层 Output",
+        note: "对话流·工作台·视窗·导出",
         iconKey: "log",
         tag: "交互规范 3.3",
-        stats: [["HITL", "3级", "强度"], ["结果", "分层", "呈现"], ["风险", "优先", "暴露"], ["动作", "可操作", "闭环"]],
+        stats: [["分组", "4", "类"], ["对话", "结构化", "引用"], ["工作台", "4", "场景"], ["导出", "5", "格式"]],
         pages: [
-          { name: "低介入结果", type: "analysis", status: "可用", desc: "高置信输出直接呈现摘要、趋势或自动填充结果。" },
-          { name: "强介入结果", type: "audit", status: "可用", desc: "中风险内容需要用户确认、修正或补充说明。" },
-          { name: "极强介入结果", type: "flow", status: "可用", desc: "高风险结论需要明确责任、证据和审批动作。" }
+          { name: "对话流", type: "native", status: "可用", desc: "基础内容、结构化内容、数据引用和资源对象。" },
+          { name: "工作台与独立视窗", type: "form", status: "可用", desc: "录入、审核、分析、报告，以及弹窗、抽屉、全屏、侧边栏。" },
+          { name: "导出结果", type: "table", status: "可用", desc: "PDF、Word、Excel、PPt、Markdown 等产物格式。" }
         ]
       },
       {
-        id: "ux-handoff",
+        id: "ux-followup",
         group: "交互规范",
-        label: "确认交接规范",
-        note: "推荐值·来源·卡片",
+        label: "闭环层 Follow-up",
+        note: "追问·修正·续跑·反馈",
         iconKey: "contract",
         tag: "交互规范 3.4",
-        stats: [["推荐", "值+依据", "必须"], ["确认", "一步", "完成"], ["来源", "可回看", "可信"], ["交接", "责任", "清晰"]],
+        stats: [["分组", "5", "类"], ["追问", "补全", "信息"], ["续跑", "恢复", "任务"], ["反馈", "学习", "优化"]],
         pages: [
-          { name: "推荐值卡片", type: "form", status: "可用", desc: "不是扔空框给用户，而是把用户带到最后一步。" },
-          { name: "来源与置信度", type: "table", status: "可用", desc: "明确字段来自哪份文件、哪段文本、可信度如何。" },
-          { name: "确认动作", type: "audit", status: "可用", desc: "采纳、修正、忽略、发起复核等动作必须就近可用。" }
-        ]
-      },
-      {
-        id: "ux-loop",
-        group: "交互规范",
-        label: "闭环追问规范",
-        note: "质疑·依据·修正",
-        iconKey: "permission",
-        tag: "交互规范 3.5",
-        stats: [["追问", "支持", "闭环"], ["依据", "可解释", "必要"], ["修正", "可反馈", "学习"], ["信任", "增强", "长期"]],
-        pages: [
-          { name: "质疑 AI 结论", type: "native", status: "可用", desc: "用户可以问为什么，AI 必须给出依据而非重复结论。" },
-          { name: "证据展开", type: "audit", status: "可用", desc: "从结论回到原文、规则、字段或历史记录。" },
-          { name: "修正反馈", type: "flow", status: "可用", desc: "用户修正后，AI 更新结果并保留变化原因。" }
+          { name: "追问与结果修正", type: "native", status: "可用", desc: "AI 主动追问、用户补充信息、重新生成、局部重跑和版本回滚。" },
+          { name: "任务续跑与人工协作", type: "flow", status: "可用", desc: "补充资料后继续、失败重试、定时执行、指派、审批和接管。" },
+          { name: "反馈学习", type: "audit", status: "可用", desc: "点赞、点踩、纠错和用户反馈形成质量闭环。" }
         ]
       }
     ];
@@ -2324,19 +2310,16 @@
           { label: "设计理念", frame: sitePage("p-frame-2", "frame-side-overview") }
         ],
         "ux-input": [
-          { label: "用户输入设计", frame: sitePage("p-ux-1") }
+          { label: "输入层 Input", frame: sitePage("p-ux-1") }
         ],
-        "ux-visibility": [
-          { label: "AI 执行可见性", frame: sitePage("p-ux-2") }
+        "ux-runtime": [
+          { label: "执行层 Runtime", frame: sitePage("p-ux-2") }
         ],
-        "ux-result": [
-          { label: "结果呈现规范", frame: sitePage("p-ux-3") }
+        "ux-output": [
+          { label: "输出层 Output", frame: sitePage("p-ux-3") }
         ],
-        "ux-handoff": [
-          { label: "确认交接规范", frame: sitePage("p-ux-4") }
-        ],
-        "ux-loop": [
-          { label: "闭环追问规范", frame: sitePage("p-ux-5") }
+        "ux-followup": [
+          { label: "闭环层 Follow-up", frame: sitePage("p-ux-4") }
         ]
       };
       const section = currentSection();
