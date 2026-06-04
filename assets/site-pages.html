@@ -2322,6 +2322,291 @@ body.case-preview .topbar-desc {
   display: block;
   background: #FFFFFF;
 }
+.workbench-preview-shell {
+  height: calc(100vh - 190px);
+  min-height: 680px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  background: #f7f8fa;
+  box-shadow: var(--shadow-soft);
+  display: grid;
+  grid-template-columns: 252px minmax(0, 1fr);
+}
+.workbench-side {
+  background: #fff;
+  border-right: 1px solid #e6e8ea;
+  padding: 18px 0;
+  color: #667085;
+  overflow: auto;
+}
+.workbench-menu-button,
+.workbench-menu-title,
+.workbench-menu-child {
+  width: 100%;
+  min-height: 52px;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 0 28px;
+  text-align: left;
+  font-size: 16px;
+  line-height: 1.4;
+  cursor: pointer;
+}
+.workbench-menu-button {
+  font-weight: 700;
+  color: #1f2937;
+}
+.workbench-menu-button:hover,
+.workbench-menu-child:hover {
+  background: #f7f8fa;
+}
+.workbench-menu-button.is-active,
+.workbench-menu-child.is-active {
+  background: #ebf2ff;
+  color: #266eff;
+}
+.workbench-menu-title {
+  cursor: default;
+  color: #1f2937;
+  font-weight: 700;
+}
+.workbench-menu-child {
+  padding-left: 88px;
+  font-weight: 500;
+  color: #667085;
+}
+.workbench-menu-icon {
+  width: 20px;
+  height: 20px;
+  flex: 0 0 auto;
+  color: currentColor;
+}
+.workbench-menu-caret {
+  margin-left: auto;
+  color: #8a94a6;
+  font-weight: 700;
+}
+.workbench-main {
+  min-width: 0;
+  background: #f7f8fa;
+  overflow: hidden;
+}
+.workbench-screen {
+  display: none;
+  width: 100%;
+  height: 100%;
+}
+.workbench-screen.active {
+  display: block;
+}
+.noma-home {
+  height: 100%;
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr);
+  background: #f7f8fa;
+}
+.noma-rail {
+  margin: 8px 0 8px 8px;
+  background: #fff;
+  border: 1px solid #eaeaea;
+  border-radius: 12px 0 0 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 12px 6px;
+  gap: 8px;
+}
+.noma-mark {
+  width: 34px;
+  height: 28px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #4f8cff, #7f6bff);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+.noma-rail-item {
+  width: 52px;
+  min-height: 52px;
+  border: 0;
+  border-radius: 12px;
+  background: transparent;
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  font-size: 12px;
+}
+.noma-rail-item.is-active {
+  background: #f7f8fa;
+}
+.noma-rail-icon {
+  width: 18px;
+  height: 18px;
+  color: currentColor;
+}
+.noma-rail-bottom {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+.noma-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  background: #ebf2ff;
+  color: #266eff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+}
+.noma-content {
+  position: relative;
+  min-width: 0;
+  padding: 220px 48px 48px;
+  overflow: auto;
+}
+.noma-center {
+  max-width: 800px;
+  margin: 0 auto;
+  position: relative;
+}
+.noma-title {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 8px;
+  color: #333;
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 36px;
+  margin-bottom: 28px;
+  letter-spacing: 0;
+}
+.noma-brand {
+  background: linear-gradient(90deg, #5b8cff, #8b6bff);
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+.noma-input-card {
+  border: 1px solid #e6e8ea;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+  overflow: hidden;
+}
+.noma-input-inner {
+  min-height: 92px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+}
+.noma-placeholder {
+  color: #999;
+  font-size: 14px;
+  line-height: 22px;
+}
+.noma-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.noma-toolbar-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.noma-tool-button,
+.noma-send-button {
+  width: 30px;
+  height: 30px;
+  border: 1px solid #f2f4f6;
+  border-radius: 8px;
+  background: #fff;
+  color: #999;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.noma-assistant-chip {
+  height: 30px;
+  border: 1px solid #f2f4f6;
+  border-radius: 8px;
+  background: #fff;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 8px;
+  color: #222;
+  font-size: 12px;
+}
+.noma-assistant-face {
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  background: #ccddff;
+  color: #266eff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 700;
+}
+.noma-send-button {
+  border-color: transparent;
+  border-radius: 999px;
+  background: #ddd;
+  color: #fff;
+  transform: rotate(-90deg);
+}
+.noma-prompts {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 16px;
+}
+.noma-prompt {
+  height: 32px;
+  border: 1px solid #fff;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.58);
+  color: #666;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 12px;
+  font-size: 12px;
+}
+.workbench-placeholder {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px;
+  color: #667085;
+  font-size: 14px;
+  line-height: 1.7;
+  text-align: center;
+}
 .case-tabs {
   display: flex;
   gap: 8px;
@@ -4530,99 +4815,98 @@ body.embed {
 <div class="page" id="p-case-0">
   <div class="page-eyebrow">场景案例 · 工作台预览模板</div>
   <h1 class="page-title">工作台预览模板</h1>
-  <p class="page-desc">五类业务场景是应用案例，不是分类维度。每个场景对应特定的交互范式、HITL 强度（人工介入的深浅程度）和关键交互规范，产品经理通过这张总览快速定位该用哪套规范。</p>
+  <p class="page-desc">用于预览 AI 助手入口嵌入业务工作台后的首页形态。点击左侧 Noma AI 助手后，右侧展示原生模式首页。</p>
 
-  <div class="section">
-    <div class="section-title"><span class="section-num">01</span>五类场景对应关系总表</div>
-    <table class="matrix-table">
-      <thead>
-        <tr>
-          <th style="text-align:left;width:100px">场景</th>
-          <th style="text-align:left">典型任务</th>
-          <th class="wt">推荐框架</th>
-          <th style="background:rgba(167,139,250,0.1);color:var(--purple)">HITL 强度（人工介入的深浅程度）</th>
-          <th style="text-align:left;background:var(--s2);color:var(--muted2)">关键规范</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td style="background:var(--s2)"><b>查询</b></td>
-          <td style="background:var(--s2);text-align:left;color:var(--muted)">查待办、查合同、查付款状态</td>
-          <td><span style="font-size:12px;padding:3px 10px;border-radius:4px;background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-bd)">按钮触发</span></td>
-          <td style="color:var(--green);font-weight:700">低</td>
-          <td style="text-align:left;color:var(--muted)">结果卡片 + 来源标注 + 追问入口</td>
-        </tr>
-        <tr>
-          <td style="background:var(--s2)"><b>录入</b></td>
-          <td style="background:var(--s2);text-align:left;color:var(--muted)">合同录入、请款申请、调价录入</td>
-          <td><span style="font-size:12px;padding:3px 10px;border-radius:4px;background:var(--blue-bg);color:var(--blue2);border:1px solid var(--blue-bd)">全屏 Agent</span></td>
-          <td style="color:var(--amber);font-weight:700">强</td>
-          <td style="text-align:left;color:var(--muted)">文件上传 + 字段置信度 + 逐一确认卡片</td>
-        </tr>
-        <tr>
-          <td style="background:var(--s2)"><b>审核</b></td>
-          <td style="background:var(--s2);text-align:left;color:var(--muted)">合同审批、付款审核、标底审查</td>
-          <td><span style="font-size:12px;padding:3px 10px;border-radius:4px;background:var(--green-bg);color:var(--green);border:1px solid var(--green-bd)">侧边栏</span></td>
-          <td style="color:var(--red);font-weight:700">极强</td>
-          <td style="text-align:left;color:var(--muted)">风险分层 + 原始依据 + 建议摘要（不替代审批）</td>
-        </tr>
-        <tr>
-          <td style="background:var(--s2)"><b>分析</b></td>
-          <td style="background:var(--s2);text-align:left;color:var(--muted)">成本分析、指标追踪、异常识别</td>
-          <td><span style="font-size:12px;padding:3px 10px;border-radius:4px;background:var(--blue-bg);color:var(--blue2);border:1px solid var(--blue-bd)">全屏 Agent</span></td>
-          <td style="color:var(--amber);font-weight:700">中</td>
-          <td style="text-align:left;color:var(--muted)">主题数据查询 + 指标解释 + 可追问分析</td>
-        </tr>
-        <tr>
-          <td style="background:var(--s2)"><b>报告</b></td>
-          <td style="background:var(--s2);text-align:left;color:var(--muted)">销售日报、成本月报、经营透视报告</td>
-          <td><span style="font-size:12px;padding:3px 10px;border-radius:4px;background:var(--blue-bg);color:var(--blue2);border:1px solid var(--blue-bd)">全屏 Agent</span></td>
-          <td style="color:var(--amber);font-weight:700">中</td>
-          <td style="text-align:left;color:var(--muted)">可编辑草稿 + 数据溯源 + 管理语言生成</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <div class="section">
-    <div class="section-title"><span class="section-num">02</span>场景案例页面</div>
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px">
-      <button class="case-card" type="button" onclick="showCase('查询', 'p-case-query', null)">
-        <div style="font-size:22px;margin-bottom:10px">🔍</div>
-        <div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:6px">查询类案例</div>
-        <div style="font-size:12px;color:var(--muted);line-height:1.6;margin-bottom:12px">资产查询、欢迎页和对话详情</div>
-        <div style="font-size:11px;padding:4px 10px;border-radius:4px;background:var(--green-bg);color:var(--green);border:1px solid var(--green-bd);display:inline-block;font-family:'JetBrains Mono',monospace">资产查询</div>
+  <div class="workbench-preview-shell">
+    <aside class="workbench-side" aria-label="工作台导航">
+      <button class="workbench-menu-button is-active" type="button" data-workbench-target="noma-home" onclick="showWorkbenchScreen('noma-home', this)">
+        <svg class="workbench-menu-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5c3.3 0 6 2.7 6 6v5.1c0 2.4-1.9 4.3-4.3 4.3h-3.4c-2.4 0-4.3-1.9-4.3-4.3V9.5c0-3.3 2.7-6 6-6Z" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8.5 10.5h7M9.5 14h5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <span>Noma AI 助手</span>
       </button>
-      <button class="case-card" type="button" onclick="showCase('录入', 'p-case-entry', null)">
-        <div style="font-size:22px;margin-bottom:10px">📝</div>
-        <div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:6px">录入类案例</div>
-        <div style="font-size:12px;color:var(--muted);line-height:1.6;margin-bottom:12px">成本合同录入 Native 与助手形态</div>
-        <div style="font-size:11px;padding:4px 10px;border-radius:4px;background:var(--blue-bg);color:var(--blue2);border:1px solid var(--blue-bd);display:inline-block;font-family:'JetBrains Mono',monospace">合同录入</div>
+      <button class="workbench-menu-button" type="button" data-workbench-target="workbench-home" onclick="showWorkbenchScreen('workbench-home', this)">
+        <svg class="workbench-menu-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10.5 12 4l8 6.5V20a1 1 0 0 1-1 1h-5v-6h-4v6H5a1 1 0 0 1-1-1v-9.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+        <span>首页</span>
       </button>
-      <button class="case-card" type="button" onclick="showCase('审核', 'p-case-audit', null)">
-        <div style="font-size:22px;margin-bottom:10px">✅</div>
-        <div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:6px">审核类案例</div>
-        <div style="font-size:12px;color:var(--muted);line-height:1.6;margin-bottom:12px">合同审查、招标书审查和审核原则</div>
-        <div style="font-size:11px;padding:4px 10px;border-radius:4px;background:var(--red-bg);color:var(--red);border:1px solid var(--red-bd);display:inline-block;font-family:'JetBrains Mono',monospace">招标书审查</div>
-      </button>
-      <button class="case-card" type="button" onclick="showCase('分析', 'p-case-analysis', null)">
-        <div style="font-size:22px;margin-bottom:10px">📊</div>
-        <div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:6px">分析类案例</div>
-        <div style="font-size:12px;color:var(--muted);line-height:1.6;margin-bottom:12px">数据分析和分析详情</div>
-        <div style="font-size:11px;padding:4px 10px;border-radius:4px;background:var(--purple-bg);color:var(--purple);border:1px solid var(--purple-bd);display:inline-block;font-family:'JetBrains Mono',monospace">数据分析</div>
-      </button>
-      <button class="case-card" type="button" onclick="showCase('报告', 'p-case-report', null)">
-        <div style="font-size:22px;margin-bottom:10px">📋</div>
-        <div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:6px">报告类案例</div>
-        <div style="font-size:12px;color:var(--muted);line-height:1.6;margin-bottom:12px">销售日报与销售日报助手</div>
-        <div style="font-size:11px;padding:4px 10px;border-radius:4px;background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-bd);display:inline-block;font-family:'JetBrains Mono',monospace">销售日报</div>
-      </button>
-      <button class="case-card" type="button" onclick="showCase('组合场景', 'p-case-combo', null)">
-        <div style="font-size:22px;margin-bottom:10px">🔗</div>
-        <div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:6px">组合场景案例</div>
-        <div style="font-size:12px;color:var(--muted);line-height:1.6;margin-bottom:12px">成本审核控价和设计原则</div>
-        <div style="font-size:11px;padding:4px 10px;border-radius:4px;background:var(--blue-bg);color:var(--blue2);border:1px solid var(--blue-bd);display:inline-block;font-family:'JetBrains Mono',monospace">成本审核控价</div>
-      </button>
+      <div class="workbench-menu-title">
+        <svg class="workbench-menu-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h10l2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8 8h7M8 12h8M8 16h5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <span>合同管理</span>
+        <span class="workbench-menu-caret">⌃</span>
+      </div>
+      <button class="workbench-menu-child" type="button" data-workbench-target="workbench-home" onclick="showWorkbenchScreen('workbench-home', this)">合同登记</button>
+      <button class="workbench-menu-child" type="button" data-workbench-target="workbench-home" onclick="showWorkbenchScreen('workbench-home', this)">合同结算</button>
+      <button class="workbench-menu-child" type="button" data-workbench-target="workbench-home" onclick="showWorkbenchScreen('workbench-home', this)">补充协议</button>
+      <div class="workbench-menu-title">
+        <svg class="workbench-menu-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h12v16H6z" fill="none" stroke="currentColor" stroke-width="2"/><path d="M9 8h6M9 12h6M9 16h3M8 4V2h8v2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <span>付款管理</span>
+        <span class="workbench-menu-caret">⌃</span>
+      </div>
+      <button class="workbench-menu-child" type="button" data-workbench-target="workbench-home" onclick="showWorkbenchScreen('workbench-home', this)">付款申请</button>
+      <button class="workbench-menu-child" type="button" data-workbench-target="workbench-home" onclick="showWorkbenchScreen('workbench-home', this)">付款审批</button>
+      <button class="workbench-menu-child" type="button" data-workbench-target="workbench-home" onclick="showWorkbenchScreen('workbench-home', this)">付款台账</button>
+      <div class="workbench-menu-title">
+        <svg class="workbench-menu-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 19v-1a4 4 0 0 1 8 0v1M12 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM4 19v-1a3 3 0 0 1 3-3M20 19v-1a3 3 0 0 0-3-3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <span>供应商协同</span>
+      </div>
+    </aside>
+    <section class="workbench-main">
+      <div class="workbench-screen active" data-workbench-screen="noma-home">
+        <div class="noma-home">
+          <aside class="noma-rail" aria-label="Noma AI 导航">
+            <div class="noma-mark">N</div>
+            <button class="noma-rail-item is-active" type="button">
+              <svg class="noma-rail-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 7.5A3.5 3.5 0 0 1 8.5 4h7A3.5 3.5 0 0 1 19 7.5v4a3.5 3.5 0 0 1-3.5 3.5H12l-4 3v-3A3 3 0 0 1 5 12V7.5Z" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+              <span>对话</span>
+            </button>
+            <button class="noma-rail-item" type="button">
+              <svg class="noma-rail-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 4 7v10l8 4 8-4V7l-8-4Z" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 8v8M8 10l4-2 4 2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              <span>智能体</span>
+            </button>
+            <button class="noma-rail-item" type="button">
+              <svg class="noma-rail-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m14.5 5.5 4 4-9 9H5.5v-4l9-9Z" fill="none" stroke="currentColor" stroke-width="2"/><path d="m13 7 4 4" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+              <span>技能</span>
+            </button>
+            <button class="noma-rail-item" type="button">
+              <svg class="noma-rail-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="13" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 9v4l3 2M8 3 5 6M16 3l3 3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              <span>任务</span>
+            </button>
+            <div class="noma-rail-bottom">
+              <svg class="noma-rail-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8a4 4 0 1 1 0 8 4 4 0 0 1 0-8Zm8 4a8 8 0 0 1-.2 1.8l2 1.6-2 3.5-2.5-1a8.4 8.4 0 0 1-3.1 1.8L13.8 22H10l-.4-2.3a8.4 8.4 0 0 1-3.1-1.8l-2.5 1-2-3.5 2-1.6A8.5 8.5 0 0 1 4 12c0-.6.1-1.2.2-1.8l-2-1.6 2-3.5 2.5 1a8.4 8.4 0 0 1 3.1-1.8L10.2 2H14l.4 2.3a8.4 8.4 0 0 1 3.1 1.8l2.5-1 2 3.5-2 1.6c.1.6.2 1.2.2 1.8Z" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
+              <div class="noma-avatar">明</div>
+            </div>
+          </aside>
+          <main class="noma-content">
+            <div class="noma-center">
+              <div class="noma-title">我是 <span class="noma-brand">Noma.ai</span>，有什么可以帮您的？</div>
+              <div class="noma-input-card">
+                <div class="noma-input-inner">
+                  <div class="noma-placeholder">请输入您的问题，例如：审核数据</div>
+                  <div class="noma-toolbar">
+                    <div class="noma-toolbar-left">
+                      <button class="noma-tool-button" type="button" aria-label="添加附件">
+                        <svg class="noma-rail-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m8.5 13.5 6.2-6.2a3 3 0 0 1 4.2 4.2l-7.1 7.1a5 5 0 0 1-7.1-7.1l7.1-7.1" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                      </button>
+                      <button class="noma-assistant-chip" type="button"><span class="noma-assistant-face">AI</span>销售助手<span>⌄</span></button>
+                    </div>
+                    <button class="noma-send-button" type="button" aria-label="发送">
+                      <svg class="noma-rail-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="noma-prompts">
+                <button class="noma-prompt" type="button">查武汉项目硬景指标</button>
+                <button class="noma-prompt" type="button">查看本月动态成本变化</button>
+                <button class="noma-prompt" type="button">审核合同条款风险</button>
+                <button class="noma-prompt" type="button">对比目标成本差异</button>
+                <button class="noma-prompt" type="button">更多</button>
+              </div>
+            </div>
+          </main>
+        </div>
+      </div>
+      <div class="workbench-screen" data-workbench-screen="workbench-home">
+        <div class="workbench-placeholder">选择左侧「Noma AI 助手」后，右侧展示 AI 原生首页界面。</div>
+      </div>
     </div>
   </div>
 </div>
@@ -4885,6 +5169,17 @@ function switchContentTab(tabId, button) {
     if (active) activePanel = panel;
   });
   hydrateCasePreviews(activePanel || page);
+}
+
+function showWorkbenchScreen(target, button) {
+  const page = document.getElementById('p-case-0');
+  if (!page || !target) return;
+  page.querySelectorAll('[data-workbench-screen]').forEach(screen => {
+    screen.classList.toggle('active', screen.getAttribute('data-workbench-screen') === target);
+  });
+  page.querySelectorAll('[data-workbench-target]').forEach(item => {
+    item.classList.toggle('is-active', item === button);
+  });
 }
 
 function resolveCaseAsset(path) {

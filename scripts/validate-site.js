@@ -90,9 +90,6 @@ cases.forEach(([label, pageId, source]) => {
   if (!sitePagesHtml.includes(`id="${pageId}"`)) {
     fail(`Missing scene case page: ${label} (${pageId})`);
   }
-  if (!sitePagesHtml.includes(`showCase('${label}', '${pageId}'`)) {
-    fail(`Missing scene case navigation action: ${label} -> ${pageId}`);
-  }
   if (!sitePagesHtml.includes(`data-case-src="${source}"`)) {
     fail(`Missing scene case source reference: ${label} -> ${source}`);
   }
@@ -100,6 +97,14 @@ cases.forEach(([label, pageId, source]) => {
     fail(`Scene case asset does not exist: assets/${source}`);
   }
 });
+
+if (!sitePagesHtml.includes('工作台预览模板') || !sitePagesHtml.includes('data-page="p-case-0"')) {
+  fail('Scene case navigation should keep the workbench preview template entry.');
+}
+
+if (!sitePagesHtml.includes('Noma AI 助手') || !sitePagesHtml.includes('data-workbench-screen="noma-home"')) {
+  fail('Workbench preview should include the Noma AI assistant home screen.');
+}
 
 const auditTabSources = [
   ['合同审核', 'contract-audit-demo/index.html'],
