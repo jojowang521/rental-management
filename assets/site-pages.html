@@ -2793,6 +2793,11 @@ body.embed {
         <button class="case-tab active" type="button" role="tab" aria-selected="true" onclick="switchCaseTab('audit-contract', this)">合同审核</button>
         <button class="case-tab" type="button" role="tab" aria-selected="false" onclick="switchCaseTab('audit-compliance', this)">合规审查</button>
       </div>
+      <div class="content-tabs topbar-tabset" data-topbar-tabset="case-workbench" aria-label="工作台预览模板标签">
+        <button class="content-tab active" type="button">Markdown</button>
+        <button class="content-tab" type="button">Html</button>
+        <button class="content-tab" type="button">表单详情</button>
+      </div>
       <div class="content-tabs topbar-tabset" data-topbar-tabset="frame-native" role="tablist" aria-label="AI Native模式页签">
         <button class="content-tab active" type="button" role="tab" aria-selected="true" onclick="switchContentTab('frame-native-demo', this)">AI 原生模式</button>
         <button class="content-tab" type="button" role="tab" aria-selected="false" onclick="switchContentTab('frame-native-overview', this)">设计理念</button>
@@ -4816,7 +4821,7 @@ function updateTopbar(id) {
   const activeNav = document.querySelector('.nav-item.active');
   const label = activeNav?.querySelector('div > div:first-child')?.textContent.trim() || page.querySelector('.page-title')?.textContent.trim() || section;
   const navSub = activeNav?.querySelector('.nav-item-sub')?.textContent.trim() || '';
-  const visibleSet = id === 'p-case-audit' ? 'audit' : id === 'p-frame-1' ? 'frame-native' : id === 'p-frame-2' ? 'frame-side' : id === 'p-frame-3' ? 'frame-embedded' : '';
+  const visibleSet = id === 'p-case-0' ? 'case-workbench' : id === 'p-case-audit' ? 'audit' : id === 'p-frame-1' ? 'frame-native' : id === 'p-frame-2' ? 'frame-side' : id === 'p-frame-3' ? 'frame-embedded' : '';
   topbar?.classList.toggle('has-actions', !!visibleSet);
   if (topbarActions) {
     topbarActions.style.display = visibleSet ? 'flex' : 'none';
