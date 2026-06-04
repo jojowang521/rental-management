@@ -1140,7 +1140,7 @@ body.case-preview .topbar-desc {
   min-width: 0;
 }
 .input-example-visual {
-  min-height: 210px;
+  height: 220px;
   border: 1px solid var(--border3);
   border-radius: 20px;
   background: #f5f5f5;
@@ -1148,8 +1148,15 @@ body.case-preview .topbar-desc {
   align-items: center;
   justify-content: center;
   padding: 20px 24px;
-  overflow: visible;
+  overflow: hidden;
   margin-bottom: 12px;
+}
+.input-example-demo {
+  transform-origin: center;
+}
+.input-example-demo.skill-demo {
+  width: 390px;
+  transform: scale(0.62);
 }
 .input-example-name {
   font-size: 14px;
@@ -3542,23 +3549,25 @@ body.embed {
         </div>
         <div class="input-example-card">
           <div class="input-example-visual">
-            <div class="demo-skill-shell">
-              <div class="demo-skill-menu">
-                <div class="demo-skill-row"><span class="demo-skill-icon">◇</span><span class="demo-skill-name">indicator-adjust</span><span class="demo-skill-copy">工程量清单指标二次确认与调整。当用户对 ERP 已分析的清单进行复核时使用。</span></div>
-                <div class="demo-skill-row"><span class="demo-skill-icon">◇</span><span class="demo-skill-name">indicator-check</span><span class="demo-skill-copy">工程量清单指标二次确认与校验。当用户需要核验指标合理性时使用。</span></div>
-                <div class="demo-skill-row"><span class="demo-skill-icon">◇</span><span class="demo-skill-name">price-compare</span><span class="demo-skill-copy">综合单价对比分析。当用户需要对比目标项目与历史项目差异时使用。</span></div>
-                <div class="demo-skill-row active"><span class="demo-skill-icon">◇</span><span class="demo-skill-name">cost-diagnosis</span><span class="demo-skill-copy">成本偏差诊断分析。当用户需要定位成本异常原因时使用。</span></div>
-                <div class="demo-skill-row"><span class="demo-skill-icon">◇</span><span class="demo-skill-name">report-generate</span><span class="demo-skill-copy">分析报告生成。当用户完成指标分析后需要生成结构化报告时使用。</span></div>
-              </div>
-              <div class="demo-skill-input">
-                <div class="demo-skill-placeholder">请输入你的问题</div>
-                <div class="demo-skill-actions">
-                  <div class="demo-skill-left">
-                    <span class="demo-skill-primary">◇</span>
-                    <span class="demo-skill-attach">⌘</span>
-                    <span class="demo-skill-agent"><span class="demo-skill-agent-avatar"></span>智能成本助手</span>
+            <div class="input-example-demo skill-demo">
+              <div class="demo-skill-shell">
+                <div class="demo-skill-menu">
+                  <div class="demo-skill-row"><span class="demo-skill-icon">◇</span><span class="demo-skill-name">indicator-adjust</span><span class="demo-skill-copy">工程量清单指标二次确认与调整。当用户对 ERP 已分析的清单进行复核时使用。</span></div>
+                  <div class="demo-skill-row"><span class="demo-skill-icon">◇</span><span class="demo-skill-name">indicator-check</span><span class="demo-skill-copy">工程量清单指标二次确认与校验。当用户需要核验指标合理性时使用。</span></div>
+                  <div class="demo-skill-row"><span class="demo-skill-icon">◇</span><span class="demo-skill-name">price-compare</span><span class="demo-skill-copy">综合单价对比分析。当用户需要对比目标项目与历史项目差异时使用。</span></div>
+                  <div class="demo-skill-row active"><span class="demo-skill-icon">◇</span><span class="demo-skill-name">cost-diagnosis</span><span class="demo-skill-copy">成本偏差诊断分析。当用户需要定位成本异常原因时使用。</span></div>
+                  <div class="demo-skill-row"><span class="demo-skill-icon">◇</span><span class="demo-skill-name">report-generate</span><span class="demo-skill-copy">分析报告生成。当用户完成指标分析后需要生成结构化报告时使用。</span></div>
+                </div>
+                <div class="demo-skill-input">
+                  <div class="demo-skill-placeholder">请输入你的问题</div>
+                  <div class="demo-skill-actions">
+                    <div class="demo-skill-left">
+                      <span class="demo-skill-primary">◇</span>
+                      <span class="demo-skill-attach">⌘</span>
+                      <span class="demo-skill-agent"><span class="demo-skill-agent-avatar"></span>智能成本助手</span>
+                    </div>
+                    <span class="demo-send">›</span>
                   </div>
-                  <span class="demo-send">›</span>
                 </div>
               </div>
             </div>
