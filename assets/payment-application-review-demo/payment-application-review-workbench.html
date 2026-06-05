@@ -537,13 +537,33 @@ function toggleSidebar(){
 }
 function toggleNav(ni){
   if(document.querySelector('.app').classList.contains('nav-collapsed')) return;
+  ensureNomaNav();
   var sub=ni.nextElementSibling;
   if(sub&&sub.classList.contains('nsl')){
     var open=sub.classList.toggle('open');
     ni.classList.toggle('open',open);
   }
 }
+function ensureNomaNav(){
+  var list=document.querySelector('.nl');
+  if(!list) return;
+  var item=list.querySelector('[data-page="noma"]');
+  var home=list.querySelector('[data-page="home"]');
+  if(!item&&home){
+    item=document.createElement('li');
+    item.className='ni';
+    item.setAttribute('data-page','noma');
+    item.innerHTML='<span class="ni-ic"><svg class="ni-img" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5c3.3 0 6 2.7 6 6v5.1c0 2.4-1.9 4.3-4.3 4.3h-3.4c-2.4 0-4.3-1.9-4.3-4.3V9.5c0-3.3 2.7-6 6-6Z" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8.5 10.5h7M9.5 14h5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span><span class="ni-lb">Noma AI 助手</span>';
+    list.insertBefore(item,home);
+  }
+  if(item){
+    item.hidden=false;
+    item.style.display='';
+    item.onclick=function(){showView('noma')};
+  }
+}
 function initNav(){
+  ensureNomaNav();
   var active=document.querySelector('.nsi.active');
   var parent=active&&active.parentElement&&active.parentElement.previousElementSibling;
   if(parent&&parent.classList.contains('ni')){
@@ -553,6 +573,7 @@ function initNav(){
 }
 initNav();
 function showView(name){
+  ensureNomaNav();
   var keys=['noma','list','detail','attachment'];
   keys.forEach(function(k){
     var el=document.getElementById('view-'+k);
@@ -606,7 +627,8 @@ window.addEventListener('message', function(ev){
   var hashIdx=t.indexOf('#');
   var view=hashIdx>=0?t.slice(0,hashIdx):t;
   var anchor=hashIdx>=0?t.slice(hashIdx+1):'';
-  if(view==='detail') showView('detail');
+  if(view==='noma') showView('noma');
+  else if(view==='detail') showView('detail');
   else if(view==='attachment') showView('attachment');
   else if(view==='list') showView('list');
   if(anchor){

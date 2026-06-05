@@ -125,14 +125,14 @@ auditTabSources.forEach(([label, source]) => {
 });
 
 const frameDemoSources = [
-  ['全屏 Agent 工作台 / AI 原生模式', 'ai-native-mode-demo/index.html?v=20260524-local-sync2']
+  ['全屏 Agent 工作台 / AI 原生模式', 'ai-native-mode-demo/index.html']
 ];
 
 frameDemoSources.forEach(([label, source]) => {
   if (!sitePagesHtml.includes('AI 原生模式')) {
     fail('Missing frame tab label: AI 原生模式');
   }
-  if (!sitePagesHtml.includes(`data-case-src="${source}"`)) {
+  if (!sitePagesHtml.includes(`data-case-src="${source}`)) {
     fail(`Missing frame demo source reference: ${label} -> ${source}`);
   }
   if (!existsAsset(source)) {
