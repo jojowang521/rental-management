@@ -236,6 +236,7 @@ body.embed .page-title {
 .main {
   margin-left: 228px;
   flex: 1;
+  min-width: 0;
   padding: 0;
 }
 
@@ -258,6 +259,7 @@ body.embed .page-title {
   display: flex;
   align-items: center;
   gap: 12px;
+  flex: 1 1 auto;
   min-width: 0;
 }
 
@@ -301,7 +303,8 @@ body.embed .page-title {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  flex: 0 0 auto;
+  flex: 0 1 auto;
+  min-width: 0;
 }
 .topbar-actions .topbar-tabset {
   display: flex;
@@ -309,6 +312,26 @@ body.embed .page-title {
   justify-content: center;
   margin-bottom: 0;
   height: 34px;
+}
+.topbar-actions .output-switch {
+  height: 40px;
+  gap: 4px;
+  padding: 4px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: #fff;
+  box-shadow: var(--shadow-soft);
+}
+.topbar-actions .output-switch .content-tab {
+  height: 30px;
+  min-width: 76px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+}
+.topbar-actions .output-switch .content-tab.active {
+  background: var(--blue-bg);
+  box-shadow: inset 0 0 0 1px var(--blue-bd);
 }
 .topbar.has-actions .topbar-chip {
   display: none;
@@ -465,6 +488,144 @@ body.case-preview .topbar-desc {
   height: calc(100vh - 82px);
   min-height: 680px;
 }
+#p-case-0.is-demo-wide {
+  width: 100%;
+  max-width: none;
+  padding: 66px clamp(16px, 4vw, 76px) 32px;
+}
+#p-case-0.is-demo-wide .case-demo-shell {
+  height: calc(100vh - 166px);
+  min-height: 620px;
+}
+#p-case-0.is-demo-wide .content-tab-panel {
+  width: 100%;
+  min-width: 0;
+}
+#p-case-0.scenario-overview-page {
+  width: 100%;
+  max-width: none;
+  padding: 72px clamp(24px, 4vw, 56px) 48px;
+}
+#p-case-0.scenario-overview-page .page-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  line-height: 1.4;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 400;
+  margin-bottom: 12px;
+}
+#p-case-0.scenario-overview-page .page-title {
+  max-width: 760px;
+  font-size: 32px;
+  line-height: 1.32;
+  font-weight: 700;
+  margin-bottom: 14px;
+  letter-spacing: 0;
+}
+#p-case-0.scenario-overview-page .page-title .blue {
+  color: var(--blue);
+}
+#p-case-0.scenario-overview-page .page-desc {
+  max-width: 760px;
+  font-size: 14px;
+  line-height: 1.75;
+  font-weight: 400;
+  margin-bottom: 40px;
+  padding-bottom: 28px;
+}
+.scenario-overview-section {
+  margin-bottom: 0;
+}
+.scenario-overview-table {
+  width: 100%;
+  min-width: 960px;
+  border-collapse: separate;
+  border-spacing: 0;
+  overflow: hidden;
+  border: 1px solid var(--border2);
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: var(--shadow-soft);
+}
+.scenario-overview-table th {
+  height: 48px;
+  padding: 0 18px;
+  background: #f7f7f8;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.4;
+  font-weight: 600;
+  text-align: left;
+  border-bottom: 1px solid var(--border2);
+  white-space: nowrap;
+}
+.scenario-overview-table td {
+  height: 56px;
+  padding: 0 18px;
+  background: #fff;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.55;
+  font-weight: 400;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+.scenario-overview-table tr:last-child td {
+  border-bottom: 0;
+}
+.scenario-overview-table td:first-child {
+  width: 120px;
+  background: #fafafa;
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 650;
+}
+.scenario-overview-table-wrap {
+  overflow-x: auto;
+  border-radius: 14px;
+}
+.scenario-framework-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 32px;
+  padding: 0 16px;
+  border-radius: 7px;
+  font-size: 16px;
+  line-height: 1;
+  font-weight: 750;
+  white-space: nowrap;
+}
+.scenario-framework-badge.trigger {
+  color: #c2410c;
+  background: rgba(234, 88, 12, 0.06);
+  border: 1px solid rgba(234, 88, 12, 0.18);
+}
+.scenario-framework-badge.agent {
+  color: var(--blue);
+  background: rgba(37, 99, 235, 0.06);
+  border: 1px solid rgba(37, 99, 235, 0.18);
+}
+.scenario-framework-badge.sidebar {
+  color: var(--green);
+  background: rgba(21, 128, 61, 0.06);
+  border: 1px solid rgba(21, 128, 61, 0.16);
+}
+.scenario-hitl {
+  font-weight: 800;
+}
+.scenario-hitl.low {
+  color: var(--green);
+}
+.scenario-hitl.medium,
+.scenario-hitl.strong {
+  color: #c2410c;
+}
+.scenario-hitl.extreme {
+  color: var(--red);
+}
 .page-title em { font-style: normal; color: var(--blue2); }
 .page-title .g  { font-style: normal; color: var(--green); }
 .page-desc {
@@ -491,8 +652,70 @@ body.case-preview .topbar-desc {
 .section-title::after {
   content: '';
   flex: 1;
+  order: 2;
   height: 1px;
   background: var(--border);
+}
+.section-title-actions {
+  order: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: 2px;
+  padding: 3px;
+  border: 1px solid var(--border2);
+  border-radius: 999px;
+  background: #fff;
+  box-shadow: var(--shadow-soft);
+}
+.section-view-tab {
+  min-width: 52px;
+  height: 28px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.section-view-tab:hover {
+  color: var(--text);
+  background: var(--s3);
+}
+.section-view-tab.is-active {
+  color: var(--blue2);
+  background: var(--blue-bg);
+  box-shadow: inset 0 0 0 1px var(--blue-bd);
+}
+.section-action-button {
+  order: 3;
+  height: 34px;
+  padding: 0 18px;
+  border: 1px solid var(--border2);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--text);
+  box-shadow: var(--shadow-soft);
+  font-size: 13px;
+  font-weight: 650;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: border-color 0.16s ease, box-shadow 0.16s ease, color 0.16s ease;
+}
+.section-action-button:hover {
+  border-color: var(--blue-bd);
+  color: var(--blue2);
+  box-shadow: 0 8px 20px rgba(24, 24, 27, 0.08);
+}
+.section-action-button:focus-visible {
+  outline: 2px solid rgba(47, 101, 255, 0.28);
+  outline-offset: 2px;
 }
 .section-num {
   font-family: 'JetBrains Mono', monospace;
@@ -545,6 +768,16 @@ body.case-preview .topbar-desc {
 .compare-table td .g  { color: var(--green); font-weight: 600; }
 .compare-table td .r  { color: var(--red); font-weight: 600; }
 .spec-guide-card { margin-top: 20px; }
+.section.has-section-view-tabs .spec-guide-card {
+  margin-top: 0;
+  overflow-x: auto;
+}
+.section.has-section-view-tabs .spec-guide-title {
+  display: none;
+}
+.section.has-section-view-tabs .spec-guide-card .compare-table {
+  min-width: 920px;
+}
 .spec-guide-title {
   height: 48px;
   margin: 0;
@@ -1130,6 +1363,276 @@ body.case-preview .topbar-desc {
   font-size: 13px;
   line-height: 1.5;
 }
+
+/* ── RUNTIME VISIBILITY ── */
+#p-ux-2 {
+  max-width: none;
+  width: 100%;
+  padding-right: 220px;
+}
+#p-ux-2 .page-desc {
+  max-width: 860px;
+}
+.runtime-visibility-table {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.runtime-visibility-row {
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr) minmax(0, 1.1fr);
+  overflow: hidden;
+  border: 1px solid var(--border2);
+  border-radius: 12px;
+  background: var(--s1);
+  box-shadow: var(--shadow-soft);
+}
+.runtime-visibility-name {
+  padding: 24px 26px;
+  background: var(--s2);
+  border-right: 1px solid var(--border2);
+}
+.runtime-visibility-code {
+  font-family: 'JetBrains Mono', monospace;
+  margin-bottom: 14px;
+  color: var(--blue2);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+}
+.runtime-visibility-code.green { color: var(--green); }
+.runtime-visibility-code.orange { color: #c25b1b; }
+.runtime-visibility-code.purple { color: #7b4ee6; }
+.runtime-visibility-code.red { color: var(--red); }
+.runtime-visibility-title {
+  color: var(--text);
+  font-size: 17px;
+  font-weight: 750;
+}
+.runtime-visibility-cell {
+  padding: 22px 28px;
+  border-right: 1px solid var(--border2);
+}
+.runtime-visibility-cell:last-child { border-right: 0; }
+.runtime-cell-label {
+  margin-bottom: 10px;
+  color: var(--muted2);
+  font-size: 13px;
+  font-weight: 650;
+}
+.runtime-cell-text {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.75;
+}
+.runtime-cell-text b { font-weight: 750; }
+.runtime-cell-text .good { color: var(--green); }
+.runtime-cell-text .optional { color: #c25b1b; }
+.runtime-cell-text .bad { color: var(--red); }
+.runtime-layers {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 340px;
+  gap: 36px;
+  align-items: start;
+}
+.runtime-layer-list {
+  display: grid;
+  gap: 14px;
+}
+.runtime-layer-card {
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr);
+  gap: 16px;
+  padding: 22px 28px;
+  border: 1px solid var(--runtime-layer-border, var(--border2));
+  border-radius: 12px;
+  background: var(--s1);
+  box-shadow: var(--shadow-soft);
+}
+.runtime-layer-card.green { --runtime-layer-border: #cfe8d9; }
+.runtime-layer-card.blue { --runtime-layer-border: #d8e4ff; }
+.runtime-layer-card.orange { --runtime-layer-border: #f0d8c8; }
+.runtime-layer-card.purple { --runtime-layer-border: #e4d8ff; }
+.runtime-layer-index {
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--runtime-layer-border, var(--blue-bd));
+  border-radius: 50%;
+  background: var(--runtime-layer-bg, var(--blue-bg));
+  color: var(--runtime-layer-color, var(--blue2));
+  font-size: 14px;
+  font-weight: 800;
+}
+.runtime-layer-card.green .runtime-layer-index {
+  --runtime-layer-color: var(--green);
+  --runtime-layer-bg: #f0faf4;
+}
+.runtime-layer-card.orange .runtime-layer-index {
+  --runtime-layer-color: #c25b1b;
+  --runtime-layer-bg: #fff7f2;
+}
+.runtime-layer-card.purple .runtime-layer-index {
+  --runtime-layer-color: #7b4ee6;
+  --runtime-layer-bg: #f7f2ff;
+}
+.runtime-layer-title {
+  margin-bottom: 6px;
+  color: var(--text);
+  font-size: 17px;
+  font-weight: 780;
+}
+.runtime-layer-title span {
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 650;
+}
+.runtime-layer-desc {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.75;
+}
+.runtime-layer-desc b { color: var(--text); }
+.runtime-chat-preview {
+  overflow: hidden;
+  border: 1px solid var(--border2);
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: var(--shadow);
+}
+.runtime-chat-head {
+  height: 52px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 18px;
+  border-bottom: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 700;
+}
+.runtime-chat-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--blue);
+}
+.runtime-chat-body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 18px;
+}
+.runtime-bubble {
+  max-width: 82%;
+  padding: 12px 15px;
+  border: 1px solid var(--border2);
+  border-radius: 10px;
+  background: var(--s1);
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.55;
+}
+.runtime-bubble.user {
+  align-self: flex-end;
+  border-color: var(--blue-bd);
+  background: var(--blue-bg);
+  color: var(--blue2);
+  font-weight: 700;
+}
+.runtime-tool-card {
+  padding: 12px 14px;
+  border: 1px solid #efd4c1;
+  border-radius: 10px;
+  background: #fff7f2;
+  color: #b75718;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.65;
+}
+.runtime-action-card {
+  padding: 14px;
+  border: 1px solid #dfd0ff;
+  border-radius: 10px;
+  background: #f7f2ff;
+  color: #9274e8;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.65;
+}
+.runtime-action-line {
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #dfd0ff;
+}
+.runtime-action-buttons {
+  display: flex;
+  gap: 16px;
+  font-size: 13px;
+}
+.runtime-progress-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+.runtime-progress-card {
+  overflow: hidden;
+  border: 1px solid var(--runtime-progress-border, var(--border2));
+  border-radius: 12px;
+  background: var(--s1);
+}
+.runtime-progress-card.bad {
+  --runtime-progress-border: #f1d2d2;
+  --runtime-progress-head: #fff2f2;
+  --runtime-progress-color: var(--red);
+}
+.runtime-progress-card.good {
+  --runtime-progress-border: #cfe8d9;
+  --runtime-progress-head: #f0faf4;
+  --runtime-progress-color: var(--green);
+}
+.runtime-progress-head {
+  height: 56px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 22px;
+  border-bottom: 1px solid var(--runtime-progress-border);
+  background: var(--runtime-progress-head);
+  color: var(--runtime-progress-color);
+  font-size: 15px;
+  font-weight: 750;
+}
+.runtime-progress-list {
+  display: grid;
+  gap: 16px;
+  padding: 22px 26px 26px;
+}
+.runtime-progress-item {
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr);
+  gap: 10px;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.6;
+}
+.runtime-progress-icon {
+  color: var(--runtime-progress-color);
+  font-weight: 900;
+}
+@media (max-width: 1180px) {
+  #p-ux-2 { padding-right: 48px; }
+  .runtime-layers,
+  .runtime-progress-grid { grid-template-columns: 1fr; }
+  .runtime-visibility-row { grid-template-columns: 1fr; }
+  .runtime-visibility-name,
+  .runtime-visibility-cell {
+    border-right: 0;
+    border-bottom: 1px solid var(--border2);
+  }
+  .runtime-visibility-cell:last-child { border-bottom: 0; }
+}
 .input-example-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -1138,6 +1641,8 @@ body.case-preview .topbar-desc {
 }
 .input-example-card {
   min-width: 0;
+  display: flex;
+  flex-direction: column;
 }
 .input-example-visual {
   height: 220px;
@@ -1168,6 +1673,7 @@ body.case-preview .topbar-desc {
   font-size: 13px;
   line-height: 1.75;
   color: var(--muted);
+  min-height: 68px;
 }
 .demo-chat-bubble {
   width: 100%;
@@ -1258,49 +1764,6 @@ body.case-preview .topbar-desc {
   border-color: transparent;
   background: #8792ff;
   color: #fff;
-}
-.demo-upload-panel {
-  width: 100%;
-  max-width: 320px;
-  padding: 18px;
-  border: 1px solid #eaeaea;
-  border-radius: 12px;
-  background: #fff;
-}
-.demo-upload-head {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 16px;
-  font-weight: 700;
-  color: #222;
-  margin-bottom: 10px;
-}
-.demo-upload-avatar {
-  width: 28px;
-  height: 28px;
-  border-radius: 10px;
-  background: #ffecec;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  color: #e5484d;
-}
-.demo-upload-panel p {
-  margin: 0 0 12px;
-  font-size: 12px;
-  line-height: 1.65;
-  color: #333;
-}
-.demo-upload-btn {
-  height: 32px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #666;
-  font-size: 13px;
 }
 .demo-skill-shell {
   width: 100%;
@@ -1446,106 +1909,210 @@ body.case-preview .topbar-desc {
   color: #666;
   font-size: 12px;
 }
-.input-example-demo.file-list-demo {
-  width: 220px;
-  transform: scale(0.82);
+.file-input-demo {
+  width: 323px;
+  transform: scale(1);
 }
-.demo-file-list {
-  display: flex;
-  flex-direction: column;
-  gap: 7px;
-}
-.demo-file-item {
-  width: 200px;
-  min-height: 38px;
+.file-input-shell {
+  width: 323px;
+  height: 91px;
+  padding: 6px 8px;
   border: 1px solid #eaeaea;
-  border-radius: 12px;
+  border-radius: 16px;
   background: #fff;
   display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 5px 8px;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 1px 2px rgba(0,0,0,.03);
 }
-.demo-file-icon {
-  width: 24px;
-  height: 24px;
-  border-radius: 6px;
-  color: #fff;
-  display: inline-flex;
+.file-input-attachments {
+  display: flex;
   align-items: center;
-  justify-content: center;
-  font-size: 10px;
-  font-weight: 700;
-  flex: 0 0 auto;
-}
-.demo-file-icon.link { background: #6397ff; }
-.demo-file-icon.word { background: #8090d3; }
-.demo-file-icon.excel { background: #3cd4a1; }
-.demo-file-icon.markdown { background: #a7b3e1; }
-.demo-file-icon.image { background: #fbd34b; color: #8a5a00; }
-.demo-file-meta {
+  gap: 4px;
   min-width: 0;
-  flex: 1;
+  overflow: hidden;
 }
-.demo-file-name {
+.file-input-attachment {
+  width: 95px;
+  height: 27px;
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 6px;
+  border: 1px solid #eaeaea;
+  border-radius: 14px;
+  background: #fff;
+}
+.file-doc-icon {
+  position: relative;
+  width: 15px;
+  height: 15px;
+  flex: 0 0 auto;
+  overflow: hidden;
+}
+.file-doc-icon::before {
+  content: "";
+  position: absolute;
+  inset: 1px 2px 1px 3px;
+  border-radius: 3px;
+  background: #6397ff;
+}
+.file-doc-icon::after {
+  content: "";
+  position: absolute;
+  right: 2px;
+  top: 1px;
+  width: 4px;
+  height: 4px;
+  background: linear-gradient(135deg, #a8c5ff 0 50%, transparent 51%);
+  border-top-right-radius: 3px;
+}
+.file-doc-mark {
+  position: absolute;
+  left: 5px;
+  top: 5px;
+  z-index: 1;
+  color: #fff;
+  font-size: 5px;
+  line-height: 1;
+  font-weight: 800;
+  transform: scaleX(.9);
+}
+.file-input-meta {
+  min-width: 0;
+  line-height: 1.15;
+}
+.file-input-name {
   color: #222;
-  font-size: 10px;
-  line-height: 1.25;
+  font-size: 7px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.demo-file-size {
+.file-input-size {
+  margin-top: 2px;
   color: #999;
-  font-size: 9px;
-  line-height: 1.3;
+  font-size: 6px;
 }
-.demo-file-action {
-  color: #333;
-  font-size: 9px;
-  white-space: nowrap;
+.file-input-placeholder {
+  min-height: 22px;
+  color: #999;
+  font-size: 7px;
+  line-height: 11px;
 }
-.input-example-demo.image-upload-demo {
-  transform: scale(0.9);
+.file-input-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
-.demo-image-preview {
-  width: 168px;
-  height: 100px;
-  border: 1px solid #266eff;
+.file-input-tool {
+  width: 15px;
+  height: 15px;
+  border: 1px solid rgba(234,234,234,.7);
   border-radius: 8px;
-  padding: 4px;
-  background: #fff;
-}
-.demo-image-thumb {
-  width: 100%;
-  height: 100%;
-  border-radius: 6px;
-  background:
-    linear-gradient(135deg, rgba(38,110,255,.22), rgba(255,255,255,.08) 42%, rgba(38,110,255,.3)),
-    radial-gradient(circle at 25% 70%, #a8c5ff 0 16%, transparent 17%),
-    linear-gradient(150deg, #f7f7fb 0%, #d9e4ff 48%, #f4f6ff 100%);
+  color: #41464c;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   position: relative;
+}
+.file-input-tool::before {
+  content: "";
+  width: 5px;
+  height: 7px;
+  border: 1px solid currentColor;
+  border-left-width: 1px;
+  border-radius: 5px;
+  transform: rotate(38deg);
+}
+.file-input-tool::after {
+  content: "";
+  position: absolute;
+  width: 3px;
+  height: 5px;
+  border: 1px solid currentColor;
+  border-left: 0;
+  border-bottom: 0;
+  border-radius: 4px;
+  transform: rotate(38deg);
+}
+.file-input-send {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: #ddd;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  position: relative;
+}
+.file-input-send::before {
+  content: "";
+  width: 0;
+  height: 0;
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+  border-left: 6px solid #fff;
+  transform: translateX(1px);
+}
+.file-image-thumb {
+  width: 21px;
+  height: 21px;
+  flex: 0 0 auto;
+  border: 1px solid #ddd;
+  border-radius: 8px;
   overflow: hidden;
+  position: relative;
+  background:
+    linear-gradient(150deg, rgba(51,88,180,.76) 0 14%, transparent 15%),
+    linear-gradient(330deg, rgba(87,121,204,.78) 0 18%, transparent 19%),
+    radial-gradient(circle at 16% 80%, #6f92e8 0 7%, transparent 8%),
+    radial-gradient(circle at 78% 18%, #ffffff 0 9%, transparent 10%),
+    linear-gradient(145deg, #dce8ff 0%, #f7f9ff 46%, #88aef0 100%);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.35);
 }
-.demo-image-thumb::before {
-  content: 'Aa';
+.file-image-thumb::before {
+  content: "Aa";
   position: absolute;
-  left: 34px;
-  top: 18px;
-  color: #8090d3;
-  font-size: 28px;
+  left: 3px;
+  top: 3px;
+  color: #4c6dff;
+  font-size: 5px;
+  line-height: 1;
   font-weight: 800;
-  transform: rotate(-10deg);
+  transform: rotate(-16deg);
 }
-.demo-image-thumb::after {
-  content: 'Honeycomb';
+.file-image-thumb::after {
+  content: "Honeycomb";
   position: absolute;
-  left: 44px;
-  top: 42px;
-  color: #333;
-  font-size: 20px;
-  font-weight: 800;
-  transform: rotate(-10deg);
+  left: 4px;
+  top: 10px;
+  color: #313948;
+  font-size: 4px;
+  line-height: 1;
+  font-weight: 700;
+  transform: rotate(-16deg);
+}
+.file-input-example-grid {
+  grid-template-columns: repeat(2, 397px);
+  overflow-x: auto;
+  padding-bottom: 30px;
+  scroll-snap-type: x proximity;
+}
+.file-input-example-grid .input-example-card {
+  scroll-snap-align: start;
+}
+.file-input-example-grid .input-example-visual {
+  height: 220px;
+  align-items: center;
+  justify-content: center;
+}
+@media (max-width: 1180px) {
+  .file-input-example-grid {
+    grid-template-columns: repeat(2, 397px);
+  }
 }
 .input-example-demo.confirm-demo {
   width: 300px;
@@ -1556,10 +2123,6 @@ body.case-preview .topbar-desc {
 }
 .input-example-demo.confirm-choice-demo {
   transform: scale(0.72);
-}
-.input-example-demo.confirm-risk-demo {
-  width: 330px;
-  transform: scale(0.66);
 }
 .confirm-demo-panel {
   background: #fff;
@@ -1746,24 +2309,35 @@ body.case-preview .topbar-desc {
   font-weight: 700;
 }
 .confirm-info-panel {
-  padding: 17px 20px 15px;
+  padding: 16px 18px 15px;
 }
-.confirm-info-row {
-  display: grid;
-  grid-template-columns: 68px 1fr;
-  gap: 14px;
-  min-height: 22px;
-  align-items: start;
+.confirm-markdown {
+  margin-bottom: 12px;
+  padding: 12px 14px;
+  border: 1px solid #ececec;
+  border-radius: 8px;
+  background: #fafafa;
+  color: #333;
+  line-height: 1.7;
+}
+.confirm-markdown-title {
+  font-size: 13px;
+  font-weight: 800;
+  color: #222;
   margin-bottom: 8px;
 }
-.confirm-info-row:last-of-type {
-  margin-bottom: 14px;
+.confirm-markdown-line {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  font-size: 11px;
+  color: #555;
 }
-.confirm-info-key {
-  color: #8a8a8a;
+.confirm-markdown-line b {
+  color: #222;
 }
-.confirm-info-value {
-  color: #333;
+.confirm-markdown-line + .confirm-markdown-line {
+  margin-top: 5px;
 }
 .trust-summary {
   padding: 20px 22px;
@@ -2367,6 +2941,7 @@ body.case-preview .topbar-desc {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  flex: 0 0 auto;
   padding: 0 16px;
   border: 1px solid var(--border);
   border-radius: 10px;
@@ -2375,6 +2950,7 @@ body.case-preview .topbar-desc {
   font-size: 13px;
   font-weight: 650;
   line-height: 1;
+  white-space: nowrap;
   cursor: pointer;
   transition: all 0.15s ease;
 }
@@ -2392,6 +2968,183 @@ body.case-preview .topbar-desc {
 }
 .content-tab-panel.active {
   display: block;
+}
+.output-workbench-tabs {
+  justify-content: flex-start;
+  gap: 28px;
+  margin: -20px 0 20px;
+  border-bottom: 1px solid var(--border);
+}
+.output-workbench-tabs .content-tab {
+  height: 40px;
+  padding: 0 2px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--muted);
+  box-shadow: none;
+  position: relative;
+}
+.output-workbench-tabs .content-tab:hover {
+  color: var(--text);
+  border-color: transparent;
+}
+.output-workbench-tabs .content-tab.active {
+  color: var(--blue2);
+  border-color: transparent;
+  background: transparent;
+}
+.output-workbench-tabs .content-tab.active::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 2px;
+  border-radius: 999px;
+  background: var(--blue2);
+}
+.output-html-tabs {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 0 0 auto;
+  padding: 4px;
+  width: fit-content;
+  max-width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: rgba(248, 250, 252, 0.92);
+}
+.output-html-tab {
+  height: 32px;
+  padding: 0 14px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 650;
+  line-height: 1;
+  cursor: pointer;
+}
+.output-html-tab:hover {
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.78);
+}
+.output-html-tab.active {
+  color: var(--blue2);
+  border-color: rgba(37, 99, 235, 0.24);
+  background: #ffffff;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
+}
+.output-html-meta {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin: -2px 0 20px;
+  width: 100%;
+}
+.output-html-desc {
+  flex: 1 1 auto;
+  min-width: 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+.output-html-desc strong {
+  color: var(--text);
+  font-weight: 700;
+}
+.output-html-panel {
+  display: none;
+}
+.output-html-panel.active {
+  display: block;
+}
+.output-structured-demo-shell {
+  width: 100%;
+  height: calc(100vh - 218px);
+  min-height: 680px;
+}
+.output-visual-demo-shell {
+  width: 100%;
+  height: calc(100vh - 218px);
+  min-height: 680px;
+}
+.scoped-content-panel {
+  display: none;
+}
+.scoped-content-panel.active {
+  display: block;
+}
+#p-ux-3 > .page-eyebrow,
+#p-ux-3 > .page-title,
+#p-ux-3 > .page-desc {
+  display: none;
+}
+#p-ux-3 {
+  width: 100%;
+  max-width: none;
+  padding: 24px 32px 32px;
+}
+#p-ux-3 > .content-tab-panel,
+#p-ux-3 > .content-tab-panel > .section,
+#p-ux-3 .scoped-content-panel {
+  width: 100%;
+  min-width: 0;
+}
+#p-ux-3 .output-workbench-tabs {
+  width: 100%;
+}
+#p-ux-3 .output-dialogue-demo-shell {
+  width: 100%;
+  height: calc(100vh - 196px);
+  min-height: 680px;
+  margin-bottom: 20px;
+}
+#p-ux-3 .output-form-intro {
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+#p-ux-3 .output-markdown-intro {
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+#p-ux-3 .output-form-intro .section-title {
+  flex: 0 0 auto;
+  margin-bottom: 0;
+}
+#p-ux-3 .output-markdown-intro .section-title {
+  flex: 0 0 auto;
+  margin-bottom: 0;
+}
+#p-ux-3 .output-form-intro .section-desc {
+  flex: 1 1 auto;
+  margin: 0;
+  min-width: 0;
+}
+#p-ux-3 .output-markdown-intro .section-desc {
+  flex: 1 1 auto;
+  margin: 0;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+#p-ux-3 [data-scoped-content-panel="output-workbench-form"] .case-demo-shell {
+  width: 100%;
+  height: calc(100vh - 258px);
+  min-height: 680px;
+}
+#p-ux-3 [data-scoped-content-panel="output-workbench-markdown"] .case-demo-shell {
+  width: 100%;
+  height: calc(100vh - 258px);
+  min-height: 680px;
 }
 .case-card {
   background: var(--s2);
@@ -2754,14 +3507,7 @@ body.embed {
       <span class="nav-icon ni-ic" data-icon-key="log" data-icon-source="icons/navigation/svg/log.svg"><img class="ni-img" src="icons/navigation/svg/log.svg" alt=""></span>
       <div>
         <div>输出层 Output</div>
-        <div class="nav-item-sub">对话流·工作台·视窗·导出</div>
-      </div>
-    </a>
-    <a class="nav-item" data-page="p-ux-4" onclick="show('p-ux-4')">
-      <span class="nav-icon ni-ic" data-icon-key="contract" data-icon-source="icons/navigation/svg/contract.svg"><img class="ni-img" src="icons/navigation/svg/contract.svg" alt=""></span>
-      <div>
-        <div>闭环层 Follow-up</div>
-        <div class="nav-item-sub">追问·修正·续跑·反馈</div>
+        <div class="nav-item-sub">对话流·工作台</div>
       </div>
     </a>
   </div>
@@ -2773,7 +3519,7 @@ body.embed {
     <a class="nav-item" data-page="p-case-0" onclick="show('p-case-0')">
       <span class="nav-icon ni-ic" data-icon-key="dashboard" data-icon-source="icons/navigation/svg/dashboard.svg"><img class="ni-img" src="icons/navigation/svg/dashboard.svg" alt=""></span>
       <div>
-        <div>工作台预览模板</div>
+        <div>场景总览</div>
         <div class="nav-item-sub">场景案例</div>
       </div>
     </a>
@@ -2793,10 +3539,9 @@ body.embed {
         <button class="case-tab active" type="button" role="tab" aria-selected="true" onclick="switchCaseTab('audit-contract', this)">合同审核</button>
         <button class="case-tab" type="button" role="tab" aria-selected="false" onclick="switchCaseTab('audit-compliance', this)">合规审查</button>
       </div>
-      <div class="content-tabs topbar-tabset" data-topbar-tabset="case-workbench" aria-label="工作台预览模板标签">
-        <button class="content-tab active" type="button">Markdown</button>
-        <button class="content-tab" type="button">Html</button>
-        <button class="content-tab" type="button">表单详情</button>
+      <div class="content-tabs topbar-tabset output-switch" data-topbar-tabset="output" role="tablist" aria-label="输出层页签">
+        <button class="content-tab active" type="button" role="tab" aria-selected="true" onclick="switchContentTab('output-dialogue', this)">对话流</button>
+        <button class="content-tab" type="button" role="tab" aria-selected="false" onclick="switchContentTab('output-workbench', this)">工作台</button>
       </div>
       <div class="content-tabs topbar-tabset" data-topbar-tabset="frame-native" role="tablist" aria-label="AI Native模式页签">
         <button class="content-tab active" type="button" role="tab" aria-selected="true" onclick="switchContentTab('frame-native-demo', this)">AI 原生模式</button>
@@ -3003,14 +3748,13 @@ body.embed {
           <div class="layer-q">这个框架下，协作流怎么设计？</div>
         </div>
         <div class="layer-right">
-          <div style="font-size:12px;color:var(--muted);margin-bottom:8px">四个 AUI 交互规范层级</div>
+          <div style="font-size:12px;color:var(--muted);margin-bottom:8px">三个 AUI 交互规范层级</div>
           <div class="layer-items">
             <span class="layer-chip">输入层 Input</span>
             <span class="layer-chip">执行层 Runtime</span>
             <span class="layer-chip">输出层 Output</span>
-            <span class="layer-chip">闭环层 Follow-up</span>
           </div>
-          <div class="layer-desc">判断依据：用户交付什么信息 · AI 如何执行任务 · 结果以什么形态出现 · 如何继续追问、修正和续跑</div>
+          <div class="layer-desc">判断依据：用户交付什么信息 · AI 如何执行任务 · 结果以什么形态出现</div>
         </div>
       </div>
       <div class="layer-arrow">↓</div>
@@ -3460,7 +4204,7 @@ body.embed {
   </div>
   </div>
   <div class="content-tab-panel active" data-content-tab-panel="frame-native-demo">
-    <div class="case-demo-shell"><iframe class="case-demo-frame" data-case-src="ai-native-mode-demo/index.html?v=20260524-local-sync2" title="AI 原生模式"></iframe></div>
+    <div class="case-demo-shell"><iframe class="case-demo-frame" data-case-src="ai-native-mode-demo/index.html?v=20260604-native-v4" title="AI 原生模式"></iframe></div>
   </div>
 </div>
 
@@ -3651,7 +4395,7 @@ body.embed {
     </div>
   </div>
   <div class="content-tab-panel active" data-content-tab-panel="frame-side-demo">
-    <div class="case-demo-shell"><iframe class="case-demo-frame" data-case-src="payment-application-review-demo/index.html?shell=sidebar&v=20260524-local-sync2" title="付款申请审核助手"></iframe></div>
+    <div class="case-demo-shell"><iframe class="case-demo-frame" data-case-src="print-service-sidebar-demo/index.html?v=20260604-print-template-latest" title="套打助手侧边栏模式"></iframe></div>
   </div>
 </div>
 
@@ -3833,19 +4577,8 @@ body.embed {
               </div>
             </div>
           </div>
-          <div class="input-example-name">快捷指令</div>
-          <div class="input-example-desc">用于快速带入来源、技能或高频动作。指令以图标和标签组合呈现，并在发送前让用户看见上下文边界。</div>
-        </div>
-        <div class="input-example-card">
-          <div class="input-example-visual">
-            <div class="demo-upload-panel">
-              <div class="demo-upload-head"><span class="demo-upload-avatar">✦</span>套打助手</div>
-              <p>您好，我是套打助手，懂合同、懂套打字段、懂配置规则的模板生成专家</p>
-              <div class="demo-upload-btn">上传</div>
-            </div>
-          </div>
-          <div class="input-example-name">上传文件</div>
-          <div class="input-example-desc">适合把合同、表格、图片或音频等资料交给 AI 解析。上传后要展示文件列表、解析状态和失败重试入口。</div>
+          <div class="input-example-name">引用上下文</div>
+          <div class="input-example-desc">用于在提问前带入资料来源、消息片段或知识条目。引用以标签呈现，并让用户清楚看见上下文边界。</div>
         </div>
         <div class="input-example-card">
           <div class="input-example-visual">
@@ -3884,8 +4617,8 @@ body.embed {
               <div class="demo-prompt-pill">对比目标成本差异</div>
             </div>
           </div>
-          <div class="input-example-name">Prompt模板</div>
-          <div class="input-example-desc">适合沉淀高频任务的标准问法。模板要可预览、可编辑，并带入必要变量、输出格式和业务范围。</div>
+          <div class="input-example-name">快捷入口</div>
+          <div class="input-example-desc">适合沉淀高频任务的快速发起入口。入口文案要表达用户目标，点击后可带入可编辑指令或任务模板。</div>
         </div>
       </div>
     </div>
@@ -3896,68 +4629,52 @@ body.embed {
         <tbody>
           <tr><td>文本</td><td>承载自然语言目标、约束和追问；支持多行编辑、发送状态、附件入口和上下文引用。</td><td><span class="g">输入框提示「描述任务，可拖入合同或引用知识库」</span></td><td><span class="r">只有空白输入框，用户不知道该怎么开始</span></td></tr>
           <tr><td>语音录入</td><td>录音中有波形和取消反馈；识别结果先转成文字，用户可修改再发送。</td><td><span class="g">松开发送，上滑取消，识别后进入可编辑文本</span></td><td><span class="r">直接发送识别结果，用户无法确认</span></td></tr>
-          <tr><td>快捷指令</td><td>把来源、技能或高频动作以标签和图标呈现；发送前清楚展示上下文边界。</td><td><span class="g">输入框里显示「高层访谈」「需求调研」标签</span></td><td><span class="r">引用和正文混在一起，AI 与用户都不清楚边界</span></td></tr>
-          <tr><td>上传文件</td><td>上传后展示文件列表、类型、解析状态和失败重试；说明 AI 会如何使用资料。</td><td><span class="g">上传合同后提示「正在提取套打字段」</span></td><td><span class="r">上传后无反馈，用户不知道文件是否被使用</span></td></tr>
+          <tr><td>引用上下文</td><td>把资料来源、消息片段或知识条目以标签呈现；发送前清楚展示上下文边界。</td><td><span class="g">输入框里显示「高层访谈」「需求调研」引用标签</span></td><td><span class="r">引用和正文混在一起，AI 与用户都不清楚边界</span></td></tr>
           <tr><td>选择技能</td><td>技能名称要说明能力边界；选中后展示调用规则、资料范围或工具能力。</td><td><span class="g">选择「cost-diagnosis」后说明用于成本偏差诊断</span></td><td><span class="r">只有内部代号，用户无法判断技能差异</span></td></tr>
-          <tr><td>Prompt模板</td><td>沉淀高频任务标准问法；模板可预览、可编辑，并带入变量、输出格式和业务范围。</td><td><span class="g">「审核合同条款风险」可点击后生成可编辑 Prompt</span></td><td><span class="r">模板一键发送，用户看不到具体要求</span></td></tr>
+          <tr><td>快捷入口</td><td>沉淀高频任务入口；入口文案直接表达目标，点击后带入可编辑指令、变量和业务范围。</td><td><span class="g">「审核合同条款风险」点击后生成可编辑任务指令</span></td><td><span class="r">入口一键发送，用户看不到具体要求</span></td></tr>
         </tbody>
       </table>
     </div>
   </div>
 
   <div class="section">
-    <div class="section-title"><span class="section-num">02</span>上下文输入</div>
-    <p class="section-desc">把历史、引用和知识来源显式交给 AI，避免上下文边界不清。</p>
-    <div class="trust-component-card">
-      <div class="trust-chip-grid">
-        <div class="trust-chip">引用消息</div>
-        <div class="trust-chip">历史对话</div>
-        <div class="trust-chip">会话记忆</div>
-        <div class="trust-chip">知识库引用</div>
-      </div>
-    </div>
-    <div class="trust-component-card spec-guide-card">
-      <div class="spec-guide-title">设计规范对照</div>
-      <table class="compare-table">
-        <thead><tr><th style="width:150px">组件项</th><th>设计要点</th><th>正例</th><th>反例</th></tr></thead>
-        <tbody>
-          <tr><td>引用消息</td><td>引用以块状标签展示，可删除；AI 回复时说明引用了哪条消息。</td><td><span class="g">输入框显示「引用：付款节点说明」，可移除</span></td><td><span class="r">引用混在正文里，AI 和用户都不清楚边界</span></td></tr>
-          <tr><td>历史对话</td><td>明确本次是否继承历史上下文，支持查看和清除。</td><td><span class="g">顶部显示「已带入上次审核上下文」</span></td><td><span class="r">默认读取历史但界面没有提示</span></td></tr>
-          <tr><td>会话记忆</td><td>展示记忆内容和来源，敏感偏好允许关闭。</td><td><span class="g">「记住：默认按集团付款规则审查」可管理</span></td><td><span class="r">AI 私自长期记住业务信息</span></td></tr>
-          <tr><td>知识库引用</td><td>显示知识库名称、命中文档和更新时间；支持展开来源。</td><td><span class="g">引用「付款管理制度 v2026.03」并可查看原文</span></td><td><span class="r">只说依据知识库，没有来源和版本</span></td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-title"><span class="section-num">03</span>文件输入</div>
+    <div class="section-title"><span class="section-num">02</span>文件输入</div>
     <p class="section-desc">适用于文档解析、合同审查、资料归集等需要 AI 读取材料的场景。</p>
     <div class="trust-component-card">
-      <div class="input-example-grid">
+      <div class="input-example-grid file-input-example-grid">
         <div class="input-example-card">
           <div class="input-example-visual">
-            <div class="input-example-demo file-list-demo">
-              <div class="demo-file-list">
-                <div class="demo-file-item"><span class="demo-file-icon link">链</span><div class="demo-file-meta"><div class="demo-file-name">太阳城片区城市更新项目（一期）土建工程控制价内容明细</div><div class="demo-file-size">系统内部链接</div></div><span class="demo-file-action">详情 ›</span></div>
-                <div class="demo-file-item"><span class="demo-file-icon word">W</span><div class="demo-file-meta"><div class="demo-file-name">生成物标题.doc</div><div class="demo-file-size">16k</div></div><span class="demo-file-action">详情 ›</span></div>
-                <div class="demo-file-item"><span class="demo-file-icon excel">X</span><div class="demo-file-meta"><div class="demo-file-name">生成物标题.xlsx</div><div class="demo-file-size">16k</div></div><span class="demo-file-action">详情 ›</span></div>
-                <div class="demo-file-item"><span class="demo-file-icon markdown">M</span><div class="demo-file-meta"><div class="demo-file-name">生成物标题.markdown</div><div class="demo-file-size">16k</div></div><span class="demo-file-action">详情 ›</span></div>
-                <div class="demo-file-item"><span class="demo-file-icon image">图</span><div class="demo-file-meta"><div class="demo-file-name">生成物标题.jpg</div><div class="demo-file-size">16k</div></div><span class="demo-file-action">详情 ›</span></div>
+            <div class="input-example-demo file-input-demo">
+              <div class="file-input-shell">
+                <div class="file-input-attachments">
+                  <div class="file-input-attachment"><span class="file-doc-icon"><span class="file-doc-mark">W</span></span><div class="file-input-meta"><div class="file-input-name">文档名称.docx</div><div class="file-input-size">11.4k</div></div></div>
+                  <div class="file-input-attachment"><span class="file-doc-icon"><span class="file-doc-mark">W</span></span><div class="file-input-meta"><div class="file-input-name">文档名称.docx</div><div class="file-input-size">11.4k</div></div></div>
+                  <div class="file-input-attachment"><span class="file-doc-icon"><span class="file-doc-mark">W</span></span><div class="file-input-meta"><div class="file-input-name">文档名称.docx</div><div class="file-input-size">11.4k</div></div></div>
+                </div>
+                <div class="file-input-placeholder">请输入你的问题</div>
+                <div class="file-input-bar"><span class="file-input-tool"></span><span class="file-input-send"></span></div>
               </div>
             </div>
           </div>
           <div class="input-example-name">文档上传</div>
-          <div class="input-example-desc">适合把链接、Word、Excel、Markdown、图片等资料一次性交给 AI。文件卡要显示类型、名称、大小和详情入口。</div>
+          <div class="input-example-desc">把上下文直接交给 AI，AI 负责读取理解提取。支持 doc/pdf/zip/xlsx 等格式，可多文件批量上传。</div>
         </div>
         <div class="input-example-card">
           <div class="input-example-visual">
-            <div class="input-example-demo image-upload-demo">
-              <div class="demo-image-preview"><div class="demo-image-thumb"></div></div>
+            <div class="input-example-demo file-input-demo">
+              <div class="file-input-shell">
+                <div class="file-input-attachments">
+                  <span class="file-image-thumb"></span>
+                  <span class="file-image-thumb"></span>
+                  <span class="file-image-thumb"></span>
+                </div>
+                <div class="file-input-placeholder">请输入你的问题</div>
+                <div class="file-input-bar"><span class="file-input-tool"></span><span class="file-input-send"></span></div>
+              </div>
             </div>
           </div>
           <div class="input-example-name">图片上传</div>
-          <div class="input-example-desc">适合上传截图、票据、草图或视觉资料。图片应以缩略图呈现，支持预览、识别状态和删除/替换操作。</div>
+          <div class="input-example-desc">移动端场景下的低成本输入方式。拍照或上传后以缩略图展示，便于用户确认图片内容并交给 AI 识别。</div>
         </div>
       </div>
     </div>
@@ -3974,7 +4691,7 @@ body.embed {
   </div>
 
   <div class="section">
-    <div class="section-title"><span class="section-num">04</span>用户确认</div>
+    <div class="section-title"><span class="section-num">03</span>用户确认</div>
     <p class="section-desc">当 AI 给出建议、触发流程或碰到风险时，把判断权交还给用户。</p>
     <div class="trust-component-card">
       <div class="input-example-grid">
@@ -4031,58 +4748,21 @@ body.embed {
         </div>
         <div class="input-example-card">
           <div class="input-example-visual">
-            <div class="input-example-demo confirm-risk-demo">
-              <div class="confirm-demo-panel confirm-risk-panel">
-                <div class="confirm-risk-tabs">
-                  <span class="confirm-risk-tab is-active">程序风控</span>
-                  <span class="confirm-risk-tab">商务风控</span>
-                  <span class="confirm-risk-tab">法务风险</span>
-                </div>
-                <div class="confirm-risk-result">AI检查结果：发现风险，请审视</div>
-                <div class="confirm-risk-tags">
-                  <span class="confirm-risk-tag is-danger">风险 1</span>
-                  <span class="confirm-risk-tag is-warning">提示 2</span>
-                  <span class="confirm-risk-tag is-ok">通过 30</span>
-                </div>
-                <div class="confirm-risk-box">
-                  <div class="confirm-risk-box-title">合同补充政策</div>
-                  <div class="confirm-risk-row"><span>规则</span><span>合同约定内容：是否公开招租为“否”。</span></div>
-                  <div class="confirm-risk-row"><span>风险点</span><span><b>付款依据不完整</b>，可能影响后续审批。</span></div>
-                  <div class="confirm-risk-row"><span>建议</span><span>补充说明或申请特批后再提交。</span></div>
-                </div>
-                <button class="confirm-demo-button is-wide">申请特批</button>
-              </div>
-            </div>
-          </div>
-          <div class="input-example-name">风险确认</div>
-          <div class="input-example-desc">适合 AI 判断存在风险但仍需用户决策的场景。必须展示风险点、依据、影响和建议动作。</div>
-        </div>
-        <div class="input-example-card">
-          <div class="input-example-visual">
             <div class="input-example-demo confirm-demo">
               <div class="confirm-demo-panel confirm-info-panel">
-                <div class="confirm-info-row">
-                  <span class="confirm-info-key">待办标题</span>
-                  <span class="confirm-info-value">项目招采数据智能辅助上报</span>
+                <div class="confirm-markdown">
+                  <div class="confirm-markdown-title">确认创建待办：招采数据上报</div>
+                  <div class="confirm-markdown-line"><span>-</span><span><b>责任人：</b>胡明涛</span></div>
+                  <div class="confirm-markdown-line"><span>-</span><span><b>截止日期：</b>2023-08-05</span></div>
+                  <div class="confirm-markdown-line"><span>-</span><span><b>执行动作：</b>确认后将在待办中心创建任务，并通知责任人。</span></div>
+                  <div class="confirm-markdown-line"><span>-</span><span><b>事项说明：</b>根据会议要求，对招采基础数据进行梳理并完成上报。</span></div>
                 </div>
-                <div class="confirm-info-row">
-                  <span class="confirm-info-key">主要人</span>
-                  <span class="confirm-info-value">胡明涛</span>
-                </div>
-                <div class="confirm-info-row">
-                  <span class="confirm-info-key">要求完成日期</span>
-                  <span class="confirm-info-value">2023-08-05</span>
-                </div>
-                <div class="confirm-info-row">
-                  <span class="confirm-info-key">事项说明</span>
-                  <span class="confirm-info-value">根据会议要求，对招采基础数据进行梳理并完成上报。</span>
-                </div>
-                <button class="confirm-demo-button is-wide">确定</button>
+                <button class="confirm-demo-button is-wide">确认创建</button>
               </div>
             </div>
           </div>
-          <div class="input-example-name">信息确认</div>
-          <div class="input-example-desc">适合用户核对 AI 已提取或即将写入系统的信息。字段要结构化展示，确认后立即执行下一步。</div>
+          <div class="input-example-name">文本信息确认</div>
+          <div class="input-example-desc">适合 AI 即将触发创建、提交、通知等关键业务动作前，要求用户确认文本摘要和执行后果。</div>
         </div>
       </div>
     </div>
@@ -4093,8 +4773,7 @@ body.embed {
         <tbody>
           <tr><td>单选确认</td><td>用于互斥判断；推荐项要默认选中，并说明 AI 为什么这样建议。</td><td><span class="g">默认选择「控制价」，同时保留平均值、中位数等可改方案</span></td><td><span class="r">只给 A/B/C，用户不知道每个选项代表什么</span></td></tr>
           <tr><td>多选确认</td><td>用于组合动作；每项要说明执行后果，提交前让用户看清已选内容。</td><td><span class="g">选择「手动补充」后说明会补哪些字段、AI 将继续核对</span></td><td><span class="r">多个复选框只有名称，勾选后不知道会影响哪些流程</span></td></tr>
-          <tr><td>风险确认</td><td>用于高风险决策；必须同时展示风险点、依据、影响和推荐动作。</td><td><span class="g">提示「付款依据不完整」，附合同规则和「申请特批」入口</span></td><td><span class="r">只弹「是否继续」，没有依据也没有替代路径</span></td></tr>
-          <tr><td>信息确认</td><td>用于确认 AI 提取或即将写入的数据；字段要结构化，确认后动作要明确。</td><td><span class="g">展示待办标题、责任人、完成日期和说明，用户确认后创建任务</span></td><td><span class="r">把整段识别文本丢给用户，让用户自己找关键字段</span></td></tr>
+          <tr><td>文本信息确认</td><td>用于 AI 即将执行关键业务动作前确认文本摘要；必须说明确认后的动作、影响对象和责任人。</td><td><span class="g">展示待办标题、责任人、截止日期和「确认后创建任务」说明</span></td><td><span class="r">只给一段文本和确定按钮，用户不知道确认后会发生什么</span></td></tr>
         </tbody>
       </table>
     </div>
@@ -4104,183 +4783,159 @@ body.embed {
 <!-- ━━ 3.2 执行层 Runtime ━━ -->
 <div class="page" id="p-ux-2">
   <div class="page-eyebrow">交互规范 · 3.2</div>
-  <h1 class="page-title">执行层 <em>Runtime</em></h1>
-  <p class="page-desc">执行层定义 AI 接到任务后如何拆解、思考、调用工具、协作和反馈状态。它决定用户是否能看见过程、理解进展，并在必要时介入。</p>
+  <h1 class="page-title">AI 执行可见性：干活不能<em>偷偷摸摸</em></h1>
+  <p class="page-desc">AI 产品里的等待是「协作等待」，不是「系统等待」。用户必须知道 AI 在做什么、做到哪里了、结果从哪来。对应执行层中的思考过程 Think、任务列表 Todolist、工具调用 ToolCall、子代理 SubAgent、进度 Process。</p>
 
   <div class="section">
-    <div class="section-title"><span class="section-num">01</span>思考过程</div>
-    <p class="section-desc">呈现 AI 的任务理解、计划和关键判断，让等待过程可解释。</p>
-    <div class="trust-component-card">
-      <div class="trust-chip-grid">
-        <div class="trust-chip">推理过程</div>
-        <div class="trust-chip">计划生成</div>
-        <div class="trust-chip">决策过程</div>
+    <div class="section-title"><span class="section-num">01</span>五种可见性组件及适用判断<button class="section-action-button" type="button" onclick="openPatternDrawer('task-execution-process-demo/index.html', '任务执行过程', { header: true, wide: true })">查看组件</button></div>
+    <div class="runtime-visibility-table">
+      <div class="runtime-visibility-row">
+        <div class="runtime-visibility-name">
+          <div class="runtime-visibility-code">THINK</div>
+          <div class="runtime-visibility-title">思考过程</div>
+        </div>
+        <div class="runtime-visibility-cell">
+          <div class="runtime-cell-label">何时使用</div>
+          <div class="runtime-cell-text"><b class="good">强需求：</b>决策影响大、需要可解释性（合同风险、财务审核）<br><b class="optional">可选：</b>可提供「展开查看」，默认折叠<br><b class="bad">不需要：</b>追求极致效率的简单查询</div>
+        </div>
+        <div class="runtime-visibility-cell">
+          <div class="runtime-cell-label">设计规范</div>
+          <div class="runtime-cell-text">思考中用动态图标；完成后可展开收起；只展示业务判断链，不暴露纯技术细节、算法参数或冗余日志。</div>
+        </div>
       </div>
-    </div>
-    <div class="trust-component-card spec-guide-card">
-      <div class="spec-guide-title">设计规范对照</div>
-      <table class="compare-table">
-        <thead><tr><th style="width:150px">组件项</th><th>设计要点</th><th>正例</th><th>反例</th></tr></thead>
-        <tbody>
-          <tr><td>推理过程</td><td>只展示用户可理解的关键判断，不暴露模型内部技术噪声。</td><td><span class="g">「先核对合同金额，再校验付款比例」</span></td><td><span class="r">输出冗长模型日志和无意义 token</span></td></tr>
-          <tr><td>计划生成</td><td>开始执行前给出步骤清单，支持用户确认或调整。</td><td><span class="g">「将按 6 个维度预审」并列出步骤</span></td><td><span class="r">直接开始执行，用户不知道会做什么</span></td></tr>
-          <tr><td>决策过程</td><td>关键结论说明依据、规则和置信风险。</td><td><span class="g">「因付款比例超 80%，判定需复核」</span></td><td><span class="r">只给结论「不通过」没有理由</span></td></tr>
-        </tbody>
-      </table>
+
+      <div class="runtime-visibility-row">
+        <div class="runtime-visibility-name">
+          <div class="runtime-visibility-code green">TODOLIST</div>
+          <div class="runtime-visibility-title">任务列表</div>
+        </div>
+        <div class="runtime-visibility-cell">
+          <div class="runtime-cell-label">何时使用</div>
+          <div class="runtime-cell-text">任务可拆解为多个步骤时必须使用。呈现任务规划、执行过程和实时状态（已完成 / 进行中 / 待办）。</div>
+        </div>
+        <div class="runtime-visibility-cell">
+          <div class="runtime-cell-label">设计规范</div>
+          <div class="runtime-cell-text">进行中标题加粗高亮；已完成打勾变灰；支持展开 / 收起；显示总进度，例如「2/7」。</div>
+        </div>
+      </div>
+
+      <div class="runtime-visibility-row">
+        <div class="runtime-visibility-name">
+          <div class="runtime-visibility-code orange">TOOLCALL</div>
+          <div class="runtime-visibility-title">工具调用</div>
+        </div>
+        <div class="runtime-visibility-cell">
+          <div class="runtime-cell-label">何时使用</div>
+          <div class="runtime-cell-text">每次工具调用都应该透明呈现。明确展示工具名称、参数摘要、执行状态和返回结果，让过程有据可查。</div>
+        </div>
+        <div class="runtime-visibility-cell">
+          <div class="runtime-cell-label">设计规范</div>
+          <div class="runtime-cell-text">调用过多时支持展开 / 收起；展示输入参数和输出摘要；失败时展示错误原因和可重试动作。</div>
+        </div>
+      </div>
+
+      <div class="runtime-visibility-row">
+        <div class="runtime-visibility-name">
+          <div class="runtime-visibility-code purple">SUBAGENT</div>
+          <div class="runtime-visibility-title">子代理</div>
+        </div>
+        <div class="runtime-visibility-cell">
+          <div class="runtime-cell-label">何时使用</div>
+          <div class="runtime-cell-text">主代理自动调用子代理处理细分任务时。界面需清晰展示当前是哪个子代理在工作，以及它负责什么。</div>
+        </div>
+        <div class="runtime-visibility-cell">
+          <div class="runtime-cell-label">设计规范</div>
+          <div class="runtime-cell-text">显示子代理名称和当前状态；多个子代理并行工作时分组展示；切换或交接时给出过渡提示。</div>
+        </div>
+      </div>
+
+      <div class="runtime-visibility-row">
+        <div class="runtime-visibility-name">
+          <div class="runtime-visibility-code red">PROCESS</div>
+          <div class="runtime-visibility-title">进度</div>
+        </div>
+        <div class="runtime-visibility-cell">
+          <div class="runtime-cell-label">何时使用</div>
+          <div class="runtime-cell-text">AI 进行推理计算或信息识别时。例如上传文件后 AI 进行解析、推理，并输出结果。</div>
+        </div>
+        <div class="runtime-visibility-cell">
+          <div class="runtime-cell-label">设计规范</div>
+          <div class="runtime-cell-text">显示当前步骤和总步骤；识别出的关键信息实时透传；完成后进度条保留可查。</div>
+        </div>
+      </div>
     </div>
   </div>
 
   <div class="section">
-    <div class="section-title"><span class="section-num">02</span>任务管理</div>
-    <p class="section-desc">把长任务拆成可追踪的步骤，帮助用户理解 AI 正在处理哪一段。</p>
-    <div class="trust-component-card">
-      <div class="trust-chip-grid">
-        <div class="trust-chip">任务拆解</div>
-        <div class="trust-chip">任务树</div>
-        <div class="trust-chip">todo列表</div>
-        <div class="trust-chip">任务状态</div>
+    <div class="section-title"><span class="section-num">02</span>对话面板四层信息层次</div>
+    <div class="runtime-layers">
+      <div class="runtime-layer-list">
+        <div class="runtime-layer-card green">
+          <div class="runtime-layer-index">1</div>
+          <div>
+            <div class="runtime-layer-title">用户消息 <span>· 右对齐气泡</span></div>
+            <div class="runtime-layer-desc">用户说了什么、上传了什么，AI 的上下文对用户透明。</div>
+          </div>
+        </div>
+        <div class="runtime-layer-card blue">
+          <div class="runtime-layer-index">2</div>
+          <div>
+            <div class="runtime-layer-title">AI 回应 <span>· 头像 + 名称，左对齐</span></div>
+            <div class="runtime-layer-desc">AI 理解了什么、准备做什么、进行到哪一步，持续汇报，不沉默等待。</div>
+          </div>
+        </div>
+        <div class="runtime-layer-card orange">
+          <div class="runtime-layer-index">3</div>
+          <div>
+            <div class="runtime-layer-title">工具运行状态 <span>· 小字 + 图标，可展开</span></div>
+            <div class="runtime-layer-desc">实时透传读了哪个字段、从哪个文件识别的，有据可查，用户知道 AI 在认真干活。</div>
+          </div>
+        </div>
+        <div class="runtime-layer-card purple">
+          <div class="runtime-layer-index">4</div>
+          <div>
+            <div class="runtime-layer-title">操作卡片 <span>· 需人工介入时推出</span></div>
+            <div class="runtime-layer-desc"><b>每次只推一张</b>，聚焦一个决策点，不把整张表单扔给用户。</div>
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="trust-component-card spec-guide-card">
-      <div class="spec-guide-title">设计规范对照</div>
-      <table class="compare-table">
-        <thead><tr><th style="width:150px">组件项</th><th>设计要点</th><th>正例</th><th>反例</th></tr></thead>
-        <tbody>
-          <tr><td>任务拆解</td><td>长任务拆成可完成的小步骤，每步有输入、输出和状态。</td><td><span class="g">「读取资料、规则匹配、生成意见」分步展示</span></td><td><span class="r">一个大 loading 覆盖全过程</span></td></tr>
-          <tr><td>任务树</td><td>复杂任务按父子层级展示，可展开查看细分项。</td><td><span class="g">付款审核下含合同、发票、验收三条子任务</span></td><td><span class="r">所有任务平铺，层级关系看不出来</span></td></tr>
-          <tr><td>todo列表</td><td>展示待办、进行中、已完成，进行中项高亮。</td><td><span class="g">「2/7 已完成」并高亮当前规则校验</span></td><td><span class="r">只有静态列表，不随执行变化</span></td></tr>
-          <tr><td>任务状态</td><td>状态要可识别且可追踪异常原因。</td><td><span class="g">失败项显示「发票缺失，可上传后重试」</span></td><td><span class="r">只显示失败，不告诉用户怎么处理</span></td></tr>
-        </tbody>
-      </table>
+
+      <div class="runtime-chat-preview">
+        <div class="runtime-chat-head"><span class="runtime-chat-dot"></span>AI 对话面板</div>
+        <div class="runtime-chat-body">
+          <div class="runtime-bubble user">上传了 3 份合同文件</div>
+          <div class="runtime-bubble">已收到，开始解析 25 个关键字段...</div>
+          <div class="runtime-tool-card">✓ 合同名称 · 合同正本 P.1<br>✓ 合同金额 · ¥19,980,000<br>△ 履约担保 · 条款不一致</div>
+          <div class="runtime-action-card">
+            <div class="runtime-action-line">1 项需要您确认<br>履约担保：建议 10%（招标文件 6.2 条）</div>
+            <div class="runtime-action-buttons"><span>✓ 确认</span><span>✎ 修改</span></div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
   <div class="section">
-    <div class="section-title"><span class="section-num">03</span>工具调用</div>
-    <p class="section-desc">展示 AI 调用了哪些能力、用了哪些数据、返回了什么结果。</p>
-    <div class="trust-component-card">
-      <div class="trust-chip-grid">
-        <div class="trust-chip">搜索</div>
-        <div class="trust-chip">数据库</div>
-        <div class="trust-chip">API</div>
-        <div class="trust-chip">浏览器</div>
-        <div class="trust-chip">代码执行</div>
-        <div class="trust-chip">文件处理</div>
+    <div class="section-title"><span class="section-num">03</span>进度状态文案规范</div>
+    <div class="runtime-progress-grid">
+      <div class="runtime-progress-card bad">
+        <div class="runtime-progress-head"><span>×</span>不该说的</div>
+        <div class="runtime-progress-list">
+          <div class="runtime-progress-item"><span class="runtime-progress-icon">×</span><span>「处理中...」——不知道在处理什么</span></div>
+          <div class="runtime-progress-item"><span class="runtime-progress-icon">×</span><span>「请稍候」——没有进展信息</span></div>
+          <div class="runtime-progress-item"><span class="runtime-progress-icon">×</span><span>「操作成功」——没有说做了什么</span></div>
+          <div class="runtime-progress-item"><span class="runtime-progress-icon">×</span><span>「发生错误，请重试」——不知道为什么出错</span></div>
+        </div>
       </div>
-    </div>
-    <div class="trust-component-card spec-guide-card">
-      <div class="spec-guide-title">设计规范对照</div>
-      <table class="compare-table">
-        <thead><tr><th style="width:150px">组件项</th><th>设计要点</th><th>正例</th><th>反例</th></tr></thead>
-        <tbody>
-          <tr><td>搜索</td><td>展示搜索范围、关键词和命中来源，避免黑箱检索。</td><td><span class="g">「在制度库搜索：付款比例」命中 3 条</span></td><td><span class="r">只显示正在搜索，没有范围和结果</span></td></tr>
-          <tr><td>数据库</td><td>说明查询对象和关键筛选条件，隐藏敏感字段。</td><td><span class="g">「查询合同台账：合同编号 HT-088」</span></td><td><span class="r">直接暴露 SQL 或敏感账号字段</span></td></tr>
-          <tr><td>API</td><td>展示接口用途、调用状态和返回摘要。</td><td><span class="g">「调用预算余额接口，返回可用额度」</span></td><td><span class="r">接口失败只报技术错误码</span></td></tr>
-          <tr><td>浏览器</td><td>说明访问目标页面和抓取内容，用户可展开查看。</td><td><span class="g">「读取供应商资质页更新时间」</span></td><td><span class="r">后台打开网页但不告知用户</span></td></tr>
-          <tr><td>代码执行</td><td>展示执行目的、输入数据和输出结果，不展示无关运行细节。</td><td><span class="g">「计算付款比例：本期/合同总额」</span></td><td><span class="r">展示整段脚本让业务用户理解</span></td></tr>
-          <tr><td>文件处理</td><td>显示处理文件、页码/表单位置和提取结果。</td><td><span class="g">「从发票 P.2 识别金额」</span></td><td><span class="r">只说解析完成，没有来源位置</span></td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-title"><span class="section-num">04</span>Agent协作</div>
-    <p class="section-desc">当一个任务由多个 Agent 分工完成时，清楚标识角色、状态和交接关系。</p>
-    <div class="trust-component-card">
-      <div class="trust-chip-grid">
-        <div class="trust-chip">子Agent</div>
-        <div class="trust-chip">多Agent协同</div>
-        <div class="trust-chip">Agent交接</div>
+      <div class="runtime-progress-card good">
+        <div class="runtime-progress-head"><span>✓</span>应该说的</div>
+        <div class="runtime-progress-list">
+          <div class="runtime-progress-item"><span class="runtime-progress-icon">✓</span><span>「正在从合同正本中提取字段...」</span></div>
+          <div class="runtime-progress-item"><span class="runtime-progress-icon">✓</span><span>「已识别 18 个字段，还剩 7 个」</span></div>
+          <div class="runtime-progress-item"><span class="runtime-progress-icon">✓</span><span>「合同金额已填写：¥19,980,000」</span></div>
+          <div class="runtime-progress-item"><span class="runtime-progress-icon">✓</span><span>「履约担保条款表述不一致，需要您判断」</span></div>
+        </div>
       </div>
-    </div>
-    <div class="trust-component-card spec-guide-card">
-      <div class="spec-guide-title">设计规范对照</div>
-      <table class="compare-table">
-        <thead><tr><th style="width:150px">组件项</th><th>设计要点</th><th>正例</th><th>反例</th></tr></thead>
-        <tbody>
-          <tr><td>子Agent</td><td>标明子 Agent 名称、职责和当前处理内容。</td><td><span class="g">「票据核验助手正在核对发票」</span></td><td><span class="r">突然出现另一个助手但没有说明职责</span></td></tr>
-          <tr><td>多Agent协同</td><td>并行任务分组展示，合并结果时说明冲突处理方式。</td><td><span class="g">合同、票据、预算三个 Agent 并行后汇总</span></td><td><span class="r">多个 Agent 结果混在一段文字里</span></td></tr>
-          <tr><td>Agent交接</td><td>交接时说明从谁交给谁、带了哪些上下文。</td><td><span class="g">「主助手转交给付款申请审核助手」</span></td><td><span class="r">助手名称变化但没有交接提示</span></td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-title"><span class="section-num">05</span>执行状态</div>
-    <p class="section-desc">让用户持续知道任务处于什么阶段，异常时能快速理解原因。</p>
-    <div class="trust-component-card">
-      <div class="trust-chip-grid">
-        <div class="trust-chip">等待中</div>
-        <div class="trust-chip">执行中</div>
-        <div class="trust-chip">已完成</div>
-        <div class="trust-chip">失败</div>
-        <div class="trust-chip">暂停</div>
-      </div>
-    </div>
-    <div class="trust-component-card spec-guide-card">
-      <div class="spec-guide-title">设计规范对照</div>
-      <table class="compare-table">
-        <thead><tr><th style="width:150px">组件项</th><th>设计要点</th><th>正例</th><th>反例</th></tr></thead>
-        <tbody>
-          <tr><td>等待中</td><td>说明排队原因或预计开始时间。</td><td><span class="g">「等待预算接口返回，预计 10 秒」</span></td><td><span class="r">空白等待，没有任何反馈</span></td></tr>
-          <tr><td>执行中</td><td>持续展示当前步骤和可中断入口。</td><td><span class="g">「正在校验发票金额」旁有停止按钮</span></td><td><span class="r">只有转圈动画，无法判断进度</span></td></tr>
-          <tr><td>已完成</td><td>展示完成摘要、产物入口和下一步建议。</td><td><span class="g">「预审完成，发现 3 条风险」</span></td><td><span class="r">状态变完成但找不到结果</span></td></tr>
-          <tr><td>失败</td><td>说明失败原因、影响范围和恢复动作。</td><td><span class="g">「附件缺失，上传验收单后重试」</span></td><td><span class="r">只显示系统异常</span></td></tr>
-          <tr><td>暂停</td><td>说明暂停原因，并提供恢复或放弃入口。</td><td><span class="g">「已暂停，可继续执行剩余 4 项」</span></td><td><span class="r">暂停后不知道如何继续</span></td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-title"><span class="section-num">06</span>进度展示</div>
-    <p class="section-desc">用于长耗时任务，按阶段展示完成度、当前步骤和预计耗时。</p>
-    <div class="trust-component-card">
-      <div class="trust-chip-grid">
-        <div class="trust-chip">阶段进度</div>
-        <div class="trust-chip">当前步骤</div>
-        <div class="trust-chip">预计耗时</div>
-        <div class="trust-chip">完成度</div>
-      </div>
-    </div>
-    <div class="trust-component-card spec-guide-card">
-      <div class="spec-guide-title">设计规范对照</div>
-      <table class="compare-table">
-        <thead><tr><th style="width:150px">组件项</th><th>设计要点</th><th>正例</th><th>反例</th></tr></thead>
-        <tbody>
-          <tr><td>阶段进度</td><td>按业务阶段展示，不只显示百分比。</td><td><span class="g">「资料解析 100%，规则校验 40%」</span></td><td><span class="r">单一 67% 但不知道做到哪里</span></td></tr>
-          <tr><td>当前步骤</td><td>当前步骤文案要具体到业务动作。</td><td><span class="g">「正在比对合同付款节点」</span></td><td><span class="r">「处理中」持续不变</span></td></tr>
-          <tr><td>预计耗时</td><td>超过 5 秒的任务给出预计耗时或剩余阶段。</td><td><span class="g">「预计还需 30 秒」</span></td><td><span class="r">长时间等待没有预期</span></td></tr>
-          <tr><td>完成度</td><td>完成度与任务数量或阶段绑定，避免虚假进度。</td><td><span class="g">「已完成 18/28 项规则」</span></td><td><span class="r">进度条匀速跑完但任务没结束</span></td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-title"><span class="section-num">07</span>人机协同</div>
-    <p class="section-desc">AI 执行中需要用户判断、补充或接管时，提供明确的介入入口。</p>
-    <div class="trust-component-card">
-      <div class="trust-chip-grid">
-        <div class="trust-chip">中途确认</div>
-        <div class="trust-chip">中断执行</div>
-        <div class="trust-chip">恢复执行</div>
-        <div class="trust-chip">人工接管</div>
-      </div>
-    </div>
-    <div class="trust-component-card spec-guide-card">
-      <div class="spec-guide-title">设计规范对照</div>
-      <table class="compare-table">
-        <thead><tr><th style="width:150px">组件项</th><th>设计要点</th><th>正例</th><th>反例</th></tr></thead>
-        <tbody>
-          <tr><td>中途确认</td><td>只在关键风险点打断，卡片聚焦一个决策。</td><td><span class="g">「发现合同金额冲突，请选择以哪份为准」</span></td><td><span class="r">频繁弹窗确认低风险步骤</span></td></tr>
-          <tr><td>中断执行</td><td>中断按钮常驻可见，并说明中断后保留什么。</td><td><span class="g">「停止后保留已识别字段」</span></td><td><span class="r">强制执行到底，用户不能停</span></td></tr>
-          <tr><td>恢复执行</td><td>恢复时继承已完成结果，说明从哪一步继续。</td><td><span class="g">「从第 12 项规则继续」</span></td><td><span class="r">恢复后全部从头跑</span></td></tr>
-          <tr><td>人工接管</td><td>接管后界面切到可编辑状态，并保留 AI 依据。</td><td><span class="g">用户接管风险意见并可修改提交</span></td><td><span class="r">接管只是关闭 AI，前面结果丢失</span></td></tr>
-        </tbody>
-      </table>
     </div>
   </div>
 </div>
@@ -4289,235 +4944,76 @@ body.embed {
 <div class="page" id="p-ux-3">
   <div class="page-eyebrow">交互规范 · 3.3</div>
   <h1 class="page-title">输出层 <em>Output</em></h1>
-  <p class="page-desc">输出层定义 AI 结果以什么形态进入业务界面：可以是对话、工作台中的结构化任务、独立视窗，也可以是可导出的正式产物。</p>
+  <p class="page-desc">输出层定义 AI 结果以什么形态进入业务界面：可以是对话中的轻量结果，也可以是工作台中的结构化任务。</p>
 
-  <div class="section">
-    <div class="section-title"><span class="section-num">01</span>对话流</div>
-    <p class="section-desc">用于持续协作、解释过程、承接追问和展示轻量结果。</p>
-    <div class="trust-component-card">
-      <div class="trust-chip-grid">
-        <div class="trust-chip">基础内容</div>
-        <div class="trust-chip">结构化内容</div>
-        <div class="trust-chip">数据引用</div>
-        <div class="trust-chip">资源对象</div>
+  <div class="content-tab-panel active" data-content-tab-panel="output-dialogue">
+    <div class="section">
+      <div class="section-title"><span class="section-num">01</span>对话流</div>
+      <p class="section-desc">对话流承载 AI 在会话中的轻量输出组件，包括文本结论、结构化表格、引用标记、数据来源、点赞拉踩反馈和追问建议等。</p>
+      <div class="case-demo-shell output-dialogue-demo-shell"><iframe class="case-demo-frame" data-case-src="http://127.0.0.1:5177/?figma=data-source" title="对话流预览"></iframe></div>
+      <div class="trust-component-card">
+        <div class="trust-chip-grid">
+          <div class="trust-chip">文本结论</div>
+          <div class="trust-chip">结构化表格</div>
+          <div class="trust-chip">引用标记</div>
+          <div class="trust-chip">数据来源</div>
+          <div class="trust-chip">反馈操作</div>
+          <div class="trust-chip">追问建议</div>
+        </div>
       </div>
-    </div>
-    <div class="trust-component-card spec-guide-card">
-      <div class="spec-guide-title">设计规范对照</div>
-      <table class="compare-table">
-        <thead><tr><th style="width:150px">组件项</th><th>设计要点</th><th>正例</th><th>反例</th></tr></thead>
-        <tbody>
-          <tr><td>基础内容</td><td>文字回答要有结论优先、分段清晰和下一步动作。</td><td><span class="g">先说「建议暂缓付款」再说明原因</span></td><td><span class="r">长篇解释后才出现结论</span></td></tr>
-          <tr><td>结构化内容</td><td>清单、表格、步骤等结构要匹配任务类型。</td><td><span class="g">风险项按等级、依据、建议动作排列</span></td><td><span class="r">所有内容堆成一段话</span></td></tr>
-          <tr><td>数据引用</td><td>数字、结论和规则必须标注来源或可展开证据。</td><td><span class="g">金额旁标注「发票 P.2」</span></td><td><span class="r">给出金额但无法追溯来源</span></td></tr>
-          <tr><td>资源对象</td><td>文件、图片、图表等对象以卡片呈现，可预览、下载或继续处理。</td><td><span class="g">报告卡片提供预览和导出</span></td><td><span class="r">只给一个裸链接或文件名</span></td></tr>
-        </tbody>
-      </table>
+      <div class="trust-component-card spec-guide-card">
+        <div class="spec-guide-title">设计规范对照</div>
+        <table class="compare-table">
+          <thead><tr><th style="width:150px">组件项</th><th>设计要点</th><th>正例</th><th>反例</th></tr></thead>
+          <tbody>
+            <tr><td>基础内容</td><td>文字回答要有结论优先、分段清晰和下一步动作。</td><td><span class="g">先说「建议暂缓付款」再说明原因</span></td><td><span class="r">长篇解释后才出现结论</span></td></tr>
+            <tr><td>结构化内容</td><td>清单、表格、步骤等结构要匹配任务类型。</td><td><span class="g">风险项按等级、依据、建议动作排列</span></td><td><span class="r">所有内容堆成一段话</span></td></tr>
+            <tr><td>数据引用</td><td>数字、结论和规则必须标注来源或可展开证据。</td><td><span class="g">金额旁标注「发票 P.2」</span></td><td><span class="r">给出金额但无法追溯来源</span></td></tr>
+            <tr><td>资源对象</td><td>文件、图片、图表等对象以卡片呈现，可预览、下载或继续处理。</td><td><span class="g">报告卡片提供预览和导出</span></td><td><span class="r">只给一个裸链接或文件名</span></td></tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 
-  <div class="section">
-    <div class="section-title"><span class="section-num">02</span>工作台</div>
-    <p class="section-desc">当 AI 结果需要进入业务操作区时，用工作台承载录入、审核、分析和报告。</p>
-    <div class="trust-component-card">
-      <div class="trust-chip-grid">
-        <div class="trust-chip">录入</div>
-        <div class="trust-chip">审核</div>
-        <div class="trust-chip">分析</div>
-        <div class="trust-chip">报告</div>
+  <div class="content-tab-panel" data-content-tab-panel="output-workbench">
+    <div class="section">
+      <div class="content-tabs output-workbench-tabs" role="tablist" aria-label="工作台预览模板">
+        <button class="content-tab active" type="button" role="tab" aria-selected="true" onclick="switchScopedContentTab('output-workbench-markdown', this)">Markdown</button>
+        <button class="content-tab" type="button" role="tab" aria-selected="false" onclick="switchScopedContentTab('output-workbench-html', this)">Html</button>
+        <button class="content-tab" type="button" role="tab" aria-selected="false" onclick="switchScopedContentTab('output-workbench-form', this)">表单详情</button>
       </div>
-    </div>
-    <div class="trust-component-card spec-guide-card">
-      <div class="spec-guide-title">设计规范对照</div>
-      <table class="compare-table">
-        <thead><tr><th style="width:150px">组件项</th><th>设计要点</th><th>正例</th><th>反例</th></tr></thead>
-        <tbody>
-          <tr><td>录入</td><td>AI 填充字段应可编辑，并显示来源和置信度。</td><td><span class="g">字段值旁显示来源页码和修改入口</span></td><td><span class="r">AI 自动填完且用户不能改</span></td></tr>
-          <tr><td>审核</td><td>突出风险、依据、建议动作和人工确认入口。</td><td><span class="g">风险列表按严重程度排序并可确认</span></td><td><span class="r">只输出一段审核意见</span></td></tr>
-          <tr><td>分析</td><td>展示指标、异常点和可追问维度。</td><td><span class="g">成本异常图表可点击查看明细</span></td><td><span class="r">只有结论没有数据支撑</span></td></tr>
-          <tr><td>报告</td><td>报告产物支持目录、来源、版本和生成记录。</td><td><span class="g">报告右侧显示引用资料和版本号</span></td><td><span class="r">生成文档后无法回看依据</span></td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-title"><span class="section-num">03</span>独立视窗</div>
-    <p class="section-desc">用于承载临时聚焦、跨页面辅助或需要独立空间查看的 AI 结果。</p>
-    <div class="trust-component-card">
-      <div class="trust-chip-grid">
-        <div class="trust-chip">弹出窗</div>
-        <div class="trust-chip">抽屉</div>
-        <div class="trust-chip">全屏</div>
-        <div class="trust-chip">侧边栏</div>
+      <div class="scoped-content-panel active" data-scoped-content-panel="output-workbench-markdown">
+        <div class="section output-markdown-intro">
+          <h2 class="section-title">Markdown 预览</h2>
+          <p class="section-desc">Markdown 适合承载控制价审核的过程结论、指标对比、异常清单和处理建议，便于在对话流与工作台之间持续编辑。</p>
+        </div>
+        <div class="case-demo-shell"><iframe class="case-demo-frame" data-case-src="output-markdown-demo/dist-offline-preview.html" title="Markdown 预览"></iframe></div>
       </div>
-    </div>
-    <div class="trust-component-card spec-guide-card">
-      <div class="spec-guide-title">设计规范对照</div>
-      <table class="compare-table">
-        <thead><tr><th style="width:150px">组件项</th><th>设计要点</th><th>正例</th><th>反例</th></tr></thead>
-        <tbody>
-          <tr><td>弹出窗</td><td>只承载短决策或确认，避免塞入长流程。</td><td><span class="g">风险确认弹窗只处理一项风险</span></td><td><span class="r">弹窗里放完整工作台</span></td></tr>
-          <tr><td>抽屉</td><td>适合与原页面并行对照，宽度和关闭方式稳定。</td><td><span class="g">右侧抽屉展示证据，主页面保持可见</span></td><td><span class="r">抽屉遮住关键表单字段</span></td></tr>
-          <tr><td>全屏</td><td>用于复杂生成或审查任务，提供返回业务页入口。</td><td><span class="g">全屏工作台有清晰返回和保存状态</span></td><td><span class="r">全屏后丢失原页面上下文</span></td></tr>
-          <tr><td>侧边栏</td><td>作为持续辅助区，保留对话、证据和建议动作。</td><td><span class="g">侧边栏可引用当前单据字段</span></td><td><span class="r">侧边栏内容与当前页面无关联</span></td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-title"><span class="section-num">04</span>导出结果</div>
-    <p class="section-desc">当 AI 产物需要外发、归档或流转时，提供清晰的格式选择和生成结果。</p>
-    <div class="trust-component-card">
-      <div class="trust-chip-grid">
-        <div class="trust-chip">PDF</div>
-        <div class="trust-chip">Word</div>
-        <div class="trust-chip">Excel</div>
-        <div class="trust-chip">PPt</div>
-        <div class="trust-chip">Markdown</div>
+      <div class="scoped-content-panel" data-scoped-content-panel="output-workbench-html">
+        <div class="output-html-meta">
+          <div class="output-html-tabs" role="tablist" aria-label="Html 展示形态">
+            <button class="output-html-tab active" type="button" role="tab" aria-selected="true" onclick="switchOutputHtmlTab('output-html-structured', this)">分析报告</button>
+            <button class="output-html-tab" type="button" role="tab" aria-selected="false" onclick="switchOutputHtmlTab('output-html-visual', this)">可视化报告</button>
+          </div>
+          <div class="output-html-desc" data-output-html-desc>
+            <strong>分析报告</strong>用于承载完整的 AI 分析结果，通常包含标题、核心指标、结论摘要、分节内容、明细表格和下钻建议。
+          </div>
+        </div>
+        <div class="output-html-panel active" data-output-html-panel="output-html-structured">
+          <div class="case-demo-shell output-structured-demo-shell"><iframe class="case-demo-frame" data-case-src="cost-analysis-structured-demo/index.html?start=report" title="分析报告"></iframe></div>
+        </div>
+        <div class="output-html-panel" data-output-html-panel="output-html-visual">
+          <div class="case-demo-shell output-visual-demo-shell"><iframe class="case-demo-frame" data-case-src="output-visual-report-demo/index.html" title="可视化报告"></iframe></div>
+        </div>
       </div>
-    </div>
-    <div class="trust-component-card spec-guide-card">
-      <div class="spec-guide-title">设计规范对照</div>
-      <table class="compare-table">
-        <thead><tr><th style="width:150px">组件项</th><th>设计要点</th><th>正例</th><th>反例</th></tr></thead>
-        <tbody>
-          <tr><td>PDF</td><td>适合定版归档，导出前提供预览和页眉页脚检查。</td><td><span class="g">预览显示页码、项目名、生成时间</span></td><td><span class="r">直接下载，用户不知道版式是否正确</span></td></tr>
-          <tr><td>Word</td><td>适合继续编辑，保留标题层级和批注。</td><td><span class="g">Word 中保留风险批注和目录</span></td><td><span class="r">导出成纯文本丢失结构</span></td></tr>
-          <tr><td>Excel</td><td>适合数据明细，保留字段、筛选和公式说明。</td><td><span class="g">风险清单可筛选并标注来源</span></td><td><span class="r">表格合并单元格导致无法分析</span></td></tr>
-          <tr><td>PPt</td><td>适合汇报材料，自动生成封面、目录和图表页。</td><td><span class="g">每页有标题、核心结论和数据图</span></td><td><span class="r">只把报告截图塞进幻灯片</span></td></tr>
-          <tr><td>Markdown</td><td>适合知识沉淀和二次编辑，保持标题、表格、代码块。</td><td><span class="g">导出后可直接进入知识库</span></td><td><span class="r">Markdown 混乱，标题层级不一致</span></td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</div>
-
-<!-- ━━ 3.4 闭环层 Follow-up ━━ -->
-<div class="page" id="p-ux-4">
-  <div class="page-eyebrow">交互规范 · 3.4</div>
-  <h1 class="page-title">闭环层 <em>Follow-up</em></h1>
-  <p class="page-desc">闭环层定义 AI 输出之后如何继续协作：追问、修正、续跑、人工协作和反馈学习，让一次生成变成可迭代的业务过程。</p>
-
-  <div class="section">
-    <div class="section-title"><span class="section-num">01</span>追问</div>
-    <p class="section-desc">AI 主动发现缺口，用户补充信息，系统完成缺失信息收集。</p>
-    <div class="trust-component-card">
-      <div class="trust-chip-grid">
-        <div class="trust-chip">AI主动追问</div>
-        <div class="trust-chip">用户补充信息</div>
-        <div class="trust-chip">缺失信息收集</div>
+      <div class="scoped-content-panel" data-scoped-content-panel="output-workbench-form">
+        <div class="section output-form-intro">
+          <h2 class="section-title">表单详情</h2>
+          <p class="section-desc">表单详情用于 AI 对话辅助业务录入的场景，左侧承接解释、提取和确认过程，右侧展示可核对、可提交的业务表单。</p>
+        </div>
+        <div class="case-demo-shell"><iframe class="case-demo-frame" data-case-src="http://127.0.0.1:4175/" title="表单详情"></iframe></div>
       </div>
-    </div>
-    <div class="trust-component-card spec-guide-card">
-      <div class="spec-guide-title">设计规范对照</div>
-      <table class="compare-table">
-        <thead><tr><th style="width:150px">组件项</th><th>设计要点</th><th>正例</th><th>反例</th></tr></thead>
-        <tbody>
-          <tr><td>AI主动追问</td><td>只追问会影响结果的关键信息，并说明为什么需要。</td><td><span class="g">「缺少验收单，会影响付款条件判断」</span></td><td><span class="r">问一堆与任务无关的问题</span></td></tr>
-          <tr><td>用户补充信息</td><td>补充入口就近出现，支持文本、文件和选择项。</td><td><span class="g">追问卡片里直接上传验收单</span></td><td><span class="r">让用户离开页面重新找入口</span></td></tr>
-          <tr><td>缺失信息收集</td><td>展示缺失项清单和完成状态，补齐后自动继续。</td><td><span class="g">「还缺 1/3 项资料」清晰提示</span></td><td><span class="r">缺什么不清楚，用户反复提交</span></td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-title"><span class="section-num">02</span>结果修正</div>
-    <p class="section-desc">支持用户对 AI 输出进行整体或局部修正，并保留可回退路径。</p>
-    <div class="trust-component-card">
-      <div class="trust-chip-grid">
-        <div class="trust-chip">重新生成</div>
-        <div class="trust-chip">局部重跑</div>
-        <div class="trust-chip">回滚版本</div>
-      </div>
-    </div>
-    <div class="trust-component-card spec-guide-card">
-      <div class="spec-guide-title">设计规范对照</div>
-      <table class="compare-table">
-        <thead><tr><th style="width:150px">组件项</th><th>设计要点</th><th>正例</th><th>反例</th></tr></thead>
-        <tbody>
-          <tr><td>重新生成</td><td>说明会覆盖哪些内容，保留旧版本入口。</td><td><span class="g">「重新生成审核意见，保留风险清单」</span></td><td><span class="r">一键重生成导致原结果消失</span></td></tr>
-          <tr><td>局部重跑</td><td>允许只重跑某个字段、段落或规则项。</td><td><span class="g">只重跑「付款比例校验」</span></td><td><span class="r">小修改也必须全量重跑</span></td></tr>
-          <tr><td>回滚版本</td><td>展示版本时间、修改人和差异摘要。</td><td><span class="g">可回滚到「14:30 人工修订版」</span></td><td><span class="r">回滚列表只有版本号没有差异</span></td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-title"><span class="section-num">03</span>任务续跑</div>
-    <p class="section-desc">长任务或失败任务需要能够补充资料后继续，而不是从头来过。</p>
-    <div class="trust-component-card">
-      <div class="trust-chip-grid">
-        <div class="trust-chip">补充资料后继续</div>
-        <div class="trust-chip">失败重试</div>
-        <div class="trust-chip">定时执行</div>
-        <div class="trust-chip">长任务恢复</div>
-      </div>
-    </div>
-    <div class="trust-component-card spec-guide-card">
-      <div class="spec-guide-title">设计规范对照</div>
-      <table class="compare-table">
-        <thead><tr><th style="width:150px">组件项</th><th>设计要点</th><th>正例</th><th>反例</th></tr></thead>
-        <tbody>
-          <tr><td>补充资料后继续</td><td>补充资料后从受影响步骤继续，并说明复用哪些结果。</td><td><span class="g">上传发票后继续票据校验</span></td><td><span class="r">补资料后全部重跑</span></td></tr>
-          <tr><td>失败重试</td><td>失败项提供重试原因、重试按钮和替代路径。</td><td><span class="g">「预算接口超时，重试或改用手工录入」</span></td><td><span class="r">失败后只有刷新页面</span></td></tr>
-          <tr><td>定时执行</td><td>显示执行时间、频率、范围和取消入口。</td><td><span class="g">「每天 9:00 检查待付款申请」</span></td><td><span class="r">后台定时任务无法查看或取消</span></td></tr>
-          <tr><td>长任务恢复</td><td>跨会话恢复时展示上次进度和上下文。</td><td><span class="g">「上次完成 18/28 项，继续预审」</span></td><td><span class="r">重新进入后任务状态丢失</span></td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-title"><span class="section-num">04</span>人工协作</div>
-    <p class="section-desc">当 AI 结果需要多人判断或流程流转时，进入人工协作链路。</p>
-    <div class="trust-component-card">
-      <div class="trust-chip-grid">
-        <div class="trust-chip">指派</div>
-        <div class="trust-chip">审批</div>
-        <div class="trust-chip">接管</div>
-        <div class="trust-chip">协同处理</div>
-      </div>
-    </div>
-    <div class="trust-component-card spec-guide-card">
-      <div class="spec-guide-title">设计规范对照</div>
-      <table class="compare-table">
-        <thead><tr><th style="width:150px">组件项</th><th>设计要点</th><th>正例</th><th>反例</th></tr></thead>
-        <tbody>
-          <tr><td>指派</td><td>指派对象、原因、截止时间和上下文一起发送。</td><td><span class="g">指派给成本经理并附风险证据</span></td><td><span class="r">只转发一句「请处理」</span></td></tr>
-          <tr><td>审批</td><td>审批页展示 AI 建议、证据、风险和可修改意见。</td><td><span class="g">审批人可采纳/修改/退回 AI 建议</span></td><td><span class="r">审批只看到最终结论</span></td></tr>
-          <tr><td>接管</td><td>接管后明确 AI 停止自动动作，用户获得编辑权。</td><td><span class="g">「已由 Bright 接管，AI 仅提供建议」</span></td><td><span class="r">接管后 AI 仍自动改字段</span></td></tr>
-          <tr><td>协同处理</td><td>多人处理要有角色、状态和变更记录。</td><td><span class="g">法务和成本分别确认自己的风险项</span></td><td><span class="r">多人同时修改但没有记录</span></td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-title"><span class="section-num">05</span>反馈学习</div>
-    <p class="section-desc">收集用户对结果质量的判断，支撑后续优化和个性化记忆。</p>
-    <div class="trust-component-card">
-      <div class="trust-chip-grid">
-        <div class="trust-chip">点赞</div>
-        <div class="trust-chip">点踩</div>
-        <div class="trust-chip">纠错</div>
-        <div class="trust-chip">用户反馈</div>
-      </div>
-    </div>
-    <div class="trust-component-card spec-guide-card">
-      <div class="spec-guide-title">设计规范对照</div>
-      <table class="compare-table">
-        <thead><tr><th style="width:150px">组件项</th><th>设计要点</th><th>正例</th><th>反例</th></tr></thead>
-        <tbody>
-          <tr><td>点赞</td><td>点赞后可选择原因，形成可复用偏好。</td><td><span class="g">「依据充分」「格式合适」可选</span></td><td><span class="r">点赞只有数字统计，没有学习价值</span></td></tr>
-          <tr><td>点踩</td><td>点踩必须追问问题类型，支持一键重做。</td><td><span class="g">选择「依据错误」后提示补充正确来源</span></td><td><span class="r">点踩后没有后续处理</span></td></tr>
-          <tr><td>纠错</td><td>纠错入口贴近错误内容，保留原文和修正值。</td><td><span class="g">字段旁纠错「金额应为 120 万」</span></td><td><span class="r">用户只能重新输入整段结果</span></td></tr>
-          <tr><td>用户反馈</td><td>反馈要进入任务记录，可查看处理状态。</td><td><span class="g">反馈显示「已采纳到本项目规则」</span></td><td><span class="r">反馈提交后没有任何回执</span></td></tr>
-        </tbody>
-      </table>
     </div>
   </div>
 </div>
@@ -4527,10 +5023,63 @@ body.embed {
 <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   场景案例  总览
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
-<div class="page" id="p-case-0">
-  <div class="page-eyebrow">场景案例 · 工作台预览模板</div>
-  <h1 class="page-title">工作台预览模板</h1>
-  <p class="page-desc">工作台预览模板入口仅作为案例目录占位。侧边栏模式的宿主界面已在「侧边栏模式」中展示。</p>
+<div class="page scenario-overview-page" id="p-case-0">
+  <div class="page-eyebrow">场景案例 · 总览</div>
+  <h1 class="page-title">五类场景的<span class="blue">交互范式</span>与<span class="blue">规范对应</span></h1>
+  <p class="page-desc">五类业务场景是应用案例，不是分类维度。每个场景对应特定的交互范式、HITL 强度（人工介入的深浅程度）和关键交互规范，产品经理通过这张总览快速定位该用哪套规范。</p>
+  <div class="section scenario-overview-section">
+    <h2 class="section-title"><span class="section-num">01</span>五类场景对应关系总表</h2>
+    <div class="scenario-overview-table-wrap">
+      <table class="scenario-overview-table">
+        <thead>
+          <tr>
+            <th>场景</th>
+            <th>典型任务</th>
+            <th>推荐框架</th>
+            <th>HITL 强度（人工介入的深浅程度）</th>
+            <th>关键规范</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>查询</td>
+            <td>查待办、查合同、查付款状态</td>
+            <td><span class="scenario-framework-badge trigger">按钮触发</span></td>
+            <td><span class="scenario-hitl low">低</span></td>
+            <td>结果卡片 + 来源标注 + 追问入口</td>
+          </tr>
+          <tr>
+            <td>录入</td>
+            <td>合同录入、请款申请、调价录入</td>
+            <td><span class="scenario-framework-badge agent">全屏 Agent</span></td>
+            <td><span class="scenario-hitl strong">强</span></td>
+            <td>文件上传 + 字段置信度 + 逐一确认卡片</td>
+          </tr>
+          <tr>
+            <td>审核</td>
+            <td>合同审批、付款审核、标底审查</td>
+            <td><span class="scenario-framework-badge sidebar">侧边栏</span></td>
+            <td><span class="scenario-hitl extreme">极强</span></td>
+            <td>风险分层 + 原始依据 + 建议摘要（不替代审批）</td>
+          </tr>
+          <tr>
+            <td>分析</td>
+            <td>成本分析、指标追踪、异常识别</td>
+            <td><span class="scenario-framework-badge agent">全屏 Agent</span></td>
+            <td><span class="scenario-hitl medium">中</span></td>
+            <td>主题数据查询 + 指标解释 + 可追问分析</td>
+          </tr>
+          <tr>
+            <td>报告</td>
+            <td>销售日报、成本月报、经营透视报告</td>
+            <td><span class="scenario-framework-badge agent">全屏 Agent</span></td>
+            <td><span class="scenario-hitl medium">中</span></td>
+            <td>可编辑草稿 + 数据溯源 + 管理语言生成</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>
 
 <div class="page" id="p-case-entry">
@@ -4624,7 +5173,7 @@ function show(id) {
   // auto expand group if needed
   const frameIds = ['p-frame-1','p-frame-2','p-frame-3'];
   const principleIds = ['p-frame-0','p-lang-1','p-lang-3'];
-  const uxIds    = ['p-ux-1','p-ux-2','p-ux-3','p-ux-4'];
+  const uxIds    = ['p-ux-1','p-ux-2','p-ux-3'];
   const caseIds  = ['p-case-0','p-case-entry','p-case-query','p-case-audit','p-case-analysis','p-case-report','p-case-combo'];
   if (principleIds.includes(id)) expandGroup('g-principle');
   if (frameIds.includes(id)) expandGroup('g-frame');
@@ -4636,6 +5185,7 @@ function show(id) {
   updateTopbar(id);
   activateFrameDefaultPanel(id);
   renderQuickToc(target);
+  hydrateVisibleCasePreviews();
   window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
   updateQuickTocActive();
 }
@@ -4657,7 +5207,11 @@ function renderQuickToc(page) {
   }
   const links = sections.map((section, index) => {
     if (!section.id) section.id = `${page.id}-section-${index + 1}`;
-    const title = section.querySelector('.section-title')?.textContent.replace(/\s+/g, ' ').replace(/^\d+\s*/, '').trim() || `分组 ${index + 1}`;
+    const titleEl = section.querySelector('.section-title');
+    const titleClone = titleEl?.cloneNode(true);
+    titleClone?.querySelector('.section-title-actions')?.remove();
+    titleClone?.querySelector('.section-action-button')?.remove();
+    const title = titleClone?.textContent.replace(/\s+/g, ' ').replace(/^\d+\s*/, '').trim() || `分组 ${index + 1}`;
     return `<button class="quick-toc-link" type="button" data-target="${section.id}">${title}</button>`;
   }).join('');
   toc.innerHTML = `<div class="quick-toc-list">${links}</div>`;
@@ -4694,6 +5248,7 @@ function updateQuickTocActive(forceId) {
 
 function activateFrameDefaultPanel(id) {
   const config = {
+    'p-ux-3': { tabset: 'output', panel: 'output-dialogue' },
     'p-frame-1': { tabset: 'frame-native', panel: 'frame-native-demo' },
     'p-frame-2': { tabset: 'frame-side', panel: 'frame-side-demo' },
     'p-frame-3': { tabset: 'frame-embedded', panel: 'frame-embedded-demo' },
@@ -4712,6 +5267,7 @@ function activateFrameDefaultPanel(id) {
     tab.setAttribute('aria-selected', active ? 'true' : 'false');
   });
   hydrateCasePreviews(page.querySelector(`[data-content-tab-panel="${config.panel}"]`) || page);
+  hydrateVisibleCasePreviews();
 }
 
 function updateTopbar(id) {
@@ -4727,7 +5283,7 @@ function updateTopbar(id) {
   const activeNav = document.querySelector('.nav-item.active');
   const label = activeNav?.querySelector('div > div:first-child')?.textContent.trim() || page.querySelector('.page-title')?.textContent.trim() || section;
   const navSub = activeNav?.querySelector('.nav-item-sub')?.textContent.trim() || '';
-  const visibleSet = id === 'p-case-0' ? 'case-workbench' : id === 'p-case-audit' ? 'audit' : id === 'p-frame-1' ? 'frame-native' : id === 'p-frame-2' ? 'frame-side' : id === 'p-frame-3' ? 'frame-embedded' : '';
+  const visibleSet = id === 'p-case-audit' ? 'audit' : id === 'p-ux-3' ? 'output' : id === 'p-frame-1' ? 'frame-native' : id === 'p-frame-2' ? 'frame-side' : id === 'p-frame-3' ? 'frame-embedded' : '';
   topbar?.classList.toggle('has-actions', !!visibleSet);
   if (topbarActions) {
     topbarActions.style.display = visibleSet ? 'flex' : 'none';
@@ -4768,6 +5324,7 @@ function switchCaseTab(tabId, button) {
     if (active) activePanel = panel;
   });
   hydrateCasePreviews(activePanel || page);
+  hydrateVisibleCasePreviews();
 }
 
 function switchContentTab(tabId, button) {
@@ -4775,7 +5332,9 @@ function switchContentTab(tabId, button) {
     ? document.getElementById('p-frame-2')
     : tabId.startsWith('frame-embedded-')
       ? document.getElementById('p-frame-3')
-      : document.getElementById('p-frame-1');
+      : tabId.startsWith('output-')
+          ? document.getElementById('p-ux-3')
+          : document.getElementById('p-frame-1');
   if (!page) return;
   page.classList.toggle('is-demo-wide', tabId === 'frame-native-demo' || tabId === 'frame-side-demo' || tabId === 'frame-embedded-demo');
   const tabset = button?.closest('.topbar-tabset') || document;
@@ -4791,12 +5350,55 @@ function switchContentTab(tabId, button) {
     if (active) activePanel = panel;
   });
   hydrateCasePreviews(activePanel || page);
+  hydrateVisibleCasePreviews();
+}
+
+function switchScopedContentTab(tabId, button) {
+  const scope = button?.closest('.content-tab-panel') || document;
+  const tabset = button?.closest('.content-tabs') || scope;
+  tabset.querySelectorAll('.content-tab').forEach(tab => {
+    const active = tab === button;
+    tab.classList.toggle('active', active);
+    tab.setAttribute('aria-selected', active ? 'true' : 'false');
+  });
+  let activePanel = null;
+  scope.querySelectorAll('.scoped-content-panel').forEach(panel => {
+    const active = panel.getAttribute('data-scoped-content-panel') === tabId;
+    panel.classList.toggle('active', active);
+    if (active) activePanel = panel;
+  });
+  hydrateCasePreviews(activePanel || scope);
+  hydrateVisibleCasePreviews();
+}
+
+function switchOutputHtmlTab(tabId, button) {
+  const scope = button?.closest('[data-scoped-content-panel="output-workbench-html"]') || document;
+  const tabset = button?.closest('.output-html-tabs') || scope;
+  const descriptions = {
+    'output-html-structured': '<strong>分析报告</strong>用于承载完整的 AI 分析结果，通常包含标题、核心指标、结论摘要、分节内容、明细表格和下钻建议。',
+    'output-html-visual': '<strong>可视化报告</strong>用于表达数据关系和变化趋势，通常包含指标卡、图表组合、异常标记、趋势对比和可继续下钻的分析入口。',
+  };
+  tabset.querySelectorAll('.output-html-tab').forEach(tab => {
+    const active = tab === button;
+    tab.classList.toggle('active', active);
+    tab.setAttribute('aria-selected', active ? 'true' : 'false');
+  });
+  let activePanel = null;
+  scope.querySelectorAll('.output-html-panel').forEach(panel => {
+    const active = panel.getAttribute('data-output-html-panel') === tabId;
+    panel.classList.toggle('active', active);
+    if (active) activePanel = panel;
+  });
+  const desc = scope.querySelector('[data-output-html-desc]');
+  if (desc && descriptions[tabId]) desc.innerHTML = descriptions[tabId];
+  hydrateCasePreviews(activePanel || scope);
 }
 
 function resolveCaseAsset(path) {
   if (!path) return '';
+  if (/^https?:\/\//i.test(path)) return path;
   if (window.location.protocol === 'file:') {
-    return 'http://127.0.0.1:8878/assets/' + path;
+    return 'http://127.0.0.1:8891/assets/' + path;
   }
   return path;
 }
@@ -4843,6 +5445,9 @@ function closePatternDrawer(event) {
   drawer.setAttribute('aria-hidden', 'true');
 }
 
+window.openPatternDrawer = openPatternDrawer;
+window.closePatternDrawer = closePatternDrawer;
+
 function confirmHandoffExample(button) {
   if (!button || button.classList.contains('is-confirmed')) return;
   const copy = button.closest('.confirm-ai-bubble')?.querySelector('.confirm-next-copy');
@@ -4861,15 +5466,63 @@ document.addEventListener('keydown', event => {
 
 function hydrateCasePreviews(root = document) {
   root.querySelectorAll('[data-case-src]').forEach(el => {
+    if (el.offsetParent === null || el.closest('.page:not(.active), .content-tab-panel:not(.active), .scoped-content-panel:not(.active), .output-html-panel:not(.active), .case-tab-panel:not(.active)')) {
+      return;
+    }
     const rawSrc = el.getAttribute('data-case-src');
     const joiner = rawSrc && rawSrc.includes('?') ? '&' : '?';
-    const src = resolveCaseAsset(`${rawSrc}${joiner}sitev=20260524-local-sync2`);
+    const src = resolveCaseAsset(`${rawSrc}${joiner}sitev=20260604-noma-persist`);
     if (el.getAttribute('src') !== src) {
       showPreviewStatus(el, '正在加载预览...');
       el.setAttribute('src', src);
     }
     el.onload = () => hidePreviewStatus(el);
     el.onerror = () => showPreviewStatus(el, '预览加载失败，请确认本地预览服务正在运行。');
+  });
+}
+
+function hydrateVisibleCasePreviews() {
+  window.requestAnimationFrame(() => {
+    hydrateCasePreviews(document.querySelector('.page.active') || document);
+  });
+}
+
+function setSectionView(section, view) {
+  if (!section) return;
+  const showGuide = view === 'guide';
+  section.querySelectorAll(':scope > .trust-component-card').forEach(card => {
+    const isGuide = card.classList.contains('spec-guide-card');
+    card.style.display = isGuide === showGuide ? '' : 'none';
+  });
+  section.querySelectorAll('.section-view-tab').forEach(tab => {
+    const active = tab.dataset.sectionView === view;
+    tab.classList.toggle('is-active', active);
+    tab.setAttribute('aria-selected', active ? 'true' : 'false');
+  });
+}
+
+function initSectionViewTabs(root = document) {
+  root.querySelectorAll('.page .section').forEach(section => {
+    const title = section.querySelector(':scope > .section-title');
+    const guideCard = section.querySelector(':scope > .spec-guide-card');
+    const componentCards = Array.from(section.querySelectorAll(':scope > .trust-component-card:not(.spec-guide-card)'));
+    if (!title || !guideCard || title.querySelector('.section-title-actions')) return;
+    section.classList.add('has-section-view-tabs');
+    const actions = document.createElement('span');
+    actions.className = 'section-title-actions';
+    actions.setAttribute('role', 'tablist');
+    actions.setAttribute('aria-label', '分组内容切换');
+    actions.innerHTML = componentCards.length > 0
+      ? `
+        <button class="section-view-tab is-active" type="button" role="tab" aria-selected="true" data-section-view="components">组件</button>
+        <button class="section-view-tab" type="button" role="tab" aria-selected="false" data-section-view="guide">指南</button>
+      `
+      : `<button class="section-view-tab is-active" type="button" role="tab" aria-selected="true" data-section-view="guide">指南</button>`;
+    actions.querySelectorAll('.section-view-tab').forEach(tab => {
+      tab.addEventListener('click', () => setSectionView(section, tab.dataset.sectionView));
+    });
+    title.appendChild(actions);
+    setSectionView(section, componentCards.length > 0 ? 'components' : 'guide');
   });
 }
 
@@ -4899,6 +5552,7 @@ document.addEventListener('DOMContentLoaded', () => {
   updateTopbar(document.querySelector('.page.active')?.id || 'p-lang-1');
   renderQuickToc(document.querySelector('.page.active'));
   updateQuickTocActive();
+  initSectionViewTabs();
 });
 
 window.addEventListener('scroll', () => {
@@ -4908,9 +5562,9 @@ window.addEventListener('scroll', () => {
 function applyEmbedMode() {
   const params = new URLSearchParams(window.location.search);
   if (params.has('embed')) document.body.classList.add('embed');
-  hydrateCasePreviews();
   const id = decodeURIComponent(window.location.hash.replace(/^#/, ''));
   if (id) show(id);
+  else hydrateCasePreviews(document.querySelector('.page.active') || document);
   const panel = params.get('panel');
   if (panel) {
     const tabButton = document.querySelector(`.content-tab[onclick*="${panel}"]`);
@@ -4920,6 +5574,7 @@ function applyEmbedMode() {
 
 window.addEventListener('hashchange', applyEmbedMode);
 applyEmbedMode();
+initSectionViewTabs();
 </script>
 </body>
 </html>
