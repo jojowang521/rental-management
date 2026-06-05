@@ -2,9 +2,17 @@
 <html lang="zh-CN">
 <head>
   <meta charset="utf-8" />
-  <!-- pages-rebuild: 20260524-local-sync2 -->
+  <!-- pages-rebuild: 20260605-root-entry -->
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>AI产品设计系统</title>
+  <script>
+    (() => {
+      const target = new URL("assets/site-pages.html", window.location.href);
+      target.searchParams.set("v", "20260605-root-entry");
+      if (window.location.hash) target.hash = window.location.hash;
+      window.location.replace(target);
+    })();
+  </script>
   <style>
     :root {
       --primary: #2563eb;
