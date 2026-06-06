@@ -2,13 +2,13 @@
 <html lang="zh-CN">
 <head>
   <meta charset="utf-8" />
-  <!-- pages-rebuild: 20260605-root-entry -->
+  <!-- pages-rebuild: 20260606-root-entry -->
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>AI产品设计系统</title>
   <script>
     (() => {
       const target = new URL("assets/site-pages.html", window.location.href);
-      target.searchParams.set("v", "20260605-root-entry");
+      target.searchParams.set("v", "20260606-root-entry");
       if (window.location.hash) target.hash = window.location.hash;
       window.location.replace(target);
     })();
@@ -2304,17 +2304,17 @@
     }
 
     function renderPagePreview() {
-      const sitePage = (id, panel = "") => `assets/site-pages.html?embed=1&v=20260605-native-slim${panel ? `&panel=${panel}` : ""}#${id}`;
+      const sitePage = (id, panel = "") => `assets/site-pages.html?embed=1&v=20260606-native-slim${panel ? `&panel=${panel}` : ""}#${id}`;
       const previewSets = {
         "frame-selector": [
           { label: "设计原则", frame: sitePage("p-frame-0") }
         ],
         "frame-workbench": [
-          { label: "AI 原生模式", frame: "assets/ai-native-mode-demo/index.html?v=20260605-native-icons-fixed" },
+          { label: "AI 原生模式", frame: "assets/ai-native-mode-demo/index.html?v=20260606-native-icons-fixed" },
           { label: "设计理念", frame: sitePage("p-frame-1", "frame-native-overview") }
         ],
         "frame-sidebar": [
-          { label: "侧边栏", frame: "assets/payment-application-review-demo/index.html?shell=sidebar&v=20260605-native-slim" },
+          { label: "侧边栏", frame: "assets/payment-application-review-demo/index.html?shell=sidebar&v=20260606-native-slim" },
           { label: "设计理念", frame: sitePage("p-frame-2", "frame-side-overview") }
         ],
         "ux-input": [

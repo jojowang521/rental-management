@@ -4204,7 +4204,7 @@ body.embed {
   </div>
   </div>
   <div class="content-tab-panel active" data-content-tab-panel="frame-native-demo">
-    <div class="case-demo-shell"><iframe class="case-demo-frame" data-case-src="ai-native-mode-demo/index.html?v=20260605-native-icons-fixed" title="AI 原生模式"></iframe></div>
+    <div class="case-demo-shell"><iframe class="case-demo-frame" data-case-src="ai-native-mode-demo/index.html?v=20260606-native-icons-fixed" title="AI 原生模式"></iframe></div>
   </div>
 </div>
 
@@ -4395,7 +4395,7 @@ body.embed {
     </div>
   </div>
   <div class="content-tab-panel active" data-content-tab-panel="frame-side-demo">
-    <div class="case-demo-shell"><iframe class="case-demo-frame" data-case-src="print-service-sidebar-demo/index.html?v=20260604-print-template-latest" title="套打助手侧边栏模式"></iframe></div>
+    <div class="case-demo-shell"><iframe class="case-demo-frame" data-case-src="print-service-sidebar-demo/index.html?v=20260606-print-template-latest" title="套打助手侧边栏模式"></iframe></div>
   </div>
 </div>
 
@@ -4950,7 +4950,7 @@ body.embed {
     <div class="section">
       <div class="section-title"><span class="section-num">01</span>对话流</div>
       <p class="section-desc">对话流承载 AI 在会话中的轻量输出组件，包括文本结论、结构化表格、引用标记、数据来源、点赞拉踩反馈和追问建议等。</p>
-      <div class="case-demo-shell output-dialogue-demo-shell"><iframe class="case-demo-frame" data-case-src="output-dialogue-demo/index.html?figma=data-source&v=20260605-dialogue-icons-fixed" title="对话流预览"></iframe></div>
+      <div class="case-demo-shell output-dialogue-demo-shell"><iframe class="case-demo-frame" data-case-src="output-dialogue-demo/index.html?figma=data-source&v=20260606-dialogue-icons-fixed" title="对话流预览"></iframe></div>
       <div class="trust-component-card">
         <div class="trust-chip-grid">
           <div class="trust-chip">文本结论</div>
@@ -4988,7 +4988,7 @@ body.embed {
           <h2 class="section-title">Markdown 预览</h2>
           <p class="section-desc">Markdown 适合承载控制价审核的过程结论、指标对比、异常清单和处理建议，便于在对话流与工作台之间持续编辑。</p>
         </div>
-        <div class="case-demo-shell"><iframe class="case-demo-frame" data-case-src="output-markdown-demo/report.html?v=20260605-markdown-report-direct" title="Markdown 预览"></iframe></div>
+        <div class="case-demo-shell"><iframe class="case-demo-frame" data-case-src="output-markdown-demo/report.html?v=20260606-markdown-report-direct" title="Markdown 预览"></iframe></div>
       </div>
       <div class="scoped-content-panel" data-scoped-content-panel="output-workbench-html">
         <div class="output-html-meta">
@@ -5012,7 +5012,7 @@ body.embed {
           <h2 class="section-title">表单详情</h2>
           <p class="section-desc">表单详情用于 AI 对话辅助业务录入的场景，左侧承接解释、提取和确认过程，右侧展示可核对、可提交的业务表单。</p>
         </div>
-        <div class="case-demo-shell"><iframe class="case-demo-frame" data-case-src="output-form-detail-demo/index.html?v=20260605-asset-form-restored" title="表单详情"></iframe></div>
+        <div class="case-demo-shell"><iframe class="case-demo-frame" data-case-src="output-form-detail-demo/index.html?v=20260606-asset-form-restored" title="表单详情"></iframe></div>
       </div>
     </div>
   </div>
@@ -5471,7 +5471,7 @@ function hydrateCasePreviews(root = document) {
     }
     const rawSrc = el.getAttribute('data-case-src');
     const joiner = rawSrc && rawSrc.includes('?') ? '&' : '?';
-    const src = resolveCaseAsset(`${rawSrc}${joiner}sitev=20260604-noma-persist`);
+    const src = resolveCaseAsset(`${rawSrc}${joiner}sitev=20260606-site-refresh`);
     if (el.getAttribute('src') !== src) {
       showPreviewStatus(el, '正在加载预览...');
       el.setAttribute('src', src);
