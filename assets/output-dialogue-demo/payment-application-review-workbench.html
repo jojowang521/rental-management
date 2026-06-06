@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>付款申请管理</title>
+<style>
+:root{
+  --blue:#1677FF;--blue-600:#0F67E8;--blue-50:#EBF2FF;--bg:#F0F2F5;
+  --text:#1F2937;--sub:#667085;--muted:#98A2B3;--line:#E4EAF3;--line2:#EDF1F6;
+  --green:#16A35F;--green-bg:#EAF8F0;--orange:#E56524;--orange-bg:#FFF2E8;--purple:#7B61FF;--purple-bg:#F2EFFF;
+  --white:#fff;--cg0:#fff;--cg25:#FAFAFA;--cg50:#F5F5F5;--cg100:#F0F0F0;--cg300:#D9D9D9;--ctt:#8C8C8C;--cts:#595959;--ctp:#262626;--ff:-apple-system,"PingFang SC","Microsoft YaHei",Arial,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{height:100vh;overflow:hidden;background:var(--bg);font-family:var(--ff);color:var(--text);font-size:14px}
+button,input,select{font:inherit}
+.app{height:100vh;display:grid;grid-template-columns:208px 1fr;grid-template-rows:48px 1fr;transition:grid-template-columns .18s ease}
+.app.nav-collapsed{grid-template-columns:56px 1fr}
+.top{grid-column:1/-1;background:var(--blue);display:grid;grid-template-columns:208px 1fr;color:#fff;box-shadow:0 2px 8px rgba(22,119,255,.24);transition:grid-template-columns .18s ease}
+.app.nav-collapsed .top{grid-template-columns:56px 1fr}
+.top-brand{height:48px;display:flex;align-items:center;padding:0 16px;border-right:1px solid rgba(255,255,255,.18);gap:16px;overflow:hidden}
+.logo{font-size:22px;font-weight:800;font-style:italic;letter-spacing:.5px}.hamb{width:24px;height:24px;border:0;background:transparent;color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px;line-height:1}
+.refresh svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.app.nav-collapsed .top-brand{justify-content:center;padding:0}.app.nav-collapsed .logo{display:none}
+.top-main{display:flex;align-items:center;padding:0 24px}.page-title{font-size:16px;font-weight:500;letter-spacing:.2px}
+.top-actions{margin-left:auto;display:flex;align-items:center;gap:14px}.top-ic{position:relative;height:28px;padding:0 6px;border:0;background:transparent;color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:13px}
+.badge{position:absolute;right:-4px;top:-5px;min-width:18px;height:18px;padding:0 5px;border-radius:10px;background:#FF4D4F;color:#fff;border:2px solid var(--blue);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700}
+.avatar{width:26px;height:26px;border-radius:50%;background:#F2F7FF;color:var(--blue);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700}.user{font-size:14px}
+.sn{grid-row:2;background:#fff;border-right:1px solid var(--line);display:flex;flex-direction:column;overflow:hidden}
+.sn-head{height:48px;padding:0 20px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.sn-title{font-size:16px;font-weight:600;color:#1F2937;white-space:nowrap}.sn-collapse{width:20px;height:20px;border:0;background:transparent;color:#344054;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px;line-height:1}
+.sn-body{flex:1;overflow:auto;padding:8px 0}.sn-body::-webkit-scrollbar{display:none}.nl,.nsl{list-style:none;margin:0;padding:0}
+.ni{min-height:44px;padding:13px 20px;display:flex;align-items:center;gap:16px;color:#667085;font-size:14px;line-height:18px;cursor:pointer;position:relative}
+.ni:hover,.nsi:hover{background:#F7FAFF}.ni.on,.ni.open{color:#1F2937;font-weight:600}.ni.active{background:var(--blue-50);color:var(--blue);font-weight:600}.ni.active::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--blue)}
+.ni-ic{width:16px;height:16px;display:flex;align-items:center;justify-content:center;flex-shrink:0}.ni-img{width:16px;height:16px;display:block;opacity:.82}.ni:hover .ni-img,.ni.on .ni-img,.ni.open .ni-img,.ni.active .ni-img{opacity:1}
+.ni-lb{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ni-arrow{width:14px;height:14px;display:flex;align-items:center;justify-content:center;opacity:.65;transition:transform .18s ease;font-size:13px;line-height:1}.ni.open .ni-arrow{transform:rotate(180deg)}
+.nsl{display:none}.nsl.open{display:block}.nsi{height:34px;padding:9px 20px 9px 52px;display:flex;align-items:center;color:#667085;font-size:13px;line-height:16px;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.nsi.active{background:var(--blue-50);color:var(--blue);font-weight:600}
+.app.nav-collapsed .sn-head{padding:0;justify-content:center}.app.nav-collapsed .sn-title,.app.nav-collapsed .ni-lb,.app.nav-collapsed .ni-arrow,.app.nav-collapsed .nsl{display:none!important}.app.nav-collapsed .ni{padding:14px 20px;justify-content:center;gap:0}.app.nav-collapsed .ni.active::before{width:3px}
+.main{grid-row:2;min-width:0;display:flex;flex-direction:column;gap:12px;padding:12px;background:var(--bg);overflow:hidden}
+.fc{background:#fff;border-radius:4px;border:none;padding:0;box-shadow:0 0 3px rgba(0,0,0,.04);flex-shrink:0}
+.fr{min-height:56px;padding:12px 20px;display:flex;align-items:flex-start;gap:12px 20px;flex-wrap:wrap}
+.fr-fields{display:flex;align-items:center;gap:12px 20px;flex-wrap:wrap;min-width:0;flex:1 1 auto}
+.fi{display:flex;flex-direction:row;align-items:center;gap:8px;min-width:0;flex-shrink:0}.fi.lg{width:260px}
+.fl{font-size:13px;color:var(--ctt);font-weight:400;white-space:nowrap}
+.inp,.sel{height:32px;border:1px solid var(--cg300);border-radius:4px;background:#fff;color:var(--ctp);font-size:13px;outline:none}
+.inp{padding:0 12px}.sel{width:140px;padding:0 8px 0 12px}
+.inp:focus,.sel:focus{border-color:var(--blue);box-shadow:0 0 0 2px rgba(22,119,255,.12)}.inp::placeholder{color:#BFBFBF}
+.iw{position:relative;width:100%}.iw .inp{width:100%}
+.tc{background:#fff;border:1px solid #E8E8E8;border-radius:4px;overflow:hidden;flex:1;min-height:0;display:flex;flex-direction:column}
+.tt{height:56px;padding:12px 20px;border-bottom:1px solid #E8E8E8;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-shrink:0}
+.tt-l{display:flex;align-items:center;min-width:0}.tt-r{display:flex;align-items:center;gap:8px;margin-left:auto}
+.view-tabs{display:flex;align-items:stretch;background:#F5F5F5;border-radius:4px;padding:3px;height:32px;flex-shrink:0}
+.view-tab{display:flex;align-items:center;justify-content:center;gap:0;padding:2px 10px;border-radius:3px;cursor:pointer;color:#666;background:transparent;border:0;font-size:13px;font-weight:400;white-space:nowrap;transition:all .15s;position:relative;line-height:22px}.view-tab:hover{color:var(--blue)}.view-tab.on{background:#fff;color:var(--blue);box-shadow:0 1px 2px rgba(0,0,0,.06)}
+.view-tab .vt-div{position:absolute;left:0;top:50%;transform:translateY(-50%);width:1px;height:16px;background:#EAEAEA}.view-tab.on+.view-tab .vt-div,.view-tab:hover .vt-div{display:none}
+.btn{height:32px;padding:0 16px;border-radius:4px;border:1px solid transparent;background:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:13px;white-space:nowrap;cursor:pointer;color:var(--ctp)}
+.btn-p{background:var(--blue);border-color:var(--blue);color:#fff}.btn-p:hover{background:var(--blue-600);border-color:var(--blue-600)}
+.btn-d{border-color:var(--cg300);color:var(--cts)}.btn-d:hover{border-color:var(--blue);color:var(--blue);background:var(--blue-50)}
+.tw{flex:1;min-height:0;overflow:auto}table{width:100%;min-width:1280px;border-collapse:collapse}thead tr{background:#FAFAFA}th{height:40px;padding:0 16px;border-bottom:1px solid #E8E8E8;text-align:left;color:var(--ctp);font-size:13px;font-weight:600;white-space:nowrap}
+td{height:48px;padding:0 16px;border-bottom:1px solid #F5F5F5;font-size:13px;color:var(--ctp);white-space:nowrap;vertical-align:middle}tbody tr:hover{background:#FAFAFA}
+.link{color:var(--blue);cursor:pointer;max-width:320px;overflow:hidden;text-overflow:ellipsis;display:inline-block;vertical-align:middle}.code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color:#667085}.num{text-align:right}
+.tag{height:24px;padding:2px 6px;border-radius:2px;display:inline-flex;align-items:center;justify-content:center;font-size:12px;white-space:nowrap;border:1px solid transparent}.tag.blue{background:var(--blue-50);color:var(--blue);border-color:#D0E4FF}.tag.green{background:#F6FFED;color:#389E0D;border-color:#B7EB8F}.tag.orange{background:#FFF7E6;color:#D48806;border-color:#FFD591}.tag.purple{background:#F9F0FF;color:#722ED1;border-color:#D3ADF7}
+.op{height:28px;padding:0 8px;color:var(--blue);background:transparent;border:0;font-size:13px;cursor:pointer}.op:hover{text-decoration:underline}
+.pgn{height:56px;padding:12px 24px;border-top:1px solid #E8E8E8;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}.pgn-info{font-size:14px;color:var(--ctt)}.pgn-size{display:flex;align-items:center;gap:16px}.pgn-pages{display:flex;align-items:center;gap:4px}.pgn-btn{min-width:32px;height:32px;padding:0 10px;border:1px solid var(--cg300);border-radius:4px;background:#fff;color:var(--cts);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px}.pgn-btn:hover{border-color:var(--blue);color:var(--blue);background:var(--blue-50)}.pgn-btn.on{background:var(--blue);border-color:var(--blue);color:#fff}.pgn-size .sel{width:96px}
+.toast{position:fixed;left:50%;top:82px;transform:translateX(-50%) translateY(-12px);min-width:180px;height:36px;padding:0 16px;border-radius:4px;background:rgba(15,23,42,.84);color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;opacity:0;pointer-events:none;transition:.18s}.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+@media(max-width:1440px){.main{padding:12px}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <div class="top-brand"><div class="logo">明源云</div><button class="hamb" onclick="toggleSidebar()" aria-label="展开收起导航">☰</button></div>
+    <div class="top-main">
+      <div class="page-title">付款申请</div>
+      <div class="top-actions">
+        <button class="top-ic">消息</button>
+        <button class="top-ic">通知<span class="badge">3</span></button>
+        <div class="avatar">管</div><div class="user">管理员</div>
+      </div>
+    </div>
+  </header>
+  <aside class="sn" id="sn">
+    <div class="sn-head">
+      <div class="sn-title">成本管理</div>
+      <button class="sn-collapse" onclick="toggleSidebar()" aria-label="展开收起导航">‹</button>
+    </div>
+    <div class="sn-body">
+      <ul class="nl">
+        <li class="ni" data-page="home">
+          <span class="ni-ic"><img class="ni-img" src="icons/navigation/home.svg" alt=""></span>
+          <span class="ni-lb">首页</span>
+        </li>
+        <li class="ni open" onclick="toggleNav(this)">
+          <span class="ni-ic"><img class="ni-img" src="icons/navigation/contract.svg" alt=""></span>
+          <span class="ni-lb">合同管理</span>
+          <span class="ni-arrow" aria-hidden="true">⌄</span>
+        </li>
+        <ul class="nsl open">
+          <li class="nsi" data-page="contract-register">合同登记</li>
+          <li class="nsi" data-page="contract-settle">合同结算</li>
+          <li class="nsi" data-page="contract-supplement">补充协议</li>
+        </ul>
+        <li class="ni open" onclick="toggleNav(this)">
+          <span class="ni-ic"><img class="ni-img" src="icons/navigation/payment.svg" alt=""></span>
+          <span class="ni-lb">付款管理</span>
+          <span class="ni-arrow" aria-hidden="true">⌄</span>
+        </li>
+        <ul class="nsl open">
+          <li class="nsi active" data-page="payment-apply">付款申请</li>
+          <li class="nsi" data-page="payment-approve">付款审批</li>
+          <li class="nsi" data-page="payment-ledger">付款台账</li>
+        </ul>
+        <li class="ni" data-page="supplier">
+          <span class="ni-ic"><img class="ni-img" src="icons/navigation/supplier.svg" alt=""></span>
+          <span class="ni-lb">供应商协同</span>
+        </li>
+      </ul>
+    </div>
+  </aside>
+  <main class="main">
+    <section class="fc">
+      <div class="fr">
+        <div class="fr-fields">
+          <div class="fi"><label class="fl">所属项目</label><select class="sel"><option>全部项目</option><option>南开区新裕里</option><option>武汉青山云境</option><option>江岸滨江府</option></select></div>
+          <div class="fi"><label class="fl">付款类别</label><select class="sel"><option>全部</option><option>工程类</option><option>材料类</option><option>设备类</option><option>服务类</option></select></div>
+          <div class="fi lg"><div class="iw"><input class="inp" placeholder="输入申请名称/编号"></div></div>
+        </div>
+      </div>
+    </section>
+    <section class="tc">
+      <div class="tt">
+        <div class="tt-l">
+          <div class="view-tabs">
+            <button class="view-tab on" onclick="switchView(this)">全部<span>168</span></button>
+            <button class="view-tab" onclick="switchView(this)"><span class="vt-div"></span>未审核<span>24</span></button>
+            <button class="view-tab" onclick="switchView(this)"><span class="vt-div"></span>审核中<span>18</span></button>
+            <button class="view-tab" onclick="switchView(this)"><span class="vt-div"></span>已审核<span>126</span></button>
+          </div>
+        </div>
+        <div class="tt-r">
+          <button class="btn btn-p" onclick="toast('新增付款申请')">新增</button>
+          <button class="btn btn-d" onclick="toast('AI 付款申请录入')">AI 付款录入</button>
+          <button class="btn btn-d" onclick="toast('更多操作')">更多操作</button>
+          <button class="btn btn-d" onclick="toast('已刷新')">刷新</button>
+        </div>
+      </div>
+      <div class="tw">
+        <table>
+          <thead><tr><th>超支预警</th><th>申请名称</th><th>付款类别</th><th>申请编号</th><th>收款单位</th><th class="num">申请金额</th><th>状态</th><th>操作</th></tr></thead>
+          <tbody>
+            <tr><td>黄色预警</td><td><span class="link">南开区新裕里片区棚户改造项目工程进度款第 5 期</span></td><td><span class="tag blue">工程类</span></td><td><span class="code">FK-2026-0856</span></td><td>七冶建设集团有限责任公司</td><td class="num">1,856,420.00</td><td><span class="tag orange">未审核</span></td><td><button class="op" onclick="toast('查看申请')">查看</button></td></tr>
+            <tr><td>绿色预警</td><td><span class="link">武汉青山云境项目门窗栏杆采购付款申请</span></td><td><span class="tag green">材料类</span></td><td><span class="code">FK-2026-0849</span></td><td>湖北恒立门窗工程有限公司</td><td class="num">486,000.00</td><td><span class="tag orange">未审核</span></td><td><button class="op" onclick="toast('查看申请')">查看</button></td></tr>
+            <tr><td>灰色预警</td><td><span class="link">江岸滨江府项目电梯设备采购及安装付款</span></td><td><span class="tag orange">设备类</span></td><td><span class="code">FK-2026-0836</span></td><td>通力电梯有限公司武汉分公司</td><td class="num">2,240,000.00</td><td><span class="tag green">已审核</span></td><td><button class="op" onclick="toast('查看申请')">查看</button></td></tr>
+            <tr><td>绿色预警</td><td><span class="link">观澜云庭二期全过程造价咨询服务付款</span></td><td><span class="tag purple">服务类</span></td><td><span class="code">FK-2026-0827</span></td><td>中竞发工程管理咨询有限公司</td><td class="num">318,000.00</td><td><span class="tag green">已审核</span></td><td><button class="op" onclick="toast('查看申请')">查看</button></td></tr>
+            <tr><td>黄色预警</td><td><span class="link">保利花园三期弱电分包合同会签付款</span></td><td><span class="tag blue">工程类</span></td><td><span class="code">FK-2026-0819</span></td><td>上海智造科技有限公司</td><td class="num">3,920,000.00</td><td><span class="tag blue">审核中</span></td><td><button class="op" onclick="toast('查看申请')">查看</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="pgn">
+        <div class="pgn-info">共 <b>168</b> 条</div>
+        <div class="pgn-size">
+          <div class="pgn-pages"><button class="pgn-btn">‹</button><button class="pgn-btn on">1</button><button class="pgn-btn">2</button><button class="pgn-btn">3</button><button class="pgn-btn">...</button><button class="pgn-btn">9</button><button class="pgn-btn">›</button></div>
+          <select class="sel"><option>20 条/页</option><option>50 条/页</option><option>100 条/页</option></select>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+<div id="toast" class="toast">操作已完成</div>
+<script>
+function toast(message){
+  var el=document.getElementById('toast');
+  el.textContent=message;
+  el.classList.add('show');
+  clearTimeout(window.__toastTimer);
+  window.__toastTimer=setTimeout(function(){el.classList.remove('show')},1500);
+}
+function switchView(btn){
+  btn.closest('.view-tabs').querySelectorAll('.view-tab').forEach(function(item){item.classList.remove('on')});
+  btn.classList.add('on');
+}
+function toggleSidebar(){
+  document.querySelector('.app').classList.toggle('nav-collapsed');
+}
+function toggleNav(ni){
+  if(document.querySelector('.app').classList.contains('nav-collapsed')) return;
+  var sub=ni.nextElementSibling;
+  if(sub&&sub.classList.contains('nsl')){
+    var open=sub.classList.toggle('open');
+    ni.classList.toggle('open',open);
+  }
+}
+function initNav(){
+  var active=document.querySelector('.nsi.active');
+  var parent=active&&active.parentElement&&active.parentElement.previousElementSibling;
+  if(parent&&parent.classList.contains('ni')){
+    active.parentElement.classList.add('open');
+    parent.classList.add('open');
+  }
+}
+initNav();
+</script>
+</body>
+</html>

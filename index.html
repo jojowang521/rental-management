@@ -2304,17 +2304,17 @@
     }
 
     function renderPagePreview() {
-      const sitePage = (id, panel = "") => `assets/site-pages.html?embed=1&v=20260524-local-sync2${panel ? `&panel=${panel}` : ""}#${id}`;
+      const sitePage = (id, panel = "") => `assets/site-pages.html?embed=1&v=20260605-native-slim${panel ? `&panel=${panel}` : ""}#${id}`;
       const previewSets = {
         "frame-selector": [
           { label: "设计原则", frame: sitePage("p-frame-0") }
         ],
         "frame-workbench": [
-          { label: "AI 原生模式", frame: "assets/ai-native-mode-demo/index.html?v=20260524-local-sync2" },
+          { label: "AI 原生模式", frame: "assets/ai-native-mode-demo/index.html?v=20260605-native-icons-fixed" },
           { label: "设计理念", frame: sitePage("p-frame-1", "frame-native-overview") }
         ],
         "frame-sidebar": [
-          { label: "侧边栏", frame: "assets/payment-application-review-demo/index.html?shell=sidebar&v=20260524-local-sync2" },
+          { label: "侧边栏", frame: "assets/payment-application-review-demo/index.html?shell=sidebar&v=20260605-native-slim" },
           { label: "设计理念", frame: sitePage("p-frame-2", "frame-side-overview") }
         ],
         "ux-input": [
