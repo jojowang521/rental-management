@@ -2105,13 +2105,13 @@
       {
         id: "frame-workbench",
         group: "交互范式",
-        label: "AI Native模式",
+        label: "独立模式",
         note: "AI 主导·集中处理",
         iconKey: "home",
         tag: "PRD-01",
         stats: [["主导", "AI", "任务"], ["布局", "三栏", "典型"], ["历史", "保留", "上下文"], ["适用", "批量", "集中"]],
         pages: [
-          { name: "AI Native模式", type: "native", status: "可用", desc: "AI 是主角，适合主动、集中、批量的录入或生成任务。" },
+          { name: "独立模式", type: "native", status: "可用", desc: "AI 是主角，适合主动、集中、批量的录入或生成任务。" },
           { name: "工作台布局规范", type: "flow", status: "可用", desc: "左侧历史、中间对话、右侧任务/报告/证据协同。" },
           { name: "合同录入 Agent 示例", type: "form", status: "可用", desc: "用户上传合同，AI 完成字段识别、校验和确认交接。" }
         ]
@@ -2304,18 +2304,23 @@
     }
 
     function renderPagePreview() {
-      const sitePage = (id, panel = "") => `assets/site-pages.html?embed=1&v=20260606-native-slim${panel ? `&panel=${panel}` : ""}#${id}`;
+      const sitePage = (id, panel = "") => `assets/site-pages.html?embed=1&v=20260609-independent-mode${panel ? `&panel=${panel}` : ""}#${id}`;
       const previewSets = {
         "frame-selector": [
           { label: "设计原则", frame: sitePage("p-frame-0") }
         ],
         "frame-workbench": [
-          { label: "AI 原生模式", frame: "assets/ai-native-mode-demo/index.html?v=20260606-native-icons-fixed" },
+          { label: "独立模式", frame: "assets/ai-native-mode-demo/index.html?v=20260609-independent-mode" },
           { label: "设计理念", frame: sitePage("p-frame-1", "frame-native-overview") }
         ],
         "frame-sidebar": [
-          { label: "侧边栏", frame: "assets/payment-application-review-demo/index.html?shell=sidebar&v=20260606-native-slim" },
+          { label: "侧边栏", frame: "assets/sidebar-floating-button-demo/index.html?v=20260609-sidebar-floating" },
           { label: "设计理念", frame: sitePage("p-frame-2", "frame-side-overview") }
+        ],
+        "frame-embedded": [
+          { label: "嵌入式", frame: sitePage("p-frame-3", "frame-embedded-demo") },
+          { label: "按钮触发", frame: "assets/button-trigger-sidebar-demo/index.html?v=20260609-button-trigger" },
+          { label: "设计理念", frame: sitePage("p-frame-3", "frame-embedded-overview") }
         ],
         "ux-input": [
           { label: "输入层 Input", frame: sitePage("p-ux-1") }
@@ -2447,13 +2452,13 @@
           title: "交互范式选择流程",
           subtitle: "从任务主导权到界面承载方式逐步收敛。",
           items: [
-            ["集中批量任务", "AI Native模式承载完整任务流。"],
+            ["集中批量任务", "独立模式承载完整任务流。"],
             ["边看边处理", "侧边栏助手保持原文、表单和建议同屏。"],
             ["单点轻量辅助", "局部 AI 按钮只处理当前字段或文本。"]
           ]
         },
         workbench: {
-          title: "AI Native模式",
+          title: "独立模式",
           subtitle: "AI 主导完整任务，适合录入、生成、批量处理。",
           items: [
             ["左侧历史", "保留任务、会话和上下文。"],

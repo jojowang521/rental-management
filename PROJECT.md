@@ -71,7 +71,7 @@
 | 页面 | 页面 id | 页签 | 当前内容来源 |
 | --- | --- | --- | --- |
 | 全屏 Agent 工作台 | `p-frame-1` | 总览 | 页面内规范说明 |
-| 全屏 Agent 工作台 | `p-frame-1` | AI 原生模式 | `assets/ai-native-mode-demo/index.html` |
+| 全屏 Agent 工作台 | `p-frame-1` | 独立模式 | `assets/ai-native-mode-demo/index.html` |
 
 ## 改动护栏
 
@@ -94,9 +94,9 @@
 
 ### 修改框架页面时
 
-- 全屏 Agent 工作台保留两个页签：“总览”和“AI 原生模式”。
+- 全屏 Agent 工作台保留两个页签：“设计理念”和“独立模式”。
 - “总览”页签保留框架规范说明。
-- “AI 原生模式”页签嵌入 `assets/ai-native-mode-demo/index.html`。
+- “独立模式”页签嵌入 `assets/ai-native-mode-demo/index.html`。
 
 ### 修改视觉风格时
 

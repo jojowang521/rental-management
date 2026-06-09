@@ -979,7 +979,7 @@
       <label class="market-search" aria-label="搜索智能体">
         <input id="marketSearch" type="search" placeholder="搜索智能体" autocomplete="off">
         <span class="market-search__addon" aria-hidden="true">
-          <img src="./icons/search.svg" alt="">
+          <img src="/agent-skill-market/icons/search.svg" alt="">
         </span>
       </label>
     </div>
@@ -992,13 +992,13 @@
       <header class="agent-detail-header">
         <h2 class="agent-detail-title" id="agentDetailTitle">智能体详情</h2>
         <button class="agent-detail-close" type="button" id="agentDetailClose" aria-label="关闭">
-          <img src="./icons/close.svg" alt="">
+          <img src="/agent-skill-market/icons/close.svg" alt="">
         </button>
       </header>
       <div class="agent-detail-fixed">
         <div class="agent-detail-profile">
           <span class="agent-detail-avatar">
-            <img id="agentDetailAvatar" src="../figma-assets/agents/agent-01.png" alt="">
+            <img id="agentDetailAvatar" src="/figma-assets/agents/agent-01.png" alt="">
           </span>
           <div class="agent-detail-summary">
             <div class="agent-detail-heading">
@@ -1029,7 +1029,7 @@
           <div class="agent-detail-content" data-content="basic">
             <section class="agent-detail-section">
               <div class="agent-detail-section-title">
-                <img src="./icons/instruction.svg" alt="">
+                <img src="/agent-skill-market/icons/instruction.svg" alt="">
                 <span>说明</span>
               </div>
               <div class="agent-detail-instructions">
@@ -1039,7 +1039,7 @@
 
             <section class="agent-detail-section">
               <div class="agent-detail-section-title">
-                <img src="./icons/instruction.svg" alt="">
+                <img src="/agent-skill-market/icons/instruction.svg" alt="">
                 <span>使用方式</span>
               </div>
               <div class="agent-detail-instructions">
@@ -1049,7 +1049,7 @@
 
             <section class="agent-detail-section">
               <div class="agent-detail-section-title">
-                <img src="./icons/message-record.svg" alt="">
+                <img src="/agent-skill-market/icons/message-record.svg" alt="">
                 <span>推荐问题</span>
               </div>
               <div class="agent-detail-questions" id="agentDetailQuestions"></div>
@@ -1069,7 +1069,7 @@
       <footer class="agent-detail-footer">
         <button class="agent-detail-btn" type="button" id="agentDetailCancel">取消</button>
         <button class="agent-detail-btn primary" type="button">
-          <img src="./icons/chat.svg" alt="">
+          <img src="/agent-skill-market/icons/chat.svg" alt="">
           <span>对话</span>
         </button>
       </footer>
@@ -1127,7 +1127,7 @@
     }
 
     function assetPath(index) {
-      return `../figma-assets/agents/agent-${String(index + 1).padStart(2, '0')}.png`;
+      return `/figma-assets/agents/agent-${String(index + 1).padStart(2, '0')}.png`;
     }
 
     function renderAgentCards(list) {
@@ -1227,7 +1227,7 @@
     }
 
     function artifactIconSrc(type) {
-      return type === 'pdf' ? './icons/pdf.svg' : './icons/excel.svg';
+      return type === 'pdf' ? '/agent-skill-market/icons/pdf.svg' : '/agent-skill-market/icons/excel.svg';
     }
 
     function renderDetailTabData(agent) {
@@ -1253,7 +1253,7 @@
         <article class="agent-record-card">
           <div class="agent-record-card__top">
             <span class="agent-record-card__title-wrap">
-              <img class="agent-record-card__icon" src="./icons/message-record.svg" alt="">
+              <img class="agent-record-card__icon" src="/agent-skill-market/icons/message-record.svg" alt="">
               <strong class="agent-record-card__title">${item[0]}</strong>
             </span>
             <span class="agent-record-card__meta">2025-12-03 14:32 · 对话18轮</span>

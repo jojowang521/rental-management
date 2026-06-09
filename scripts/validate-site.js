@@ -125,12 +125,12 @@ auditTabSources.forEach(([label, source]) => {
 });
 
 const frameDemoSources = [
-  ['全屏 Agent 工作台 / AI 原生模式', 'ai-native-mode-demo/index.html']
+  ['独立模式', 'ai-native-mode-demo/index.html']
 ];
 
 frameDemoSources.forEach(([label, source]) => {
-  if (!sitePagesHtml.includes('AI 原生模式')) {
-    fail('Missing frame tab label: AI 原生模式');
+  if (!sitePagesHtml.includes('独立模式')) {
+    fail('Missing frame tab label: 独立模式');
   }
   if (!sitePagesHtml.includes(`data-case-src="${source}`)) {
     fail(`Missing frame demo source reference: ${label} -> ${source}`);

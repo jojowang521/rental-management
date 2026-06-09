@@ -91,11 +91,21 @@ body.embed .page-title {
   gap: 0;
   z-index: 100;
   overflow-y: auto;
+  transition: width 0.2s ease, padding 0.2s ease;
 }
 .nav-logo {
-  padding: 0 18px 18px;
+  min-height: 58px;
+  padding: 0 14px 18px 18px;
   border-bottom: 1px solid rgba(255,255,255,0.08);
   margin-bottom: 12px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+.nav-logo-copy {
+  min-width: 0;
+  overflow: hidden;
 }
 .nav-logo-title {
   font-size: 14px;
@@ -107,6 +117,36 @@ body.embed .page-title {
   font-size: 10px;
   color: rgba(255,255,255,0.48);
   font-family: 'JetBrains Mono', monospace;
+}
+.nav-collapse-toggle {
+  width: 26px;
+  height: 26px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: rgba(255,255,255,0.92);
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+  flex: 0 0 auto;
+}
+.nav-collapse-toggle-img {
+  width: 16px;
+  height: 16px;
+  display: block;
+  filter: brightness(0) invert(1);
+  opacity: 0.92;
+}
+.nav-collapse-toggle:hover {
+  color: var(--muted);
+  border-color: var(--border3);
+  background: #fff;
+}
+.nav-collapse-toggle:hover .nav-collapse-toggle-img {
+  filter: none;
+  opacity: 1;
 }
 .nav-section {
   padding: 12px 18px 6px;
@@ -232,13 +272,100 @@ body.embed .page-title {
 .nav-group { overflow: hidden; transition: max-height 0.25s ease; }
 .nav-group.collapsed { max-height: 0 !important; }
 
+body.nav-collapsed .nav {
+  width: 64px;
+  padding: 20px 8px;
+  overflow: visible;
+}
+body.nav-collapsed .nav-logo {
+  padding: 0 0 18px;
+  justify-content: center;
+}
+body.nav-collapsed .nav-logo-copy,
+body.nav-collapsed .nav-section {
+  display: none;
+}
+body.nav-collapsed .nav-group {
+  max-height: none !important;
+  overflow: visible;
+}
+body.nav-collapsed .nav-item {
+  width: 48px;
+  height: 42px;
+  min-height: 42px;
+  margin: 2px 0;
+  padding: 0;
+  justify-content: center;
+  gap: 0;
+  overflow: visible;
+  z-index: 1;
+}
+body.nav-collapsed .nav-item > div {
+  display: none;
+}
+body.nav-collapsed .nav-icon,
+body.nav-collapsed .ni-ic {
+  width: 20px;
+  height: 20px;
+}
+body.nav-collapsed .ni-img {
+  width: 18px;
+  height: 18px;
+}
+body.nav-collapsed .nav-item:hover,
+body.nav-collapsed .nav-item:focus-visible {
+  z-index: 120;
+}
+body.nav-collapsed .nav-item::after {
+  content: attr(data-tip);
+  position: absolute;
+  left: 58px;
+  top: 50%;
+  transform: translateY(-50%) translateX(-4px);
+  min-width: max-content;
+  max-width: 180px;
+  padding: 6px 9px;
+  border-radius: 6px;
+  background: rgba(15, 23, 42, 0.96);
+  color: #fff;
+  font-size: 12px;
+  line-height: 1.4;
+  box-shadow: 0 8px 22px rgba(0,0,0,0.18);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+body.nav-collapsed .nav-item::before {
+  content: "";
+  position: absolute;
+  left: 52px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 5px solid transparent;
+  border-right-color: rgba(15, 23, 42, 0.96);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease;
+}
+body.nav-collapsed .nav-item:hover::after,
+body.nav-collapsed .nav-item:focus-visible::after {
+  opacity: 1;
+  transform: translateY(-50%) translateX(0);
+}
+body.nav-collapsed .nav-item:hover::before,
+body.nav-collapsed .nav-item:focus-visible::before {
+  opacity: 1;
+}
+
 /* ── MAIN CONTENT ── */
 .main {
   margin-left: 228px;
   flex: 1;
   min-width: 0;
   padding: 0;
+  transition: margin-left 0.2s ease;
 }
+body.nav-collapsed .main { margin-left: 64px; }
 
 .topbar {
   min-height: 56px;
@@ -3441,15 +3568,20 @@ body.embed {
 <!-- ══════════ SIDEBAR NAV ══════════ -->
 <nav class="nav">
   <div class="nav-logo">
-    <div class="nav-logo-title">AI 产品设计系统</div>
-    <div class="nav-logo-sub">Honeycomb Design System</div>
+    <div class="nav-logo-copy">
+      <div class="nav-logo-title">AI 产品设计系统</div>
+      <div class="nav-logo-sub">Honeycomb Design System</div>
+    </div>
+    <button class="nav-collapse-toggle" id="navCollapseToggle" type="button" aria-label="收起左侧导航" title="收起左侧导航">
+      <img class="nav-collapse-toggle-img" src="icons/fold.svg" alt="">
+    </button>
   </div>
 
   <div class="nav-section nav-section-toggle" onclick="toggleGroup('g-principle')">
     <span class="nav-section-label">设计原则</span><span class="nav-toggle-icon" id="icon-g-principle"><svg class="line-icon" viewBox="0 0 16 16" aria-hidden="true"><path d="m4 6 4 4 4-4"></path></svg></span>
   </div>
   <div class="nav-group" id="g-principle" style="max-height:120px">
-    <a class="nav-item active" data-page="p-frame-0" onclick="show('p-frame-0')">
+    <a class="nav-item active" data-page="p-frame-0" data-tip="设计原则" onclick="show('p-frame-0')">
       <span class="nav-icon ni-ic" data-icon-key="dashboard" data-icon-source="icons/navigation/svg/dashboard.svg"><img class="ni-img" src="icons/navigation/svg/dashboard.svg" alt=""></span>
       <div>
         <div>设计原则</div>
@@ -3462,24 +3594,24 @@ body.embed {
     <span class="nav-section-label">交互范式</span><span class="nav-toggle-icon" id="icon-g-frame"><svg class="line-icon" viewBox="0 0 16 16" aria-hidden="true"><path d="m4 6 4 4 4-4"></path></svg></span>
   </div>
   <div class="nav-group" id="g-frame" style="max-height:500px">
-    <a class="nav-item" data-page="p-frame-2" onclick="show('p-frame-2')">
+    <a class="nav-item" data-page="p-frame-2" data-tip="侧边栏模式" onclick="show('p-frame-2')">
       <span class="nav-icon ni-ic" data-icon-key="work-order" data-icon-source="icons/navigation/svg/work-order.svg"><img class="ni-img" src="icons/navigation/svg/work-order.svg" alt=""></span>
       <div>
         <div>侧边栏模式</div>
         <div class="nav-item-sub">用户主导·轻重两种形态</div>
       </div>
     </a>
-    <a class="nav-item" data-page="p-frame-3" onclick="show('p-frame-3')">
+    <a class="nav-item" data-page="p-frame-3" data-tip="嵌入式" onclick="show('p-frame-3')">
       <span class="nav-icon ni-ic" data-icon-key="building" data-icon-source="icons/navigation/svg/building.svg"><img class="ni-img" src="icons/navigation/svg/building.svg" alt=""></span>
       <div>
         <div>嵌入式</div>
         <div class="nav-item-sub">页面内嵌·局部智能</div>
       </div>
     </a>
-    <a class="nav-item" data-page="p-frame-1" onclick="show('p-frame-1')">
+    <a class="nav-item" data-page="p-frame-1" data-tip="独立模式" onclick="show('p-frame-1')">
       <span class="nav-icon ni-ic" data-icon-key="home" data-icon-source="icons/navigation/svg/home.svg"><img class="ni-img" src="icons/navigation/svg/home.svg" alt=""></span>
       <div>
-        <div>AI Native模式</div>
+        <div>独立模式</div>
         <div class="nav-item-sub">AI 主导·集中处理</div>
       </div>
     </a>
@@ -3489,21 +3621,21 @@ body.embed {
     <span class="nav-section-label">交互规范</span><span class="nav-toggle-icon" id="icon-g-ux"><svg class="line-icon" viewBox="0 0 16 16" aria-hidden="true"><path d="m4 6 4 4 4-4"></path></svg></span>
   </div>
   <div class="nav-group" id="g-ux" style="max-height:600px">
-    <a class="nav-item" data-page="p-ux-1" onclick="show('p-ux-1')">
+    <a class="nav-item" data-page="p-ux-1" data-tip="输入层 Input" onclick="show('p-ux-1')">
       <span class="nav-icon ni-ic" data-icon-key="lead" data-icon-source="icons/navigation/svg/lead.svg"><img class="ni-img" src="icons/navigation/svg/lead.svg" alt=""></span>
       <div>
         <div>输入层 Input</div>
         <div class="nav-item-sub">对话·上下文·文件·确认</div>
       </div>
     </a>
-    <a class="nav-item" data-page="p-ux-2" onclick="show('p-ux-2')">
+    <a class="nav-item" data-page="p-ux-2" data-tip="执行层 Runtime" onclick="show('p-ux-2')">
       <span class="nav-icon ni-ic" data-icon-key="business-data" data-icon-source="icons/navigation/svg/business-data.svg"><img class="ni-img" src="icons/navigation/svg/business-data.svg" alt=""></span>
       <div>
         <div>执行层 Runtime</div>
         <div class="nav-item-sub">思考·任务·工具·协作</div>
       </div>
     </a>
-    <a class="nav-item" data-page="p-ux-3" onclick="show('p-ux-3')">
+    <a class="nav-item" data-page="p-ux-3" data-tip="输出层 Output" onclick="show('p-ux-3')">
       <span class="nav-icon ni-ic" data-icon-key="log" data-icon-source="icons/navigation/svg/log.svg"><img class="ni-img" src="icons/navigation/svg/log.svg" alt=""></span>
       <div>
         <div>输出层 Output</div>
@@ -3516,7 +3648,7 @@ body.embed {
     <span class="nav-section-label">场景案例</span><span class="nav-toggle-icon" id="icon-g-case"><svg class="line-icon" viewBox="0 0 16 16" aria-hidden="true"><path d="m4 6 4 4 4-4"></path></svg></span>
   </div>
   <div class="nav-group" id="g-case" style="max-height:700px">
-    <a class="nav-item" data-page="p-case-0" onclick="show('p-case-0')">
+    <a class="nav-item" data-page="p-case-0" data-tip="场景总览" onclick="show('p-case-0')">
       <span class="nav-icon ni-ic" data-icon-key="dashboard" data-icon-source="icons/navigation/svg/dashboard.svg"><img class="ni-img" src="icons/navigation/svg/dashboard.svg" alt=""></span>
       <div>
         <div>场景总览</div>
@@ -3543,8 +3675,8 @@ body.embed {
         <button class="content-tab active" type="button" role="tab" aria-selected="true" onclick="switchContentTab('output-dialogue', this)">对话流</button>
         <button class="content-tab" type="button" role="tab" aria-selected="false" onclick="switchContentTab('output-workbench', this)">工作台</button>
       </div>
-      <div class="content-tabs topbar-tabset" data-topbar-tabset="frame-native" role="tablist" aria-label="AI Native模式页签">
-        <button class="content-tab active" type="button" role="tab" aria-selected="true" onclick="switchContentTab('frame-native-demo', this)">AI 原生模式</button>
+      <div class="content-tabs topbar-tabset" data-topbar-tabset="frame-native" role="tablist" aria-label="独立模式页签">
+        <button class="content-tab active" type="button" role="tab" aria-selected="true" onclick="switchContentTab('frame-native-demo', this)">独立模式</button>
         <button class="content-tab" type="button" role="tab" aria-selected="false" onclick="switchContentTab('frame-native-overview', this)">设计理念</button>
       </div>
       <div class="content-tabs topbar-tabset" data-topbar-tabset="frame-side" role="tablist" aria-label="侧边栏模式页签">
@@ -3553,6 +3685,7 @@ body.embed {
       </div>
       <div class="content-tabs topbar-tabset" data-topbar-tabset="frame-embedded" role="tablist" aria-label="嵌入式页签">
         <button class="content-tab active" type="button" role="tab" aria-selected="true" onclick="switchContentTab('frame-embedded-demo', this)">嵌入式</button>
+        <button class="content-tab" type="button" role="tab" aria-selected="false" onclick="switchContentTab('frame-embedded-button', this)">按钮触发</button>
         <button class="content-tab" type="button" role="tab" aria-selected="false" onclick="switchContentTab('frame-embedded-overview', this)">设计理念</button>
       </div>
     </div>
@@ -3735,7 +3868,7 @@ body.embed {
           <div style="font-size:12px;color:var(--muted);margin-bottom:8px">两类框架，按判断矩阵选择</div>
           <div class="layer-items">
             <span class="layer-chip" onclick="show('p-frame-2')">侧边栏模式 →</span>
-            <span class="layer-chip" onclick="show('p-frame-1')">AI Native模式 →</span>
+            <span class="layer-chip" onclick="show('p-frame-1')">独立模式 →</span>
           </div>
           <div class="layer-desc">判断依据：AI 是主角还是辅助 · 用户需要同时看什么 · 任务是否需要对话历史</div>
         </div>
@@ -3881,7 +4014,7 @@ body.embed {
       <thead>
         <tr>
           <th style="width:180px">判断维度</th>
-          <th class="wt">AI Native模式</th>
+          <th class="wt">独立模式</th>
           <th class="sb">侧边栏模式</th>
         </tr>
       </thead>
@@ -3939,7 +4072,7 @@ body.embed {
                     <div class="sf-answer">
                       <span class="sf-cond no">不需要</span>
                       <span class="sf-arrow-small">→</span>
-                      <span class="sf-result wt">AI Native模式 ✓</span>
+                      <span class="sf-result wt">独立模式 ✓</span>
                     </div>
                     <div class="sf-answer">
                       <span class="sf-cond yes">需要</span>
@@ -3998,14 +4131,14 @@ body.embed {
 </div>
 
 <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  交互范式 2.1  AI Native模式
+  交互范式 2.1  独立模式
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
 <div class="page" id="p-frame-1">
   <div class="page-eyebrow">交互范式 · 2.1</div>
   <div class="content-tab-panel" data-content-tab-panel="frame-native-overview">
   <div class="frame-hero">
     <div class="frame-info">
-      <div class="frame-badge wt">AI Native模式 · PRD-01</div>
+      <div class="frame-badge wt">独立模式 · PRD-01</div>
       <h1 class="frame-title">AI 主导任务，<br>用户做最终确认</h1>
       <p class="frame-subtitle">AI 读完原始文件，用户不需要盯着原文。界面的主体是 AI 处理后的结果，用户在结果里做判断、确认、发起下一步操作。</p>
       <div style="margin-bottom:16px">
@@ -4204,7 +4337,7 @@ body.embed {
   </div>
   </div>
   <div class="content-tab-panel active" data-content-tab-panel="frame-native-demo">
-    <div class="case-demo-shell"><iframe class="case-demo-frame" data-case-src="ai-native-mode-demo/index.html?v=20260606-native-icons-fixed" title="AI 原生模式"></iframe></div>
+    <div class="case-demo-shell"><iframe class="case-demo-frame" data-case-src="ai-native-mode-demo/index.html?v=20260609-independent-mode" title="独立模式"></iframe></div>
   </div>
 </div>
 
@@ -4395,7 +4528,7 @@ body.embed {
     </div>
   </div>
   <div class="content-tab-panel active" data-content-tab-panel="frame-side-demo">
-    <div class="case-demo-shell"><iframe class="case-demo-frame" data-case-src="print-service-sidebar-demo/index.html?v=20260606-print-template-latest" title="套打助手侧边栏模式"></iframe></div>
+    <div class="case-demo-shell"><iframe class="case-demo-frame" data-case-src="sidebar-floating-button-demo/index.html?v=20260609-sidebar-floating" title="侧边栏模式"></iframe></div>
   </div>
 </div>
 
@@ -4407,6 +4540,9 @@ body.embed {
   <div class="page-eyebrow">交互范式 · 2.3</div>
   <div class="content-tab-panel active" data-content-tab-panel="frame-embedded-demo">
     <div class="case-demo-shell"><iframe class="case-demo-frame" data-case-src="rental-ai-embedded-demo/index.html" title="设备租赁结算审核嵌入式 AI"></iframe></div>
+  </div>
+  <div class="content-tab-panel" data-content-tab-panel="frame-embedded-button">
+    <div class="case-demo-shell"><iframe class="case-demo-frame" data-case-src="button-trigger-sidebar-demo/index.html?v=20260609-button-trigger" title="按钮触发"></iframe></div>
   </div>
   <div class="content-tab-panel" data-content-tab-panel="frame-embedded-overview">
   <div class="frame-hero">
@@ -4518,7 +4654,7 @@ body.embed {
           <div class="lsc-items">
             <div class="lsc-item">不承载完整对话历史</div>
             <div class="lsc-item">不替代主界面审批动作</div>
-            <div class="lsc-item">需要连续协作时升级为侧边栏或 AI Native模式</div>
+            <div class="lsc-item">需要连续协作时升级为侧边栏或独立模式</div>
           </div>
         </div>
       </div>
@@ -5336,7 +5472,7 @@ function switchContentTab(tabId, button) {
           ? document.getElementById('p-ux-3')
           : document.getElementById('p-frame-1');
   if (!page) return;
-  page.classList.toggle('is-demo-wide', tabId === 'frame-native-demo' || tabId === 'frame-side-demo' || tabId === 'frame-embedded-demo');
+  page.classList.toggle('is-demo-wide', tabId === 'frame-native-demo' || tabId === 'frame-side-demo' || tabId === 'frame-embedded-demo' || tabId === 'frame-embedded-button');
   const tabset = button?.closest('.topbar-tabset') || document;
   tabset.querySelectorAll('.content-tab').forEach(tab => {
     const active = tab === button;
@@ -5542,6 +5678,15 @@ function expandGroup(id) {
   icon.style.transform = 'rotate(0deg)';
 }
 
+function setNavCollapsed(collapsed) {
+  document.body.classList.toggle('nav-collapsed', collapsed);
+  const toggle = document.getElementById('navCollapseToggle');
+  if (!toggle) return;
+  const label = collapsed ? '展开左侧导航' : '收起左侧导航';
+  toggle.setAttribute('aria-label', label);
+  toggle.setAttribute('title', label);
+}
+
 // init group heights
 document.addEventListener('DOMContentLoaded', () => {
   ['g-principle','g-frame','g-ux','g-case'].forEach(id => {
@@ -5553,6 +5698,13 @@ document.addEventListener('DOMContentLoaded', () => {
   renderQuickToc(document.querySelector('.page.active'));
   updateQuickTocActive();
   initSectionViewTabs();
+  const navCollapseToggle = document.getElementById('navCollapseToggle');
+  setNavCollapsed(document.body.classList.contains('nav-collapsed'));
+  navCollapseToggle?.addEventListener('click', event => {
+    event.preventDefault();
+    event.stopPropagation();
+    setNavCollapsed(!document.body.classList.contains('nav-collapsed'));
+  });
 });
 
 window.addEventListener('scroll', () => {
@@ -5564,7 +5716,11 @@ function applyEmbedMode() {
   if (params.has('embed')) document.body.classList.add('embed');
   const id = decodeURIComponent(window.location.hash.replace(/^#/, ''));
   if (id) show(id);
-  else hydrateCasePreviews(document.querySelector('.page.active') || document);
+  else {
+    const activePage = document.querySelector('.page.active') || document.getElementById('p-frame-0');
+    if (activePage?.id) show(activePage.id);
+    hydrateCasePreviews(activePage || document);
+  }
   const panel = params.get('panel');
   if (panel) {
     const tabButton = document.querySelector(`.content-tab[onclick*="${panel}"]`);
