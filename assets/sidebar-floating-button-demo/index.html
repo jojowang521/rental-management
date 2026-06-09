@@ -8,7 +8,20 @@
 </style>
   <style>
     .native-global-topnav__item { cursor: pointer; }
+    .native-global-topnav__item[data-nav-item="AI 助手"] { color: #fff; }
+    .native-global-topnav__item[data-nav-item="AI 助手"]::after {
+      content: "";
+      background: #fff;
+      border-radius: 3px 3px 0 0;
+      height: 3px;
+      position: absolute;
+      bottom: 0;
+      left: 14px;
+      right: 14px;
+    }
     .native-global-topnav__item[data-nav-item="财务管理"] { cursor: default; }
+    .native-global-topnav__item[data-nav-item="财务管理"].native-global-topnav__item--active { color: #ffffffd1; }
+    .native-global-topnav__item[data-nav-item="财务管理"].native-global-topnav__item--active::after { display: none; }
     .native-global-topnav__brand { pointer-events: none; }
     .native-global-topnav__menu { position: relative; z-index: 2; }
     html.aui-top-ai-open {
