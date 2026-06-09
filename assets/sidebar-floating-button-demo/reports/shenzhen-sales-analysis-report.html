@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>深圳公司销售分析报告</title>
+  <style>
+    :root {
+      --bg: #f6f8fb;
+      --card: #fff;
+      --line: #e1e7f0;
+      --line-soft: #edf1f7;
+      --text: #202633;
+      --muted: #667085;
+      --green: #00875a;
+      --orange: #c76d00;
+      --red: #e02020;
+      --blue: #266eff;
+      --radius: 8px;
+      font-family: "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    html,
+    body {
+      min-height: 100%;
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    body {
+      padding: 16px;
+    }
+
+    .report {
+      max-width: 920px;
+      margin: 0 auto;
+    }
+
+    .report-title {
+      margin: 0 0 12px;
+      color: var(--text);
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 28px;
+    }
+
+    .section {
+      margin-bottom: 16px;
+      padding: 20px 22px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--card);
+    }
+
+    .section h2 {
+      margin: 0 0 14px;
+      color: var(--text);
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 24px;
+    }
+
+    .section h3 {
+      margin: 0 0 12px;
+      color: var(--text);
+      font-size: 15px;
+      font-weight: 700;
+      line-height: 22px;
+    }
+
+    .note {
+      margin: 0;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.8;
+    }
+
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .metric {
+      min-height: 104px;
+      padding: 14px 16px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+    }
+
+    .metric span {
+      display: block;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 20px;
+    }
+
+    .metric strong {
+      display: block;
+      margin-top: 6px;
+      color: var(--text);
+      font-size: 28px;
+      font-weight: 700;
+      line-height: 34px;
+      letter-spacing: 0;
+    }
+
+    .metric small {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 20px;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+    }
+
+    table {
+      width: 100%;
+      min-width: 760px;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    th,
+    td {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--line-soft);
+      text-align: left;
+      white-space: nowrap;
+    }
+
+    th {
+      background: #f7f9fc;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+
+    td strong {
+      font-weight: 700;
+    }
+
+    .up { color: var(--green); }
+    .down { color: var(--red); }
+    .warn { color: var(--orange); }
+
+    .summary-list {
+      display: grid;
+      gap: 10px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .summary-list li {
+      padding: 12px 14px;
+      border: 1px solid var(--line-soft);
+      border-radius: 6px;
+      background: #fbfcfe;
+      color: var(--muted);
+    }
+
+    .summary-list strong {
+      color: var(--text);
+    }
+
+    @media (max-width: 720px) {
+      body { padding: 12px; }
+      .section { padding: 16px; }
+      .metric-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main class="report">
+    <h1 class="report-title">深圳公司销售分析报告</h1>
+
+    <section class="section">
+      <h2>数据口径</h2>
+      <p class="note">本次统计口径为：签署日期在2026年5月18日至2026年5月24日的认购、签约；创建日期在2026年5月18日至2026年5月24日的机会。</p>
+    </section>
+
+    <section class="section">
+      <h2>统计结果</h2>
+      <h3>公司整体</h3>
+      <div class="metric-grid">
+        <div class="metric">
+          <span>总认购</span>
+          <strong>328套</strong>
+          <small>环比下降5%</small>
+        </div>
+        <div class="metric">
+          <span>总签约</span>
+          <strong>276套</strong>
+          <small>签约转化率84%</small>
+        </div>
+        <div class="metric">
+          <span>来访客户</span>
+          <strong>2,186组</strong>
+          <small>环比增长11%</small>
+        </div>
+      </div>
+
+      <h3>各项目明细</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>项目</th>
+              <th>认购套数</th>
+              <th>认购金额</th>
+              <th>签约套数</th>
+              <th>签约金额</th>
+              <th>认购对比</th>
+              <th>签约对比</th>
+              <th>重点情况</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>华景城</strong></td>
+              <td>126套</td>
+              <td>3.82亿元</td>
+              <td>108套</td>
+              <td>3.21亿元</td>
+              <td class="up">+18%</td>
+              <td class="up">+9%</td>
+              <td>认购增长明显</td>
+            </tr>
+            <tr>
+              <td><strong>云悦府</strong></td>
+              <td>96套</td>
+              <td>4.16亿元</td>
+              <td>74套</td>
+              <td>3.38亿元</td>
+              <td class="warn">-3%</td>
+              <td class="down">-12%</td>
+              <td>签约转化下滑</td>
+            </tr>
+            <tr>
+              <td><strong>天樾府</strong></td>
+              <td>68套</td>
+              <td>2.05亿元</td>
+              <td>52套</td>
+              <td>1.58亿元</td>
+              <td class="warn">-9%</td>
+              <td class="warn">-6%</td>
+              <td>库存去化偏慢</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>重点判断</h2>
+      <ul class="summary-list">
+        <li><strong>整体：</strong>来访量增长，但认购和签约未同步提升，需要关注来访到认购、认购到签约的转化效率。</li>
+        <li><strong>云悦府：</strong>签约环比下降12%，主要集中在认购后的转签约阶段，建议优先处理超7天未签客户。</li>
+        <li><strong>天樾府：</strong>89㎡户型库存去化偏慢，建议拆解楼层、价格带和总价门槛做专项动作。</li>
+      </ul>
+    </section>
+  </main>
+</body>
+</html>
