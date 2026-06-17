@@ -66,11 +66,14 @@ button{font-family:inherit}
 .tag{display:inline-flex;align-items:center;height:22px;padding:0 6px;border-radius:2px;font-size:12px;white-space:nowrap}.t-green{background:var(--success-bg);color:var(--success);border:1px solid var(--success-bd)}.t-orange{background:var(--warning-bg);color:var(--warning);border:1px solid var(--warning-bd)}.t-blue{background:#EBF2FF;color:#266EFF;border:1px solid #D0E4FF}.t-red{background:var(--danger-bg);color:var(--danger);border:1px solid var(--danger-bd)}.t-ai{background:var(--ai-bg);color:var(--ai);border:1px solid var(--ai-bd)}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:36px;padding:0 10px;border-radius:4px;font-size:13px;font-weight:400;cursor:pointer;border:1px solid transparent;transition:all .15s;white-space:nowrap;text-decoration:none;background:#fff}.btn-p{background:#266EFF;color:#fff;border-color:#266EFF;box-shadow:0 2px 6px rgba(38,110,255,.16)}.btn-p:hover{background:#1A55D6;border-color:#1A55D6}.btn-d{background:#fff;color:#333;border-color:#D9D9D9}.btn-d:hover{border-color:#266EFF;color:#266EFF}.btn-ai{background:var(--ai);color:#fff;border-color:var(--ai);font-weight:500}.btn-ai:hover{background:#5E42E8;border-color:#5E42E8}.btn-ai-secondary{background:#FCFAFF;color:#222;border-color:var(--ai-bd);font-weight:400}.btn-ai-secondary:hover{background:var(--ai-bg);border-color:var(--ai)}.btn-ico{width:14px;height:14px;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}.btn-ico svg{width:14px;height:14px;display:block;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}.btn-star{position:relative;width:14px;height:14px;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;margin-right:1px;color:var(--ai)}.btn-star .star-big{font-size:14px;line-height:1}.btn-star .star-small{position:absolute;right:-2px;top:-3px;font-size:8px;line-height:1}
 .more-wrap{position:relative}.more-btn{width:36px;padding:0;color:#333}.more-dots{font-size:20px;line-height:1;letter-spacing:1px;transform:translateY(-2px)}.more-menu{position:absolute;right:0;top:42px;z-index:20;display:none;min-width:132px;padding:6px;background:#fff;border:1px solid #E8E8E8;border-radius:4px;box-shadow:0 6px 18px rgba(31,35,41,.12)}.more-wrap.open .more-menu{display:block}.more-item{width:100%;height:34px;padding:0 10px;border:0;background:#fff;color:#333;display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;text-align:left;border-radius:3px}.more-item:hover{background:#F7FAFF;color:#266EFF}
-.toast{position:fixed;left:50%;top:64px;z-index:2000;display:none;align-items:center;min-height:36px;padding:0 16px;border-radius:4px;background:rgba(20,20,20,.86);color:#fff;font-size:13px;box-shadow:0 6px 18px rgba(31,35,41,.18);transform:translateX(-50%)}.toast.show{display:flex}.btn.is-loading{opacity:.72;pointer-events:none}.btn.is-loading .btn-ico{animation:spin .9s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
+.toast{position:fixed;left:50%;top:64px;z-index:2000;display:none;align-items:center;min-height:36px;padding:0 16px;border-radius:4px;background:rgba(20,20,20,.86);color:#fff;font-size:13px;box-shadow:0 6px 18px rgba(31,35,41,.18);transform:translateX(-50%)}.toast.show{display:flex}.btn.is-loading{opacity:.72;pointer-events:none}.btn.is-loading .btn-star{animation:twinkle .7s ease-in-out infinite alternate}@keyframes twinkle{from{transform:scale(.92);opacity:.7}to{transform:scale(1.08);opacity:1}}
 .stat-row{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;flex-shrink:0}.stat-card{min-width:0;padding:16px 20px;display:flex;align-items:center;gap:16px}.s-ic{width:40px;height:40px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-weight:600}.s-ic.blue{background:#EBF2FF;color:#266EFF}.s-ic.green{background:#F6FFED;color:#52C41A}.s-ic.orange{background:#FFFBE6;color:#D48806}.s-ic.ai{background:var(--ai-bg);color:var(--ai)}
 .s-body{display:flex;flex-direction:column;gap:4px;min-width:0}.s-label{font-size:12px;color:var(--ctt);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.s-value{font-size:22px;font-weight:600;color:#333;line-height:1.2;white-space:nowrap;font-family:var(--mono)}.s-unit{font-size:12px;color:var(--ctt);margin-left:2px;font-weight:400;font-family:var(--ff)}
-.ai-summary{background:#fff;border-radius:4px;box-shadow:0 0 3px rgba(0,0,0,.04);padding:16px 20px;display:flex;flex-direction:column;gap:12px}
+.ai-summary{background:#fff;border-radius:4px;box-shadow:0 0 3px rgba(0,0,0,.04);padding:16px 20px;display:flex;flex-direction:column;gap:12px;transition:background .2s,box-shadow .2s,border-color .2s}
+.ai-summary.is-scanning{background:#FCFAFF;box-shadow:0 0 0 1px var(--ai-bd),0 4px 12px rgba(115,87,255,.08)}
+.ai-summary.flash-done{animation:aiFlash 1.2s ease}
 .ai-head{display:flex;align-items:center;gap:10px}.ai-title{font-size:14px;font-weight:600;color:#333}.ai-time{margin-left:auto;color:var(--ctt);font-size:12px}.ai-body{font-size:13px;line-height:22px;color:#333}.ai-body b{color:var(--ai);font-weight:600}.old{font-family:var(--mono);color:#8C8C8C;text-decoration:line-through}.new{font-family:var(--mono);color:#389E0D;font-weight:600}
+.ai-scan{display:none;padding:10px 12px;border:1px solid var(--ai-bd);border-radius:4px;background:#fff;color:#222;gap:10px;align-items:center}.ai-summary.is-scanning .ai-scan{display:flex}.ai-scan-label{font-size:12px;color:var(--ai);white-space:nowrap}.ai-scan-text{font-size:12px;color:#595959;flex:1}.ai-scan-bar{height:4px;width:160px;background:#F0EAFF;border-radius:999px;overflow:hidden}.ai-scan-fill{height:100%;width:0;background:var(--ai);border-radius:999px;transition:width .3s ease}.approval-row.ai-row.flash-done{animation:aiFlash 1.2s ease}@keyframes aiFlash{0%{box-shadow:0 0 0 0 rgba(115,87,255,.28)}35%{box-shadow:0 0 0 4px rgba(115,87,255,.16)}100%{box-shadow:0 0 0 0 rgba(115,87,255,0)}}
 .tabs-bar{height:44px;display:flex;align-items:stretch;padding:0 20px;gap:32px;flex-shrink:0}.tab{display:flex;align-items:center;padding:11px 0;cursor:pointer;font-size:13px;color:var(--ctt);white-space:nowrap;border-bottom:2px solid transparent;transition:all .15s}.tab:hover{color:#266EFF}.tab.on{color:#266EFF;border-bottom-color:#266EFF;font-weight:500}
 .tab-panel{display:none;min-width:0}.tab-panel.on{display:flex;flex-direction:column;gap:12px}
 .detail-card{padding:20px;display:flex;flex-direction:column;gap:0;flex-shrink:0}.detail-card .d-sec{display:flex;flex-direction:column;gap:0}.detail-card .d-title{font-size:14px;font-weight:600;color:#333;padding:5px 0;display:flex;align-items:center;gap:8px;margin-bottom:16px}.detail-card .d-title::before{content:"";display:block;width:3px;height:16px;border-radius:2px;background:#266EFF;flex-shrink:0}
@@ -197,6 +200,11 @@ button{font-family:inherit}
             <span class="ai-title">本期结算核对完成，发现 3 项偏差</span>
             <span class="ai-time" id="aiCheckTime">5分钟前 · 用时 8s</span>
           </div>
+          <div class="ai-scan" id="aiScan">
+            <span class="ai-scan-label">AI 核对中</span>
+            <span class="ai-scan-text" id="aiScanText">正在读取结算单据</span>
+            <span class="ai-scan-bar"><span class="ai-scan-fill" id="aiScanFill"></span></span>
+          </div>
           <div class="ai-body">
             本期 2#塔吊 QTZ80 申报租赁费 <span class="old">¥20,000</span>。AI 已比对 <b>中标合同价、监理考勤、设备进退场记录与施工日志</b>，识别出月租单价高于合同价 <b>9.1%</b>、维保费疑似与月租重复计费、5月12-14日停滞期未作扣减。三项偏差合计可核减 <b>¥5,242</b>，建议核减后应付 <b>¥14,758</b> 并提请与租赁方书面确认。
           </div>
@@ -322,7 +330,7 @@ button{font-family:inherit}
                         <span class="approval-time">进行中</span>
                       </div>
                       <div class="approval-rows">
-                        <div class="approval-row ai-row">
+                        <div class="approval-row ai-row" id="approvalAiRow">
                           <div class="approval-avatar ai">AI<span class="approval-badge ai"></span></div>
                           <div class="approval-info">
                             <div class="approval-person-line"><span class="approval-person">AI 智能预审</span><span class="sign-tag">已完成</span></div>
@@ -468,16 +476,48 @@ function rerunAiCheck(button){
   closeMore();
   if(!button) return;
   var text=button.querySelector('.btn-text');
+  var summary=document.querySelector('.ai-summary');
+  var scanText=document.getElementById('aiScanText');
+  var scanFill=document.getElementById('aiScanFill');
+  var aiRow=document.getElementById('approvalAiRow');
+  var steps=[
+    {label:'正在读取结算单据',progress:18},
+    {label:'正在比对中标合同价',progress:38},
+    {label:'正在核验监理考勤',progress:58},
+    {label:'正在校验设备进退场记录',progress:78},
+    {label:'正在复核施工日志停滞期',progress:100}
+  ];
   button.classList.add('is-loading');
+  button.disabled=true;
+  if(summary) summary.classList.add('is-scanning');
+  if(scanFill) scanFill.style.width='0%';
   if(text) text.textContent='AI 核对中';
   showToast('AI 正在重新核对结算依据');
+  steps.forEach(function(step,index){
+    setTimeout(function(){
+      if(scanText) scanText.textContent=step.label;
+      if(scanFill) scanFill.style.width=step.progress+'%';
+    },index*1400);
+  });
   setTimeout(function(){
     button.classList.remove('is-loading');
+    button.disabled=false;
     if(text) text.textContent='AI 重新核对';
+    if(summary) {
+      summary.classList.remove('is-scanning');
+      summary.classList.remove('flash-done');
+      void summary.offsetWidth;
+      summary.classList.add('flash-done');
+    }
+    if(aiRow) {
+      aiRow.classList.remove('flash-done');
+      void aiRow.offsetWidth;
+      aiRow.classList.add('flash-done');
+    }
     var time=document.getElementById('aiCheckTime');
     if(time) time.textContent='刚刚 · 用时 7s';
     showToast('AI 核对完成，结论已刷新');
-  },1200);
+  },7800);
 }
 function generateDeductionLetter(){
   closeMore();
