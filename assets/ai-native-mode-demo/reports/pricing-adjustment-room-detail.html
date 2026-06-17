@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>调整后价格明细</title>
+  <style>
+    :root {
+      --bg: #eff3fc;
+      --surface: #fff;
+      --text: #172033;
+      --muted: #64748b;
+      --line: #e5edf8;
+      --blue: #266eff;
+      --danger: #e34d59;
+      --green: #00a870;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+    }
+
+    .shell {
+      width: min(1080px, calc(100vw - 48px));
+      margin: 28px auto 48px;
+      display: grid;
+      gap: 14px;
+    }
+
+    .topbar,
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--surface);
+      box-shadow: 0 1px 3px rgba(15, 23, 42, .04);
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 18px 20px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 22px;
+      line-height: 30px;
+    }
+
+    .subtitle {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 20px;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 34px;
+      padding: 0 14px;
+      border: 1px solid #c7d8ff;
+      border-radius: 8px;
+      color: var(--blue);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .panel {
+      padding: 16px 18px;
+      display: grid;
+      gap: 14px;
+    }
+
+    .filters {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .filter-title {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .building-tabs {
+      display: flex;
+      gap: 8px;
+    }
+
+    .building-tab {
+      height: 34px;
+      min-width: 62px;
+      border: 1px solid #d8e4f5;
+      border-radius: 8px;
+      background: #f8fbff;
+      color: #334155;
+      font: inherit;
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .building-tab.active {
+      border-color: var(--blue);
+      background: var(--blue);
+      color: #fff;
+    }
+
+    .kpis {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .kpi {
+      min-height: 62px;
+      padding: 10px 12px;
+      border: 1px solid #d8e7ff;
+      border-radius: 9px;
+      background: #f8fbff;
+    }
+
+    .kpi span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 16px;
+    }
+
+    .kpi strong {
+      display: block;
+      margin-top: 4px;
+      color: #0f172a;
+      font-size: 19px;
+      font-weight: 800;
+      line-height: 24px;
+    }
+
+    .kpi strong.danger { color: var(--danger); }
+    .kpi strong.green { color: var(--green); }
+
+    .table-wrap {
+      overflow: auto;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+    }
+
+    table {
+      width: 100%;
+      min-width: 900px;
+      border-collapse: collapse;
+      table-layout: fixed;
+      font-size: 13px;
+    }
+
+    th,
+    td {
+      height: 38px;
+      padding: 8px 10px;
+      border-bottom: 1px solid #edf2f8;
+      text-align: left;
+      white-space: nowrap;
+    }
+
+    th {
+      color: #475569;
+      font-weight: 800;
+      background: #f8fafc;
+    }
+
+    td.num,
+    th.num {
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .danger { color: var(--danger); font-weight: 800; }
+    .muted { color: var(--muted); }
+
+    @media (max-width: 720px) {
+      .shell { width: calc(100vw - 24px); margin-top: 14px; }
+      .topbar { align-items: flex-start; flex-direction: column; }
+      .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header class="topbar">
+      <div>
+        <h1>调整后价格明细</h1>
+        <p class="subtitle">按楼栋查看本次调价房源的调整后单价、总价和降幅。</p>
+      </div>
+      <a class="back-link" href="pricing-adjustment-visual-report.html">返回报告</a>
+    </header>
+
+    <section class="panel">
+      <div class="filters">
+        <div class="filter-title">楼栋筛选</div>
+        <div class="building-tabs" aria-label="楼栋筛选">
+          <button class="building-tab" type="button" data-building="1">1栋</button>
+          <button class="building-tab" type="button" data-building="2">2栋</button>
+          <button class="building-tab" type="button" data-building="3">3栋</button>
+        </div>
+      </div>
+
+      <div class="kpis" id="buildingKpis"></div>
+
+      <div class="table-wrap">
+        <table>
+          <colgroup>
+            <col style="width:10%">
+            <col style="width:12%">
+            <col style="width:12%">
+            <col style="width:12%">
+            <col style="width:13%">
+            <col style="width:13%">
+            <col style="width:13%">
+            <col style="width:15%">
+          </colgroup>
+          <thead>
+            <tr>
+              <th>楼栋</th>
+              <th>房号</th>
+              <th class="num">面积</th>
+              <th class="num">原底单价</th>
+              <th class="num">原底总价</th>
+              <th class="num">调整后单价</th>
+              <th class="num">调整后总价</th>
+              <th class="num">调整幅度</th>
+            </tr>
+          </thead>
+          <tbody id="roomRows"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const rooms = [
+      { building: "1", room: "1501", area: 116.2, beforeUnit: 13980, beforeTotal: 162, afterUnit: 12582, afterTotal: 146 },
+      { building: "1", room: "1601", area: 118.5, beforeUnit: 14160, beforeTotal: 168, afterUnit: 12744, afterTotal: 151 },
+      { building: "1", room: "1702", area: 112.8, beforeUnit: 13860, beforeTotal: 156, afterUnit: 12474, afterTotal: 141 },
+      { building: "1", room: "1801", area: 119.6, beforeUnit: 14020, beforeTotal: 168, afterUnit: 12618, afterTotal: 151 },
+      { building: "1", room: "1902", area: 115.4, beforeUnit: 13780, beforeTotal: 159, afterUnit: 12402, afterTotal: 143 },
+      { building: "1", room: "2001", area: 123.1, beforeUnit: 13940, beforeTotal: 147, afterUnit: 12546, afterTotal: 132 },
+      { building: "2", room: "1401", area: 114.5, beforeUnit: 13760, beforeTotal: 158, afterUnit: 12384, afterTotal: 142 },
+      { building: "2", room: "1502", area: 116.8, beforeUnit: 13820, beforeTotal: 161, afterUnit: 12438, afterTotal: 145 },
+      { building: "2", room: "1601", area: 121.4, beforeUnit: 13680, beforeTotal: 166, afterUnit: 12312, afterTotal: 149 },
+      { building: "2", room: "1702", area: 118.6, beforeUnit: 13740, beforeTotal: 163, afterUnit: 12366, afterTotal: 147 },
+      { building: "2", room: "1801", area: 120.1, beforeUnit: 13720, beforeTotal: 192, afterUnit: 12348, afterTotal: 173 },
+      { building: "3", room: "1501", area: 123.6, beforeUnit: 13520, beforeTotal: 167, afterUnit: 12168, afterTotal: 150 },
+      { building: "3", room: "1602", area: 119.8, beforeUnit: 13640, beforeTotal: 163, afterUnit: 12276, afterTotal: 147 },
+      { building: "3", room: "1701", area: 128.4, beforeUnit: 13820, beforeTotal: 177, afterUnit: 12438, afterTotal: 159 },
+      { building: "3", room: "1802", area: 125.2, beforeUnit: 13580, beforeTotal: 170, afterUnit: 12222, afterTotal: 153 },
+      { building: "3", room: "1901", area: 121.7, beforeUnit: 13480, beforeTotal: 164, afterUnit: 12132, afterTotal: 148 },
+      { building: "3", room: "2002", area: 124.9, beforeUnit: 13540, beforeTotal: 169, afterUnit: 12186, afterTotal: 152 },
+      { building: "3", room: "2101", area: 127.5, beforeUnit: 13610, beforeTotal: 254, afterUnit: 12249, afterTotal: 229 }
+    ];
+
+    const fallbackBuilding = "1";
+    const params = new URLSearchParams(window.location.search);
+    let currentBuilding = ["1", "2", "3"].includes(params.get("building")) ? params.get("building") : fallbackBuilding;
+
+    function formatNumber(value) {
+      return Math.round(value).toLocaleString("zh-CN");
+    }
+
+    function buildingRooms() {
+      return rooms.filter((item) => item.building === currentBuilding);
+    }
+
+    function renderKpis() {
+      const list = buildingRooms();
+      const beforeTotal = list.reduce((sum, item) => sum + item.beforeTotal, 0);
+      const afterTotal = list.reduce((sum, item) => sum + item.afterTotal, 0);
+      const diff = afterTotal - beforeTotal;
+      const rate = beforeTotal ? diff / beforeTotal * 100 : 0;
+      document.getElementById("buildingKpis").innerHTML = `
+        <div class="kpi"><span>当前楼栋</span><strong>${currentBuilding}栋</strong></div>
+        <div class="kpi"><span>调价套数</span><strong>${list.length}套</strong></div>
+        <div class="kpi"><span>调整后总价</span><strong class="green">${formatNumber(afterTotal)}万</strong></div>
+        <div class="kpi"><span>调整幅度</span><strong class="danger">${rate.toFixed(1)}%</strong></div>
+      `;
+    }
+
+    function renderRows() {
+      const rows = buildingRooms().map((item) => {
+        const rate = (item.afterUnit - item.beforeUnit) / item.beforeUnit * 100;
+        return `
+          <tr>
+            <td>${item.building}栋</td>
+            <td>${item.room}</td>
+            <td class="num">${item.area.toFixed(1)}㎡</td>
+            <td class="num">${formatNumber(item.beforeUnit)}元/㎡</td>
+            <td class="num">${formatNumber(item.beforeTotal)}万</td>
+            <td class="num">${formatNumber(item.afterUnit)}元/㎡</td>
+            <td class="num">${formatNumber(item.afterTotal)}万</td>
+            <td class="num danger">${rate.toFixed(1)}%</td>
+          </tr>
+        `;
+      }).join("");
+      document.getElementById("roomRows").innerHTML = rows;
+    }
+
+    function renderTabs() {
+      document.querySelectorAll(".building-tab").forEach((tab) => {
+        tab.classList.toggle("active", tab.dataset.building === currentBuilding);
+      });
+    }
+
+    function render() {
+      renderTabs();
+      renderKpis();
+      renderRows();
+    }
+
+    document.querySelectorAll(".building-tab").forEach((tab) => {
+      tab.addEventListener("click", () => {
+        currentBuilding = tab.dataset.building;
+        const next = new URL(window.location.href);
+        next.searchParams.set("building", currentBuilding);
+        window.history.replaceState(null, "", next);
+        render();
+      });
+    });
+
+    render();
+  </script>
+</body>
+</html>

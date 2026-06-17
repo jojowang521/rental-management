@@ -2304,13 +2304,13 @@
     }
 
     function renderPagePreview() {
-      const sitePage = (id, panel = "") => `assets/site-pages.html?embed=1&v=20260609-independent-mode${panel ? `&panel=${panel}` : ""}#${id}`;
+      const sitePage = (id, panel = "") => `assets/site-pages.html?embed=1&v=20260617-cost-sidebar${panel ? `&panel=${panel}` : ""}#${id}`;
       const previewSets = {
         "frame-selector": [
           { label: "设计原则", frame: sitePage("p-frame-0") }
         ],
         "frame-workbench": [
-          { label: "独立模式", frame: "assets/ai-native-mode-demo/index.html?v=20260609-independent-mode" },
+          { label: "独立模式", frame: "assets/ai-native-mode-demo/index.html?shell=sidebar&subsystem=cost&v=20260617-cost-sidebar" },
           { label: "设计理念", frame: sitePage("p-frame-1", "frame-native-overview") }
         ],
         "frame-sidebar": [
