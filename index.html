@@ -644,6 +644,49 @@
       white-space: nowrap;
     }
 
+    .page-preview-actions {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 8px;
+      min-width: 0;
+      margin-left: auto;
+    }
+
+    .preview-fullscreen-btn {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      color: var(--text);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      height: 34px;
+      padding: 0 10px;
+      font-size: 12px;
+      font-weight: 650;
+      white-space: nowrap;
+      transition: background 0.16s ease, border-color 0.16s ease, color 0.16s ease;
+    }
+
+    .preview-fullscreen-btn:hover {
+      background: #f7f8fa;
+      border-color: #d4d4d8;
+    }
+
+    .preview-fullscreen-btn svg {
+      width: 15px;
+      height: 15px;
+      stroke: currentColor;
+      stroke-width: 1.8;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      flex: 0 0 auto;
+    }
+
     .preview-switcher {
       display: inline-flex;
       max-width: calc(100vw - var(--sidebar-width) - 148px);
@@ -677,6 +720,25 @@
       color: var(--text);
       box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
       font-weight: 650;
+    }
+
+    .page-preview-card:fullscreen,
+    .preview-stage:fullscreen {
+      background: #f7f8fa;
+    }
+
+    .preview-stage:fullscreen {
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .preview-stage:fullscreen .project-preview-frame,
+    .project-preview-frame:fullscreen {
+      width: 100vw;
+      height: 100vh;
+      min-height: 100vh;
+      border: 0;
+      border-radius: 0;
     }
 
     .preview-stage {
@@ -2348,7 +2410,18 @@
       const headHtml = `
         <div class="page-preview-head">
           <div class="page-preview-title">${previewTitle}</div>
-          ${switcher}
+          <div class="page-preview-actions">
+            ${switcher}
+            <button class="preview-fullscreen-btn" type="button" data-fullscreen-preview title="全屏预览" aria-label="全屏预览">
+              <svg viewBox="0 0 16 16" aria-hidden="true">
+                <path d="M6 3H3v3"></path>
+                <path d="M10 3h3v3"></path>
+                <path d="M6 13H3v-3"></path>
+                <path d="M10 13h3v-3"></path>
+              </svg>
+              <span>全屏预览</span>
+            </button>
+          </div>
         </div>`;
       const nextPreviewKey = `${section.id}:${state.previewIndex}:${active.frame || active.src || active.type || active.label}`;
       const existingStage = pagePreview.querySelector(".preview-stage");
@@ -2389,6 +2462,24 @@
           if (stage) stage.scrollTo({ top: 0, left: 0 });
         });
       });
+      bindFullscreenPreview();
+    }
+
+    function bindFullscreenPreview() {
+      pagePreview.querySelector("[data-fullscreen-preview]")?.addEventListener("click", () => {
+        const frame = pagePreview.querySelector(".preview-stage .project-preview-frame:not(.is-preloading)");
+        const target = frame || pagePreview.querySelector(".preview-stage") || pagePreview;
+        if (!target) return;
+        if (document.fullscreenElement) {
+          document.exitFullscreen?.();
+          return;
+        }
+        if (target.requestFullscreen) {
+          target.requestFullscreen().catch(() => showToast("当前浏览器不支持全屏预览"));
+        } else {
+          showToast("当前浏览器不支持全屏预览");
+        }
+      });
     }
 
     function preloadFrameIntoStage(stage, preview, previewKey) {
@@ -2396,6 +2487,8 @@
       frame.className = "project-preview-frame is-preloading";
       frame.src = preview.frame;
       frame.title = previewName(preview);
+      frame.allowFullscreen = true;
+      frame.setAttribute("allow", "fullscreen");
       frame.addEventListener("load", () => {
         if (state.previewRenderKey === previewKey) return;
         frame.classList.remove("is-preloading");
@@ -2420,7 +2513,7 @@
         return renderAuditPrinciples();
       }
       if (preview && preview.frame) {
-        return `<iframe class="project-preview-frame" src="${encodeURI(preview.frame)}" title="${previewName(preview)}"></iframe>`;
+        return `<iframe class="project-preview-frame" src="${encodeURI(preview.frame)}" title="${previewName(preview)}" allow="fullscreen" allowfullscreen></iframe>`;
       }
       if (preview && preview.src) {
         return `<img class="real-preview-image" src="${encodeURI(preview.src)}" alt="${previewName(preview)} 真实设计稿预览" />`;
